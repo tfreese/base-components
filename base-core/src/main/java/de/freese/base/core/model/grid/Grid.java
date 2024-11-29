@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S1452")
 public class Grid {
 
     private final List<GridColumn<?>> columns = new ArrayList<>();

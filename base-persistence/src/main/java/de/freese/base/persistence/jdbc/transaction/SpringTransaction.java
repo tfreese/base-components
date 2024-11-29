@@ -48,7 +48,7 @@ public class SpringTransaction implements Transaction {
         // Handled by Spring-TransactionManager.
     }
 
-    private void close() {
-        DataSourceUtils.releaseConnection(getConnection(), dataSource);
-    }
+    // private void close() {
+    //     DataSourceUtils.releaseConnection(getConnection(), dataSource);
+    // }
 }

@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2447")
 public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
 
     public BooleanGridColumn() {

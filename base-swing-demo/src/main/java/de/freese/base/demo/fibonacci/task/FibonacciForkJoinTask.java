@@ -40,15 +40,15 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
             result = fibonacci(this.n);
         }
         else {
-            final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.enableCache);
-            final FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.enableCache);
+            final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(n - 1, enableCache);
+            final FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(n - 2, enableCache);
             task2.fork();
 
             result = task1.compute() + task2.join();
         }
 
-        if (this.enableCache) {
-            FibonacciController.FIBONACCI_CACHE.put(this.n, result);
+        if (enableCache) {
+            FibonacciController.FIBONACCI_CACHE.put(n, result);
         }
 
         return result;

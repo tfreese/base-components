@@ -19,6 +19,7 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]> {
     }
 
     @Override
+    @SuppressWarnings("java:S1168")
     public byte[] getValue(final Object object) {
         if (object == null) {
             return null;

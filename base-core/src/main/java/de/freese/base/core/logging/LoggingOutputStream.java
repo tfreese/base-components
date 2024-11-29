@@ -11,12 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 /**
- * Schreibt jede Zeile die mit '\n' endet in den Logger.
- *
  * @author Thomas Freese
  */
-public class LoggingOutputStream extends OutputStream {
-    private final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+public final class LoggingOutputStream extends OutputStream {
+    private final ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
     private final Level level;
     private final Logger logger;
 
@@ -28,22 +26,56 @@ public class LoggingOutputStream extends OutputStream {
     }
 
     @Override
+    public void close() throws IOException {
+        if (baos.size() > 0) {
+            logLine();
+        }
+    }
+
+    @Override
+    public void flush() throws IOException {
+        logLine();
+    }
+
+    @Override
+    public void write(final byte[] b) throws IOException {
+        write(b, 0, b.length);
+    }
+
+    @Override
+    public void write(final byte[] b, final int off, final int len) throws IOException {
+        Objects.checkFromIndexSize(off, len, b.length);
+
+        for (int i = 0; i < len; i++) {
+            write(b[off + i]);
+        }
+    }
+
+    @Override
     public void write(final int b) throws IOException {
         if (b == '\n') {
-            final String line = this.baos.toString(StandardCharsets.UTF_8);
-            this.baos.reset();
-
-            switch (this.level) {
-                case TRACE -> this.logger.trace(line);
-                case DEBUG -> this.logger.debug(line);
-                case ERROR -> this.logger.error(line);
-                case INFO -> this.logger.info(line);
-                case WARN -> this.logger.warn(line);
-                default -> throw new UnsupportedOperationException("Level not supported: " + this.level);
-            }
+            logLine();
         }
         else {
-            this.baos.write(b);
+            baos.write(b);
+        }
+    }
+
+    private void logLine() {
+        final String line = baos.toString(StandardCharsets.UTF_8);
+        baos.reset();
+
+        if (line.isBlank()) {
+            return;
+        }
+
+        switch (level) {
+            case TRACE -> logger.trace(line);
+            case DEBUG -> logger.debug(line);
+            case ERROR -> logger.error(line);
+            case INFO -> logger.info(line);
+            case WARN -> logger.warn(line);
+            default -> throw new UnsupportedOperationException("Level not supported: " + level);
         }
     }
 }

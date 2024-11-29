@@ -1,14 +1,11 @@
 // Created: 09.04.2020
 package de.freese.base.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Thomas Freese
  */
 public final class SystemUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
 
     public static String getJavaHome() {
         return System.getProperty("java.home");

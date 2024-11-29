@@ -12,7 +12,7 @@ import java.io.PushbackInputStream;
  *
  * @author John Mani
  */
-public class LineInputStream extends FilterInputStream {
+public final class LineInputStream extends FilterInputStream {
     /**
      * reusable byte buffer
      */

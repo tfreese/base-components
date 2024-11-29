@@ -32,7 +32,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
     public void close() throws IOException {
         super.close();
 
-        this.textComponent = null;
+        textComponent = null;
     }
 
     @Override
@@ -44,9 +44,9 @@ public class TextComponentOutputStream extends FilterOutputStream {
 
     @Override
     public void write(final int b) throws IOException {
-        this.littleBuffer[0] = (byte) b;
+        littleBuffer[0] = (byte) b;
 
-        write(this.littleBuffer);
+        write(littleBuffer);
     }
 
     private void updateComponent(final String text) {

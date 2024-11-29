@@ -38,7 +38,7 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
             invocation.proceed();
         }
         finally {
-            dropTable(serverExtension, jdbcClient);
+            dropTable(jdbcClient);
         }
     }
 
@@ -69,7 +69,7 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
         }
     }
 
-    private void dropTable(final DbServerExtension serverExtension, final JdbcClient jdbcClient) {
+    private void dropTable(final JdbcClient jdbcClient) {
         try {
             // serverExtension.getJdbcOperations().execute("DROP TABLE person");
             jdbcClient.sql("DROP TABLE person").execute();

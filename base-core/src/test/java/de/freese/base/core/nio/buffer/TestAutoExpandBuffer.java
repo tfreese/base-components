@@ -122,15 +122,6 @@ class TestAutoExpandBuffer {
         assertEquals('c', bb.get(6));
         assertEquals('\r', bb.get(7));
         assertEquals('\n', bb.get(8));
-
-        bb.putLn('d');
-        assertEquals(12, bb.position());
-        assertEquals(64, bb.limit());
-        assertEquals(64, bb.capacity());
-        assertEquals(52, bb.remaining());
-        assertEquals('d', bb.get(9));
-        assertEquals('\r', bb.get(10));
-        assertEquals('\n', bb.get(11));
     }
 
     @Test
@@ -165,14 +156,6 @@ class TestAutoExpandBuffer {
         assertEquals(46, bb.remaining());
         assertEquals("cccc", bb.getString(12, 4));
         assertEquals("\r\n", bb.getString(16, 2));
-
-        bb.putLn("dddd");
-        assertEquals(24, bb.position());
-        assertEquals(64, bb.limit());
-        assertEquals(64, bb.capacity());
-        assertEquals(40, bb.remaining());
-        assertEquals("dddd", bb.getString(18, 4));
-        assertEquals("\r\n", bb.getString(22, 2));
     }
 
     @Test

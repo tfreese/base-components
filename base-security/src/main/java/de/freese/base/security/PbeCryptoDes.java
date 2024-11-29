@@ -28,10 +28,10 @@ public final class PbeCryptoDes implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final String CIPHER_ALGORITHM = "DES/CBC/PKCS5Padding";
     private static final String ENCRYPTION_ALGORITHM = "DES";
-    private static final String FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
-    private static final int ITERATION_COUNT = 65536;
+    // private static final String FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
+    // private static final int ITERATION_COUNT = 65536;
     private static final int IV_LENGTH = 8;
-    private static final int KEY_LENGTH = 256;
+    // private static final int KEY_LENGTH = 256;
     private static final int SALT_LENGTH = 0;
 
     private static byte[] generateRandomBytes(final int length) throws NoSuchAlgorithmException {

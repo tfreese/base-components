@@ -28,9 +28,9 @@ class TestObjectTable {
 
     @Test
     void testAddTooMuchData() {
-        final ObjectTable objectTable = new ObjectTable(List.of("h1", "h2", "h3"));
-
-        assertThrows(IndexOutOfBoundsException.class, () -> objectTable.addRow(List.of("d1", "d2", "d3", "d4")));
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            new ObjectTable(List.of("h1", "h2", "h3")).addRow(List.of("d1", "d2", "d3", "d4"));
+        });
     }
 
     @Test

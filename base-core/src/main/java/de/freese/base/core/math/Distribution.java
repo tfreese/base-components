@@ -70,7 +70,12 @@ public final class Distribution {
                 faktor = 0.0D;
             }
 
-            daten[i] = ExtMath.round((mWert / faktorSumme) * faktor, nachkommaStellen);
+            if (faktorSumme > 0D) {
+                daten[i] = ExtMath.round((mWert / faktorSumme) * faktor, nachkommaStellen);
+            }
+            else {
+                daten[i] = ExtMath.round(faktor, nachkommaStellen);
+            }
 
             mWert -= daten[i];
             faktorSumme -= faktor;

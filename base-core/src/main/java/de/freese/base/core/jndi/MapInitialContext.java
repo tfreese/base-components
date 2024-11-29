@@ -27,7 +27,7 @@ public final class MapInitialContext extends InitialContext {
 
         NamingManager.setInitialContextFactoryBuilder(builder);
 
-        //        NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
+        // NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
     }
 
     private final Map<String, Object> cache = new ConcurrentHashMap<>();

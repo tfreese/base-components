@@ -6,11 +6,11 @@ package de.freese.base.core.regex.transformer;
 public class EscapeSlashesTransformer implements RegExTransformer {
     @Override
     public String regExToWildcard(final String regex) {
-        return regex.replaceAll("\\\\", "\\");
+        return regex.replace("\\\\", "\\");
     }
 
     @Override
     public String wildcardToRegEx(final String wildcard) {
-        return wildcard.replaceAll("\\)", "\\\\)");
+        return wildcard.replace("\\)", "\\\\)");
     }
 }

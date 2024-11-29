@@ -11,42 +11,42 @@ class JulLogger implements Logger {
 
     JulLogger(final String name) {
         super();
-        
+
         this.logger = java.util.logging.Logger.getLogger(name);
     }
 
     @Override
     public void debug(final String message) {
-        this.logger.log(Level.FINE, message);
+        logger.log(Level.FINE, message);
     }
 
     @Override
     public void error(final String message) {
-        this.logger.log(Level.SEVERE, message);
+        logger.log(Level.SEVERE, message);
     }
 
     @Override
     public void error(final String message, final Throwable error) {
-        this.logger.log(Level.SEVERE, message, error);
+        logger.log(Level.SEVERE, message, error);
     }
 
     @Override
     public void info(final String message) {
-        this.logger.log(Level.INFO, message);
+        logger.log(Level.INFO, message);
     }
 
     @Override
     public boolean isDebugEnabled() {
-        return this.logger.isLoggable(Level.FINE);
+        return logger.isLoggable(Level.FINE);
     }
 
     @Override
     public boolean isErrorEnabled() {
-        return this.logger.isLoggable(Level.SEVERE);
+        return logger.isLoggable(Level.SEVERE);
     }
 
     @Override
     public boolean isInfoEnabled() {
-        return this.logger.isLoggable(Level.INFO);
+        return logger.isLoggable(Level.INFO);
     }
 }

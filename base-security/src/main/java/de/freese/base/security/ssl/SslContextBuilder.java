@@ -24,6 +24,7 @@ import javax.net.ssl.X509TrustManager;
  * @author Thomas Freese
  */
 public final class SslContextBuilder {
+    @SuppressWarnings("java:S4830")
     private static final TrustManager[] X509_TRUST_ALL_MANAGER = {new X509ExtendedTrustManager() {
         @Override
         public void checkClientTrusted(final X509Certificate[] certs, final String authType) {

@@ -9,6 +9,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +42,7 @@ public class NasaController extends AbstractController {
             "PIA05117.jpg",
             "PIA05199.jpg",
             "PIA05990.jpg"};
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
     private final List<URI> uriHistory = new ArrayList<>();
 
     private int uriHistoryCurrentIndex = -1;
@@ -51,43 +52,41 @@ public class NasaController extends AbstractController {
     }
 
     public URI getNextUri() throws Exception {
-        // if (++this.uriHistoryCurrentIndex == this.imageNames.length)
-        // {
-        // this.uriHistoryCurrentIndex = 0;
+        // if (++uriHistoryCurrentIndex == imageNames.length) {
+        // uriHistoryCurrentIndex = 0;
         // }
 
-        this.uriHistoryCurrentIndex++;
+        uriHistoryCurrentIndex++;
         URI uri = null;
 
         // Bin ich am Ende der History ?
-        if (this.uriHistoryCurrentIndex < this.uriHistory.size()) {
-            uri = this.uriHistory.get(this.uriHistoryCurrentIndex);
+        if (uriHistoryCurrentIndex < uriHistory.size()) {
+            uri = uriHistory.get(uriHistoryCurrentIndex);
         }
         else {
             uri = generateUri();
-            this.uriHistory.add(uri);
+            uriHistory.add(uri);
         }
 
         return uri;
     }
 
     public URI getPreviousUri() throws Exception {
-        // if (--this.uriHistoryCurrentIndex < 0)
-        // {
-        // this.uriHistoryCurrentIndex = this.imageNames.length - 1;
+        // if (--this.uriHistoryCurrentIndex < 0) {
+        // uriHistoryCurrentIndex = imageNames.length - 1;
         // }
 
-        this.uriHistoryCurrentIndex--;
+        uriHistoryCurrentIndex--;
         URI uri = null;
 
-        // Bin ich am Anfang der History ?
-        if (this.uriHistoryCurrentIndex >= 0) {
-            uri = this.uriHistory.get(this.uriHistoryCurrentIndex);
+        // Bin ich am Anfang der History?
+        if (uriHistoryCurrentIndex >= 0) {
+            uri = uriHistory.get(uriHistoryCurrentIndex);
         }
         else {
             uri = generateUri();
-            this.uriHistory.addFirst(uri);
-            this.uriHistoryCurrentIndex = 0;
+            uriHistory.addFirst(uri);
+            uriHistoryCurrentIndex = 0;
         }
 
         return uri;
@@ -191,11 +190,11 @@ public class NasaController extends AbstractController {
         final boolean randomUris = true;
 
         if (!randomUris) {
-            final int index = this.random.nextInt(this.imageNames.length);
-            uriString = IMAGE_DIR + this.imageNames[index];
+            final int index = random.nextInt(imageNames.length);
+            uriString = IMAGE_DIR + imageNames[index];
         }
         else {
-            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, this.random.nextInt(12196) + 1);
+            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, random.nextInt(12196) + 1);
         }
 
         getLogger().info("URI: {}", uriString);

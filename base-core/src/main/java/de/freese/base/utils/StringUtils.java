@@ -554,7 +554,7 @@ public final class StringUtils {
      */
     public static String[] substringsBetween(final String str, final String open, final String close) {
         if (str == null || isEmpty(open) || isEmpty(close)) {
-            return null;
+            return new String[0];
         }
 
         final int strLen = str.length();
@@ -588,7 +588,7 @@ public final class StringUtils {
         }
 
         if (list.isEmpty()) {
-            return null;
+            return new String[0];
         }
 
         return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);

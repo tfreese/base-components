@@ -1,6 +1,7 @@
 package de.freese.base.utils;
 
 import java.io.OutputStream;
+import java.util.Objects;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -24,21 +25,13 @@ public class SplitPdf {
     public SplitPdf(final byte[] pdfFile) {
         super();
 
-        if (pdfFile == null) {
-            throw new IllegalArgumentException("PDF Filename is NULL !!!");
-        }
-
-        this.pdfFile = pdfFile;
+        this.pdfFile = Objects.requireNonNull(pdfFile, "pdfFile required");
     }
 
     public SplitPdf(final String pdfFileName) {
         super();
 
-        if (pdfFileName == null) {
-            throw new IllegalArgumentException("PDF Filename is NULL !!!");
-        }
-
-        this.pdfFileName = pdfFileName;
+        this.pdfFileName = Objects.requireNonNull(pdfFileName, "pdfFileName required");
     }
 
     /**
@@ -62,11 +55,11 @@ public class SplitPdf {
         final PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStream);
         newPdfWriter.setFullCompression();
 
-        //            newDoc.addTitle(...);
-        //            newDoc.addSubject(...);
-        //            newDoc.addKeywords(...);
-        //            newDoc.addCreator(...);
-        //            newDoc.addAuthor(...);
+        // newDoc.addTitle(...);
+        // newDoc.addSubject(...);
+        // newDoc.addKeywords(...);
+        // newDoc.addCreator(...);
+        // newDoc.addAuthor(...);
 
         newDoc.open();
 
@@ -204,13 +197,13 @@ public class SplitPdf {
     }
 
     private PdfReader getPDFReader() throws Exception {
-        if (this.pdfFileName != null) {
-            return new PdfReader(this.pdfFileName);
+        if (pdfFileName != null) {
+            return new PdfReader(pdfFileName);
         }
-        else if (this.pdfFile != null) {
-            return new PdfReader(this.pdfFile);
+        else if (pdfFile != null) {
+            return new PdfReader(pdfFile);
         }
 
-        return null;
+        throw new IllegalStateException("pdfFileName or pdfFile required");
     }
 }

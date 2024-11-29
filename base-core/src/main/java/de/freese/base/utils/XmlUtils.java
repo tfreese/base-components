@@ -95,6 +95,7 @@ public final class XmlUtils {
     /**
      * Getting all Schema-Files from the Jar of the Type.
      */
+    @SuppressWarnings("java:S2755")
     public static Schema getSchema(final Class<?> clazz) throws Exception {
         Schema schema = SCHEMA_CACHE.get(clazz);
 

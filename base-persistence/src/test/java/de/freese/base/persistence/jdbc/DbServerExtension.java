@@ -89,8 +89,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         LOGGER.debug("{} - close datasource", this.databaseType);
 
         switch (getDatabaseType()) {
-            case HSQL:
-            case H2:
+            case HSQL, H2:
                 // Handled already by hsql with ';shutdown=true'.
                 // Handled already by h2 with ';DB_CLOSE_ON_EXIT=FALSE'.
                 //                try (Connection connection = this.dataSource.getConnection();

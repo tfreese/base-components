@@ -15,36 +15,36 @@ class Slf4jLogger implements Logger {
 
     @Override
     public void debug(final String message) {
-        this.logger.debug(message);
+        logger.debug(message);
     }
 
     @Override
     public void error(final String message) {
-        this.logger.error(message);
+        logger.error(message);
     }
 
     @Override
     public void error(final String message, final Throwable error) {
-        this.logger.error(message, error);
+        logger.error(message, error);
     }
 
     @Override
     public void info(final String message) {
-        this.logger.info(message);
+        logger.info(message);
     }
 
     @Override
     public boolean isDebugEnabled() {
-        return this.logger.isDebugEnabled();
+        return logger.isDebugEnabled();
     }
 
     @Override
     public boolean isErrorEnabled() {
-        return this.logger.isErrorEnabled();
+        return logger.isErrorEnabled();
     }
 
     @Override
     public boolean isInfoEnabled() {
-        return this.logger.isInfoEnabled();
+        return logger.isInfoEnabled();
     }
 }
