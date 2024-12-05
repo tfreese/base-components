@@ -31,7 +31,7 @@ public class TableColumnSorter {
     private final class HeaderMouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(final MouseEvent event) {
-            if (!getTable().isSortable()) {
+            if (!table.isSortable()) {
                 return;
             }
 
@@ -125,11 +125,9 @@ public class TableColumnSorter {
 
         tableColumnExt.setSort(sort);
 
-        // Runnable runnable = new Runnable()
-        // {
+        // Runnable runnable = new Runnable() {
         // @Override
-        // public void run()
-        // {
+        // public void run() {
         // getPropertyChangeSupport().firePropertyChange("ROWSORTER_ORDER_CHANGED", null,
         // tableColumnExt);
         // }
@@ -137,12 +135,7 @@ public class TableColumnSorter {
         // SwingUtilities.invokeLater(runnable);
     }
 
-    // public void removePropertyChangeListener(final PropertyChangeListener listener)
-    // {
+    // public void removePropertyChangeListener(final PropertyChangeListener listener) {
     // getPropertyChangeSupport().removePropertyChangeListener(listener);
     // }
-
-    private ExtTable getTable() {
-        return this.table;
-    }
 }

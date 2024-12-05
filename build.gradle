@@ -52,7 +52,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-//            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            // mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
         }
 
@@ -100,7 +100,7 @@ dependencyCheck {
     skip = false
     autoUpdate = true
     formats = ["HTML", "JSON"]
-    // scanConfigurations = ["runtimeClasspath"]
+    scanConfigurations = ["runtimeClasspath"]
     // scanProjects = [":core"]
     // skipProjects = [":core"]
     // outputDirectory = "build/security-report"

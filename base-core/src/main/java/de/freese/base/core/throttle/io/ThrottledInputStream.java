@@ -47,6 +47,42 @@ public class ThrottledInputStream extends FilterInputStream {
     }
 
     @Override
+    public int read(final byte[] b, final int off, final int len) throws IOException {
+        Objects.checkFromIndexSize(off, len, b.length);
+
+        if (len == 0) {
+            return 0;
+        }
+
+        int c = read();
+
+        if (c == -1) {
+            return -1;
+        }
+
+        b[off] = (byte) c;
+
+        int i = 1;
+
+        try {
+            for (; i < len; i++) {
+                c = read();
+
+                if (c == -1) {
+                    break;
+                }
+
+                b[off + i] = (byte) c;
+            }
+        }
+        catch (IOException ex) {
+            // Ignore
+        }
+
+        return i;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");

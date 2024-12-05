@@ -101,12 +101,12 @@ public final class TreeUtils {
             if (currLevel <= level) {
                 final Object[] arr = new Object[path.getPath().length + 1];
 
-                // copy the old path
+                // Copy the old path.
                 for (int j = 0; j < path.getPath().length; j++) {
                     arr[j] = path.getPath()[j];
                 }
 
-                // add the latest path element
+                // Add the latest path element.
                 arr[arr.length - 1] = child;
                 expand(tree, new TreePath(arr), level);
             }

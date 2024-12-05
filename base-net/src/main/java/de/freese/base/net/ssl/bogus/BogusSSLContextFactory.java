@@ -38,7 +38,7 @@ import javax.net.ssl.TrustManager;
  */
 public final class BogusSSLContextFactory {
     private static final SSLContext CLIENT_CONTEXT;
-    private static final String PROTOCOL = "TLSv3";
+    private static final String PROTOCOL = "TLSv1.3";
     private static final SSLContext SERVER_CONTEXT;
 
     static {

@@ -54,6 +54,15 @@ public class ThrottledOutputStream extends FilterOutputStream {
         this.bytesWritten++;
     }
 
+    @Override
+    public void write(final byte[] b, final int off, final int len) throws IOException {
+        Objects.checkFromIndexSize(off, len, b.length);
+
+        for (int i = 0; i < len; i++) {
+            write(b[off + i]);
+        }
+    }
+
     private void throttle(final int permits) {
         final long waitNanos = this.throttler.reservePermits(permits);
 

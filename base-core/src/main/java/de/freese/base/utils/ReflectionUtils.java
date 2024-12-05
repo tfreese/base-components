@@ -16,6 +16,7 @@ import java.util.function.Predicate;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S2583", "java:S2589", "java:S3011"})
 public final class ReflectionUtils {
     /**
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.

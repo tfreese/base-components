@@ -274,10 +274,10 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
 
     @Override
     protected TableColumnModel createDefaultColumnModel() {
-        final DefaultExtTableColumnModel columnModel = new DefaultExtTableColumnModel();
+        return new DefaultExtTableColumnModel();
         // columnModel.addColumnModelListener(this);
-
-        return columnModel;
+        //
+        // return columnModel;
     }
 
     @Override

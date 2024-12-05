@@ -57,7 +57,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
             try {
                 document.insertString(document.getLength(), text, null);
 
-                // Zum letzten Zeichen springen
+                // Zum letzten Zeichen springen.
                 tc.setCaretPosition(document.getLength());
 
                 // Max. 500 Zeilen zulassen

@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 @FunctionalInterface
 public interface ThrowingPredicate<T, E extends Exception> {
-    static <T, E> ThrowingPredicate<T, Exception> isEqual(final Object targetRef) {
+    static <T> ThrowingPredicate<T, Exception> isEqual(final Object targetRef) {
         final ThrowingPredicate<T, Exception> predicate;
 
         if (targetRef == null) {

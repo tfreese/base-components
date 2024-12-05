@@ -26,6 +26,39 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
         public void valueChanged(final ListSelectionEvent e) {
             updateSelectedPathsFromSelectedRows();
         }
+
+        /**
+         * If <code>updatingListSelectionModel</code> is false, this will reset the selected paths from the selected rows in the list selection model.
+         */
+        private void updateSelectedPathsFromSelectedRows() {
+            if (!updatingListSelectionModel) {
+                updatingListSelectionModel = true;
+
+                try {
+                    // This is way expensive, ListSelectionModel needs an
+                    // enumerator for iterating.
+                    final int min = listSelectionModel.getMinSelectionIndex();
+                    final int max = listSelectionModel.getMaxSelectionIndex();
+
+                    clearSelection();
+
+                    if (min != -1 && max != -1) {
+                        for (int counter = min; counter <= max; counter++) {
+                            if (listSelectionModel.isSelectedIndex(counter)) {
+                                final TreePath selPath = tree.getPathForRow(counter);
+
+                                if (selPath != null) {
+                                    addSelectionPath(selPath);
+                                }
+                            }
+                        }
+                    }
+                }
+                finally {
+                    updatingListSelectionModel = false;
+                }
+            }
+        }
     }
 
     /**
@@ -55,6 +88,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     }
 
     private final JTree tree;
+    
     private boolean updateTreeSelectionMode = true;
     /**
      * Set to true when we are updating the ListSelectionModel.
@@ -66,11 +100,12 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
 
         this.listSelectionModel = new ThisListSelectionModel();
         this.tree = tree;
+
         getListSelectionModel().addListSelectionListener(new ListSelectionHandler());
     }
 
     public ListSelectionModel getListSelectionModel() {
-        return this.listSelectionModel;
+        return listSelectionModel;
     }
 
     /**
@@ -79,14 +114,14 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
      */
     @Override
     public void resetRowSelection() {
-        if (!this.updatingListSelectionModel) {
-            this.updatingListSelectionModel = true;
+        if (!updatingListSelectionModel) {
+            updatingListSelectionModel = true;
 
             try {
                 super.resetRowSelection();
             }
             finally {
-                this.updatingListSelectionModel = false;
+                updatingListSelectionModel = false;
             }
         }
         // Notice how we don't message super if
@@ -100,7 +135,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     public void setSelectionMode(final int mode) {
         updateTreeSelectionMode(mode);
 
-        this.updateTreeSelectionMode = false;
+        updateTreeSelectionMode = false;
 
         // TableSelectionModel anpassen
         switch (mode) {
@@ -112,40 +147,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
             }
         }
 
-        this.updateTreeSelectionMode = true;
-    }
-
-    /**
-     * If <code>updatingListSelectionModel</code> is false, this will reset the selected paths from the selected rows in the list selection model.
-     */
-    private void updateSelectedPathsFromSelectedRows() {
-        if (!this.updatingListSelectionModel) {
-            this.updatingListSelectionModel = true;
-
-            try {
-                // This is way expensive, ListSelectionModel needs an
-                // enumerator for iterating.
-                final int min = this.listSelectionModel.getMinSelectionIndex();
-                final int max = this.listSelectionModel.getMaxSelectionIndex();
-
-                clearSelection();
-
-                if (min != -1 && max != -1) {
-                    for (int counter = min; counter <= max; counter++) {
-                        if (this.listSelectionModel.isSelectedIndex(counter)) {
-                            final TreePath selPath = this.tree.getPathForRow(counter);
-
-                            if (selPath != null) {
-                                addSelectionPath(selPath);
-                            }
-                        }
-                    }
-                }
-            }
-            finally {
-                this.updatingListSelectionModel = false;
-            }
-        }
+        updateTreeSelectionMode = true;
     }
 
     private void updateTreeSelectionMode(final int mode) {
