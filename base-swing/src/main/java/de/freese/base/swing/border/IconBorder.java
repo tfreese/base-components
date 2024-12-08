@@ -23,8 +23,17 @@ public class IconBorder implements Border, Serializable {
     @Serial
     private static final long serialVersionUID = -9139492820598238887L;
 
-    private final int iconPosition;
+    private static void validatePosition(final int position) {
+        if (!(position == SwingConstants.NORTH_WEST
+                || position == SwingConstants.NORTH_EAST
+                || position == SwingConstants.SOUTH_WEST
+                || position == SwingConstants.SOUTH_EAST)
+        ) {
+            throw new IllegalArgumentException();
+        }
+    }
 
+    private final int iconPosition;
     private Insets borderInsets;
     private transient Icon icon;
     private JButton iconButton = new JButton();
@@ -38,47 +47,47 @@ public class IconBorder implements Border, Serializable {
 
         this.iconPosition = iconPosition;
         this.borderInsets = null;
-        validatePosition(this.iconPosition);
+        validatePosition(iconPosition);
 
         setIcon(icon);
     }
 
     @Override
     public Insets getBorderInsets(final Component c) {
-        if (this.borderInsets == null) {
-            this.borderInsets = switch (this.iconPosition) {
-                case SwingConstants.NORTH_WEST -> new Insets(this.icon.getIconHeight(), this.icon.getIconWidth(), 0, 0);
-                case SwingConstants.NORTH_EAST -> new Insets(this.icon.getIconHeight(), 0, 0, this.icon.getIconWidth());
-                case SwingConstants.SOUTH_WEST -> new Insets(0, this.icon.getIconWidth(), this.icon.getIconHeight(), 0);
-                case SwingConstants.SOUTH_EAST -> new Insets(0, 0, this.icon.getIconHeight(), this.icon.getIconWidth());
+        if (borderInsets == null) {
+            borderInsets = switch (iconPosition) {
+                case SwingConstants.NORTH_WEST -> new Insets(icon.getIconHeight(), icon.getIconWidth(), 0, 0);
+                case SwingConstants.NORTH_EAST -> new Insets(icon.getIconHeight(), 0, 0, icon.getIconWidth());
+                case SwingConstants.SOUTH_WEST -> new Insets(0, icon.getIconWidth(), icon.getIconHeight(), 0);
+                case SwingConstants.SOUTH_EAST -> new Insets(0, 0, icon.getIconHeight(), icon.getIconWidth());
                 default -> new Insets(0, 0, 0, 0);
             };
         }
 
-        return this.borderInsets;
+        return borderInsets;
     }
 
     public JButton getIconButton() {
-        if (this.iconButton == null) {
-            this.iconButton = new JButton();
+        if (iconButton == null) {
+            iconButton = new JButton();
 
             // iconButton.setBorder(BorderFactory.createEmptyBorder());
-            this.iconButton.setBorderPainted(false);
-            this.iconButton.setMargin(new Insets(0, 0, 0, 0));
-            this.iconButton.setFocusPainted(false);
-            this.iconButton.setRequestFocusEnabled(false);
-            this.iconButton.setFocusable(false);
-            this.iconButton.setOpaque(false);
-            this.iconButton.setRolloverEnabled(false);
-            this.iconButton.setText("ff");
-            this.iconButton.setActionCommand("BORDER_ICON");
+            iconButton.setBorderPainted(false);
+            iconButton.setMargin(new Insets(0, 0, 0, 0));
+            iconButton.setFocusPainted(false);
+            iconButton.setRequestFocusEnabled(false);
+            iconButton.setFocusable(false);
+            iconButton.setOpaque(false);
+            iconButton.setRolloverEnabled(false);
+            iconButton.setText("ff");
+            iconButton.setActionCommand("BORDER_ICON");
 
-            this.iconButton.setMinimumSize(new Dimension(16, 16));
-            this.iconButton.setPreferredSize(new Dimension(16, 16));
-            this.iconButton.setMaximumSize(new Dimension(16, 16));
+            iconButton.setMinimumSize(new Dimension(16, 16));
+            iconButton.setPreferredSize(new Dimension(16, 16));
+            iconButton.setMaximumSize(new Dimension(16, 16));
         }
 
-        return this.iconButton;
+        return iconButton;
     }
 
     @Override
@@ -91,23 +100,23 @@ public class IconBorder implements Border, Serializable {
         int xPos = 0;
         int yPos = 0;
 
-        switch (this.iconPosition) {
+        switch (iconPosition) {
             case SwingConstants.NORTH_WEST:
                 break;
 
             case SwingConstants.NORTH_EAST:
-                xPos = width - this.icon.getIconWidth();
+                xPos = width - icon.getIconWidth();
 
                 break;
 
             case SwingConstants.SOUTH_WEST:
-                yPos = height - this.icon.getIconHeight();
+                yPos = height - icon.getIconHeight();
 
                 break;
 
             case SwingConstants.SOUTH_EAST:
-                xPos = width - this.icon.getIconWidth();
-                yPos = height - this.icon.getIconHeight();
+                xPos = width - icon.getIconWidth();
+                yPos = height - icon.getIconHeight();
 
                 break;
 
@@ -129,26 +138,13 @@ public class IconBorder implements Border, Serializable {
 
     public void setIcon(final Icon icon) {
         this.icon = (icon == null) ? ImageUtils.createMissingIcon() : icon;
-        this.borderInsets = null;
-        getIconButton().setIcon(this.icon);
+        borderInsets = null;
+        getIconButton().setIcon(icon);
 
-        final Dimension dimension = new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight());
+        final Dimension dimension = new Dimension(icon.getIconWidth(), icon.getIconHeight());
         getIconButton().setMinimumSize(dimension);
         getIconButton().setPreferredSize(dimension);
         getIconButton().setMaximumSize(dimension);
         getIconButton().setSize(dimension);
-    }
-
-    private void validatePosition(final int position) {
-        switch (position) {
-            case SwingConstants.NORTH_WEST:
-            case SwingConstants.NORTH_EAST:
-            case SwingConstants.SOUTH_WEST:
-            case SwingConstants.SOUTH_EAST:
-                break;
-
-            default:
-                throw new IllegalArgumentException();
-        }
     }
 }

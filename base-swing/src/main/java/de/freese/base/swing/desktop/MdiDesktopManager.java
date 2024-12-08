@@ -50,7 +50,7 @@ final class MdiDesktopManager extends DefaultDesktopManager {
         int y = 0;
 
         if (scrollPane != null) {
-            final JInternalFrame[] allFrames = this.desktop.getAllFrames();
+            final JInternalFrame[] allFrames = desktop.getAllFrames();
 
             for (JInternalFrame allFrame : allFrames) {
                 if ((allFrame.getX() + allFrame.getWidth()) > x) {
@@ -76,7 +76,7 @@ final class MdiDesktopManager extends DefaultDesktopManager {
                 y = ((int) d.getHeight()) - 20;
             }
 
-            this.desktop.setAllSize(x, y);
+            desktop.setAllSize(x, y);
             scrollPane.invalidate();
             scrollPane.validate();
         }
@@ -99,17 +99,16 @@ final class MdiDesktopManager extends DefaultDesktopManager {
             width = d.width;
             height = d.height;
 
-            this.desktop.setAllSize(width, height);
+            desktop.setAllSize(width, height);
             scrollPane.invalidate();
             scrollPane.validate();
         }
     }
 
     private JScrollPane getScrollPane() {
-        if (this.desktop.getParent() instanceof JViewport viewPort) {
-            if (viewPort.getParent() instanceof JScrollPane p) {
-                return p;
-            }
+        if (desktop.getParent() instanceof JViewport viewPort
+                && viewPort.getParent() instanceof JScrollPane p) {
+            return p;
         }
 
         return null;
@@ -122,6 +121,6 @@ final class MdiDesktopManager extends DefaultDesktopManager {
             return new Insets(0, 0, 0, 0);
         }
 
-        return getScrollPane().getBorder().getBorderInsets(scrollPane);
+        return scrollPane.getBorder().getBorderInsets(scrollPane);
     }
 }

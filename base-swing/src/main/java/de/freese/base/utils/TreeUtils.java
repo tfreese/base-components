@@ -2,7 +2,9 @@ package de.freese.base.utils;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -99,16 +101,15 @@ public final class TreeUtils {
             final Object child = tree.getModel().getChild(node, i);
 
             if (currLevel <= level) {
-                final Object[] arr = new Object[path.getPath().length + 1];
-
                 // Copy the old path.
-                for (int j = 0; j < path.getPath().length; j++) {
-                    arr[j] = path.getPath()[j];
-                }
+                final Object[] copy = Arrays.copyOf(path.getPath(), path.getPath().length + 1);
 
                 // Add the latest path element.
-                arr[arr.length - 1] = child;
-                expand(tree, new TreePath(arr), level);
+                copy[copy.length - 1] = child;
+
+                // Add the latest path element.
+
+                expand(tree, new TreePath(copy), level);
             }
         }
     }
@@ -136,7 +137,7 @@ public final class TreeUtils {
     public static Object getFirstSelectedObject(final JTree tree) {
         final Object[] obj = getSelectedObjects(tree);
 
-        if (obj != null && obj.length > 0) {
+        if (obj.length > 0) {
             return obj[0];
         }
 
@@ -218,19 +219,14 @@ public final class TreeUtils {
         return nodes;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType) {
+    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Iterable<Class<?>> userObjectTypes) {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
         final Object[] selectedObjects = getSelectedObjects(tree);
-
-        if (selectedObjects == null) {
-            return null;
-        }
 
         for (Object selected : selectedObjects) {
             final DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) selected;
 
-            for (Class<?> element : userObjectType) {
+            for (Class<?> element : userObjectTypes) {
                 if (element.isInstance(selectedTreeNode.getUserObject())) {
                     return (K) selectedTreeNode;
                 }
@@ -241,7 +237,7 @@ public final class TreeUtils {
     }
 
     public static <T> T getSelectedUserObject(final JTree tree, final Class<T> userObjectType) {
-        final DefaultMutableTreeNode node = getSelectedTreeNode(tree, userObjectType);
+        final DefaultMutableTreeNode node = getSelectedTreeNode(tree, Set.of(userObjectType));
 
         return node == null ? null : userObjectType.cast(node.getUserObject());
     }

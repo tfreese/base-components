@@ -25,7 +25,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     @Serial
     private static final long serialVersionUID = 2387759630865685848L;
 
-    private final Color background;
+    private final Color backgroundColor;
 
     @SuppressWarnings("unused")
     private final Color focusBackground;
@@ -34,7 +34,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 
     @SuppressWarnings("unused")
     private final Color focusForeground;
-    private final Color foreground;
+    private final Color foregroundColor;
     private final transient Border noFocusBorder;
     private final Color selectedBackground;
     private final Color selectedForeground;
@@ -44,8 +44,8 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public TransparentRenderer() {
         super();
 
-        this.foreground = UIManager.getColor("Table.foreground");
-        this.background = UIManager.getColor("Table.background");
+        this.foregroundColor = UIManager.getColor("Table.foreground");
+        this.backgroundColor = UIManager.getColor("Table.background");
         this.selectedForeground = UIManager.getColor("Table.selectionForeground");
         this.selectedBackground = UIManager.getColor("Table.selectionBackground");
         this.focusForeground = UIManager.getColor("Table.focusCellForeground");
@@ -167,8 +167,8 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
             super.setBackground(this.selectedBackground);
         }
         else {
-            super.setForeground(this.foreground);
-            super.setBackground(this.background);
+            super.setForeground(this.foregroundColor);
+            super.setBackground(this.backgroundColor);
         }
 
         setFont(parent.getFont());

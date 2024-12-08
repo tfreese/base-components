@@ -57,13 +57,14 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         final Icon sortIcon = getIcon(tableColumnExt);
         final String priority = getSortPriority(tableColumnExt);
 
-        final JComponent src = new SortRendererComponent(component, sortIcon, priority, COLOR_MEDIUM_LIGHT_BROWN);
+        return new SortRendererComponent(component, sortIcon, priority, COLOR_MEDIUM_LIGHT_BROWN);
         // src.setMinimumSize(c.getMinimumSize());
+
         // Breite der Spalte in die Komponente setzen
         // c.setPreferredSize(new Dimension(tc.getWidth(), 1));
         // c.setMinimumSize(new Dimension(tc.getWidth(), 1));
 
-        return src;
+        // return src;
     }
 
     protected Icon getIcon(final ExtTableColumn tableColumnExt) {
@@ -84,8 +85,7 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
     // public void propertyChange(final PropertyChangeEvent evt) {
     // if (evt.getPropertyName().equals("ROWSORTER_ORDER_CHANGED")) {
-    // if (this.tableCellRenderer instanceof Component)
-    // {
+    // if (this.tableCellRenderer instanceof Component) {
     // ((Component) this.tableCellRenderer).repaint();
     // }
     // }
