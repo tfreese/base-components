@@ -33,7 +33,7 @@ public class MonitoringOutputStream extends FilterOutputStream {
 
     @Override
     public void close() throws IOException {
-        if (this.closeDelegate) {
+        if (closeDelegate) {
             super.close();
         }
     }
@@ -42,17 +42,17 @@ public class MonitoringOutputStream extends FilterOutputStream {
     public void write(final byte[] b, final int off, final int len) throws IOException {
         super.write(b, off, len);
 
-        this.bytesWritten += len;
+        bytesWritten += len;
 
-        this.bytesWrittenConsumer.accept(this.bytesWritten);
+        bytesWrittenConsumer.accept(bytesWritten);
     }
 
     @Override
     public void write(final int b) throws IOException {
         super.write(b);
 
-        this.bytesWritten++;
+        bytesWritten++;
 
-        this.bytesWrittenConsumer.accept(this.bytesWritten);
+        bytesWrittenConsumer.accept(bytesWritten);
     }
 }

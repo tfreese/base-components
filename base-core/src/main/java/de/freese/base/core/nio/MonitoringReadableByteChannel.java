@@ -35,24 +35,24 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel {
 
     @Override
     public void close() throws IOException {
-        if (this.closeDelegate) {
-            this.delegate.close();
+        if (closeDelegate) {
+            delegate.close();
         }
     }
 
     @Override
     public boolean isOpen() {
-        return this.delegate.isOpen();
+        return delegate.isOpen();
     }
 
     @Override
     public int read(final ByteBuffer dst) throws IOException {
-        final int readCount = this.delegate.read(dst);
+        final int readCount = delegate.read(dst);
 
         if (readCount > 0) {
-            this.bytesRead += readCount;
+            bytesRead += readCount;
 
-            this.bytesReadConsumer.accept(this.bytesRead);
+            bytesReadConsumer.accept(bytesRead);
         }
 
         return readCount;

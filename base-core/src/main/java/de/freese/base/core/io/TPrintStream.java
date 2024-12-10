@@ -21,20 +21,20 @@ public class TPrintStream extends PrintStream {
     public void close() {
         super.close();
 
-        this.out2.close();
+        out2.close();
     }
 
     @Override
     public void flush() {
         super.flush();
 
-        this.out2.flush();
+        out2.flush();
     }
 
     @Override
     public void write(final byte[] buf, final int off, final int len) {
         super.write(buf, off, len);
 
-        this.out2.write(buf, off, len);
+        out2.write(buf, off, len);
     }
 }

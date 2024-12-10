@@ -20,11 +20,11 @@ public class ByteBufferOutputStream extends OutputStream {
 
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        this.buffer.put(b, off, len);
+        buffer.put(b, off, len);
     }
 
     @Override
     public void write(final int b) throws IOException {
-        this.buffer.put((byte) b);
+        buffer.put((byte) b);
     }
 }

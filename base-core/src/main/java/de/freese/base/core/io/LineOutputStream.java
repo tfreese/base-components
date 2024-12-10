@@ -22,13 +22,13 @@ public class LineOutputStream extends FilterOutputStream {
     }
 
     public void writeln() throws IOException {
-        this.out.write(NEW_LINE);
+        out.write(NEW_LINE);
     }
 
     public void writeln(final String s) throws IOException {
         final byte[] bytes = ByteUtils.toBytes(s);
 
-        this.out.write(bytes);
-        this.out.write(NEW_LINE);
+        out.write(bytes);
+        out.write(NEW_LINE);
     }
 }

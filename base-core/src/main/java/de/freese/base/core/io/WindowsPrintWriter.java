@@ -43,16 +43,16 @@ public class WindowsPrintWriter extends PrintWriter {
      */
     @Override
     public void println() {
-        synchronized (this.lock) {
+        synchronized (lock) {
             try {
-                if (this.out == null) {
+                if (out == null) {
                     throw new IOException("Stream closed");
                 }
 
-                this.out.write(LINE_SEPARATOR);
+                out.write(LINE_SEPARATOR);
 
-                if (this.autoFlush) {
-                    this.out.flush();
+                if (autoFlush) {
+                    out.flush();
                 }
             }
             catch (InterruptedIOException ex) {

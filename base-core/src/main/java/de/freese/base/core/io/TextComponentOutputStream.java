@@ -66,22 +66,17 @@ public class TextComponentOutputStream extends FilterOutputStream {
                 final int excess = document.getLength() - idealSize;
 
                 if (excess >= maxExcess) {
-                    try {
-                        if (document instanceof AbstractDocument ad) {
-                            ad.replace(0, excess, text, null);
-                        }
-                        else {
-                            document.remove(0, excess);
-                            document.insertString(0, text, null);
-                        }
+                    if (document instanceof AbstractDocument ad) {
+                        ad.replace(0, excess, text, null);
                     }
-                    catch (BadLocationException ex) {
-                        throw new IllegalArgumentException(ex.getMessage());
+                    else {
+                        document.remove(0, excess);
+                        document.insertString(0, text, null);
                     }
                 }
             }
-            catch (Exception ex) {
-                // Ignore
+            catch (BadLocationException ex) {
+                throw new IllegalArgumentException(ex.getMessage());
             }
         };
 

@@ -70,7 +70,7 @@ public final class LineInputStream extends FilterInputStream {
                 // No room, need to grow.
                 lineBuffer = new char[offset + 128];
                 room = lineBuffer.length - offset - 1;
-                System.arraycopy(this.lineBuffer, 0, lineBuffer, 0, offset);
+                System.arraycopy(lineBuffer, 0, lineBuffer, 0, offset);
             }
 
             lineBuffer[offset++] = (char) c1;

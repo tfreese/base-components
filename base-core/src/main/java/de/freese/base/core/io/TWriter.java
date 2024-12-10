@@ -24,14 +24,14 @@ public class TWriter extends Writer {
         IOException exception = null;
 
         try {
-            this.out1.close();
+            out1.close();
         }
         catch (IOException ex) {
             exception = ex;
         }
 
         try {
-            this.out2.close();
+            out2.close();
         }
         catch (IOException ex) {
             if (exception != null) {
@@ -44,13 +44,13 @@ public class TWriter extends Writer {
 
     @Override
     public void flush() throws IOException {
-        this.out1.flush();
-        this.out2.flush();
+        out1.flush();
+        out2.flush();
     }
 
     @Override
     public void write(final char[] cbuf, final int off, final int len) throws IOException {
-        this.out1.write(cbuf, off, len);
-        this.out2.write(cbuf, off, len);
+        out1.write(cbuf, off, len);
+        out2.write(cbuf, off, len);
     }
 }

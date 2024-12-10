@@ -84,7 +84,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     public final AbstractAutoExpandBuffer<B> clear() {
         getBuffer().clear();
 
-        this.mark = -1;
+        mark = -1;
 
         return this;
     }
@@ -92,13 +92,13 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     public final AbstractAutoExpandBuffer<B> flip() {
         getBuffer().flip();
 
-        this.mark = -1;
+        mark = -1;
 
         return this;
     }
 
     public final B getBuffer() {
-        return this.buffer;
+        return buffer;
     }
 
     public final boolean hasRemaining() {
@@ -121,8 +121,8 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
         autoExpand(newLimit, 0);
         getBuffer().limit(newLimit);
 
-        if (this.mark > newLimit) {
-            this.mark = -1;
+        if (mark > newLimit) {
+            mark = -1;
         }
 
         return this;
@@ -130,7 +130,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
 
     public final AbstractAutoExpandBuffer<B> mark() {
         getBuffer().mark();
-        this.mark = position();
+        mark = position();
 
         return this;
     }
@@ -143,8 +143,8 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
         autoExpand(newPosition, 0);
         getBuffer().position(newPosition);
 
-        if (this.mark > newPosition) {
-            this.mark = -1;
+        if (mark > newPosition) {
+            mark = -1;
         }
 
         return this;
@@ -185,19 +185,19 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
             // Alten Zustand wiederherstellen.
             newBuffer.limit(newCapacity);
 
-            if (this.mark >= 0) {
-                newBuffer.position(this.mark);
+            if (mark >= 0) {
+                newBuffer.position(mark);
                 newBuffer.mark();
             }
 
             newBuffer.position(position);
 
-            this.buffer = newBuffer;
+            buffer = newBuffer;
         }
 
         if (newLimit > limit()) {
             // Set the Limit, to avoid StackOverflowError.
-            this.buffer.limit(newLimit);
+            buffer.limit(newLimit);
         }
     }
 

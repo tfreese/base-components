@@ -22,11 +22,11 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream {
     }
 
     public int getStartIndex() {
-        return this.startIndex;
+        return startIndex;
     }
 
     public ByteBuffer toByteBuffer() {
-        return ByteBuffer.wrap(this.buf, 0, this.count);
+        return ByteBuffer.wrap(buf, 0, count);
     }
 
     public InputStream toStream(final long start, final long end) {
@@ -37,9 +37,9 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream {
         long to = end;
 
         if (to == -1) {
-            to = this.count - (long) this.startIndex;
+            to = count - (long) startIndex;
         }
 
-        return new SharedByteArrayInputStream(this.buf, this.startIndex + (int) start, (int) (to - start));
+        return new SharedByteArrayInputStream(buf, startIndex + (int) start, (int) (to - start));
     }
 }

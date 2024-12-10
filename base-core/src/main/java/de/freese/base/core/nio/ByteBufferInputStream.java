@@ -20,12 +20,12 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public int available() throws IOException {
-        return this.buffer.remaining();
+        return buffer.remaining();
     }
 
     @Override
     public synchronized void mark(final int readLimit) {
-        this.buffer.mark();
+        buffer.mark();
     }
 
     @Override
@@ -35,8 +35,8 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        if (this.buffer.hasRemaining()) {
-            return this.buffer.get() & 0xff;
+        if (buffer.hasRemaining()) {
+            return buffer.get() & 0xff;
         }
 
         return -1;
@@ -44,11 +44,11 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        final int remaining = this.buffer.remaining();
+        final int remaining = buffer.remaining();
 
         if (remaining > 0) {
             final int readBytes = Math.min(remaining, len);
-            this.buffer.get(b, off, readBytes);
+            buffer.get(b, off, readBytes);
 
             return readBytes;
         }
@@ -58,7 +58,7 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public synchronized void reset() throws IOException {
-        this.buffer.reset();
+        buffer.reset();
     }
 
     @Override
@@ -66,13 +66,13 @@ public class ByteBufferInputStream extends InputStream {
         final int bytes;
 
         if (n > Integer.MAX_VALUE) {
-            bytes = this.buffer.remaining();
+            bytes = buffer.remaining();
         }
         else {
-            bytes = Math.min(this.buffer.remaining(), (int) n);
+            bytes = Math.min(buffer.remaining(), (int) n);
         }
 
-        this.buffer.position(this.buffer.position() + bytes);
+        buffer.position(buffer.position() + bytes);
 
         return bytes;
     }

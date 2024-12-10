@@ -52,7 +52,7 @@ public final class AsyncFileReader<CH> {
 
         public void close() {
             try {
-                this.channel.close();
+                channel.close();
             }
             catch (IOException ex) {
                 throw new UncheckedIOException(ex);
@@ -64,7 +64,7 @@ public final class AsyncFileReader<CH> {
          * The context is also closed.
          */
         public void fail(final Throwable ex) {
-            this.future.completeExceptionally(ex);
+            future.completeExceptionally(ex);
             close();
         }
     }
@@ -191,7 +191,7 @@ public final class AsyncFileReader<CH> {
      * Default: 1024
      */
     private int getByteBufferSize() {
-        return this.byteBufferSize;
+        return byteBufferSize;
     }
 
     /**
@@ -199,7 +199,7 @@ public final class AsyncFileReader<CH> {
      * Default: new StringBuilder(4096);
      */
     private Supplier<CH> getContentHolderSupplier() {
-        return this.contentHolderSupplier;
+        return contentHolderSupplier;
     }
 
     /**
@@ -207,7 +207,7 @@ public final class AsyncFileReader<CH> {
      * Default: StringBuilder.append(new String(data));
      */
     private BiConsumer<CH, byte[]> getDataConsumer() {
-        return this.dataConsumer;
+        return dataConsumer;
     }
 
     /**
@@ -215,7 +215,7 @@ public final class AsyncFileReader<CH> {
      * Default: ForkJoinPool.commonPool()
      */
     private ExecutorService getExecutorService() {
-        return this.executorService;
+        return executorService;
     }
 
     /**

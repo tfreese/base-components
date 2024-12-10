@@ -35,24 +35,24 @@ public class MonitoringWritableByteChannel implements WritableByteChannel {
 
     @Override
     public void close() throws IOException {
-        if (this.closeDelegate) {
-            this.delegate.close();
+        if (closeDelegate) {
+            delegate.close();
         }
     }
 
     @Override
     public boolean isOpen() {
-        return this.delegate.isOpen();
+        return delegate.isOpen();
     }
 
     @Override
     public int write(final ByteBuffer src) throws IOException {
-        final int writeCount = this.delegate.write(src);
+        final int writeCount = delegate.write(src);
 
         if (writeCount > 0) {
-            this.bytesWritten += writeCount;
+            bytesWritten += writeCount;
 
-            this.bytesWrittenConsumer.accept(this.bytesWritten);
+            bytesWrittenConsumer.accept(bytesWritten);
         }
 
         return writeCount;
