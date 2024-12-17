@@ -40,16 +40,11 @@ public final class HibernateUtils {
             logger.info("evictNaturalIdData");
             cache.evictNaturalIdData();
 
-            try {
-                logger.info("evict QueryRegions");
-                cache.evictQueryRegions();
-            }
-            catch (Exception ex) {
-                logger.warn(ex.getMessage());
-            }
-
             logger.info("evict Statistics");
             sessionFactory.getStatistics().clear();
+
+            logger.info("evict QueryRegions");
+            cache.evictQueryRegions();
         }
         catch (Exception ex) {
             logger.warn(ex.getMessage());

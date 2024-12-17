@@ -198,7 +198,7 @@ class PgpCryptoBc {
             }
         }
 
-        if (privateKey == null || encryptedData == null) {
+        if (privateKey == null) {
             throw new IllegalArgumentException("Private key for message not found.");
         }
 

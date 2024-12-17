@@ -2,7 +2,7 @@
 package de.freese.base.persistence.jdbc;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -18,7 +18,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  */
 public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallback // , ArgumentsProvider
 {
-    private final Map<EmbeddedDatabaseType, DbServerExtension> servers = new HashMap<>();
+    private final Map<EmbeddedDatabaseType, DbServerExtension> servers = new EnumMap<>(EmbeddedDatabaseType.class);
 
     /**
      * Junit-{@link Extension} needs a Default-Constructor !

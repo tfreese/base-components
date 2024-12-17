@@ -141,7 +141,7 @@ public class IconBorder implements Border, Serializable {
         borderInsets = null;
         getIconButton().setIcon(icon);
 
-        final Dimension dimension = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+        final Dimension dimension = new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight());
         getIconButton().setMinimumSize(dimension);
         getIconButton().setPreferredSize(dimension);
         getIconButton().setMaximumSize(dimension);

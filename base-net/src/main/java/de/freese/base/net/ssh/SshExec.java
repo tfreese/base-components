@@ -44,11 +44,11 @@ public final class SshExec {
 
     public static SshExec connectByUserPassword(final String user, final CharSequence password, final String host, final int port) throws IOException {
         return connect(user, host, port, sshClient -> {
-            // Empty
-        }, clientSession -> {
-            // Only for User/Password authentication without certificate.
-            clientSession.addPasswordIdentity(password.toString());
-        });
+                    // Empty
+                }, clientSession ->
+                        // Only for User/Password authentication without certificate.
+                        clientSession.addPasswordIdentity(password.toString())
+        );
     }
 
     private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer,

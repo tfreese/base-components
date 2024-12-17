@@ -187,15 +187,15 @@ public class NasaController extends AbstractController {
 
     protected URI generateUri() throws Exception {
         String uriString = null;
-        final boolean randomUris = true;
+        // final boolean randomUris = true;
 
-        if (!randomUris) {
-            final int index = random.nextInt(imageNames.length);
-            uriString = IMAGE_DIR + imageNames[index];
-        }
-        else {
-            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, random.nextInt(12196) + 1);
-        }
+        // if (!randomUris) {
+        final int index = random.nextInt(imageNames.length);
+        uriString = IMAGE_DIR + imageNames[index];
+        // }
+        // else {
+        //     uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, random.nextInt(12196) + 1);
+        // }
 
         getLogger().info("URI: {}", uriString);
 

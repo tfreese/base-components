@@ -179,8 +179,7 @@ public final class CalendarUtils {
     }
 
     public static long toNanoOfSecond(final LocalDate localDate) {
-        return 0L;
-        //        return toNanoOfSecond(localDate.atStartOfDay());
+        return toNanoOfSecond(localDate.atStartOfDay());
     }
 
     public static long toNanoOfSecond(final LocalDateTime localDateTime) {

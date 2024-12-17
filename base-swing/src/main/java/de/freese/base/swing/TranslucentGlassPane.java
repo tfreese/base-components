@@ -59,25 +59,35 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
      * @return This will be a value between 0 and 1, inclusive.
      */
     public double getAlpha() {
-        if (this.alpha > 1D) {
-            this.alpha = 1D;
+        if (alpha > 1D) {
+            alpha = 1D;
         }
 
-        return this.alpha;
+        return alpha;
+    }
+
+    public JMenuBar getJMenuBar() {
+        for (Component component : dispatchComponents) {
+            if (component instanceof JMenuBar b) {
+                return b;
+            }
+        }
+
+        return null;
     }
 
     /**
      * Startverzögerung für die Animation in Millisekunden.
      */
     public int getShowDelayMillies() {
-        return this.showDelayMillies;
+        return showDelayMillies;
     }
 
     /**
      * Zeitabstand zwischen den Animationen in Millisekunden.
      */
     public int getTimerIncrementMillies() {
-        return this.timerIncrementMillies;
+        return timerIncrementMillies;
     }
 
     @Override
@@ -124,11 +134,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
                     setOpaque(false);
                 }
             }
-            else if (Double.compare(alpha, 1D) == 0) {
+            else if (Double.compare(alpha, 1D) == 0 && this.oldOpaque) {
                 // restore the oldOpaque if it was true (since opaque is false now)
-                if (this.oldOpaque) {
-                    setOpaque(true);
-                }
+                setOpaque(true);
             }
 
             // firePropertyChange("alpha", oldAlpha, alpha);
@@ -152,6 +160,12 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         this.timerIncrementMillies = timerIncrementMillies;
     }
 
+    // protected void paintChildren(Graphics g) {
+    // // Die Children werden in der transparenz der Glass-pane gezeichnet,
+    // deswegen wird paintChildren(Graphics) am Ende der paintComponent(Graphics) aufgerufen.
+    // super.paintChildren(g);
+    // }
+
     @Override
     public void setVisible(final boolean flag) {
         setAlpha(this.alphaStart);
@@ -163,14 +177,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             child.setVisible(flag);
         }
     }
-
-    // protected void paintChildren(Graphics g) {
-    // // Die Children werden in der transparenz der Glass-pane gezeichnet,
-    // deswegen
-    // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
-    // aufgerufen.
-    // super.paintChildren(g);
-    // }
 
     @Override
     protected void paintComponent(final Graphics g) {
@@ -199,18 +205,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         // super.paintChildren(g);
     }
 
-    private JMenuBar getJMenuBar() {
-        for (Component component : this.dispatchComponents) {
-            if (component instanceof JMenuBar b) {
-                return b;
-            }
-        }
-
-        return null;
-    }
-
     private void redispatchMouseEvent(final MouseEvent event, final boolean repaint) {
-        if (this.dispatchComponents.isEmpty()) {
+        if (dispatchComponents.isEmpty()) {
             return;
         }
 
@@ -237,7 +233,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             // Find out exactly which component it's over.
             final Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
 
-            if (component != null && this.dispatchComponents.contains(component)) {
+            if (component != null && dispatchComponents.contains(component)) {
                 // Forward events over the component.
                 final Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
                 component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(),

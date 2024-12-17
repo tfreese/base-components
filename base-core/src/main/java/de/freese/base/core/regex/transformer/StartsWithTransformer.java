@@ -11,7 +11,7 @@ public class StartsWithTransformer implements RegExTransformer {
         }
 
         if (regex.startsWith(".{1}")) {
-            return regex.replaceFirst("\\.{1}", "?");
+            return regex.replaceFirst("\\.", "?");
         }
 
         return regex;

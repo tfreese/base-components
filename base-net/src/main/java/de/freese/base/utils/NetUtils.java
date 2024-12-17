@@ -73,21 +73,13 @@ public final class NetUtils {
                     while (addresses.hasMoreElements()) {
                         final InetAddress address = addresses.nextElement();
 
-                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
+                        if ((!address.isLoopbackAddress() && address instanceof Inet4Address)
+                                || !address.isLinkLocalAddress()) {
                             // IPv4
                             hostName = address.getHostName();
                             break;
                         }
-                        else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
-                            // IPv6
-                            hostName = address.getHostName();
-                            break;
-                        }
-                        else if (!address.isLoopbackAddress()) {
-                            // IPv6-Link
-                            hostName = address.getHostName();
-                            break;
-                        }
+
                     }
                 }
             }
@@ -113,9 +105,8 @@ public final class NetUtils {
     /**
      * Liefert die Zeit der Atomuhr in der Physikalisch-Technischen Bundesanstalt.
      */
-    public static LocalDateTime getPtbTime() throws IOException {
+    public static LocalDateTime getPtbTime() throws Exception {
         final int NTP_PORT = 123; // 37
-        IOException exception = null;
 
         for (int i = 1; i <= 3; i++) {
             final String host = String.format("ptbtime%d.ptb.de", i);
@@ -123,16 +114,12 @@ public final class NetUtils {
             try {
                 return getNtpTime(host, NTP_PORT);
             }
-            catch (IOException ex) {
-                exception = ex;
+            catch (Exception ex) {
+                // Ignore
             }
         }
 
-        if (exception != null) {
-            throw exception;
-        }
-
-        return null;
+        return LocalDateTime.now();
     }
 
     /**

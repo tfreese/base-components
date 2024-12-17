@@ -33,9 +33,9 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
     public List<ExcelSheet> readSheets(final InputStream inputStream) throws Exception {
         final Workbook workBook = openWorkbook(inputStream);
 
-        // this.formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
-        // this.formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
-        this.formulaEvaluator = workBook.getCreationHelper().createFormulaEvaluator();
+        // formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
+        // formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
+        formulaEvaluator = workBook.getCreationHelper().createFormulaEvaluator();
         workBook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
         final int numSheets = getNumberOfSheets(workBook);
@@ -46,7 +46,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
             final Sheet sheet = selectSheet(workBook, i);
 
             if (!isSheetReadable(sheet)) {
-                getLogger().warn("Sheet is not readable: Index = {}, Name = {}", i, sheet.getSheetName());
+                getLogger().warn("Sheet '{}' is not readable", sheet.getSheetName());
                 continue;
             }
 
@@ -76,11 +76,11 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
     }
 
     protected Format getDateFormatter(final short format) {
-        Format formatter = this.cacheFormat.get(format);
+        Format formatter = cacheFormat.get(format);
 
         if (formatter == null) {
             formatter = new SimpleDateFormat(getDateFormatByExcelIndex(format));
-            this.cacheFormat.put(format, formatter);
+            cacheFormat.put(format, formatter);
         }
 
         return formatter;
@@ -124,11 +124,11 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
 
             if (cell != null) {
                 if (!CellType.FORMULA.equals(cell.getCellType())) {
-                    value = this.dataFormatter.formatCellValue(cell);
+                    value = dataFormatter.formatCellValue(cell);
                 }
                 else {
-                    // this.formulaEvaluator.evaluate(cell).getNumberValue();
-                    value = this.dataFormatter.formatCellValue(cell, this.formulaEvaluator);
+                    // formulaEvaluator.evaluate(cell).getNumberValue();
+                    value = dataFormatter.formatCellValue(cell, formulaEvaluator);
                 }
                 // switch (cell.getCellTypeEnum()) {
                 // case STRING:
@@ -162,7 +162,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
                 // value = Double.toString(cell.getNumericCellValue());
                 // }
                 // catch (IllegalStateException ex) {
-                // // Nimm einfach den String aus der Zelle...
+                // // Nimm einfach den String aus der Zelle.
                 // value = cell.getRichStringCellValue().getString();
                 // }
                 //
@@ -186,11 +186,25 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
     }
 
     protected boolean isSheetReadable(final Sheet sheet) {
-        /*
-         * if(_sheet!=null && sheet.getProtect()==true) { getLogger().warn("****\n\n\n Protected\n\n\n **** "); return false; } for(int
-         * i=0;i<getNumRows();i++) { if(sheet!=null && sheet.isRowBroken(i)) { getLogger().warn("****\n\n\n Row is broken\n\n\n **** "); } }
-         */
-        return sheet != null;
+        if (sheet == null) {
+            return false;
+        }
+
+        if (sheet.getProtect()) {
+            getLogger().warn("Sheet '{}' is protected", sheet.getSheetName());
+
+            return true;
+        }
+
+        for (int i = 0; i < getNumRows(sheet); i++) {
+            if (sheet.isRowBroken(i)) {
+                getLogger().warn("Row {} of sheet '{}' is broken", i, sheet.getSheetName());
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;

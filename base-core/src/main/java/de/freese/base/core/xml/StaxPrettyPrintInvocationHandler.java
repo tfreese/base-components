@@ -38,37 +38,37 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
 
         switch (m) {
             case "writeStartElement" -> {
-                if (this.depth > 0) {
-                    this.hasChildElement.put(this.depth - 1, true);
+                if (depth > 0) {
+                    hasChildElement.put(depth - 1, true);
                 }
 
-                this.hasChildElement.put(this.depth, false);
-                this.target.writeCharacters(this.lineSeparator);
-                this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
-                this.depth++;
+                hasChildElement.put(depth, false);
+                target.writeCharacters(lineSeparator);
+                target.writeCharacters(indent(depth, INDENT_CHAR));
+                depth++;
             }
             case "writeEndElement" -> {
-                this.depth--;
+                depth--;
 
-                if (this.hasChildElement.getOrDefault(this.depth, false)) {
-                    this.target.writeCharacters(this.lineSeparator);
-                    this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
+                if (hasChildElement.getOrDefault(depth, false)) {
+                    target.writeCharacters(lineSeparator);
+                    target.writeCharacters(indent(depth, INDENT_CHAR));
                 }
             }
             case "writeEmptyElement" -> {
-                if (this.depth > 0) {
-                    this.hasChildElement.put(this.depth - 1, true);
+                if (depth > 0) {
+                    hasChildElement.put(depth - 1, true);
                 }
 
-                this.target.writeCharacters(this.lineSeparator);
-                this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
+                target.writeCharacters(lineSeparator);
+                target.writeCharacters(indent(depth, INDENT_CHAR));
             }
             default -> {
                 // Empty
             }
         }
 
-        method.invoke(this.target, args);
+        method.invoke(target, args);
 
         return null;
     }

@@ -29,45 +29,45 @@ public class GroupableTableHeader extends JTableHeader {
     }
 
     public void addColumnGroup(final GroupableColumn gc) {
-        this.columnGroups.add(gc);
+        columnGroups.add(gc);
     }
 
     public void clearColumnGroups() {
-        this.columnGroups.clear();
+        columnGroups.clear();
     }
 
     public List<Object> getColumnGroups(final TableColumn tableColumn) {
-        if (this.columnGroups == null) {
-            return null;
+        if (columnGroups == null) {
+            return Collections.emptyList();
         }
 
-        for (GroupableColumn groupableColumn : this.columnGroups) {
+        for (GroupableColumn groupableColumn : columnGroups) {
             if (groupableColumn != null) {
                 final List<Object> groups = groupableColumn.getColumnGroups(tableColumn, new ArrayList<>());
 
-                if (groups != null) {
+                if (!groups.isEmpty()) {
                     return groups;
                 }
             }
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     public void setColumnMargin() {
-        if (this.columnGroups == null) {
+        if (columnGroups == null) {
             return;
         }
 
         final int columnMargin = getColumnModel().getColumnMargin();
 
-        for (GroupableColumn groupableColumn : this.columnGroups) {
+        for (GroupableColumn groupableColumn : columnGroups) {
             groupableColumn.setColumnMargin(columnMargin);
         }
     }
 
     @Override
     public void setReorderingAllowed(final boolean b) {
-        this.reorderingAllowed = false;
+        reorderingAllowed = false;
     }
 }

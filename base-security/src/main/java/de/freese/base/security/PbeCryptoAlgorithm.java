@@ -28,7 +28,7 @@ import de.freese.base.utils.Encoding;
  */
 public final class PbeCryptoAlgorithm implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
-    private static final String FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
+    // private static final String FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
     private static final int ITERATION_COUNT = 65536;
     private static final int IV_LENGTH = 8;
     private static final int KEY_LENGTH = 256;

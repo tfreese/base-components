@@ -64,27 +64,25 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
             final TableColumn aColumn = enumeration.nextElement();
             final List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
 
-            if (columnGroups != null) {
-                int groupHeight = 0;
+            int groupHeight = 0;
 
-                for (Object col : columnGroups) {
-                    final GroupableColumn cGroup = (GroupableColumn) col;
-                    Rectangle groupRect = h.get(cGroup);
+            for (Object col : columnGroups) {
+                final GroupableColumn cGroup = (GroupableColumn) col;
+                Rectangle groupRect = h.get(cGroup);
 
-                    if (groupRect == null) {
-                        groupRect = new Rectangle(cellRect);
+                if (groupRect == null) {
+                    groupRect = new Rectangle(cellRect);
 
-                        final Dimension d = cGroup.getSize(this.header.getTable());
-                        groupRect.width = d.width;
-                        groupRect.height = d.height;
-                        h.put(cGroup, groupRect);
-                    }
-
-                    paintGroupableCell(g, groupRect, cGroup);
-                    groupHeight += groupRect.height;
-                    cellRect.height = size.height - groupHeight;
-                    cellRect.y = groupHeight;
+                    final Dimension d = cGroup.getSize(this.header.getTable());
+                    groupRect.width = d.width;
+                    groupRect.height = d.height;
+                    h.put(cGroup, groupRect);
                 }
+
+                paintGroupableCell(g, groupRect, cGroup);
+                groupHeight += groupRect.height;
+                cellRect.height = size.height - groupHeight;
+                cellRect.y = groupHeight;
             }
 
             cellRect.width = aColumn.getWidth() + columnMargin;
@@ -139,11 +137,9 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
             final List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
 
-            if (columnGroups != null) {
-                for (Object col : columnGroups) {
-                    final GroupableColumn cGroup = (GroupableColumn) col;
-                    cHeight += cGroup.getSize(this.header.getTable()).height;
-                }
+            for (Object col : columnGroups) {
+                final GroupableColumn cGroup = (GroupableColumn) col;
+                cHeight += cGroup.getSize(this.header.getTable()).height;
             }
 
             height = Math.max(height, cHeight);

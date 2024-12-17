@@ -92,7 +92,7 @@ public final class TableUtils {
     public static Object getFirstSelectedObject(final JTable table) {
         final Object[] obj = getSelectedObjects(table);
 
-        if (obj != null && obj.length > 0) {
+        if (obj.length > 0) {
             return obj[0];
         }
 

@@ -96,7 +96,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                 Icon icon = button.getIcon();
 
                 if (ExtWindowsClassicTaskPaneUI.this.group.isCollapsed() || !button.isEnabled()) {
-                    // Icon ausgrauen, wenn zugeklappt oder Button disabled
+                    // Icon ausgrauen, wenn zugeklappt oder Button disabled.
                     icon = ImageUtils.toGrayIcon(icon);
                 }
 

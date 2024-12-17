@@ -25,7 +25,6 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings({"preview", "unused"})
 public class JdbcClient {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
     private static final Pattern PATTERN_LINE_BREAKS = Pattern.compile("(\\r\\n|\\r|\\n)");

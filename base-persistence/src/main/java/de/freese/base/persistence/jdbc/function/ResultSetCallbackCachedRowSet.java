@@ -30,7 +30,7 @@ public class ResultSetCallbackCachedRowSet implements ResultSetCallback<CachedRo
 
     @Override
     public CachedRowSet doInResultSet(final ResultSet resultSet) throws SQLException {
-        final CachedRowSet rowSet = this.rowSetFactory.createCachedRowSet();
+        final CachedRowSet rowSet = rowSetFactory.createCachedRowSet();
 
         rowSet.populate(resultSet);
 

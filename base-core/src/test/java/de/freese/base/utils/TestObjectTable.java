@@ -1,8 +1,8 @@
 package de.freese.base.utils;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +28,10 @@ class TestObjectTable {
 
     @Test
     void testAddTooMuchData() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            new ObjectTable(List.of("h1", "h2", "h3")).addRow(List.of("d1", "d2", "d3", "d4"));
-        });
+        final ObjectTable objectTable = new ObjectTable(List.of("h1", "h2", "h3"));
+        final List<Object> newRows = List.of("d1", "d2", "d3", "d4");
+
+        assertThrows(IndexOutOfBoundsException.class, () -> objectTable.addRow(newRows));
     }
 
     @Test
@@ -39,8 +40,6 @@ class TestObjectTable {
         objectTable.addRow(Arrays.asList("\"d1\"", null, "d3"));
         objectTable.addRow(List.of("d1", "d2", "d3-llllllllll"));
 
-        objectTable.writeStringTable(System.out, '=', '|');
-
-        assertTrue(true);
+        assertDoesNotThrow(() -> objectTable.writeStringTable(System.out, '=', '|'));
     }
 }

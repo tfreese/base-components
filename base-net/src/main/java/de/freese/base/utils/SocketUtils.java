@@ -3,6 +3,7 @@ package de.freese.base.utils;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -44,7 +45,7 @@ public final class SocketUtils {
      */
     public static final int PORT_RANGE_MIN = 1024;
 
-    private static final Random RANDOM = new Random(System.nanoTime());
+    private static final Random RANDOM = new SecureRandom();
 
     private enum SocketType {
         TCP {
@@ -87,9 +88,9 @@ public final class SocketUtils {
          * @throws IllegalStateException if no available port could be found
          */
         int findAvailablePort(final int minPort, final int maxPort) {
-            isTrue(minPort > 0, "'minPort' must be greater than 0");
-            isTrue(maxPort >= minPort, "'maxPort' must be greater than or equal to 'minPort'");
-            isTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
+            checkTrue(minPort > 0, "'minPort' must be greater than 0");
+            checkTrue(maxPort >= minPort, "'maxPort' must be greater than or equal to 'minPort'");
+            checkTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
 
             final int portRange = maxPort - minPort;
             int candidatePort;
@@ -122,17 +123,19 @@ public final class SocketUtils {
          * @throws IllegalStateException if the requested number of available ports could not be found
          */
         SortedSet<Integer> findAvailablePorts(final int numRequested, final int minPort, final int maxPort) {
-            isTrue(minPort > 0, "'minPort' must be greater than 0");
-            isTrue(maxPort > minPort, "'maxPort' must be greater than 'minPort'");
-            isTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
-            isTrue(numRequested > 0, "'numRequested' must be greater than 0");
-            isTrue((maxPort - minPort) >= numRequested, "'numRequested' must not be greater than 'maxPort' - 'minPort'");
+            checkTrue(minPort > 0, "'minPort' must be greater than 0");
+            checkTrue(maxPort > minPort, "'maxPort' must be greater than 'minPort'");
+            checkTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
+            checkTrue(numRequested > 0, "'numRequested' must be greater than 0");
+            checkTrue((maxPort - minPort) >= numRequested, "'numRequested' must not be greater than 'maxPort' - 'minPort'");
 
             final SortedSet<Integer> availablePorts = new TreeSet<>();
-            int attemptCount = 0;
+            int attemptCount = 1;
 
-            while (++attemptCount <= numRequested + 100 && availablePorts.size() < numRequested) {
+            while (attemptCount <= numRequested + 100 && availablePorts.size() < numRequested) {
                 availablePorts.add(findAvailablePort(minPort, maxPort));
+
+                attemptCount++;
             }
 
             if (availablePorts.size() != numRequested) {
@@ -316,7 +319,7 @@ public final class SocketUtils {
      *
      * @throws IllegalArgumentException if {@code expression} is {@code false}
      */
-    private static void isTrue(final boolean expression, final String message) {
+    private static void checkTrue(final boolean expression, final String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }

@@ -28,8 +28,7 @@ public final class ExtDialogMain {
             Toolkit.getDefaultToolkit().beep();
         });
 
-        final ExtDialog dialog = new ExtDialog();
-        dialog.configure(config);
+        final ExtDialog dialog = ExtDialog.of(config);
         dialog.setVisible(true);
 
         LOGGER.info("{}", dialog.isYesOrOK());

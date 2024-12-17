@@ -21,8 +21,7 @@ public final class DialogFactory {
         config.setOptionType(optionType);
         config.setIcon(icon);
 
-        final ExtDialog dialog = new ExtDialog();
-        dialog.configure(config);
+        final ExtDialog dialog = ExtDialog.of(config);
         dialog.setVisible(show);
 
         return dialog;

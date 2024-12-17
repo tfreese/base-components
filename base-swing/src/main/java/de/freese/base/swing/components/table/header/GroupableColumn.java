@@ -32,7 +32,7 @@ public class GroupableColumn {
 
     public GroupableColumn(final TableCellRenderer renderer, final String text) {
         super();
-        
+
         if (renderer == null) {
             this.renderer = new DefaultTableCellRenderer() {
                 @Serial
@@ -69,7 +69,7 @@ public class GroupableColumn {
             return;
         }
 
-        this.columns.add(tableColumn);
+        columns.add(tableColumn);
     }
 
     public void add(final TableColumn tableColumn) {
@@ -77,26 +77,26 @@ public class GroupableColumn {
             return;
         }
 
-        this.columns.add(tableColumn);
+        columns.add(tableColumn);
     }
 
     public TableCellRenderer getHeaderRenderer() {
-        return this.renderer;
+        return renderer;
     }
 
     public Object getHeaderValue() {
-        return this.text;
+        return text;
     }
 
     public Dimension getSize(final JTable table) {
-        final Component comp = this.renderer.getTableCellRendererComponent(table, getHeaderValue(), false, false, -1, -1);
+        final Component comp = renderer.getTableCellRendererComponent(table, getHeaderValue(), false, false, -1, -1);
         final int height = comp.getPreferredSize().height;
         int width = 0;
 
-        for (Object column : this.columns) {
+        for (Object column : columns) {
             if (column instanceof TableColumn aColumn) {
                 width += aColumn.getWidth();
-                width += this.margin;
+                width += margin;
             }
             else {
                 width += ((GroupableColumn) column).getSize(table).width;
@@ -109,7 +109,7 @@ public class GroupableColumn {
     public void setColumnMargin(final int margin) {
         this.margin = margin;
 
-        for (Object column : this.columns) {
+        for (Object column : columns) {
             if (column instanceof GroupableColumn c) {
                 c.setColumnMargin(margin);
             }
@@ -129,20 +129,20 @@ public class GroupableColumn {
     List<Object> getColumnGroups(final TableColumn tableColumn, final List<Object> columns) {
         columns.add(this);
 
-        if (this.columns.contains(tableColumn)) {
+        if (columns.contains(tableColumn)) {
             return columns;
         }
 
-        for (Object column : this.columns) {
+        for (Object column : columns) {
             if (column instanceof GroupableColumn c) {
                 final List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
 
-                if (groups != null) {
+                if (!groups.isEmpty()) {
                     return groups;
                 }
             }
         }
 
-        return null;
+        return Collections.emptyList();
     }
 }

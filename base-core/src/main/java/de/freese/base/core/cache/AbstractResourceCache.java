@@ -36,20 +36,13 @@ public abstract class AbstractResourceCache implements ResourceCache {
         // final String algorithm ="SHA-1"; // 40 Zeichen
         // final String algorithm ="SHA-256"; // 64 Zeichen
         // final String algorithm ="SHA-384"; // 96 Zeichen
-        final String algorithm = "SHA-512"; // 128 Zeichen
+        // final String algorithm = "SHA-512"; // 128 Zeichen
 
         try {
-            return MessageDigest.getInstance(algorithm);
+            return MessageDigest.getInstance("SHA-512");
         }
         catch (final NoSuchAlgorithmException ex) {
-            getLogger().error("Algorithm '{}' not found, trying 'MD5'", algorithm);
-
-            try {
-                return MessageDigest.getInstance("MD5"); // 32 Zeichen
-            }
-            catch (final NoSuchAlgorithmException ex2) {
-                throw new RuntimeException(ex2);
-            }
+            throw new RuntimeException(ex);
         }
     }
 
