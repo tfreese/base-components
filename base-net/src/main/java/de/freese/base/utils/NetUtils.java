@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.ServerSocket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -35,6 +36,12 @@ public final class NetUtils {
         }
 
         return ipAddressStr.toString();
+    }
+
+    public static int findRandomOpenPort() throws IOException {
+        try (ServerSocket socket = new ServerSocket(0)) {
+            return socket.getLocalPort();
+        }
     }
 
     public static String getHostName() {
