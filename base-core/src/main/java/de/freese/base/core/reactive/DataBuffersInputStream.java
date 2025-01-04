@@ -42,11 +42,11 @@ import org.springframework.core.io.buffer.DataBufferUtils;
  */
 public class DataBuffersInputStream extends InputStream {
 
-    private static class BufferSource implements Subscriber<DataBuffer>, AutoCloseable {
+    private static final class BufferSource implements Subscriber<DataBuffer>, AutoCloseable {
         private final Queue<DataBuffer> buffers = new LinkedList<>();
 
         private Throwable error;
-        private boolean received = false;
+        private boolean received;
         private Subscription subscription;
 
         @Override

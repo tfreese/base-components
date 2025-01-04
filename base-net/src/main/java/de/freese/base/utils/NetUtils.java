@@ -80,7 +80,7 @@ public final class NetUtils {
                     while (addresses.hasMoreElements()) {
                         final InetAddress address = addresses.nextElement();
 
-                        if ((!address.isLoopbackAddress() && address instanceof Inet4Address)
+                        if (!address.isLoopbackAddress() && address instanceof Inet4Address
                                 || !address.isLinkLocalAddress()) {
                             // IPv4
                             hostName = address.getHostName();
