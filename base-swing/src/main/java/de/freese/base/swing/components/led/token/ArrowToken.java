@@ -9,7 +9,7 @@ import de.freese.base.swing.components.led.LedMatrix;
 /**
  * @author Thomas Freese
  */
-public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection> {
+public class ArrowToken extends AbstractToken {
     /**
      * @author Thomas Freese
      */
@@ -34,11 +34,18 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection> {
     }
 
     @Override
-    public void setValue(final ArrowDirection value) {
-        final String displayValue = Objects.requireNonNull(value, "value required").name();
-        setDisplayValue(displayValue);
+    public void setValue(final Object value) {
+        Objects.requireNonNull(value, "value required");
 
-        final byte[] bitMask = LedMatrix.getBitMask(value);
-        addBitMask(bitMask);
+        if (value instanceof ArrowDirection ad) {
+            final String displayValue = ad.name();
+            setDisplayValue(displayValue);
+
+            final byte[] bitMask = LedMatrix.getBitMask(value);
+            addBitMask(bitMask);
+        }
+        else {
+            throw new IllegalArgumentException("Number expected");
+        }
     }
 }

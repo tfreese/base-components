@@ -9,6 +9,8 @@ import java.io.Serial;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import de.freese.base.swing.components.led.token.Token;
 
 /**
@@ -20,7 +22,7 @@ public class LedPanel extends Component implements LedConfig {
 
     private final transient LedMatrix ledMatrix;
 
-    private final transient List<Token<?>> tokens = new LinkedList<>();
+    private final transient List<Token> tokens = new LinkedList<>();
 
     private Color colorBackground;
     private Color colorBackgroundDot;
@@ -47,50 +49,53 @@ public class LedPanel extends Component implements LedConfig {
         this.tokenGap = 2;
     }
 
-    public void addToken(final Token<?> token) {
-        this.tokens.add(token);
+    /**
+     * {@link #repaint()} is called.
+     */
+    public void addToken(final Token token) {
+        tokens.add(token);
 
         repaint();
     }
 
     @Override
     public Color getColorBackground() {
-        return this.colorBackground;
+        return colorBackground;
     }
 
     @Override
     public Color getColorBackgroundDot() {
-        return this.colorBackgroundDot;
+        return colorBackgroundDot;
     }
 
     @Override
     public int getDotHeight() {
-        return this.dotHeight;
+        return dotHeight;
     }
 
     @Override
     public int getDotWidth() {
-        return this.dotWidth;
+        return dotWidth;
     }
 
     @Override
     public int getHgap() {
-        return this.hgap;
+        return hgap;
     }
 
     @Override
     public int getTokenGap() {
-        return this.tokenGap;
+        return tokenGap;
     }
 
     @Override
-    public List<Token<?>> getTokens() {
-        return this.tokens;
+    public List<Token> getTokens() {
+        return tokens;
     }
 
     @Override
     public int getVgap() {
-        return this.vgap;
+        return vgap;
     }
 
     /**
@@ -102,29 +107,43 @@ public class LedPanel extends Component implements LedConfig {
 
         final Graphics2D g2d = (Graphics2D) g;
 
-        this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
+        ledMatrix.paint(g2d, this, getWidth(), getHeight());
     }
 
-    public void removeFirstToken() {
-        if (this.tokens.isEmpty()) {
+    public Token removeFirstToken() {
+        if (tokens.isEmpty()) {
+            return null;
+        }
+
+        final Token token = tokens.removeFirst();
+
+        doRepaint();
+
+        return token;
+    }
+
+    public void rotateToken() {
+        if (tokens.isEmpty()) {
             return;
         }
 
-        this.tokens.removeFirst();
+        final Token token = tokens.removeFirst();
+        tokens.add(token);
+
+        doRepaint();
     }
 
     public void setColorBackground(final Color colorBackground) {
         this.colorBackground = colorBackground;
 
-        repaint();
+        doRepaint();
     }
 
     // /**
     // * Nur verwenden wenn Klasse von JComponent vererbt !!!
     // */
     // @Override
-    // protected void paintComponent(final Graphics g)
-    // {
+    // protected void paintComponent(final Graphics g) {
     // // super.paintComponent(g);
     //
     // Graphics2D g2d = (Graphics2D) g;
@@ -135,34 +154,45 @@ public class LedPanel extends Component implements LedConfig {
     public void setColorBackgroundDot(final Color colorBackgroundDot) {
         this.colorBackgroundDot = colorBackgroundDot;
 
-        repaint();
+        doRepaint();
     }
 
     public void setDotHeight(final int dotHeight) {
         this.dotHeight = dotHeight;
 
-        repaint();
+        doRepaint();
     }
 
     public void setDotWidth(final int dotWidth) {
         this.dotWidth = dotWidth;
 
-        repaint();
+        doRepaint();
     }
 
     public void setHgap(final int hgap) {
         this.hgap = hgap;
 
-        repaint();
+        doRepaint();
     }
 
     public void setTokenGap(final int tokenGap) {
         this.tokenGap = tokenGap;
+
+        doRepaint();
     }
 
     public void setVgap(final int vgap) {
         this.vgap = vgap;
 
-        repaint();
+        doRepaint();
+    }
+
+    protected void doRepaint() {
+        if (SwingUtilities.isEventDispatchThread()) {
+            repaint();
+        }
+        else {
+            SwingUtilities.invokeLater(this::repaint);
+        }
     }
 }

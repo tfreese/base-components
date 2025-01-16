@@ -10,11 +10,11 @@ import de.freese.base.swing.components.led.token.Token;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Element extends Supplier<List<Token<?>>> {
+public interface Element extends Supplier<List<Token>> {
     @Override
-    default List<Token<?>> get() {
+    default List<Token> get() {
         return getTokens();
     }
 
-    List<Token<?>> getTokens();
+    List<Token> getTokens();
 }

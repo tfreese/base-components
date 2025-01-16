@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class TextToken extends AbstractToken<CharSequence> {
+public class TextToken extends AbstractToken {
     public TextToken(final CharSequence value) {
         super();
 
@@ -21,9 +21,14 @@ public class TextToken extends AbstractToken<CharSequence> {
     }
 
     @Override
-    public void setValue(final CharSequence value) {
-        final CharSequence displayValue = Objects.requireNonNull(value, "value required");
+    public void setValue(final Object value) {
+        Objects.requireNonNull(value, "value required");
 
-        createBitMasks(displayValue);
+        if (value instanceof CharSequence cs) {
+            createBitMasks(cs);
+        }
+        else {
+            throw new IllegalArgumentException("CharSequence expected");
+        }
     }
 }

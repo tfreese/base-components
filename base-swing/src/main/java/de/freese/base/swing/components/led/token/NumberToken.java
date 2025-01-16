@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class NumberToken extends AbstractToken<Number> {
+public class NumberToken extends AbstractToken {
     private final String format;
 
     public NumberToken(final Color color, final Number value, final String format) {
@@ -27,9 +27,15 @@ public class NumberToken extends AbstractToken<Number> {
     }
 
     @Override
-    public void setValue(final Number value) {
-        final String displayValue = String.format(this.format, value);
+    public void setValue(final Object value) {
+        Objects.requireNonNull(value, "value required");
 
-        createBitMasks(displayValue);
+        if (value instanceof Number n) {
+            final String displayValue = String.format(format, n);
+            createBitMasks(displayValue);
+        }
+        else {
+            throw new IllegalArgumentException("Number expected");
+        }
     }
 }

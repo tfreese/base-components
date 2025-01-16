@@ -2,6 +2,8 @@
 package de.freese.base.swing.components.led;
 
 import java.awt.Color;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -43,6 +45,8 @@ public final class LedMain {
         ledPanel.addToken(new ArrowToken(ArrowDirection.UNCHANGED));
         ledPanel.addToken(new ArrowToken(ArrowDirection.LEFT));
         ledPanel.addToken(new ArrowToken(ArrowDirection.RIGHT));
+
+        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> SwingUtilities.invokeLater(ledPanel::rotateToken), 1000, 500, TimeUnit.MILLISECONDS);
     }
 
     private LedMain() {

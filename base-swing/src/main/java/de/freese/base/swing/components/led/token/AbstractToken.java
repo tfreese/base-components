@@ -8,11 +8,9 @@ import java.util.List;
 import de.freese.base.swing.components.led.LedMatrix;
 
 /**
- * @param <V> Value Type
- *
  * @author Thomas Freese
  */
-public abstract class AbstractToken<V> implements Token<V> {
+public abstract class AbstractToken implements Token {
     private final Color color;
 
     private List<byte[]> bitMasks;
@@ -30,40 +28,41 @@ public abstract class AbstractToken<V> implements Token<V> {
 
     @Override
     public List<byte[]> getBitMasks() {
-        return this.bitMasks;
+        return bitMasks;
     }
 
     @Override
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     protected void addBitMask(final byte[] bitMask) {
-        if (this.bitMasks == null) {
-            this.bitMasks = new ArrayList<>();
+        if (bitMasks == null) {
+            bitMasks = new ArrayList<>();
         }
 
-        this.bitMasks.add(bitMask);
+        bitMasks.add(bitMask);
     }
 
     protected void createBitMasks(final CharSequence displayValue) {
         this.displayValue = displayValue;
 
-        this.bitMasks = new ArrayList<>(displayValue.length());
+        bitMasks = new ArrayList<>(displayValue.length());
 
         for (int i = 0; i < displayValue.length(); i++) {
-            byte[] bitMask = LedMatrix.getBitMask(String.valueOf(displayValue.charAt(i)));
+            final char c = displayValue.charAt(i);
+            byte[] bitMask = LedMatrix.getBitMask(String.valueOf(c));
 
             if (bitMask == null) {
                 bitMask = LedMatrix.getBitMask("?");
             }
 
-            this.bitMasks.add(bitMask);
+            bitMasks.add(bitMask);
         }
     }
 
     protected CharSequence getDisplayValue() {
-        return this.displayValue;
+        return displayValue;
     }
 
     protected void setDisplayValue(final CharSequence displayValue) {

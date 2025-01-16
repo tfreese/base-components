@@ -170,7 +170,7 @@ public class LedMatrix implements Painter<LedConfig> {
             for (int row = 0; row < ledDots.length; row++) {
                 final byte b = ledDots[row][col];
 
-                mask |= b << row;
+                mask |= (b << row);
             }
 
             bitMask[col] = mask;
@@ -195,7 +195,7 @@ public class LedMatrix implements Painter<LedConfig> {
     public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height) {
         int x = config.getDotWidth() + config.getHgap();
 
-        for (Token<?> token : config.getTokens()) {
+        for (Token token : config.getTokens()) {
             x = paintToken(g, config, width, height, token, x);
 
             if (x >= width) {
@@ -242,7 +242,7 @@ public class LedMatrix implements Painter<LedConfig> {
         // }
     }
 
-    protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token<?> token, final int x) {
+    protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token token, final int x) {
         final int dotWidth = config.getDotWidth();
         final int hGap = config.getHgap();
         final int tokenGap = config.getTokenGap();
@@ -253,7 +253,7 @@ public class LedMatrix implements Painter<LedConfig> {
         int transformedX = x;
 
         for (byte[] bitMask : token.getBitMasks()) {
-            transformedX = paintTokenDots(g, config, width, height, bitMask, x);
+            transformedX = paintTokenDots(g, config, width, height, bitMask, transformedX);
 
             if (transformedX >= width) {
                 break;
@@ -279,7 +279,7 @@ public class LedMatrix implements Painter<LedConfig> {
                 if (((mask & 0xFF) & (1 << row)) != 0) {
                     final int y = (row + topInset) * (dotHeight + vGap);
 
-                    g.fillRect(x, y, dotWidth, dotHeight);
+                    g.fillRect(transformedX, y, dotWidth, dotHeight);
                 }
             }
 
