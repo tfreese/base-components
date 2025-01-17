@@ -37,28 +37,24 @@ subprojects {
 
         dependencies {
             dependency("com.github.librepdf:openpdf:$version_openpdf")
+            dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
             dependency("commons-net:commons-net:$version_commonsNet")
-
             dependency("dev.failsafe:failsafe:$version_failsafe")
-
             dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
                 entry "bcpg-jdk18on"
                 entry "bcmail-jdk18on"
             }
-
             dependency("org.apache.poi:poi-ooxml:$version_poi")
             dependency("org.apache.sshd:sshd-core:$version_sshd")
-
+            dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 // exclude "com.lowagie:itext"
                 // exclude "xml-apis:xml-apis"
             }
-
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
                 entry "jmh-core"
                 entry "jmh-generator-annprocess"
             }
-
             dependency("org.swinglabs.swingx:swingx-core:$version_swingx")
         }
     }
@@ -77,6 +73,12 @@ subprojects {
                 transitive = false
             }
 
+            // To avoid compiler warnings about @API annotations in Log4j Code.
+            // testCompileOnly("com.github.spotbugs:spotbugs-annotations")
+
+            // To avoid compiler warnings about @API annotations in JUnit Code.
+            // testCompileOnly("org.apiguardian:apiguardian-api")
+
             testRuntimeOnly("org.junit.platform:junit-platform-launcher")
             testRuntimeOnly("org.slf4j:slf4j-simple")
         }
@@ -87,7 +89,6 @@ subprojects {
         test {
             doFirst {
                 jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
-                // jvmArgs += "-Xshare:off"
                 // jvmArgs += "-XX:+EnableDynamicAgentLoading"
             }
         }

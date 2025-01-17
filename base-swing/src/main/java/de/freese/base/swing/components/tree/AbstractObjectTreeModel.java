@@ -16,9 +16,9 @@ import javax.swing.tree.TreePath;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractObjectTreeModel implements TreeModel {
+public abstract class AbstractObjectTreeModel<T> implements TreeModel {
     private final EventListenerList eventListenerList = new EventListenerList();
-    private final Map<Object, List<?>> treeCache = new HashMap<>();
+    private final Map<Object, List<T>> treeCache = new HashMap<>();
 
     @Override
     public void addTreeModelListener(final TreeModelListener listener) {
@@ -343,7 +343,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
     /**
      * Liefert für einen Parent die entsprechende {@link List} der Child-Objekte.
      */
-    protected abstract List<?> getChildren(Object parent);
+    protected abstract List<T> getChildren(Object parent);
 
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.
@@ -376,7 +376,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         return found;
     }
 
-    protected Map<Object, List<?>> getTreeCache() {
+    protected Map<Object, List<T>> getTreeCache() {
         return treeCache;
     }
 }
