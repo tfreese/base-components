@@ -103,6 +103,55 @@ dependencyCheck {
     // scanProjects = [":core"]
     // skipProjects = [":core"]
     // outputDirectory = "build/security-report"
+    failOnError = false
+
+    // < 9.x
+    // cve {
+    //     urlBase = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-%d.json.gz
+    //     urlModified = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-modified.json.gz
+    // }
+    //
+    // >= 9.x
+    // nvd {
+    //     datafeedUrl = https://HOST:PORT/CONTEXT/nvd-nist-2.0-public/cache/nvdcve-{0}.json.gz
+    //     maxRetryCount = 3
+    // }
+    //
+    // hostedSuppressions {
+    //     forceupdate = true
+    //     url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
+    // }
+    //
+    // analyzers {
+    //     centralEnabled = false
+    //     nexusEnabled = false
+    //     assemblyEnabled = false
+    //     golangDepEnabled = false
+    //     golangModEnabled = false
+    //
+    //     // < 12.x
+    //     // knownExploitedEnabled = true
+    //     // knownExploitedURL = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
+    //
+    //     artifactory {
+    //         enabled = true
+    //         url = https://HOST:PORT/CONTEXT
+    //         parallelAnalysis = true
+    //     }
+    //
+    //     nodeAudit {
+    //         enabled = false
+    //     }
+    //
+    //     // ossIndex {
+    //     //     enabled = false
+    //     // }
+    //
+    //     retirejs {
+    //         enabled = true
+    //         retireJsUrl = https://HOST:PORT/CONTEXT/github-retirejs/master/repository/jsrepository.json
+    //     }
+    // }
 }
 
 // --info -Psonar_token=TOKEN
