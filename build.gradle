@@ -41,19 +41,19 @@ subprojects {
             dependency("commons-net:commons-net:$version_commonsNet")
             dependency("dev.failsafe:failsafe:$version_failsafe")
             dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
-                entry "bcpg-jdk18on"
-                entry "bcmail-jdk18on"
+                entry("bcpg-jdk18on")
+                entry("bcmail-jdk18on")
             }
             dependency("org.apache.poi:poi-ooxml:$version_poi")
             dependency("org.apache.sshd:sshd-core:$version_sshd")
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
-                // exclude "com.lowagie:itext"
-                // exclude "xml-apis:xml-apis"
+                // exclude("com.lowagie:itext")
+                // exclude("xml-apis:xml-apis")
             }
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
-                entry "jmh-core"
-                entry "jmh-generator-annprocess"
+                entry("jmh-core")
+                entry("jmh-generator-annprocess")
             }
             dependency("org.swinglabs.swingx:swingx-core:$version_swingx")
         }
@@ -106,52 +106,32 @@ dependencyCheck {
     failOnError = false
 
     // < 9.x
-    // cve {
-    //     urlBase = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-%d.json.gz
-    //     urlModified = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-modified.json.gz
-    // }
+    // cve.urlBase = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-%d.json.gz
+    // cve.urlModified = https://HOST:PORT/CONTEXT/nvd-nist-public/json/cve/1.1/nvdcve-1.1-modified.json.gz
     //
     // >= 9.x
-    // nvd {
-    //     datafeedUrl = https://HOST:PORT/CONTEXT/nvd-nist-2.0-public/cache/nvdcve-{0}.json.gz
-    //     maxRetryCount = 3
-    // }
-    //
-    // hostedSuppressions {
-    //     forceupdate = true
-    //     url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
-    // }
-    //
-    // analyzers {
-    //     centralEnabled = false
-    //     nexusEnabled = false
-    //     assemblyEnabled = false
-    //     golangDepEnabled = false
-    //     golangModEnabled = false
-    //
-    //     // < 12.x
-    //     // knownExploitedEnabled = true
-    //     // knownExploitedURL = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
-    //
-    //     artifactory {
-    //         enabled = true
-    //         url = https://HOST:PORT/CONTEXT
-    //         parallelAnalysis = true
-    //     }
-    //
-    //     nodeAudit {
-    //         enabled = false
-    //     }
-    //
-    //     // ossIndex {
-    //     //     enabled = false
-    //     // }
-    //
-    //     retirejs {
-    //         enabled = true
-    //         retireJsUrl = https://HOST:PORT/CONTEXT/github-retirejs/master/repository/jsrepository.json
-    //     }
-    // }
+    // nvd.datafeedUrl = https://HOST:PORT/CONTEXT/nvd-nist-2.0-public/cache/nvdcve-{0}.json.gz
+    nvd.maxRetryCount = 3
+
+    // hostedSuppressions.url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
+    // hostedSuppressions.forceupdate = true
+
+    // // analyzers.centralEnabled = false
+    // // analyzers.nexusEnabled = false
+    // analyzers.assemblyEnabled = false
+    // // analyzers.golangDepEnabled = false
+    // // analyzers.golangModEnabled = false
+
+    // analyzers.artifactory.enabled = true
+    // analyzers.artifactory.url = https://HOST:PORT/CONTEXT
+    // analyzers.artifactory.parallelAnalysis = true
+
+    // analyzers.nodeAudit.enabled = false
+
+    // // analyzers.ossIndex.enabled = false
+
+    // analyzers.retirejs.enabled = true
+    // analyzers.retirejs.retireJsUrl = https://HOST:PORT/CONTEXT/github-retirejs/master/repository/jsrepository.json
 }
 
 // --info -Psonar_token=TOKEN

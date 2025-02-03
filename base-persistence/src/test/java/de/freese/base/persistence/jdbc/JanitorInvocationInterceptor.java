@@ -34,7 +34,9 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
                 .findFirst()
                 .orElse(null);
 
-        createTable(serverExtension, jdbcClient);
+        if (serverExtension != null && jdbcClient != null) {
+            createTable(serverExtension, jdbcClient);
+        }
 
         try {
             invocation.proceed();
