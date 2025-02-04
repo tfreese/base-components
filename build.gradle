@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
     id "de.freese.gradle.java.conventions" version "$version_myJavaConventionPlugin" apply false
@@ -30,7 +32,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+            mavenBom(SpringBootPlugin.BOM_COORDINATES)
             // mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
         }
@@ -116,15 +118,18 @@ dependencyCheck {
     // hostedSuppressions.url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
     // hostedSuppressions.forceupdate = true
 
-    // // analyzers.centralEnabled = false
-    // // analyzers.nexusEnabled = false
     // analyzers.assemblyEnabled = false
-    // // analyzers.golangDepEnabled = false
-    // // analyzers.golangModEnabled = false
 
     // analyzers.artifactory.enabled = true
     // analyzers.artifactory.url = https://HOST:PORT/CONTEXT
     // analyzers.artifactory.parallelAnalysis = true
+
+    // // analyzers.centralEnabled = false
+
+    // // analyzers.golangDepEnabled = false
+    // // analyzers.golangModEnabled = false
+
+    // // analyzers.nexusEnabled = false
 
     // analyzers.nodeAudit.enabled = false
 
@@ -140,7 +145,7 @@ sonar {
 
     properties {
         property("sonar.host.url", "http://localhost:9000")
-        property("sonar.token", "sqp_463a5e10518ecf572cbb5fdff9d52103f0c7bd44")
+        property("sonar.token", "...")
         // property("sonar.login", sonar_token)
         // property("sonar.password", sonar_password)
         property("sonar.projectName", "base-components")
