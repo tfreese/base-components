@@ -115,6 +115,7 @@ dependencyCheck {
     // nvd.datafeedUrl = https://HOST:PORT/CONTEXT/nvd-nist-2.0-public/cache/nvdcve-{0}.json.gz
     nvd.maxRetryCount = 3
 
+    // hostedSuppressions.enabled = true
     // hostedSuppressions.url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
     // hostedSuppressions.forceupdate = true
 
@@ -128,6 +129,14 @@ dependencyCheck {
 
     // // analyzers.golangDepEnabled = false
     // // analyzers.golangModEnabled = false
+
+    // < 12.x
+    // analyzers.knownExploitedEnabled = true
+    // analyzers.knownExploitedURL = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
+
+    // >= 12.x
+    // analyzers.kev.enabled = true
+    // analyzers.kev.url = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
 
     // // analyzers.nexusEnabled = false
 

@@ -27,6 +27,6 @@ public final class FailsafeThrottlerAdapter implements Throttler {
 
     @Override
     public synchronized long reservePermits(final int permits) {
-        return this.rateLimiter.reservePermits(permits).toNanos();
+        return rateLimiter.reservePermits(permits).toNanos();
     }
 }

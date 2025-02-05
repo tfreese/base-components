@@ -5,7 +5,6 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import de.freese.base.core.throttle.Throttler;
 
@@ -17,7 +16,6 @@ public class ThrottledInputStream extends FilterInputStream {
     private final Throttler throttler;
 
     private long bytesRead;
-    private long sleepTimeNanos;
 
     public ThrottledInputStream(final InputStream inputStream, final Throttler throttler) {
         super(inputStream);
@@ -26,11 +24,7 @@ public class ThrottledInputStream extends FilterInputStream {
     }
 
     public long getBytesRead() {
-        return this.bytesRead;
-    }
-
-    public long getSleepTimeNanos() {
-        return this.sleepTimeNanos;
+        return bytesRead;
     }
 
     @Override
@@ -40,7 +34,7 @@ public class ThrottledInputStream extends FilterInputStream {
         final int data = super.read();
 
         if (data != -1) {
-            this.bytesRead++;
+            bytesRead++;
         }
 
         return data;
@@ -86,31 +80,28 @@ public class ThrottledInputStream extends FilterInputStream {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("throttle=").append(this.throttler);
-        sb.append(", bytesRead=").append(this.bytesRead);
-        sb.append(", sleepTimeNanos=").append(TimeUnit.NANOSECONDS.toMillis(getSleepTimeNanos()));
+        sb.append("throttle=").append(throttler);
+        sb.append(", bytesRead=").append(bytesRead);
         sb.append("]");
 
         return sb.toString();
     }
 
-    protected InputStream getDelegate() {
-        return this.in;
-    }
-
     private void throttle(final int permits) {
-        final long waitNanos = this.throttler.reservePermits(permits);
+        throttler.acquirePermits(permits);
 
-        if (waitNanos > 0L) {
-            try {
-                TimeUnit.NANOSECONDS.sleep(waitNanos);
-            }
-            catch (InterruptedException ex) {
-                // Preserve interrupt status
-                Thread.currentThread().interrupt();
-            }
-
-            this.sleepTimeNanos += waitNanos;
-        }
+        // final long waitNanos = throttler.reservePermits(permits);
+        //
+        // if (waitNanos > 0L) {
+        //     try {
+        //         TimeUnit.NANOSECONDS.sleep(waitNanos);
+        //     }
+        //     catch (InterruptedException ex) {
+        //         // Preserve interrupt status
+        //         Thread.currentThread().interrupt();
+        //     }
+        //
+        //     sleepTimeNanos += waitNanos;
+        // }
     }
 }
