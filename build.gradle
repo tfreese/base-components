@@ -115,20 +115,17 @@ dependencyCheck {
     // nvd.datafeedUrl = https://HOST:PORT/CONTEXT/nvd-nist-2.0-public/cache/nvdcve-{0}.json.gz
     nvd.maxRetryCount = 3
 
-    // hostedSuppressions.enabled = true
+    hostedSuppressions.enabled = true
     // hostedSuppressions.url = https://HOST:PORT/CONTEXT/github-dependencycheck/gh-pages/suppressions/publishedSuppressions.xml
-    // hostedSuppressions.forceupdate = true
+    hostedSuppressions.forceupdate = true
 
-    // analyzers.assemblyEnabled = false
+    analyzers.assemblyEnabled = false // .NET Analyzer.
+    analyzers.centralEnabled = false // Needs Internet Access, but all Information is already supported by the GradlePlugin.
+    analyzers.nexusEnabled = false // Needs NexusPro.
 
     // analyzers.artifactory.enabled = true
     // analyzers.artifactory.url = https://HOST:PORT/CONTEXT
     // analyzers.artifactory.parallelAnalysis = true
-
-    // // analyzers.centralEnabled = false
-
-    // // analyzers.golangDepEnabled = false
-    // // analyzers.golangModEnabled = false
 
     // < 12.x
     // analyzers.knownExploitedEnabled = true
@@ -138,11 +135,10 @@ dependencyCheck {
     // analyzers.kev.enabled = true
     // analyzers.kev.url = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
 
-    // // analyzers.nexusEnabled = false
+    analyzers.nodeAudit.enabled = false // Needs Internet Access.
 
-    // analyzers.nodeAudit.enabled = false
-
-    // // analyzers.ossIndex.enabled = false
+    analyzers.ossIndex.enabled = true // Needs Internet Access.
+    analyzers.ossIndex.warnOnlyOnRemoteErrors = true
 
     // analyzers.retirejs.enabled = true
     // analyzers.retirejs.retireJsUrl = https://HOST:PORT/CONTEXT/github-retirejs/master/repository/jsrepository.json
