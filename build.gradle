@@ -120,8 +120,8 @@ dependencyCheck {
     hostedSuppressions.forceupdate = true
 
     analyzers.assemblyEnabled = false // .NET Analyzer.
-    analyzers.centralEnabled = false // Needs Internet Access, but all Information is already supported by the GradlePlugin.
-    analyzers.nexusEnabled = false // Needs NexusPro.
+    analyzers.centralEnabled = false // Requires Internet Access, but all Information is already supported by the GradlePlugin.
+    analyzers.nexusEnabled = false // Requires NexusPro.
 
     // analyzers.artifactory.enabled = true
     // analyzers.artifactory.url = https://HOST:PORT/CONTEXT
@@ -135,9 +135,9 @@ dependencyCheck {
     // analyzers.kev.enabled = true
     // analyzers.kev.url = https://HOST:PORT/CONTEXT/cisa-public/sites/default/files/feeds/known_exploited_vulnerabilities.json
 
-    analyzers.nodeAudit.enabled = false // Needs Internet Access.
+    analyzers.nodeAudit.enabled = false // Requires Internet Access.
 
-    analyzers.ossIndex.enabled = true // Needs Internet Access.
+    analyzers.ossIndex.enabled = true // Requires Internet Access.
     analyzers.ossIndex.warnOnlyOnRemoteErrors = true
 
     // analyzers.retirejs.enabled = true
