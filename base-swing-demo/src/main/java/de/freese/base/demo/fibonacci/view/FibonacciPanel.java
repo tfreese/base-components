@@ -69,9 +69,9 @@ class FibonacciPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder());
 
         add(getLabel(), GbcBuilder.of(0, 0));
-        add(getTextField(), GbcBuilder.of(1, 0).gridwidth(3).anchorWest().fillHorizontal());
-        add(getButtonGlassPaneBlock(), GbcBuilder.of(0, 1).gridwidth(2).fillHorizontal());
-        add(getButtonComponentBlock(), GbcBuilder.of(2, 1).gridwidth(2).fillHorizontal());
-        add(getLabelResult(), GbcBuilder.of(0, 2).gridwidth(4).anchorCenter().fillVertical());
+        add(getTextField(), GbcBuilder.of(1, 0).gridWidth(3).anchorWest().fillHorizontal());
+        add(getButtonGlassPaneBlock(), GbcBuilder.of(0, 1).gridWidth(2).fillHorizontal());
+        add(getButtonComponentBlock(), GbcBuilder.of(2, 1).gridWidth(2).fillHorizontal());
+        add(getLabelResult(), GbcBuilder.of(0, 2).gridWidth(4).anchorCenter().fillVertical());
     }
 }

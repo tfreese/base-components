@@ -23,7 +23,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     @Override
     public Dimension getPreferredSize(final JComponent c) {
         long width = 0;
-        final Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
+        final Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
 
         while (enumeration.hasMoreElements()) {
             final TableColumn aColumn = enumeration.nextElement();
@@ -37,7 +37,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     public void paint(final Graphics g, final JComponent c) {
         final Rectangle clipBounds = g.getClipBounds();
 
-        if (this.header.getColumnModel() == null) {
+        if (header.getColumnModel() == null) {
             return;
         }
 
@@ -46,38 +46,38 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         // ((GroupableTableHeader) this.header).setColumnMargin();
 
         int column = 0;
-        final Dimension size = this.header.getSize();
+        final Dimension size = header.getSize();
         final Rectangle cellRect = new Rectangle(0, 0, size.width, size.height);
-        final Map<GroupableColumn, Rectangle> h = new HashMap<>();
+        final Map<GroupableColumn, Rectangle> map = new HashMap<>();
 
         // int columnMargin = this.header.getColumnModel().getColumnMargin();
 
         // Fehler bei columnMargin > 0 werden die Header nicht mehr bündig zu den Columns gemalt!
         final int columnMargin = 0;
 
-        final Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
+        final Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
 
         while (enumeration.hasMoreElements()) {
             cellRect.height = size.height;
             cellRect.y = 0;
 
             final TableColumn aColumn = enumeration.nextElement();
-            final List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
+            final List<Object> columnGroups = ((GroupableTableHeader) header).getColumnGroups(aColumn);
 
             int groupHeight = 0;
 
             for (Object col : columnGroups) {
                 final GroupableColumn cGroup = (GroupableColumn) col;
-                Rectangle groupRect = h.get(cGroup);
 
-                if (groupRect == null) {
-                    groupRect = new Rectangle(cellRect);
+                final Rectangle groupRect = map.computeIfAbsent(cGroup, key -> {
+                    final Rectangle rectangle = new Rectangle(cellRect);
 
-                    final Dimension d = cGroup.getSize(this.header.getTable());
-                    groupRect.width = d.width;
-                    groupRect.height = d.height;
-                    h.put(cGroup, groupRect);
-                }
+                    final Dimension d = key.getSize(header.getTable());
+                    rectangle.width = d.width;
+                    rectangle.height = d.height;
+
+                    return rectangle;
+                });
 
                 paintGroupableCell(g, groupRect, cGroup);
                 groupHeight += groupRect.height;
@@ -95,13 +95,13 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
             column++;
         }
 
-        h.clear();
+        map.clear();
     }
 
     private Dimension createGroupableHeaderSize(final long width) {
         long w = width;
 
-        final TableColumnModel columnModel = this.header.getColumnModel();
+        final TableColumnModel columnModel = header.getColumnModel();
         w += (long) columnModel.getColumnMargin() * columnModel.getColumnCount();
 
         if (w > Integer.MAX_VALUE) {
@@ -117,7 +117,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         // }
 
         int height = 0;
-        final TableColumnModel columnModel = this.header.getColumnModel();
+        final TableColumnModel columnModel = header.getColumnModel();
 
         for (int column = 0; column < columnModel.getColumnCount(); column++) {
             final TableColumn aColumn = columnModel.getColumn(column);
@@ -135,11 +135,11 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
             // }
             int cHeight = getHeaderRendererComponent(column).getPreferredSize().height;
 
-            final List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
+            final List<Object> columnGroups = ((GroupableTableHeader) header).getColumnGroups(aColumn);
 
             for (Object col : columnGroups) {
                 final GroupableColumn cGroup = (GroupableColumn) col;
-                cHeight += cGroup.getSize(this.header.getTable()).height;
+                cHeight += cGroup.getSize(header.getTable()).height;
             }
 
             height = Math.max(height, cHeight);
@@ -149,21 +149,21 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     }
 
     private Component getHeaderRendererComponent(final int columnIndex) {
-        final TableColumn aColumn = this.header.getColumnModel().getColumn(columnIndex);
+        final TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);
         TableCellRenderer renderer = aColumn.getHeaderRenderer();
 
         if (renderer == null) {
-            renderer = this.header.getDefaultRenderer();
+            renderer = header.getDefaultRenderer();
         }
 
-        return renderer.getTableCellRendererComponent(this.header.getTable(), aColumn.getHeaderValue(), false, false, -1, columnIndex);
+        return renderer.getTableCellRendererComponent(header.getTable(), aColumn.getHeaderValue(), false, false, -1, columnIndex);
     }
 
     private void paintGroupableCell(final Graphics g, final Rectangle cellRect, final GroupableColumn cGroup) {
         final TableCellRenderer renderer = cGroup.getHeaderRenderer();
-        final Component component = renderer.getTableCellRendererComponent(this.header.getTable(), cGroup.getHeaderValue(), false, false, -1, -1);
-        this.rendererPane.add(component);
-        this.rendererPane.paintComponent(g, component, this.header, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
+        final Component component = renderer.getTableCellRendererComponent(header.getTable(), cGroup.getHeaderValue(), false, false, -1, -1);
+        rendererPane.add(component);
+        rendererPane.paintComponent(g, component, header, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
     }
 
     private void paintGroupableCell(final Graphics g, final Rectangle cellRect, final int columnIndex) {
@@ -176,7 +176,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         // columnIndex
         // );
         final Component component = getHeaderRendererComponent(columnIndex);
-        this.rendererPane.add(component);
-        this.rendererPane.paintComponent(g, component, this.header, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
+        rendererPane.add(component);
+        rendererPane.paintComponent(g, component, header, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
     }
 }

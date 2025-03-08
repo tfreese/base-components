@@ -89,7 +89,7 @@ public final class ExtDialog {
             messageComponent = (Component) config.getMessage();
         }
 
-        final GridBagConstraints gbc = GbcBuilder.of(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
+        final GridBagConstraints gbc = GbcBuilder.of(1, 0).insets(10, 10, 10, 10).gridHeight(2).anchorNorthWest();
         dialog.add(messageComponent, gbc);
     }
 
@@ -282,7 +282,7 @@ public final class ExtDialog {
             buttonPanel.add(button);
         }
 
-        final GridBagConstraints gbc = GbcBuilder.of(0, 2).gridwidth(2).insets(10, 10, 10, 10);
+        final GridBagConstraints gbc = GbcBuilder.of(0, 2).gridWidth(2).insets(10, 10, 10, 10);
         dialog.add(buttonPanel, gbc);
     }
 

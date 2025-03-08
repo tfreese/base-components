@@ -277,13 +277,13 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     protected void populateExcelExport(final JPanel panel) {
         final Action action = createExcelExportAction();
 
-        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
+        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridWidth(GridBagConstraints.REMAINDER);
         panel.add(new JButton(action), gbc);
     }
 
     protected void populatePackAll(final JPanel panel) {
         final Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
-        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
+        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridWidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
         panel.add(new JButton(action), gbc);
     }
 

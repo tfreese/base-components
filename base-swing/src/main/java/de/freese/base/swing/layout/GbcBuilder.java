@@ -18,24 +18,22 @@ public final class GbcBuilder extends GridBagConstraints {
      * Defaults:
      * <ul>
      * <li>fill = NONE</li>
-     * <li>weightx = 0.0D</li>
-     * <li>weighty = 0.0D</li>
+     * <li>weightX = 0.0D</li>
+     * <li>weightY = 0.0D</li>
      * <li>insets = new Insets(5, 5, 5, 5)</li>
      * </ul>
      */
-    public static GbcBuilder of(final int gridx, final int gridy) {
-        final GbcBuilder gbcBuilder = new GbcBuilder(gridx, gridy);
-        gbcBuilder.fillNone();
-        gbcBuilder.insets(5, 5, 5, 5);
-
-        return gbcBuilder;
+    public static GbcBuilder of(final int gridX, final int gridY) {
+        return new GbcBuilder(gridX, gridY)
+                .fillNone()
+                .insets(5, 5, 5, 5);
     }
 
-    private GbcBuilder(final int gridx, final int gridy) {
+    private GbcBuilder(final int gridX, final int gridY) {
         super();
 
-        this.gridx = gridx;
-        this.gridy = gridy;
+        this.gridx = gridX;
+        this.gridy = gridY;
     }
 
     public GbcBuilder anchorCenter() {
@@ -83,15 +81,15 @@ public final class GbcBuilder extends GridBagConstraints {
     /**
      * Defaults:
      * <ul>
-     * <li>weightx = 1.0D</li>
-     * <li>weighty = 1.0D</li>
+     * <li>weightX = 1.0D</li>
+     * <li>weightY = 1.0D</li>
      * </ul>
      */
     public GbcBuilder fillBoth() {
         this.fill = BOTH;
 
-        weightx(1.0D);
-        weighty(1.0D);
+        weightX(1.0D);
+        weightY(1.0D);
 
         return this;
     }
@@ -99,15 +97,15 @@ public final class GbcBuilder extends GridBagConstraints {
     /**
      * Defaults:
      * <ul>
-     * <li>weightx = 1.0D</li>
-     * <li>weighty = 0.0D</li>
+     * <li>weightX = 1.0D</li>
+     * <li>weightY = 0.0D</li>
      * </ul>
      */
     public GbcBuilder fillHorizontal() {
         this.fill = HORIZONTAL;
 
-        weightx(1.0D);
-        weighty(0.0D);
+        weightX(1.0D);
+        weightY(0.0D);
 
         return this;
     }
@@ -115,15 +113,15 @@ public final class GbcBuilder extends GridBagConstraints {
     /**
      * Defaults:
      * <ul>
-     * <li>weightx = 0.0D</li>
-     * <li>weighty = 0.0D</li>
+     * <li>weightX = 0.0D</li>
+     * <li>weightY = 0.0D</li>
      * </ul>
      */
     public GbcBuilder fillNone() {
         this.fill = NONE;
 
-        weightx(0.0D);
-        weighty(0.0D);
+        weightX(0.0D);
+        weightY(0.0D);
 
         return this;
     }
@@ -131,27 +129,27 @@ public final class GbcBuilder extends GridBagConstraints {
     /**
      * Defaults:
      * <ul>
-     * <li>weightx = 0.0D</li>
-     * <li>weighty = 1.0D</li>
+     * <li>weightX = 0.0D</li>
+     * <li>weightY = 1.0D</li>
      * </ul>
      */
     public GbcBuilder fillVertical() {
         this.fill = VERTICAL;
 
-        weightx(0.0D);
-        weighty(1.0D);
+        weightX(0.0D);
+        weightY(1.0D);
 
         return this;
     }
 
-    public GbcBuilder gridheight(final int gridheight) {
-        this.gridheight = gridheight;
+    public GbcBuilder gridHeight(final int gridHeight) {
+        this.gridheight = gridHeight;
 
         return this;
     }
 
-    public GbcBuilder gridwidth(final int gridwidth) {
-        this.gridwidth = gridwidth;
+    public GbcBuilder gridWidth(final int gridWidth) {
+        this.gridwidth = gridWidth;
 
         return this;
     }
@@ -168,14 +166,14 @@ public final class GbcBuilder extends GridBagConstraints {
         return this;
     }
 
-    public GbcBuilder weightx(final double weightx) {
-        this.weightx = weightx;
+    public GbcBuilder weightX(final double weightX) {
+        this.weightx = weightX;
 
         return this;
     }
 
-    public GbcBuilder weighty(final double weighty) {
-        this.weighty = weighty;
+    public GbcBuilder weightY(final double weightY) {
+        this.weighty = weightY;
 
         return this;
     }

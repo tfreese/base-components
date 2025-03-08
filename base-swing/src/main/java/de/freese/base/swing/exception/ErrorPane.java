@@ -440,19 +440,19 @@ public final class ErrorPane extends JPanel {
 
         add(getLabelIcon(), GbcBuilder.of(0, 0).anchorNorthWest().insets(10, 10, 10, 20));
 
-        add(getScrollPaneMessage(), GbcBuilder.of(1, 0).gridwidth(3).fillHorizontal());
+        add(getScrollPaneMessage(), GbcBuilder.of(1, 0).gridWidth(3).fillHorizontal());
 
-        add(getButtonClose(), GbcBuilder.of(1, 1).weightx(1));
+        add(getButtonClose(), GbcBuilder.of(1, 1).weightX(1));
         // getButtonClose().setBorder(BorderFactory.createLineBorder(Color.RED));
 
-        add(getButtonSend(), GbcBuilder.of(2, 1).weightx(1));
+        add(getButtonSend(), GbcBuilder.of(2, 1).weightX(1));
         getButtonSend().setEnabled(enableSendMail);
         // getButtonSend().setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-        add(getButtonDetails(), GbcBuilder.of(3, 1).weightx(1));
+        add(getButtonDetails(), GbcBuilder.of(3, 1).weightX(1));
         // getButtonDetails().setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        add(getDetailPanel(), GbcBuilder.of(1, 2).gridwidth(3).fillBoth());
+        add(getDetailPanel(), GbcBuilder.of(1, 2).gridWidth(3).fillBoth());
 
         getDetailPanel().setVisible(false);
 

@@ -32,7 +32,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     private final transient Icon idleIcon;
     private final Timer messageTimer;
     private final Insets zeroInsets = new Insets(0, 0, 0, 0);
-    
+
     private int busyIconIndex;
     private JLabel messageLabel;
     private JProgressBar progressBar;
@@ -75,7 +75,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
         this.statusAnimationLabel.setIcon(this.idleIcon);
 
         add(new JSeparator(),
-                GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
+                GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridWidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
 
         add(this.messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 

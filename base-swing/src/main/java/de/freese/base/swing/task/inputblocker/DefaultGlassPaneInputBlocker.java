@@ -46,19 +46,19 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
 
         // GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
         // gbc.fill = GridBagConstraints.NONE;
-        // gbc.weighty = 0;
+        // gbc.weightY = 0;
         // gbc.insets = new Insets(5, 5, 0, 5);
         getGlassPane().add(this.labelTitle, GbcBuilder.of(0, 0));
 
         // gbc = GuiUtils.getGBC(0, 1);
         // gbc.fill = GridBagConstraints.NONE;
-        // gbc.weighty = 0;
+        // gbc.weightY = 0;
         // gbc.insets = new Insets(0, 5, 0, 5);
         getGlassPane().add(this.progressBar, GbcBuilder.of(0, 1));
 
         // gbc = GuiUtils.getGBC(0, 2);
         // gbc.fill = GridBagConstraints.NONE;
-        // gbc.weighty = 0;
+        // gbc.weightY = 0;
         // gbc.insets = new Insets(0, 5, 0, 5);
         getGlassPane().add(this.labelSubTitle, GbcBuilder.of(0, 2));
     }
