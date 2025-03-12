@@ -1,14 +1,11 @@
 package de.freese.base.swing.components.datepicker;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.AbstractCellEditor;
-import javax.swing.CellEditor;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
@@ -25,70 +22,33 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     @Serial
     private static final long serialVersionUID = 1L;
 
-    // /**
-    // * @author Thomas Freese
-    // */
-    // private class EnterAction extends AbstractAction
-    // {
-
-    // private static final long serialVersionUID = 1L;
-
-    // public static final String ID = "EnterAction";
-    //
-    // public void actionPerformed(ActionEvent e)
-    // {
-    // stopCellEditing();
-    // }
-    // }
-
-    /**
-     * @author Thomas Freese
-     */
-    public static class DatePickerCommitListener implements ActionListener {
-        private final CellEditor cellEditor;
-
-        public DatePickerCommitListener(final CellEditor cellEditor) {
-            super();
-
-            this.cellEditor = cellEditor;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand())) {
-                this.cellEditor.stopCellEditing();
-            }
-        }
-    }
-
     private final DatePicker datePicker;
 
     public DatePickerCellEditor(final DatePicker datePicker) {
         super();
 
         this.datePicker = datePicker;
-        this.datePicker.addActionListener(new DatePickerCommitListener(this));
-
-        // datePicker.getActionMap().put(JXDatePicker.COMMIT_KEY, new EnterAction());
-        // datePicker.getInputMap().put(
-        // KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.VK_UNDEFINED), JXDatePicker.COMMIT_KEY
-        // );
+        this.datePicker.addActionListener(event -> {
+            if (JXDatePicker.COMMIT_KEY.equals(event.getActionCommand())) {
+                stopCellEditing();
+            }
+        });
     }
 
     @Override
     public Object getCellEditorValue() {
-        return this.datePicker.getDate();
+        return datePicker.getDate();
     }
 
     public DatePicker getDatePicker() {
-        return this.datePicker;
+        return datePicker;
     }
 
     @Override
     public Component getTableCellEditorComponent(final JTable table, final Object value, final boolean isSelected, final int row, final int column) {
-        this.datePicker.setDate((Date) value);
+        datePicker.setDate((Date) value);
 
-        return this.datePicker;
+        return datePicker;
     }
 
     @Override
@@ -102,8 +62,8 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
             date = d;
         }
 
-        this.datePicker.setDate(date);
+        datePicker.setDate(date);
 
-        return this.datePicker;
+        return datePicker;
     }
 }

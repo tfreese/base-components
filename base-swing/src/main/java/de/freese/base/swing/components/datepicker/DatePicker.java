@@ -1,6 +1,10 @@
 package de.freese.base.swing.components.datepicker;
 
 import java.io.Serial;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -48,8 +52,20 @@ public class DatePicker extends JXDatePicker {
         return calendar;
     }
 
+    public LocalDate getLocalDate() {
+        final Instant instant = getDate().toInstant();
+
+        return LocalDate.ofInstant(instant, ZoneId.systemDefault());
+    }
+
     public void setCalendar(final Calendar calendar) {
         setDate(calendar.getTime());
+    }
+
+    public void setLocalDate(final LocalDate localDate) {
+        final ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+
+        setDate(Date.from(zonedDateTime.toInstant()));
     }
 
     protected void initialize() {

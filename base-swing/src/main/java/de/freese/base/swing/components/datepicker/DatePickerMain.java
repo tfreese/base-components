@@ -15,9 +15,11 @@ public final class DatePickerMain {
     public static void main(final String[] args) {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         frame.getContentPane().add(BorderLayout.CENTER, new DatePicker());
-        //        frame.setSize(300, 300);
-        frame.pack();
+
+        frame.setSize(300, 300);
+        // frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
