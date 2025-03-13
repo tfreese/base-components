@@ -18,13 +18,13 @@ import org.jdesktop.swingx.JXDatePicker;
  *
  * @author Thomas Freese
  */
-public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor {
+public class SwingXDatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final DatePicker datePicker;
+    private final SwingXDatePicker datePicker;
 
-    public DatePickerCellEditor(final DatePicker datePicker) {
+    public SwingXDatePickerCellEditor(final SwingXDatePicker datePicker) {
         super();
 
         this.datePicker = datePicker;
@@ -40,7 +40,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         return datePicker.getDate();
     }
 
-    public DatePicker getDatePicker() {
+    public SwingXDatePicker getDatePicker() {
         return datePicker;
     }
 

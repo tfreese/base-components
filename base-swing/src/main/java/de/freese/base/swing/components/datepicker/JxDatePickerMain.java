@@ -21,9 +21,6 @@ import javafx.scene.control.DatePicker;
  */
 public final class JxDatePickerMain {
     public static void main(final String[] args) {
-        final JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         final JLabel jLabel = new JLabel();
 
         final JFXPanel fxPanel = new JFXPanel();
@@ -47,6 +44,8 @@ public final class JxDatePickerMain {
             fxPanel.setScene(scene);
         });
 
+        final JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(BorderLayout.CENTER, fxPanel);
         frame.getContentPane().add(BorderLayout.SOUTH, jLabel);
 

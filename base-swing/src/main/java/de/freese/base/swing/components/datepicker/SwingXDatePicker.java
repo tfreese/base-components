@@ -17,29 +17,29 @@ import org.jdesktop.swingx.JXDatePicker;
  *
  * @author Thomas Freese
  */
-public class DatePicker extends JXDatePicker {
+public class SwingXDatePicker extends JXDatePicker {
     @Serial
     private static final long serialVersionUID = -4014651391029802229L;
 
-    public DatePicker() {
+    public SwingXDatePicker() {
         super();
 
         initialize();
     }
 
-    public DatePicker(final Date selected) {
+    public SwingXDatePicker(final Date selected) {
         super(selected);
 
         initialize();
     }
 
-    public DatePicker(final Date selection, final Locale locale) {
+    public SwingXDatePicker(final Date selection, final Locale locale) {
         super(selection, locale);
 
         initialize();
     }
 
-    public DatePicker(final Locale locale) {
+    public SwingXDatePicker(final Locale locale) {
         super(locale);
 
         initialize();

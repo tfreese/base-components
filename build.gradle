@@ -38,6 +38,7 @@ subprojects {
         }
 
         dependencies {
+            dependency("com.github.lgooddatepicker:LGoodDatePicker:$version_lGoodDatePicker")
             dependency("com.github.librepdf:openpdf:$version_openpdf")
             dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
             dependency("commons-net:commons-net:$version_commonsNet")
