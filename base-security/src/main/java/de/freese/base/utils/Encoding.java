@@ -22,7 +22,7 @@ public enum Encoding {
 
     public String encode(final byte[] data) {
         if (this.equals(BASE64)) {
-            return new String(Base64.getEncoder().encode(data), StandardCharsets.UTF_8);
+            return Base64.getEncoder().encodeToString(data);
         }
 
         return HexFormat.of().withUpperCase().formatHex(data);

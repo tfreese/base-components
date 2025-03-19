@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -41,7 +43,18 @@ class TestCrypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final Logger LOGGER = LoggerFactory.getLogger(TestCrypto.class);
     private static final String PASSWORD = "password";
-    private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
+    private static final String SOURCE = """
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?
+            """;
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     @Test
@@ -56,7 +69,7 @@ class TestCrypto {
             private static final int IV_LENGTH = 16;
 
             @Override
-            public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+            public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
                 final byte[] iv = new byte[IV_LENGTH];
                 inputStream.read(iv);
 
@@ -66,7 +79,7 @@ class TestCrypto {
             }
 
             @Override
-            public String decrypt(final String encrypted) throws Exception {
+            public String decrypt(final String encrypted) throws GeneralSecurityException {
                 final byte[] decoded = Encoding.BASE64.decode(encrypted);
                 final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
                 final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH, decoded.length);
@@ -76,17 +89,17 @@ class TestCrypto {
                 // final byte[] iv = new byte[16];
                 // byteBuffer.get(iv);
                 //
-                // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
-                // byteBuffer.get(encryptedBytes);
+                // final byte[] encrypted = new byte[byteBuffer.remaining()];
+                // byteBuffer.get(encrypted);
 
                 final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
-                final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+                final byte[] decrypted = cipher.doFinal(encryptedBytes);
 
-                return new String(decryptedBytes, CHARSET);
+                return new String(decrypted, CHARSET);
             }
 
             @Override
-            public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+            public CipherOutputStream encrypt(final OutputStream outputStream) throws GeneralSecurityException, IOException {
                 final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
                 final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
 
@@ -97,24 +110,24 @@ class TestCrypto {
             }
 
             @Override
-            public String encrypt(final String message) throws Exception {
+            public String encrypt(final String message) throws GeneralSecurityException {
                 final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
                 final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
-                final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
+                final byte[] encrypted = cipher.doFinal(message.getBytes(CHARSET));
 
-                final byte[] encryptedBytesWithIv = new byte[iv.length + encryptedBytes.length];
-                System.arraycopy(iv, 0, encryptedBytesWithIv, 0, iv.length);
-                System.arraycopy(encryptedBytes, 0, encryptedBytesWithIv, iv.length, encryptedBytes.length);
+                final byte[] encryptedBytes = new byte[iv.length + encrypted.length];
+                System.arraycopy(iv, 0, encryptedBytes, 0, iv.length);
+                System.arraycopy(encrypted, 0, encryptedBytes, iv.length, encrypted.length);
 
-                // final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + encryptedBytes.length)
+                // final byte[] encryptedBytes = ByteBuffer.allocate(iv.length + encrypted.length)
                 //         .put(iv)
-                //         .put(encryptedBytes)
+                //         .put(encrypted)
                 //         .array();
 
-                return Encoding.BASE64.encode(encryptedBytesWithIv);
+                return Encoding.BASE64.encode(encryptedBytes);
             }
 
-            private Cipher initCipher(final int mode, final Key key, final byte[] iv) throws Exception {
+            private Cipher initCipher(final int mode, final Key key, final byte[] iv) throws GeneralSecurityException {
                 // final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
                 // cipher.init(mode, key, new IvParameterSpec(iv));
 
@@ -225,6 +238,11 @@ class TestCrypto {
 
         assertEquals(SOURCE, crypto.decrypt(cipherText1));
         assertEquals(SOURCE, crypto.decrypt(cipherText2));
+
+        if (crypto instanceof KeyPairCryptoRsa) {
+            // RSA is not designed for large Text.
+            return;
+        }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

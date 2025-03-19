@@ -1,6 +1,7 @@
 // Created: 25 Mai 2024
 package de.freese.base.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -54,7 +55,7 @@ public final class KeyPairCryptoEcdhForAes implements Crypto {
         return new KeyPairCryptoEcdhForAes(secretKey, initVector);
     }
 
-    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] initVector) throws Exception {
+    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] initVector) throws GeneralSecurityException {
         final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(mode, secretKey, new IvParameterSpec(initVector));
 
@@ -72,12 +73,12 @@ public final class KeyPairCryptoEcdhForAes implements Crypto {
     }
 
     @Override
-    public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+    public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         return new CipherInputStream(inputStream, initCipher(Cipher.DECRYPT_MODE, secretKey, initVector));
     }
 
     @Override
-    public String decrypt(final String encrypted) throws Exception {
+    public String decrypt(final String encrypted) throws GeneralSecurityException {
         final byte[] decoded = Encoding.BASE64.decode(encrypted);
 
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, initVector);
@@ -88,12 +89,12 @@ public final class KeyPairCryptoEcdhForAes implements Crypto {
     }
 
     @Override
-    public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+    public CipherOutputStream encrypt(final OutputStream outputStream) throws GeneralSecurityException, IOException {
         return new CipherOutputStream(outputStream, initCipher(Cipher.ENCRYPT_MODE, secretKey, initVector));
     }
 
     @Override
-    public String encrypt(final String message) throws Exception {
+    public String encrypt(final String message) throws GeneralSecurityException {
         final byte[] messageBytes = message.getBytes(CHARSET);
 
         final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, initVector);

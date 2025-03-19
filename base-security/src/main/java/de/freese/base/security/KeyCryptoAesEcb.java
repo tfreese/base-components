@@ -1,6 +1,7 @@
 // Created: 23 Mai 2024
 package de.freese.base.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -36,7 +37,7 @@ public final class KeyCryptoAesEcb implements Crypto {
         return new KeyCryptoAesEcb(keyGenerator.generateKey());
     }
 
-    private static Cipher initCipher(final int mode, final SecretKey secretKey) throws Exception {
+    private static Cipher initCipher(final int mode, final SecretKey secretKey) throws GeneralSecurityException {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(mode, secretKey);
 
@@ -52,36 +53,36 @@ public final class KeyCryptoAesEcb implements Crypto {
     }
 
     @Override
-    public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+    public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey);
 
         return new CipherInputStream(inputStream, cipher);
     }
 
     @Override
-    public String decrypt(final String encrypted) throws Exception {
+    public String decrypt(final String encrypted) throws GeneralSecurityException {
         final byte[] decoded = Encoding.BASE64.decode(encrypted);
 
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey);
 
-        final byte[] decryptedBytes = cipher.doFinal(decoded);
+        final byte[] decrypted = cipher.doFinal(decoded);
 
-        return new String(decryptedBytes, CHARSET);
+        return new String(decrypted, CHARSET);
     }
 
     @Override
-    public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+    public CipherOutputStream encrypt(final OutputStream outputStream) throws GeneralSecurityException, IOException {
         final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey);
 
         return new CipherOutputStream(outputStream, cipher);
     }
 
     @Override
-    public String encrypt(final String message) throws Exception {
+    public String encrypt(final String message) throws GeneralSecurityException {
         final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey);
 
-        final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
+        final byte[] encrypted = cipher.doFinal(message.getBytes(CHARSET));
 
-        return Encoding.BASE64.encode(encryptedBytes);
+        return Encoding.BASE64.encode(encrypted);
     }
 }

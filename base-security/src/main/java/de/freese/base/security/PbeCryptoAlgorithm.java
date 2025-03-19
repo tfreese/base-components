@@ -1,14 +1,14 @@
 // Created: 23 Mai 2024
 package de.freese.base.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
+import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -60,18 +60,18 @@ public final class PbeCryptoAlgorithm implements Crypto {
         }
     }
 
-    private static byte[] generateRandomBytes(final int length) throws NoSuchAlgorithmException {
+    private static byte[] generateRandomBytes(final int length) throws GeneralSecurityException {
         return SecureRandom.getInstanceStrong().generateSeed(length);
     }
 
-    private static SecretKey getSecretKey(final Algorithm algorithm, final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private static SecretKey getSecretKey(final Algorithm algorithm, final String password, final byte[] salt) throws GeneralSecurityException {
         final PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH);
         final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm.getAlgorithmName());
 
         return secretKeyFactory.generateSecret(pbeKeySpec);
     }
 
-    private static Cipher initCipher(final Algorithm algorithm, final int mode, final SecretKey secretKey, final byte[] salt) throws Exception {
+    private static Cipher initCipher(final Algorithm algorithm, final int mode, final SecretKey secretKey, final byte[] salt) throws GeneralSecurityException {
         final Cipher cipher = Cipher.getInstance(algorithm.getAlgorithmName());
 
         cipher.init(mode, secretKey, new PBEParameterSpec(salt, ITERATION_COUNT));
@@ -100,7 +100,7 @@ public final class PbeCryptoAlgorithm implements Crypto {
     }
 
     @Override
-    public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+    public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         final byte[] iv = new byte[IV_LENGTH];
         inputStream.read(iv);
 
@@ -114,7 +114,7 @@ public final class PbeCryptoAlgorithm implements Crypto {
     }
 
     @Override
-    public String decrypt(final String encrypted) throws Exception {
+    public String decrypt(final String encrypted) throws GeneralSecurityException {
         final byte[] decoded = Base64.getDecoder().decode(encrypted);
         // final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
         final byte[] salt = Arrays.copyOfRange(decoded, 0, SALT_LENGTH);
@@ -123,13 +123,13 @@ public final class PbeCryptoAlgorithm implements Crypto {
         final SecretKey secretKey = getSecretKey(algorithm, password, salt);
         final Cipher cipher = initCipher(algorithm, Cipher.DECRYPT_MODE, secretKey, salt);
 
-        final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+        final byte[] decrypted = cipher.doFinal(encryptedBytes);
 
-        return new String(decryptedBytes, CHARSET);
+        return new String(decrypted, CHARSET);
     }
 
     @Override
-    public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+    public CipherOutputStream encrypt(final OutputStream outputStream) throws GeneralSecurityException, IOException {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
         final SecretKey secretKey = getSecretKey(algorithm, password, salt);
 
@@ -145,7 +145,7 @@ public final class PbeCryptoAlgorithm implements Crypto {
     }
 
     @Override
-    public String encrypt(final String message) throws Exception {
+    public String encrypt(final String message) throws GeneralSecurityException {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
         // final byte[] salt = new byte[0];
         final SecretKey secretKey = getSecretKey(algorithm, password, salt);
@@ -153,15 +153,15 @@ public final class PbeCryptoAlgorithm implements Crypto {
         // final byte[] iv = generateRandomBytes(IV_LENGTH);
         final Cipher cipher = initCipher(algorithm, Cipher.ENCRYPT_MODE, secretKey, salt);
 
-        final byte[] encryptedBytes = cipher.doFinal(message.getBytes());
+        final byte[] encrypted = cipher.doFinal(message.getBytes());
 
         // prefix IV and Salt
-        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(salt.length + encryptedBytes.length)
+        final byte[] encryptedBytes = ByteBuffer.allocate(salt.length + encrypted.length)
                 // .put(iv)
                 .put(salt)
-                .put(encryptedBytes)
+                .put(encrypted)
                 .array();
 
-        return Encoding.BASE64.encode(encryptedBytesWithIv);
+        return Encoding.BASE64.encode(encryptedBytes);
     }
 }

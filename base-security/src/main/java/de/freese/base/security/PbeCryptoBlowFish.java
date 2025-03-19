@@ -1,14 +1,15 @@
 // Created: 23 Mai 2024
 package de.freese.base.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
@@ -42,7 +43,7 @@ public final class PbeCryptoBlowFish implements Crypto {
         return SecureRandom.getInstanceStrong().generateSeed(length);
     }
 
-    private static SecretKey getSecretKey(final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private static SecretKey getSecretKey(final String password, final byte[] salt) throws GeneralSecurityException {
         final KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH);
         final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(FACTORY_ALGORITHM);
         final SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
@@ -56,7 +57,7 @@ public final class PbeCryptoBlowFish implements Crypto {
         // final SecretKey secretKey = keyGenerator.generateKey();
     }
 
-    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv) throws Exception {
+    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv) throws GeneralSecurityException {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(mode, secretKey, new IvParameterSpec(iv));
 
@@ -72,7 +73,7 @@ public final class PbeCryptoBlowFish implements Crypto {
     }
 
     @Override
-    public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+    public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         final byte[] iv = new byte[IV_LENGTH];
         inputStream.read(iv);
 
@@ -86,7 +87,7 @@ public final class PbeCryptoBlowFish implements Crypto {
     }
 
     @Override
-    public String decrypt(final String encrypted) throws Exception {
+    public String decrypt(final String encrypted) throws GeneralSecurityException {
         final byte[] decoded = Base64.getDecoder().decode(encrypted);
         final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
         final byte[] salt = Arrays.copyOfRange(decoded, IV_LENGTH, IV_LENGTH + SALT_LENGTH);
@@ -95,13 +96,13 @@ public final class PbeCryptoBlowFish implements Crypto {
         final SecretKey secretKey = getSecretKey(password, salt);
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
 
-        final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+        final byte[] decrypted = cipher.doFinal(encryptedBytes);
 
-        return new String(decryptedBytes, CHARSET);
+        return new String(decrypted, CHARSET);
     }
 
     @Override
-    public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+    public CipherOutputStream encrypt(final OutputStream outputStream) throws GeneralSecurityException, IOException {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
         final SecretKey secretKey = getSecretKey(password, salt);
 
@@ -116,22 +117,22 @@ public final class PbeCryptoBlowFish implements Crypto {
     }
 
     @Override
-    public String encrypt(final String message) throws Exception {
+    public String encrypt(final String message) throws GeneralSecurityException {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
         final SecretKey secretKey = getSecretKey(password, salt);
 
         final byte[] iv = generateRandomBytes(IV_LENGTH);
         final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
 
-        final byte[] encryptedBytes = cipher.doFinal(message.getBytes());
+        final byte[] encrypted = cipher.doFinal(message.getBytes());
 
         // prefix IV and Salt
-        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
+        final byte[] encryptedBytes = ByteBuffer.allocate(iv.length + salt.length + encrypted.length)
                 .put(iv)
                 .put(salt)
-                .put(encryptedBytes)
+                .put(encrypted)
                 .array();
 
-        return Encoding.BASE64.encode(encryptedBytesWithIv);
+        return Encoding.BASE64.encode(encryptedBytes);
     }
 }
