@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.io.Serial;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
@@ -28,74 +28,79 @@ public class ExtComboBox<T> extends JComboBox<T> {
     /**
      * @author Thomas Freese
      */
-    private static final class AutoWidthComboBoxUI<T> extends MetalComboBoxUI {
-        /**
-         * @author Thomas Freese
-         */
-        protected class AutoWidthComboPopup extends BasicComboPopup {
-            @Serial
-            private static final long serialVersionUID = 5619503805323024632L;
-
-            @SuppressWarnings("unchecked")
-            public AutoWidthComboPopup(final JComboBox<T> comboBox) {
-                super((JComboBox<Object>) comboBox);
-            }
-
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            @Override
-            protected Rectangle computePopupBounds(final int px, final int py, final int pw, final int ph) {
-                final Rectangle rect = super.computePopupBounds(px, py, pw, ph);
-
-                int width = rect.width;
-                final int itemCount = this.comboBox.getItemCount();
-                final ListCellRenderer renderer = this.comboBox.getRenderer();
-
-                // If the scroll bar appears, need to accommodate !
-                int scroll = 0;
-
-                if (this.comboBox.getMaximumRowCount() < itemCount) {
-                    scroll = 20;
-                }
-
-                // Detect max. Width.
-                for (int i = 0; i < itemCount; i++) {
-                    final Component c = renderer.getListCellRendererComponent(getList(), this.comboBox.getItemAt(i), i, false, false);
-
-                    if (c instanceof JLabel label) {
-                        final int labelWidth = 1 + c.getFontMetrics(c.getFont()).stringWidth(label.getText());
-
-                        width = Math.max(width, labelWidth + scroll);
-                    }
-                }
-
-                rect.setBounds(rect.x, rect.y, width, rect.height);
-
-                return rect;
-            }
-
-            @Override
-            protected void configureList() {
-                super.configureList();
-
-                this.list.setForeground(UIManager.getColor("MenuItem.foreground"));
-                this.list.setBackground(UIManager.getColor("MenuItem.background"));
-            }
-
-            @Override
-            protected void configureScroller() {
-                super.configureScroller();
-
-                this.scroller.getVerticalScrollBar().putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
-            }
-        }
-
-        @SuppressWarnings("unchecked")
+    protected static class AutoWidthComboBoxUI extends MetalComboBoxUI {
         @Override
         protected ComboPopup createPopup() {
-            final BasicComboPopup popup = new AutoWidthComboPopup((JComboBox<T>) this.comboBox);
-            popup.getAccessibleContext().setAccessibleParent(this.comboBox);
+            final BasicComboPopup basicComboPopup = new AutoWidthComboPopup(comboBox);
+            basicComboPopup.getAccessibleContext().setAccessibleParent(comboBox);
 
-            return popup;
+            return basicComboPopup;
+        }
+    }
+
+    /**
+     * @author Thomas Freese
+     */
+    protected static class AutoWidthComboPopup extends BasicComboPopup {
+        @Serial
+        private static final long serialVersionUID = 5619503805323024632L;
+
+        protected AutoWidthComboPopup(final JComboBox<Object> comboBox) {
+            super(comboBox);
+        }
+
+        @Override
+        protected Rectangle computePopupBounds(final int px, final int py, final int pw, final int ph) {
+            final Rectangle rectangle = super.computePopupBounds(px, py, pw, ph);
+
+            final int itemCount = comboBox.getItemCount();
+            final ListCellRenderer<Object> renderer = comboBox.getRenderer();
+
+            int width = rectangle.width;
+
+            // Detect max. width.
+            for (int i = 0; i < itemCount; i++) {
+                final Component c = renderer.getListCellRendererComponent(getList(), comboBox.getItemAt(i), i, false, false);
+
+                if (c instanceof JLabel label) {
+                    final int labelWidth = c.getFontMetrics(c.getFont()).stringWidth(label.getText());
+
+                    width = Math.max(width, labelWidth);
+                }
+                else {
+                    width = Math.max(width, c.getPreferredSize().width);
+                }
+            }
+
+            // If the scroll bar appears.
+            if (comboBox.getMaximumRowCount() < itemCount) {
+                width += UIManager.getInt("ScrollBar.width");
+            }
+
+            int height = rectangle.height;
+
+            // Add some space.
+            width += 5;
+            height += 5;
+
+            rectangle.setBounds(rectangle.x, rectangle.y, width, height);
+
+            return rectangle;
+        }
+
+        @Override
+        protected void configureList() {
+            super.configureList();
+
+            list.setForeground(UIManager.getColor("MenuItem.foreground"));
+            list.setBackground(UIManager.getColor("MenuItem.background"));
+        }
+
+        @Override
+        protected void configureScroller() {
+            super.configureScroller();
+
+            scroller.getVerticalScrollBar().putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
         }
     }
 
@@ -107,29 +112,25 @@ public class ExtComboBox<T> extends JComboBox<T> {
         initialize();
     }
 
-    public ExtComboBox(final ComboBoxModel<T> aModel) {
-        super(aModel);
+    public ExtComboBox(final ComboBoxModel<T> model) {
+        super(model);
 
         initialize();
     }
 
-    public ExtComboBox(final T[] items) {
-        super(items);
+    public ExtComboBox(final List<T> items) {
+        super();
 
         initialize();
-    }
 
-    public ExtComboBox(final Vector<T> items) {
-        super(items);
-
-        initialize();
+        items.forEach(this::addItem);
     }
 
     /**
      * true = SelectedEvent wird auch gefeuert wenn Object = NULL, false = Defaultverhalten
      */
     public boolean isFireOnNull() {
-        return this.fireOnNull;
+        return fireOnNull;
     }
 
     /**
@@ -141,21 +142,21 @@ public class ExtComboBox<T> extends JComboBox<T> {
 
     @Override
     protected void selectedItemChanged() {
-        if (this.selectedItemReminder != null) {
-            fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.selectedItemReminder, ItemEvent.DESELECTED));
+        if (selectedItemReminder != null) {
+            fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, selectedItemReminder, ItemEvent.DESELECTED));
         }
 
-        // set the new selected item.
-        this.selectedItemReminder = this.dataModel.getSelectedItem();
+        // Set the new selected item.
+        selectedItemReminder = dataModel.getSelectedItem();
 
-        // Fire Event even if Object = NULL
-        if (this.selectedItemReminder != null || isFireOnNull()) {
-            fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.selectedItemReminder, ItemEvent.SELECTED));
+        // Fire Event even if Object = NULL.
+        if (selectedItemReminder != null || isFireOnNull()) {
+            fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, selectedItemReminder, ItemEvent.SELECTED));
         }
     }
 
     private void initialize() {
-        setUI(new AutoWidthComboBoxUI<T>());
+        setUI(new AutoWidthComboBoxUI());
         setKeySelectionManager(new RendererKeySelectionManager(this));
     }
 }
