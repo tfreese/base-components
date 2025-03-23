@@ -53,8 +53,8 @@ public final class ClassUtils {
     }
 
     /**
-     * Liefert alle Klassen im Package und Sub-Packages.<br>
-     * Funktioniert nicht bei Runtime-Packages.
+     * Returns all Classes in the Package and Sub-Packages.<br>
+     * Doesn't work for Runtime-Packages.
      */
     public static Set<Class<?>> getClasses(final String packageName) throws ClassNotFoundException, IOException {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -86,8 +86,8 @@ public final class ClassUtils {
     }
 
     /**
-     * Suche in Verzeichnissen bei Ausführung in der IDE.<br>
-     * Funktioniert nicht bei Runtime-Packages.
+     * Search in Directories if runs in an IDE.<br>
+     * Doesn't work for Runtime-Packages.
      */
     private static Set<Class<?>> findClassesInFolder(final File directory, final String packageName) throws ClassNotFoundException {
         final Set<Class<?>> classes = new HashSet<>();
@@ -115,8 +115,8 @@ public final class ClassUtils {
     }
 
     /**
-     * Suche in Jars bei Ausführung in Deploy-Umgebung.<br>
-     * Funktioniert nicht bei Runtime-Packages.
+     * Search in Jars if runs in Deploy-Environment.<br>
+     * Doesn't work for Runtime-Packages.
      */
     private static Set<Class<?>> findClassesInJar(final Path path, final String packagePath, final ClassLoader classLoader) throws ClassNotFoundException, IOException {
         final Set<String> files = new HashSet<>();
