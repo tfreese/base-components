@@ -11,4 +11,7 @@ dependencies {
     implementation("org.eclipse.angus:jakarta.mail")
     implementation("commons-net:commons-net")
     // implementation("org.slf4j:slf4j-api")
+
+    testImplementation("dev.failsafe:failsafe")
+    testImplementation("org.apache.httpcomponents.client5:httpclient5")
 }
