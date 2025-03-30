@@ -46,7 +46,7 @@ class FailsafeRetryTest {
     @BeforeAll
     static void beforeAll() throws IOException {
         final int port = SocketUtils.findAvailableTcpPort();
-        uri = URI.create("http://localhost:" + port + "/");
+        uri = URI.create("http://localhost:" + port);
         httpServer = RetryTestUtil.startHttpServer(port);
 
         final RetryPolicy<HttpResponse<String>> retryPolicy = RetryPolicy.<HttpResponse<String>>builder()

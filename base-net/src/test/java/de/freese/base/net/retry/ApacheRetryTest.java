@@ -17,7 +17,7 @@ import javax.net.ssl.SSLException;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ConnectionClosedException;
@@ -42,13 +42,13 @@ import de.freese.base.utils.SocketUtils;
  */
 class ApacheRetryTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApacheRetryTest.class);
-    
+
     private static CloseableHttpClient closeableHttpClient;
     private static HttpServer httpServer;
     private static URI uri;
 
     private static class MyDefaultHttpRequestRetryStrategy extends DefaultHttpRequestRetryStrategy {
-        private static final Set<Class<? extends IOException>> NON_RETRIABLE_Exception = Set.of(
+        private static final Set<Class<? extends IOException>> NON_RETRIABLE_EXCEPTIONS = Set.of(
                 // InterruptedIOException.class, (SocketTimeoutException)
                 UnknownHostException.class,
                 ConnectException.class,
@@ -63,7 +63,7 @@ class ApacheRetryTest {
         );
 
         public MyDefaultHttpRequestRetryStrategy(final int maxRetries, final TimeValue defaultRetryInterval) {
-            super(maxRetries, defaultRetryInterval, NON_RETRIABLE_Exception, RETRIABLE_CODES);
+            super(maxRetries, defaultRetryInterval, NON_RETRIABLE_EXCEPTIONS, RETRIABLE_CODES);
         }
 
         @Override
@@ -84,41 +84,18 @@ class ApacheRetryTest {
 
             return super.getRetryInterval(response, execCount, context);
         }
-    }
 
-    // private static class MyHttpRequestRetryStrategy implements HttpRequestRetryStrategy {
-    //     private static final int MAX_RETRIES = 2;
-    //     private static final TimeValue RETRY_INTERVAL = TimeValue.ofSeconds(1);
-    //
-    //     @Override
-    //     public TimeValue getRetryInterval(final HttpResponse response, final int execCount, final HttpContext context) {
-    //         return RETRY_INTERVAL;
-    //     }
-    //
-    //     @Override
-    //     public TimeValue getRetryInterval(final HttpRequest request, final IOException exception, final int execCount, final HttpContext context) {
-    //         return RETRY_INTERVAL;
-    //     }
-    //
-    //     @Override
-    //     public boolean retryRequest(final HttpResponse response, final int execCount, final HttpContext context) {
-    //         return execCount <= MAX_RETRIES;
-    //     }
-    //
-    //     @Override
-    //     public boolean retryRequest(final HttpRequest request, final IOException exception, final int execCount, final HttpContext context) {
-    //         if (execCount > MAX_RETRIES) {
-    //             return false;
-    //         }
-    //
-    //         if (request instanceof CancellableDependency && ((CancellableDependency) request).isCancelled()) {
-    //             return false;
-    //         }
-    //
-    //         // Retry if the request is considered idempotent.
-    //         return Method.isIdempotent(request.getMethod());
-    //     }
-    // }
+        @Override
+        protected boolean handleAsIdempotent(final HttpRequest request) {
+            // Retry if the request is considered idempotent.
+            //
+            // Before our retries customization, we need to elaborate a bit on the idempotency of requests.
+            // It is important since the Apache HTTP client considers all HttpEntityEnclosingRequest implementations non-idempotent.
+            // Common implementations of this interface are HttpPost, HttpPut, and HttpPatch classes.
+            // So, our PATCH and PUT requests will not be, by default, retried!
+            return super.handleAsIdempotent(request);
+        }
+    }
 
     @AfterAll
     static void afterAll() {
@@ -129,23 +106,18 @@ class ApacheRetryTest {
     @BeforeAll
     static void beforeAll() throws IOException {
         final int port = SocketUtils.findAvailableTcpPort();
-        uri = URI.create("http://localhost:" + port + "/");
+        uri = URI.create("http://localhost:" + port);
         httpServer = RetryTestUtil.startHttpServer(port);
 
-        closeableHttpClient = HttpClientBuilder.create()
+        closeableHttpClient = HttpClients.custom()
                 // .addExecInterceptorFirst("retry", (request, scope, chain) -> {
-                //     System.out.println(request);
+                //     LOGGER.info("{}", request);
                 //     return chain.proceed(request, scope);
                 // })
-                // .addRequestInterceptorFirst((request, entity, context) -> {
-                //     System.out.println(request);
-                // })
-                // .addResponseInterceptorFirst((response, entity, context) -> {
-                //     System.out.println(response);
-                // })
+                // .addRequestInterceptorFirst((request, entity, context) -> LOGGER.info("{}", request))
+                // .addResponseInterceptorFirst((response, entity, context) -> LOGGER.info("{}", response))
                 // .disableAutomaticRetries() // Default active with 1 Retry.
                 .setRetryStrategy(new MyDefaultHttpRequestRetryStrategy(2, TimeValue.ofSeconds(1)))
-                // .setRetryStrategy(new MyHttpRequestRetryStrategy())
                 .build();
     }
 
@@ -159,6 +131,8 @@ class ApacheRetryTest {
                 assertNotNull(response);
                 assertEquals(HttpURLConnection.HTTP_UNAVAILABLE, response.getCode());
                 assertEquals("ERROR", EntityUtils.toString(response.getEntity()));
+
+                // Executed automatically in CloseableHttpClient.execute(HttpHost, ClassicHttpRequest, HttpContext, HttpClientResponseHandler<? extends T>) .
                 // EntityUtils.consume(response.getEntity());
 
                 return null;
