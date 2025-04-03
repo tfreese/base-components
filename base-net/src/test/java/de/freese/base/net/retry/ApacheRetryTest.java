@@ -124,7 +124,9 @@ class ApacheRetryTest {
     @Test
     void testTimeout() {
         // HttpEntities
-        final ClassicHttpRequest httpRequest = ClassicRequestBuilder.get(uri).build();
+        final ClassicHttpRequest httpRequest = ClassicRequestBuilder
+                .get(uri)
+                .build();
 
         try {
             closeableHttpClient.execute(httpRequest, response -> {
