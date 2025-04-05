@@ -1,5 +1,8 @@
 package de.freese.base.utils;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,22 @@ public final class ExceptionUtils {
         final List<Throwable> list = getThrowableList(throwable);
 
         return list.isEmpty() ? null : list.getLast();
+    }
+
+    public static String getStackTrace(final Throwable throwable) {
+        if (throwable == null) {
+            return "";
+        }
+        else {
+            try (StringWriter stringWriter = new StringWriter()) {
+                throwable.printStackTrace(new PrintWriter(stringWriter, true));
+
+                return stringWriter.toString();
+            }
+            catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     /**
