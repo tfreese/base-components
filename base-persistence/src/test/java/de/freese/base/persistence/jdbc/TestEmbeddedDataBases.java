@@ -78,7 +78,8 @@ class TestEmbeddedDataBases {
             // INSERT INTO ... VALUES (next value FOR person_seq, ...);
 
             case DERBY -> "values next value for person_seq";
-            case H2 -> "select next value for person_seq";
+            case H2 -> "select next value for person_seq"; // Native Mode
+            // case H2 -> "select person_seq.NEXTVAL"; // Oracle Mode
             case HSQL -> "call next value for person_seq";
         };
 

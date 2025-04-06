@@ -166,6 +166,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
                 // ;DB_CLOSE_DELAY=-1 doesn't close the DB after the end of the last connection.
                 // ;DB_CLOSE_ON_EXIT=FALSE doesn't close the DB after the end of the Runtime.
+                // jdbc:h2:file:~/test;MODE=Oracle;DEFAULT_NULL_ORDERING=HIGH
                 config.setDriverClassName("org.h2.Driver");
                 config.setJdbcUrl("jdbc:h2:mem:" + UUID.randomUUID() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true");
             }
