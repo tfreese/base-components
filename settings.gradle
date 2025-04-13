@@ -19,3 +19,13 @@ include "base-resourcemap"
 include "base-security"
 include "base-swing"
 include "base-swing-demo"
+
+// buildCache {
+//     remote(HttpBuildCache) {
+//         enabled = true
+//         url = "http://localhost:30090/cache/"
+//         push = true
+//         allowUntrustedServer = true
+//         allowInsecureProtocol = true
+//     }
+// }
