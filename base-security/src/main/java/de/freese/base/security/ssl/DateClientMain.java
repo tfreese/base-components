@@ -37,10 +37,10 @@ public final class DateClientMain {
 
                 final SSLContext sslContext = new SslContextBuilder()
                         .keyStorePath(basePath.resolve("client_keystore.p12"))
-                        .keyStorePassword("password".toCharArray())
+                        .keyStorePassword("password"::toCharArray)
                         .trustStorePath(basePath.resolve("server_truststore.p12"))
-                        .trustStorePassword("password".toCharArray())
-                        .certPassword("password".toCharArray())
+                        .trustStorePassword("password"::toCharArray)
+                        .certPassword("password"::toCharArray)
                         .trustLocalHost(true)
                         .build();
 

@@ -81,7 +81,7 @@ public final class PbeCryptoAesGcm implements Crypto {
         }
 
         final byte[] salt = new byte[SALT_LENGTH];
-        
+
         if (inputStream.read(salt) != SALT_LENGTH) {
             throw new IllegalStateException("invalid SALT");
         }

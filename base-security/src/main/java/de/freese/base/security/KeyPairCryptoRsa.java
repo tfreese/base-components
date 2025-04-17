@@ -79,7 +79,7 @@ public final class KeyPairCryptoRsa implements Crypto {
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, privateKey);
 
         // final int blockSize = (((RSAKey) privateKey).getModulus().bitLength() / 8) - 11;
-        final int blockSize = (((RSAKey) privateKey).getModulus().bitLength() / 8);
+        final int blockSize = ((RSAKey) privateKey).getModulus().bitLength() / 8;
 
         // RSA is not designed for large Text.
         if (decoded.length <= blockSize) {

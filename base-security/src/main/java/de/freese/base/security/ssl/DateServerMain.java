@@ -94,10 +94,10 @@ public final class DateServerMain extends Thread {
 
             final SSLContext sslContext = new SslContextBuilder()
                     .keyStorePath(basePath.resolve("server_keystore.p12"))
-                    .keyStorePassword("password".toCharArray())
+                    .keyStorePassword("password"::toCharArray)
                     .trustStorePath(basePath.resolve("client_truststore.p12"))
-                    .trustStorePassword("password".toCharArray())
-                    .certPassword("password".toCharArray())
+                    .trustStorePassword("password"::toCharArray)
+                    .certPassword("password"::toCharArray)
                     .trustLocalHost(true)
                     .build();
 
@@ -127,6 +127,10 @@ public final class DateServerMain extends Thread {
 
                 final Runnable connect = new Connect(clientSocket);
                 ForkJoinPool.commonPool().execute(connect);
+
+                if (isInterrupted()) {
+                    break;
+                }
             }
             catch (Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);

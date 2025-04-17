@@ -2,66 +2,27 @@
 package de.freese.base.security.ssl;
 
 import java.io.InputStream;
-import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyStore;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509ExtendedTrustManager;
+import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
  * @author Thomas Freese
  */
 public final class SslContextBuilder {
-    @SuppressWarnings("java:S4830")
-    private static final TrustManager[] X509_TRUST_ALL_MANAGER = {new X509ExtendedTrustManager() {
-        @Override
-        public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
-            // Empty
-        }
-
-        @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) {
-            checkClientTrusted(chain, authType);
-        }
-
-        @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final Socket socket) {
-            checkClientTrusted(chain, authType);
-        }
-
-        @Override
-        public void checkServerTrusted(final X509Certificate[] certs, final String authType) {
-            // Empty
-        }
-
-        @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final Socket socket) {
-            checkServerTrusted(chain, authType);
-        }
-
-        @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) {
-            checkServerTrusted(chain, authType);
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[]{};
-        }
-    }
-    };
 
     /**
      * HttpsURLConnection.setDefaultHostnameVerifier<br>
@@ -79,11 +40,12 @@ public final class SslContextBuilder {
         };
     }
 
-    private char[] certPassword;
-    private char[] keyStorePassword;
+    private Supplier<char[]> certPasswordSupplier;
+    private String clientAlias;
+    private Supplier<char[]> keyStorePasswordSupplier;
     private Path keyStorePath;
     private boolean trustLocalHost;
-    private char[] trustStorePassword;
+    private Supplier<char[]> trustStorePasswordSupplier;
     private Path trustStorePath;
 
     /**
@@ -105,12 +67,22 @@ public final class SslContextBuilder {
         }
 
         try (InputStream inputStream = Files.newInputStream(keyStorePath)) {
-            keyStore.load(inputStream, keyStorePassword);
+            keyStore.load(inputStream, keyStorePasswordSupplier.get());
         }
 
         // KeyManagerFactory.getInstance("SunX509", "SunJSSE")
         final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        keyManagerFactory.init(keyStore, certPassword);
+        keyManagerFactory.init(keyStore, certPasswordSupplier.get());
+
+        final KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
+
+        if (clientAlias != null && !clientAlias.isBlank()) {
+            for (int i = 0; i < keyManagers.length; i++) {
+                if (keyManagers[i] instanceof X509KeyManager x509KeyManager) {
+                    keyManagers[i] = new Alias509KeyManager(x509KeyManager, clientAlias);
+                }
+            }
+        }
 
         final KeyStore trustStore;
 
@@ -122,7 +94,7 @@ public final class SslContextBuilder {
         }
 
         try (InputStream inputStream = Files.newInputStream(trustStorePath)) {
-            trustStore.load(inputStream, trustStorePassword);
+            trustStore.load(inputStream, trustStorePasswordSupplier.get());
         }
 
         // TrustManagerFactory.getInstance("SunX509", "SunJSSE")
@@ -131,53 +103,16 @@ public final class SslContextBuilder {
 
         final TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
 
-        for (int i = 0; i < trustManagers.length; i++) {
-            if (trustManagers[i] instanceof X509TrustManager x509TrustManager) {
-                trustManagers[i] = new X509ExtendedTrustManager() {
-                    @Override
-                    public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
-                        if (!trustLocalHost) {
-                            x509TrustManager.checkClientTrusted(chain, authType);
-                        }
-                    }
-
-                    @Override
-                    public void checkClientTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) throws CertificateException {
-                        checkClientTrusted(chain, authType);
-                    }
-
-                    @Override
-                    public void checkClientTrusted(final X509Certificate[] chain, final String authType, final Socket socket) throws CertificateException {
-                        checkClientTrusted(chain, authType);
-                    }
-
-                    @Override
-                    public void checkServerTrusted(final X509Certificate[] chain, final String authType, final Socket socket) throws CertificateException {
-                        checkServerTrusted(chain, authType);
-                    }
-
-                    @Override
-                    public void checkServerTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) throws CertificateException {
-                        checkServerTrusted(chain, authType);
-                    }
-
-                    @Override
-                    public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
-                        if (!trustLocalHost) {
-                            x509TrustManager.checkServerTrusted(chain, authType);
-                        }
-                    }
-
-                    @Override
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return trustLocalHost ? new X509Certificate[]{} : x509TrustManager.getAcceptedIssuers();
-                    }
-                };
+        if (trustLocalHost) {
+            for (int i = 0; i < trustManagers.length; i++) {
+                if (trustManagers[i] instanceof X509TrustManager x509TrustManager) {
+                    trustManagers[i] = new TrustLocalHostTrustManager(x509TrustManager, trustLocalHost);
+                }
             }
         }
 
         final SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
-        sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+        sslContext.init(keyManagers, trustManagers, null);
 
         // SSLContext.setDefault(sslContext);
         // HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
@@ -190,9 +125,11 @@ public final class SslContextBuilder {
         // System.setProperty("javax.net.debug", "ssl");
         // System.setProperty("https.protocols", "SSL");
 
+        final TrustManager[] trustManagers = {new TrustAllTrustManager()};
+
         // final SSLContext sslContext = SSLContext.getDefault();
         final SSLContext sslContext = SSLContext.getInstance("TLS"); // SSL, TLS
-        sslContext.init(null, X509_TRUST_ALL_MANAGER, SecureRandom.getInstanceStrong());
+        sslContext.init(null, trustManagers, SecureRandom.getInstanceStrong());
 
         SSLContext.setDefault(sslContext);
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
@@ -201,20 +138,26 @@ public final class SslContextBuilder {
         return sslContext;
     }
 
-    public SslContextBuilder certPassword(final char[] certPassword) {
-        this.certPassword = certPassword;
+    public SslContextBuilder certPassword(final Supplier<char[]> certPasswordSupplier) {
+        this.certPasswordSupplier = Objects.requireNonNull(certPasswordSupplier, "certPasswordSupplier required");
 
         return this;
     }
 
-    public SslContextBuilder keyStorePassword(final char[] keyStorePassword) {
-        this.keyStorePassword = keyStorePassword;
+    public SslContextBuilder clientAlias(final String clientAlias) {
+        this.clientAlias = Objects.requireNonNull(clientAlias, "clientAlias required");
+
+        return this;
+    }
+
+    public SslContextBuilder keyStorePassword(final Supplier<char[]> keyStorePasswordSupplier) {
+        this.keyStorePasswordSupplier = Objects.requireNonNull(keyStorePasswordSupplier, "keyStorePasswordSupplier required");
 
         return this;
     }
 
     public SslContextBuilder keyStorePath(final Path keyStorePath) {
-        this.keyStorePath = keyStorePath;
+        this.keyStorePath = Objects.requireNonNull(keyStorePath, "keyStorePath required");
 
         return this;
     }
@@ -225,14 +168,14 @@ public final class SslContextBuilder {
         return this;
     }
 
-    public SslContextBuilder trustStorePassword(final char[] trustStorePassword) {
-        this.trustStorePassword = trustStorePassword;
+    public SslContextBuilder trustStorePassword(final Supplier<char[]> trustStorePasswordSupplier) {
+        this.trustStorePasswordSupplier = Objects.requireNonNull(trustStorePasswordSupplier, "trustStorePasswordSupplier required");
 
         return this;
     }
 
     public SslContextBuilder trustStorePath(final Path trustStorePath) {
-        this.trustStorePath = trustStorePath;
+        this.trustStorePath = Objects.requireNonNull(trustStorePath, "trustStorePath required");
 
         return this;
     }

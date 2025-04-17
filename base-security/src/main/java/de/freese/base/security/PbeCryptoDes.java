@@ -69,7 +69,10 @@ public final class PbeCryptoDes implements Crypto {
     @Override
     public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         final byte[] iv = new byte[IV_LENGTH];
-        inputStream.read(iv);
+
+        if (inputStream.read(iv) != IV_LENGTH) {
+            throw new IllegalStateException("invalid IV");
+        }
 
         final SecretKey secretKey = getSecretKey(password);
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);

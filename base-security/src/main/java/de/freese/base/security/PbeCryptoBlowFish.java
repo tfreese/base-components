@@ -75,10 +75,16 @@ public final class PbeCryptoBlowFish implements Crypto {
     @Override
     public CipherInputStream decrypt(final InputStream inputStream) throws GeneralSecurityException, IOException {
         final byte[] iv = new byte[IV_LENGTH];
-        inputStream.read(iv);
+
+        if (inputStream.read(iv) != IV_LENGTH) {
+            throw new IllegalStateException("invalid IV");
+        }
 
         final byte[] salt = new byte[SALT_LENGTH];
-        inputStream.read(salt);
+
+        if (inputStream.read(salt) != SALT_LENGTH) {
+            throw new IllegalStateException("invalid SALT");
+        }
 
         final SecretKey secretKey = getSecretKey(password, salt);
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
