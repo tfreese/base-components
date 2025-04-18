@@ -1,5 +1,5 @@
 plugins {
-    id "java-library"
+    id("java-library")
 }
 
 description = "Common Classes for creating Reports or import Office Documents."

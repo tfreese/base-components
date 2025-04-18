@@ -1,5 +1,5 @@
 plugins {
-    id "java-library"
+    id("java-library")
 }
 
 description = "Common Patterns and Classes for the Persistence Layer."
@@ -8,7 +8,7 @@ description = "Common Patterns and Classes for the Persistence Layer."
 //     exclude group: "ch.qos.logback", module: "logback-classic"
 // }
 configurations.testImplementation {
-    exclude group: "ch.qos.logback", module: "logback-classic"
+    exclude(group: "ch.qos.logback", module: "logback-classic")
 }
 
 dependencies {

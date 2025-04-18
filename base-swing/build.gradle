@@ -1,6 +1,6 @@
 plugins {
-    id "java-library"
-    id "org.openjfx.javafxplugin"
+    id("java-library")
+    id("org.openjfx.javafxplugin")
 }
 
 description = "Components and Classes for Swing."

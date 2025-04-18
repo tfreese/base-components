@@ -1,5 +1,5 @@
 plugins {
-    id "java-library"
+    id("java-library")
 }
 
 description = "Common Classes, Patterns and Interfaces."
@@ -12,7 +12,7 @@ dependencies {
     // implementation = scope compile
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("dev.failsafe:failsafe")
-    implementation "io.github.resilience4j:resilience4j-ratelimiter"
+    implementation("io.github.resilience4j:resilience4j-ratelimiter")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
     implementation('org.apache.commons:commons-lang3')
     implementation("org.apache.poi:poi-ooxml")
