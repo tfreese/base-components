@@ -68,6 +68,8 @@ subprojects {
         }
 
         dependencies {
+            //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
+            
             testImplementation("org.awaitility:awaitility")
             testImplementation("org.junit.jupiter:junit-jupiter")
 
