@@ -134,6 +134,7 @@ public class JdbcClient {
 
         try {
             connection = getConnection();
+            // connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             return connectionCallback.doInConnection(connection);
         }

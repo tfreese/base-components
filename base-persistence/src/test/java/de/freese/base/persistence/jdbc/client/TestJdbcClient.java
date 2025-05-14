@@ -3,8 +3,10 @@ package de.freese.base.persistence.jdbc.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Types;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -123,6 +125,58 @@ class TestJdbcClient {
         assertEquals(1, affectedRows);
         assertEquals(1, generatedKeys.size());
         assertEquals(1, generatedKeys.getFirst());
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getJdbcClients")
+    @DisplayName("testOffsetDateTime")
+    void testOffsetDateTime(final DbServerExtension dbServerExtension, final JdbcClient jdbcClient) {
+        if (EmbeddedDatabaseType.DERBY.equals(dbServerExtension.getDatabaseType())) {
+            // Won't work with DERBY -> 'TIMESTAMP WITH TIME ZONE' not supported.
+            return;
+        }
+
+        // if not exists
+        String sql = """
+                create sequence
+                MY_SEQ
+                    start with 1 increment by 1
+                """;
+        jdbcClient.sql(sql).execute();
+
+        sql = """
+                CREATE TABLE events (
+                    id BIGINT PRIMARY KEY,
+                    event_time TIMESTAMP WITH TIME ZONE
+                )
+                """;
+        jdbcClient.sql(sql).execute();
+
+        // "call next value for MY_SEQ";
+        // next value for MY_SEQ
+        //
+        // @Column(name = "event_time")
+        // private OffsetDateTime eventTime;
+
+        sql = """
+                INSERT INTO
+                events
+                    (id, event_time)
+                VALUES
+                    (next value for MY_SEQ, ?)
+                """;
+        final int affectedRows = jdbcClient.sql(sql)
+                .statementSetter(stmt -> stmt.setObject(1, OffsetDateTime.now()))
+                .executeUpdate();
+        assertEquals(1, affectedRows);
+
+        final List<Map<Long, OffsetDateTime>> result = jdbcClient.sql("select * from events")
+                .query()
+                .asList(resultSet -> Map.of(resultSet.getLong("ID"), resultSet.getObject("EVENT_TIME", OffsetDateTime.class)));
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertTrue(result.getFirst().containsKey(1L));
+        jdbcClient.getLogger().info("{}", result.getFirst());
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
@@ -350,12 +404,12 @@ class TestJdbcClient {
             transaction = jdbcClient.createTransaction();
             transaction.begin();
 
-            final int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
+            final int affectedRows = ScopedValue.where(JdbcClient.TRANSACTION, transaction).call(insertCallable);
             assertEquals(names.size(), affectedRows);
 
             // Out of TransactionScope ->  Blocking for Derby and HSQLDB.
             if (EmbeddedDatabaseType.H2.equals(dbServerExtension.getDatabaseType())) {
-                final List<Map<String, Object>> result = new JdbcClient(jdbcClient.getDataSource()).sql("select * from person").query().asListOfMaps();
+                final List<Map<String, Object>> result = jdbcClient.sql("select * from person").query().asListOfMaps();
                 assertNotNull(result);
                 assertEquals(0, result.size());
             }
@@ -375,5 +429,4 @@ class TestJdbcClient {
         assertNotNull(result);
         assertEquals(names.size(), result.size());
     }
-
 }

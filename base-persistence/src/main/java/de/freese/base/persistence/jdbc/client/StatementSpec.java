@@ -24,7 +24,7 @@ public interface StatementSpec {
     /**
      * Execute the SQL with {@link Statement#execute(String)}.
      *
-     * @return true if the first result is a ResultSet object; false if it is an update count or there are no results
+     * @return true if the first result is a ResultSet object; false if it is an update count, or there are no results
      */
     boolean execute();
 
