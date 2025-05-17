@@ -35,6 +35,7 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSqLite {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestSqLite.class);
+
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
@@ -44,13 +45,13 @@ class TestSqLite {
     private static SQLiteDataSource dataSource;
 
     @AfterAll
-    protected static void afterAll() {
+    static void afterAll() {
         // Would delete files from other tests.
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
     @BeforeAll
-    protected static void beforeAll() throws Exception {
+    static void beforeAll() throws Exception {
         if (Files.notExists(PATH_TEST)) {
             Files.createDirectories(PATH_TEST);
         }
@@ -82,15 +83,17 @@ class TestSqLite {
             }
 
             try (Statement stmt = connection.createStatement()) {
-                final StringBuilder sql = new StringBuilder();
-                sql.append("CREATE TABLE COMPANY");
-                sql.append(" (ID      INTEGER PRIMARY KEY AUTOINCREMENT");
-                sql.append(", NAME    TEXT    NOT NULL");
-                sql.append(", AGE     INTEGER NOT NULL");
-                sql.append(", ADDRESS CHAR(50)");
-                sql.append(", SALARY  REAL)");
+                final String sql = """
+                                CREATE TABLE COMPANY (
+                                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    NAME TEXT NOT NULL,
+                                    AGE INTEGER NOT NULL,
+                                    ADDRESS CHAR(50),
+                                    SALARY REAL
+                                )
+                        """;
 
-                stmt.executeUpdate(sql.toString());
+                stmt.executeUpdate(sql);
             }
 
             connection.setAutoCommit(false);
@@ -100,7 +103,7 @@ class TestSqLite {
                 stmt.executeUpdate(sql);
 
                 // getGeneratedKeys not supported.
-                //                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                // try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 try (ResultSet generatedKeys = stmt.executeQuery("SELECT last_insert_rowid()")) {
                     while (generatedKeys.next()) {
                         LOGGER.debug("Key: {}", generatedKeys.getInt(1));
@@ -139,14 +142,16 @@ class TestSqLite {
 
         jdbcTemplate.update("drop table if exists COMPANY");
 
-        final StringBuilder sql = new StringBuilder();
-        sql.append("CREATE TABLE COMPANY");
-        sql.append(" (ID      INTEGER PRIMARY KEY AUTOINCREMENT");
-        sql.append(", NAME    TEXT    NOT NULL");
-        sql.append(", AGE     INTEGER NOT NULL");
-        sql.append(", ADDRESS CHAR(50)");
-        sql.append(", SALARY  REAL)");
-        jdbcTemplate.update(sql.toString());
+        final String sql = """
+                CREATE TABLE COMPANY (
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    NAME TEXT NOT NULL,
+                    AGE INTEGER NOT NULL,
+                    ADDRESS CHAR(50),
+                    SALARY REAL
+                )
+                """;
+        jdbcTemplate.update(sql);
 
         final PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         final TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
@@ -168,8 +173,7 @@ class TestSqLite {
             LOGGER.debug("{}", row);
         });
 
-        // if (dataSource instanceof SingleConnectionDataSource ds)
-        // {
+        // if (dataSource instanceof SingleConnectionDataSource ds) {
         // ds.destroy();
         // }
 

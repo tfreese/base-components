@@ -33,7 +33,7 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
 
     @Override
     public void afterAll(final ExtensionContext context) throws Exception {
-        for (DbServerExtension server : this.servers.values()) {
+        for (DbServerExtension server : servers.values()) {
             server.afterAll(context);
         }
 
@@ -44,17 +44,17 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     public void beforeAll(final ExtensionContext context) throws Exception {
         DbServerExtension.showMemory();
 
-        for (DbServerExtension server : this.servers.values()) {
+        for (DbServerExtension server : servers.values()) {
             server.beforeAll(context);
         }
     }
 
     public DbServerExtension getServer(final EmbeddedDatabaseType databaseType) {
-        return this.servers.get(databaseType);
+        return servers.get(databaseType);
     }
 
     public Collection<DbServerExtension> getServers() {
-        return this.servers.values();
+        return servers.values();
     }
 
     // @Override

@@ -22,8 +22,6 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
@@ -62,7 +60,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     private final EmbeddedDatabaseType databaseType;
 
     private HikariDataSource dataSource;
-    private JdbcOperations jdbcOperations;
 
     public DbServerExtension(final EmbeddedDatabaseType databaseType, final boolean autoCommit) {
         super();
@@ -74,19 +71,19 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     @Override
     public void afterAll(final ExtensionContext context) {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("{} - afterAll", this.databaseType);
+            LOGGER.debug("{} - afterAll", databaseType);
 
-            final HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
+            final HikariPoolMXBean poolMXBean = dataSource.getHikariPoolMXBean();
 
             LOGGER.debug("{} - Connections: idle={}, active={}, total={}, waitingThreads={}",
-                    this.databaseType,
+                    databaseType,
                     poolMXBean.getIdleConnections(),
                     poolMXBean.getActiveConnections(),
                     poolMXBean.getTotalConnections(),
                     poolMXBean.getThreadsAwaitingConnection());
         }
 
-        LOGGER.debug("{} - close datasource", this.databaseType);
+        LOGGER.debug("{} - close datasource", databaseType);
 
         switch (getDatabaseType()) {
             case HSQL, H2:
@@ -106,27 +103,27 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 break;
 
             default:
-                throw new IllegalArgumentException("unsupported databaseType: " + this.databaseType);
+                throw new IllegalArgumentException("unsupported databaseType: " + databaseType);
         }
 
-        this.dataSource.close();
+        dataSource.close();
 
         await().pollDelay(Duration.ofMillis(100)).until(() -> true);
 
-        if (!this.dataSource.isClosed()) {
-            this.dataSource.close();
+        if (!dataSource.isClosed()) {
+            dataSource.close();
         }
 
         if (LOGGER.isDebugEnabled()) {
             final long startTime = getStoreForGlobal(context).get("start-time", long.class);
             final long duration = System.currentTimeMillis() - startTime;
 
-            LOGGER.debug("{} - All Tests took {} ms.", this.databaseType, duration);
+            LOGGER.debug("{} - All Tests took {} ms.", databaseType, duration);
         }
 
         this.dataSource = null;
 
-        System.gc();
+        // System.gc();
     }
 
     @Override
@@ -141,7 +138,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     @Override
     public void beforeAll(final ExtensionContext context) {
-        LOGGER.debug("{} - beforeAll", this.databaseType);
+        LOGGER.debug("{} - beforeAll", databaseType);
 
         getStoreForGlobal(context).put("start-time", System.currentTimeMillis());
 
@@ -175,7 +172,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 config.setDriverClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
                 config.setJdbcUrl("jdbc:derby:memory:" + UUID.randomUUID() + ";create=true");
             }
-            default -> throw new IllegalArgumentException("unsupported databaseType: " + this.databaseType);
+            default -> throw new IllegalArgumentException("unsupported databaseType: " + databaseType);
         }
 
         config.setUsername("sa");
@@ -183,17 +180,15 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         config.setPoolName(getDatabaseType().name());
         config.setMinimumIdle(1);
         config.setMaximumPoolSize(8);
-        config.setAutoCommit(this.autoCommit);
+        config.setAutoCommit(autoCommit);
         config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
         // config.setTransactionIsolation("TRANSACTION_REPEATABLE_READ");
         config.setConnectionTimeout(getSqlTimeout().toMillis());
 
-        this.dataSource = new HikariDataSource(config);
+        dataSource = new HikariDataSource(config);
 
         // Trigger init.
-        // this.dataSource.getConnection().close();
-
-        this.jdbcOperations = new JdbcTemplate(this.dataSource);
+        // dataSource.getConnection().close();
 
         // Class.forName(getDriver(), true, getClass().getClassLoader());
 
@@ -209,31 +204,27 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     public DataSource getDataSource() {
-        return this.dataSource;
+        return dataSource;
     }
 
     public EmbeddedDatabaseType getDatabaseType() {
-        return this.databaseType;
+        return databaseType;
     }
 
     public String getDriver() {
-        return this.dataSource.getDriverClassName();
-    }
-
-    public JdbcOperations getJdbcOperations() {
-        return this.jdbcOperations;
+        return dataSource.getDriverClassName();
     }
 
     public String getPassword() {
-        return this.dataSource.getPassword();
+        return dataSource.getPassword();
     }
 
     public String getUrl() {
-        return this.dataSource.getJdbcUrl();
+        return dataSource.getJdbcUrl();
     }
 
     public String getUsername() {
-        return this.dataSource.getUsername();
+        return dataSource.getUsername();
     }
 
     @Override

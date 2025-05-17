@@ -7,17 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
+import java.sql.Wrapper;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
-import org.hibernate.engine.jdbc.internal.FormatStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.freese.base.persistence.exception.PersistenceException;
+import de.freese.base.persistence.formatter.SqlFormatter;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.transaction.SimpleTransaction;
 import de.freese.base.persistence.jdbc.transaction.Transaction;
@@ -25,10 +25,8 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 /**
  * @author Thomas Freese
  */
-public class JdbcClient {
+public class JdbcClient implements Wrapper {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
-    private static final Pattern PATTERN_LINE_BREAKS = Pattern.compile("(\\r\\n|\\r|\\n)");
-    private static final Pattern PATTERN_SPACES = Pattern.compile("\\s{2,}");
     private final DataSource dataSource;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Function<DataSource, Transaction> transactionHandler;
@@ -54,8 +52,40 @@ public class JdbcClient {
         return execute(connectionCallback, true);
     }
 
+    @Override
+    public boolean isWrapperFor(final Class<?> iface) {
+        if (iface.isInstance(this)) {
+            return true;
+        }
+
+        if (DataSource.class.equals(iface)) {
+            return true;
+        }
+
+        return Connection.class.equals(iface);
+    }
+
     public StatementSpec sql(final CharSequence sql) {
+        Objects.requireNonNull(sql, "sql required");
+
         return new DefaultStatementSpec(sql, this);
+    }
+
+    @Override
+    public <T> T unwrap(final Class<T> iface) throws SQLException {
+        if (iface.isInstance(this)) {
+            return (T) this;
+        }
+
+        if (DataSource.class.equals(iface)) {
+            return (T) getDataSource();
+        }
+
+        if (Connection.class.equals(iface)) {
+            return (T) getDataSource().getConnection();
+        }
+
+        throw new SQLException(getClass().getName() + " can not be unwrapped as [" + iface.getName() + "]");
     }
 
     protected void close(final ResultSet resultSet) {
@@ -126,7 +156,7 @@ public class JdbcClient {
         // th = th.getCause();
         // }
 
-        return new RuntimeException(th);
+        return new PersistenceException(th);
     }
 
     protected <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
@@ -159,7 +189,7 @@ public class JdbcClient {
             return getDataSource().getConnection();
         }
         catch (SQLException ex) {
-            throw new PersistenceException(ex);
+            throw convertException(ex);
         }
     }
 
@@ -190,22 +220,6 @@ public class JdbcClient {
     }
 
     protected void logSql(final CharSequence sql) {
-        if (getLogger().isDebugEnabled()) {
-            String value = sql.toString();
-            value = PATTERN_LINE_BREAKS.matcher(value).replaceAll(" ");
-            value = PATTERN_SPACES.matcher(value).replaceAll(" ");
-            value = value
-                    .replace("( ", "(")
-                    .replace(" )", ")");
-
-            final String valueLowerCase = value.toLowerCase();
-
-            if (valueLowerCase.startsWith("create") || valueLowerCase.startsWith("drop") || valueLowerCase.startsWith("alter")) {
-                getLogger().debug("Executing DDL: {}", FormatStyle.DDL.getFormatter().format(value));
-            }
-            else {
-                getLogger().debug("Executing SQL: {}", FormatStyle.BASIC.getFormatter().format(value));
-            }
-        }
+        SqlFormatter.log(sql, getLogger());
     }
 }

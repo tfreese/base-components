@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.function.LongConsumer;
 
-import de.freese.base.persistence.jdbc.function.CallableStatementMapper;
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementSetter;
 
@@ -19,7 +19,7 @@ public interface StatementSpec {
     /**
      * Execute the SQL with {@link CallableStatement#execute()}.
      */
-    <R> R call(StatementSetter<CallableStatement> statementSetter, CallableStatementMapper<R> mapper);
+    <R> R call(StatementSetter<CallableStatement> statementSetter, StatementCallback<CallableStatement, R> mapper);
 
     /**
      * Execute the SQL with {@link Statement#execute(String)}.

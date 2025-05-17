@@ -64,31 +64,6 @@ class TestReactiveJdbc {
         populator.execute(SERVER.getDataSource());
     }
 
-    static void close(final Connection connection, final Statement statement, final ResultSet resultSet) {
-        LOGGER.debug("close");
-
-        try {
-            JdbcUtils.close(resultSet);
-        }
-        catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-
-        try {
-            JdbcUtils.close(statement);
-        }
-        catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-
-        try {
-            JdbcUtils.close(connection);
-        }
-        catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-    }
-
     @Test
     void testFlowResultSetPublisher() throws SQLException {
         final Connection connection = SERVER.getDataSource().getConnection();
@@ -165,7 +140,9 @@ class TestReactiveJdbc {
 
         final Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
             LOGGER.debug("close jdbc flux");
-            close(connection, statement, resultSet);
+            JdbcUtils.closeSilent(resultSet);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
         });
 
         flux.subscribe(p -> {
@@ -189,7 +166,9 @@ class TestReactiveJdbc {
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
+            JdbcUtils.closeSilent(resultSet);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
         })) {
             stream.forEach(p -> {
                 result.add(p);
@@ -216,7 +195,9 @@ class TestReactiveJdbc {
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
+            JdbcUtils.closeSilent(resultSet);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
         })) {
             stream.forEach(p -> {
                 result.add(p);
@@ -240,7 +221,9 @@ class TestReactiveJdbc {
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
+            JdbcUtils.closeSilent(resultSet);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
         })) {
             stream.forEach(p -> {
                 result.add(p);

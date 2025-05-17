@@ -20,7 +20,7 @@ class TestBenchmark {
             .warmupTime(TimeValue.milliseconds(100))
             .measurementIterations(1)
             .measurementTime(TimeValue.milliseconds(200))
-            .forks(0)
+            .forks(1)
             .build();
 
     @Test

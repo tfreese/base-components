@@ -12,9 +12,9 @@ import java.util.Objects;
 import java.util.function.LongConsumer;
 import java.util.stream.IntStream;
 
-import de.freese.base.persistence.jdbc.function.CallableStatementMapper;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementSetter;
 
@@ -36,7 +36,7 @@ class DefaultStatementSpec implements StatementSpec {
     }
 
     @Override
-    public <R> R call(final StatementSetter<CallableStatement> statementSetter, final CallableStatementMapper<R> mapper) {
+    public <R> R call(final StatementSetter<CallableStatement> statementSetter, final StatementCallback<CallableStatement, R> mapper) {
         jdbcClient.logSql(sql);
 
         final ConnectionCallback<R> connectionCallback = connection -> {
@@ -46,7 +46,7 @@ class DefaultStatementSpec implements StatementSpec {
 
                 jdbcClient.handleWarnings(callableStatement);
 
-                return mapper.map(callableStatement);
+                return mapper.doInStatement(callableStatement);
             }
         };
 
