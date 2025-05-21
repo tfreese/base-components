@@ -3,13 +3,19 @@ package de.freese.base.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Enumeration;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 /**
  * @author Thomas Freese
@@ -107,6 +113,46 @@ public final class FileUtils {
 
         // return new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
         return String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
+    }
+
+    @SuppressWarnings("java:S1162")
+    public static void validateZip(final ZipFile zipFile) throws IOException {
+        final int THRESHOLD_ENTRIES = 10_000;
+        final int THRESHOLD_SIZE = 1_000_000_000; // Entry size: 1 GB
+        final double THRESHOLD_RATIO = 10D; // Compression in %
+
+        long totalSizeArchive = 0L;
+        int totalEntryArchive = 0;
+
+        for (final Enumeration<? extends ZipEntry> entries = zipFile.entries(); entries.hasMoreElements(); ) {
+            final ZipEntry zipEntry = entries.nextElement();
+
+            totalEntryArchive++;
+            long totalSizeEntry = 0L;
+
+            try (InputStream inputStream = zipFile.getInputStream(zipEntry);
+                 OutputStream outputStream = OutputStream.nullOutputStream()) {
+                totalSizeEntry = inputStream.transferTo(outputStream);
+                totalSizeArchive += totalSizeEntry;
+            }
+
+            if (totalEntryArchive > THRESHOLD_ENTRIES) {
+                throw new ZipException("Too many entries in this archive, can lead to inodes exhaustion of the filesystem: " + totalEntryArchive);
+            }
+
+            if (totalSizeArchive > THRESHOLD_SIZE) {
+                throw new ZipException("The uncompressed data size is too much for the application resource capacity: " + totalSizeArchive);
+            }
+
+            if (!zipEntry.isDirectory()) {
+                final double compressionRatio = (double) totalSizeEntry / zipEntry.getCompressedSize();
+
+                if (compressionRatio > THRESHOLD_RATIO) {
+                    throw new ZipException("Ratio between compressed and uncompressed data is highly suspicious, looks like a Zip Bomb Attack: "
+                            + compressionRatio + "% - " + zipEntry.getName());
+                }
+            }
+        }
     }
 
     private FileUtils() {
