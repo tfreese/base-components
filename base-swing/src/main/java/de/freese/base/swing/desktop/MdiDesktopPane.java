@@ -26,8 +26,8 @@ public final class MdiDesktopPane extends JDesktopPane {
     public MdiDesktopPane() {
         super();
 
-        this.manager = new MdiDesktopManager(this);
-        setDesktopManager(this.manager);
+        manager = new MdiDesktopManager(this);
+        setDesktopManager(manager);
         setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
     }
 
@@ -111,7 +111,7 @@ public final class MdiDesktopPane extends JDesktopPane {
     }
 
     /**
-     * Sets all component size properties ( maximum, minimum, preferred) to the given dimension.
+     * Sets all component size properties (maximum, minimum, preferred) to the given dimension.
      */
     public void setAllSize(final Dimension d) {
         setMinimumSize(d);
@@ -120,7 +120,7 @@ public final class MdiDesktopPane extends JDesktopPane {
     }
 
     /**
-     * Sets all component size properties ( maximum, minimum, preferred) to the given width and height.
+     * Sets all component size properties (maximum, minimum, preferred) to the given width and height.
      */
     public void setAllSize(final int width, final int height) {
         setAllSize(new Dimension(width, height));
@@ -155,7 +155,7 @@ public final class MdiDesktopPane extends JDesktopPane {
         int x = 0;
         int y = 0;
 
-        this.manager.setNormalSize();
+        manager.setNormalSize();
         int frameHeight = (getHeight() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
         int frameWidth = (getWidth() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
 
@@ -174,7 +174,7 @@ public final class MdiDesktopPane extends JDesktopPane {
 
     private void checkDesktopSize() {
         if (getParent() != null && isVisible()) {
-            this.manager.resizeDesktop();
+            manager.resizeDesktop();
         }
     }
 
@@ -183,7 +183,7 @@ public final class MdiDesktopPane extends JDesktopPane {
      */
     private void tileFrames(final int minWidth, final int minHeight) {
         final JInternalFrame[] allFrames = getAllFrames();
-        this.manager.setNormalSize();
+        manager.setNormalSize();
 
         // count frames that aren't iconized
         int frameCount = 0;
@@ -217,7 +217,8 @@ public final class MdiDesktopPane extends JDesktopPane {
                         r = 0;
                         c++;
 
-                        if (c == (cols - extra)) { // start adding an extra row
+                        if (c == (cols - extra)) {
+                            // start adding an extra row
                             rows++;
                             height = getHeight() / rows;
                         }
@@ -237,7 +238,7 @@ public final class MdiDesktopPane extends JDesktopPane {
      */
     private void tileFramesFlat(final int minHeight) {
         final JInternalFrame[] allFrames = getAllFrames();
-        this.manager.setNormalSize();
+        manager.setNormalSize();
         int y = 0;
 
         int frameHeight = getHeight() / allFrames.length;

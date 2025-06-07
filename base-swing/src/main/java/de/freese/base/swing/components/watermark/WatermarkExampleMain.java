@@ -69,7 +69,7 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
 
         if (option != JFileChooser.CANCEL_OPTION) {
             final File curFile = chooser.getSelectedFile();
-            this.jLabel.setText(curFile.getAbsolutePath());
+            jLabel.setText(curFile.getAbsolutePath());
 
             final ImageIcon image = new ImageIcon(curFile.getAbsolutePath());
             getWatermarkTable().setWatermark(image);
@@ -78,71 +78,74 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
     }
 
     private JButton getJButton() {
-        if (this.jButton == null) {
-            this.jButton = new JButton();
-            this.jButton.setText("Change ...");
-            this.jButton.addActionListener(this);
+        if (jButton == null) {
+            jButton = new JButton();
+            jButton.setText("Change ...");
+            jButton.addActionListener(this);
         }
 
-        return this.jButton;
+        return jButton;
     }
 
     private JPanel getJPanel() {
-        if (this.jPanel == null) {
-            this.jPanel = new JPanel();
-            this.jPanel.setLayout(new BorderLayout());
-            this.jPanel.add(getJSplitPane(), BorderLayout.CENTER);
-            this.jPanel.add(getJPanel1(), BorderLayout.NORTH);
+        if (jPanel == null) {
+            jPanel = new JPanel();
+            jPanel.setLayout(new BorderLayout());
+            jPanel.add(getJSplitPane(), BorderLayout.CENTER);
+            jPanel.add(getJPanel1(), BorderLayout.NORTH);
         }
 
-        return this.jPanel;
+        return jPanel;
     }
 
     private JPanel getJPanel1() {
-        if (this.jPanel1 == null) {
+        if (jPanel1 == null) {
+            jPanel1 = new JPanel();
+
+            jLabel.setText("None");
+            jLabel.setFont(new Font("MS Sans Serif", Font.ITALIC, 11));
+
             final JLabel jLabel1 = new JLabel();
-            this.jPanel1 = new JPanel();
-            this.jLabel.setText("None");
-            this.jLabel.setFont(new Font("MS Sans Serif", Font.ITALIC, 11));
             jLabel1.setText("Icon :");
             jLabel1.setFont(new Font("MS Sans Serif", Font.BOLD, 11));
-            this.jPanel1.add(jLabel1, null);
-            this.jPanel1.add(this.jLabel, null);
-            this.jPanel1.add(getJButton(), null);
+
+            jPanel1.add(jLabel1, null);
+            jPanel1.add(jLabel, null);
+            jPanel1.add(getJButton(), null);
         }
 
-        return this.jPanel1;
+        return jPanel1;
     }
 
     private JSplitPane getJSplitPane() {
-        if (this.jSplitPane == null) {
-            this.jSplitPane = new JSplitPane();
-            this.jSplitPane.setLeftComponent(getWatermarkTree());
-            this.jSplitPane.setRightComponent(getWatermarkTable());
+        if (jSplitPane == null) {
+            jSplitPane = new JSplitPane();
+            jSplitPane.setLeftComponent(getWatermarkTree());
+            jSplitPane.setRightComponent(getWatermarkTable());
         }
 
-        return this.jSplitPane;
+        return jSplitPane;
     }
 
     private WatermarkTable getWatermarkTable() {
-        if (this.watermarkTable == null) {
-            this.watermarkTable = new WatermarkTable();
+        if (watermarkTable == null) {
+            watermarkTable = new WatermarkTable();
         }
 
-        return this.watermarkTable;
+        return watermarkTable;
     }
 
     private WatermarkTree getWatermarkTree() {
-        if (this.watermarkTree == null) {
-            this.watermarkTree = new WatermarkTree();
+        if (watermarkTree == null) {
+            watermarkTree = new WatermarkTree();
         }
 
-        return this.watermarkTree;
+        return watermarkTree;
     }
 
     private void initialize() {
         setLayout(new BorderLayout());
-        this.setSize(400, 300);
-        this.add(getJPanel(), BorderLayout.CENTER);
+        setSize(400, 300);
+        add(getJPanel(), BorderLayout.CENTER);
     }
 }

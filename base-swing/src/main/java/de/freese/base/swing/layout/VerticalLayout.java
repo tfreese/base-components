@@ -28,7 +28,7 @@ public class VerticalLayout implements LayoutManager {
     }
 
     public int getGap() {
-        return this.gap;
+        return gap;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class VerticalLayout implements LayoutManager {
 
             if (m.isVisible()) {
                 m.setBounds(insets.left, height, width, m.getPreferredSize().height);
-                height += m.getSize().height + this.gap;
+                height += m.getSize().height + gap;
             }
         }
     }
@@ -64,7 +64,7 @@ public class VerticalLayout implements LayoutManager {
 
             if (m.isVisible()) {
                 final Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
-                pref.height += componentPreferredSize.height + this.gap;
+                pref.height += componentPreferredSize.height + gap;
                 pref.width = Math.max(pref.width, componentPreferredSize.width);
             }
         }

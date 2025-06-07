@@ -25,12 +25,13 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
         super();
 
         this.delegate = delegate;
-        this.matteBorder = BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK);
+
+        matteBorder = BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK);
     }
 
     @Override
     public Component getListCellRendererComponent(final JList<? extends T> list, final T value, final int index, final boolean isSelected, final boolean cellHasFocus) {
-        final Component component = this.delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        final Component component = delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         // 16 <=> see JList#getPreferredScrollableViewportSize()
         final int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
@@ -41,7 +42,7 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
         }
 
         if (index >= visibleRowCount && component instanceof JComponent jComponent) {
-            final Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
+            final Border compoundBorder = BorderFactory.createCompoundBorder(matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }
 

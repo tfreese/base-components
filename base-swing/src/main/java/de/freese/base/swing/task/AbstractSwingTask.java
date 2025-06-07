@@ -126,7 +126,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         final long currentTime;
 
         synchronized (this) {
-            sTime = this.startTime;
+            sTime = startTime;
             currentTime = System.currentTimeMillis();
         }
 
@@ -152,27 +152,27 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         final long dTime;
 
         synchronized (this) {
-            sTime = this.startTime;
-            dTime = this.doneTime;
+            sTime = startTime;
+            dTime = doneTime;
         }
 
         return getDuration(unit, sTime, dTime);
     }
 
     public InputBlocker getInputBlocker() {
-        return this.inputBlocker;
+        return inputBlocker;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getSubTitle() {
-        return this.subTitle;
+        return subTitle;
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @return true if the {@link #setProgress progress} property has been set.
      */
     public synchronized boolean isProgressPropertyValid() {
-        return this.progressPropertyIsValid;
+        return progressPropertyIsValid;
     }
 
     /**
@@ -282,7 +282,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     protected final Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     @Override
@@ -392,7 +392,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when this Task has successfully completed, i.e. when its {@code get} method returns a value. Tasks that compute a value should override this method.<br/>
+     * Called when this Task has successfully completed, i.e., when its {@code get} method returns a value. Tasks that compute a value should override this method.<br/>
      * This method runs on the EDT. It does nothing by default.
      *
      * @param result the value returned by the {@code get} method

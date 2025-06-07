@@ -39,18 +39,18 @@ public class BoundedExecutorQueued implements Executor {
             throw new NullPointerException();
         }
 
-        if (this.rateLimiter.availablePermits() > 0) {
+        if (rateLimiter.availablePermits() > 0) {
             // Are Slots available, than execute.
             schedule(runnable);
         }
         else {
             // Park in the Queue.
-            this.queue.add(runnable);
+            queue.add(runnable);
         }
     }
 
     public int getQueueSize() {
-        return this.queue.size();
+        return queue.size();
     }
 
     private void schedule(final Runnable runnable) {
@@ -59,20 +59,20 @@ public class BoundedExecutorQueued implements Executor {
         }
 
         try {
-            this.rateLimiter.acquire();
+            rateLimiter.acquire();
 
-            this.delegate.execute(() -> {
+            delegate.execute(() -> {
                 try {
                     runnable.run();
                 }
                 finally {
-                    this.rateLimiter.release();
-                    schedule(this.queue.poll());
+                    rateLimiter.release();
+                    schedule(queue.poll());
                 }
             });
         }
         catch (RejectedExecutionException ex) {
-            this.rateLimiter.release();
+            rateLimiter.release();
 
             throw ex;
         }

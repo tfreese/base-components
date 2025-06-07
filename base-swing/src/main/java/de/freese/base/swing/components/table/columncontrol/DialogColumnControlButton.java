@@ -68,7 +68,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      * @return int, Default 15
      */
     public int getGroupedColumnCount() {
-        return this.groupedColumnCount;
+        return groupedColumnCount;
     }
 
     @Override
@@ -211,7 +211,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected JXTable getTable() {
-        return this.table;
+        return table;
     }
 
     protected void init() {

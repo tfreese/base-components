@@ -24,6 +24,6 @@ public abstract class AbstractClipboardConverter implements ClipboardConverter {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

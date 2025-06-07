@@ -74,19 +74,19 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
     }
 
     protected String getSortPriority(final ExtTableColumn tableColumnExt) {
-        final int index = this.rowSorter.getSortPriority(tableColumnExt);
+        final int index = rowSorter.getSortPriority(tableColumnExt);
 
         return (index == -1) ? null : ("" + (index + 1));
     }
 
     protected final TableCellRenderer getTableCellRenderer() {
-        return this.tableCellRenderer;
+        return tableCellRenderer;
     }
 
     // public void propertyChange(final PropertyChangeEvent evt) {
     // if (evt.getPropertyName().equals("ROWSORTER_ORDER_CHANGED")) {
-    // if (this.tableCellRenderer instanceof Component) {
-    // ((Component) this.tableCellRenderer).repaint();
+    // if (tableCellRenderer instanceof Component) {
+    // ((Component) tableCellRenderer).repaint();
     // }
     // }
     // }

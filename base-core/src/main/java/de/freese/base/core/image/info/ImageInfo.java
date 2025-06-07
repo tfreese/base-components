@@ -38,17 +38,17 @@ public class ImageInfo {
         g.drawRenderedImage(source, null);
         g.dispose();
 
-        this.channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.ALPHA));
-        this.channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.RED));
-        this.channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.GREEN));
-        this.channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.BLUE));
+        channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.ALPHA));
+        channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.RED));
+        channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.GREEN));
+        channelInfos.add(new ImageColorChannelInfo(target, ColorChannel.BLUE));
     }
 
     public BufferedImage createCoOccurrenceMatrixImage() {
-        if (this.coOccurrenceMatrixImage == null) {
-            this.coOccurrenceMatrixImage = new BufferedImage(510, 510, BufferedImage.TYPE_INT_RGB);
+        if (coOccurrenceMatrixImage == null) {
+            coOccurrenceMatrixImage = new BufferedImage(510, 510, BufferedImage.TYPE_INT_RGB);
 
-            for (ImageColorChannelInfo channelInfo : this.channelInfos) {
+            for (ImageColorChannelInfo channelInfo : channelInfos) {
                 final ColorChannel colorChannel = channelInfo.getColorChannel();
 
                 int xOffset = 0;
@@ -71,18 +71,18 @@ public class ImageInfo {
                         final int value = channelInfo.getCoOccurrenceMatrix()[x - xOffset][y - yOffset];
 
                         if (value > 0) {
-                            this.coOccurrenceMatrixImage.setRGB(x, y, colorChannel.getColor().getRGB());
+                            coOccurrenceMatrixImage.setRGB(x, y, colorChannel.getColor().getRGB());
                         }
                     }
                 }
             }
         }
 
-        return this.coOccurrenceMatrixImage;
+        return coOccurrenceMatrixImage;
     }
 
     public List<ImageColorChannelInfo> getChannelInfos() {
-        return Collections.unmodifiableList(this.channelInfos);
+        return Collections.unmodifiableList(channelInfos);
     }
 
     /**
@@ -98,42 +98,39 @@ public class ImageInfo {
      * 9. Kontrast<br>
      */
     public double[] getInfoVector() {
-        if (this.infoVector == null) {
-            this.infoVector = new double[9 * this.channelInfos.size()];
+        if (infoVector == null) {
+            infoVector = new double[9 * channelInfos.size()];
 
             int i = 0;
 
             // Co-Occurrence-Matrix direkt verwenden
-            // ImageColorChannelInfo channelInfo = this.channelInfos.get(1);
+            // ImageColorChannelInfo channelInfo = channelInfos.get(1);
             // int[][] matrix = channelInfo.getCoOccurrenceMatrix();
             //
-            // for (int x = 0; x < 255; x++)
-            // {
-            // for (int y = 0; y < 255; y++)
-            // {
-            // if (matrix[x][y] > 0)
-            // {
-            // this.outputVector[i] = 1;
+            // for (int x = 0; x < 255; x++) {
+            // for (int y = 0; y < 255; y++) {
+            // if (matrix[x][y] > 0) {
+            // outputVector[i] = 1;
             // }
             //
             // i++;
             // }
             // }
 
-            for (ImageColorChannelInfo channelInfo : this.channelInfos) {
-                this.infoVector[i++] = channelInfo.getMinimalerFarbwert();
-                this.infoVector[i++] = channelInfo.getMaximalerFarbwert();
-                this.infoVector[i++] = channelInfo.getMittlererFarbwert();
-                this.infoVector[i++] = channelInfo.getEntropie();
-                this.infoVector[i++] = channelInfo.getUniformitaet();
-                this.infoVector[i++] = channelInfo.getUnaehnlichkeit();
-                this.infoVector[i++] = channelInfo.getInverseDifferenz();
-                this.infoVector[i++] = channelInfo.getInversesDifferenzMoment();
-                this.infoVector[i++] = channelInfo.getKontrast();
+            for (ImageColorChannelInfo channelInfo : channelInfos) {
+                infoVector[i++] = channelInfo.getMinimalerFarbwert();
+                infoVector[i++] = channelInfo.getMaximalerFarbwert();
+                infoVector[i++] = channelInfo.getMittlererFarbwert();
+                infoVector[i++] = channelInfo.getEntropie();
+                infoVector[i++] = channelInfo.getUniformitaet();
+                infoVector[i++] = channelInfo.getUnaehnlichkeit();
+                infoVector[i++] = channelInfo.getInverseDifferenz();
+                infoVector[i++] = channelInfo.getInversesDifferenzMoment();
+                infoVector[i++] = channelInfo.getKontrast();
             }
         }
 
-        return this.infoVector;
+        return infoVector;
     }
 
     /**
@@ -141,8 +138,8 @@ public class ImageInfo {
      * Die Daten sind hier re-skaliert da grosse Werte dabei sind, wie Uniformität (Energie) und Kontrast.
      */
     public double[] getInfoVectorReScaled() {
-        if (this.infoVectorReScaled == null) {
-            this.infoVectorReScaled = new double[getInfoVector().length];
+        if (infoVectorReScaled == null) {
+            infoVectorReScaled = new double[getInfoVector().length];
 
             double min = Double.MAX_VALUE;
             double max = Double.MIN_VALUE;
@@ -167,7 +164,7 @@ public class ImageInfo {
                     value /= 2D;
                 }
 
-                this.infoVectorReScaled[i] = value;
+                infoVectorReScaled[i] = value;
 
                 min = Math.min(min, value);
                 max = Math.max(max, value);
@@ -176,22 +173,21 @@ public class ImageInfo {
             // double minNorm = 0.0D;
             // double maxNorm = 500_000D;
             //
-            // for (int i = 0; i < this.infoVectorReScaled.length; i++)
-            // {
-            // // this.infoVectorReScaled[i] = ExtMath.reScale(this.infoVectorReScaled[i], min, max, minNorm, maxNorm);
+            // for (int i = 0; i < infoVectorReScaled.length; i++) {
+            // // infoVectorReScaled[i] = ExtMath.reScale(infoVectorReScaled[i], min, max, minNorm, maxNorm);
             //
-            // this.infoVectorReScaled[i] = minNorm + (((this.infoVectorReScaled[i] - min) * (maxNorm - minNorm)) / (max - min));
+            // infoVectorReScaled[i] = minNorm + (((infoVectorReScaled[i] - min) * (maxNorm - minNorm)) / (max - min));
             // }
         }
 
-        return this.infoVectorReScaled;
+        return infoVectorReScaled;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
 
-        for (ImageColorChannelInfo channelInfo : this.channelInfos) {
+        for (ImageColorChannelInfo channelInfo : channelInfos) {
             sb.append(channelInfo.toString());
             sb.append(System.lineSeparator());
         }

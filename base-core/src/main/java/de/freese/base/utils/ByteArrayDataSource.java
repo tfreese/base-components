@@ -78,7 +78,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
     }
 
     private final byte[] data;
-    
+
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
     private String name = "";
 
@@ -111,7 +111,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             }
         }
 
-        this.data = baos.toByteArray();
+        data = baos.toByteArray();
     }
 
     public ByteArrayDataSource(final Serializable object) {
@@ -125,10 +125,10 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             // Assumption that the string contains only ASCII characters!
             // Otherwise, just pass a charset into this
             // constructor and use it in getBytes()
-            this.data = value.getBytes(StandardCharsets.ISO_8859_1);
+            data = value.getBytes(StandardCharsets.ISO_8859_1);
         }
         else {
-            this.data = null;
+            data = null;
         }
 
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
@@ -136,38 +136,38 @@ public class ByteArrayDataSource implements DataSource, Serializable {
 
     @Override
     public String getContentType() {
-        return this.mimeType;
+        return mimeType;
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        if (this.data == null) {
+        if (data == null) {
             throw new IOException("no data");
         }
 
-        return new ByteArrayInputStream(this.data);
+        return new ByteArrayInputStream(data);
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        if (this.data == null) {
+        if (data == null) {
             throw new IOException("no data");
         }
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(this.data);
+        baos.write(data);
 
         return baos;
     }
 
     public void setName(final String value) {
         if (value != null) {
-            this.name = value;
+            name = value;
         }
     }
 }

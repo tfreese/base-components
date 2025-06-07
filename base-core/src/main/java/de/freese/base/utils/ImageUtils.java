@@ -77,8 +77,8 @@ public final class ImageUtils {
         private EmptyIcon(final int width, final int height) {
             super();
 
-            this.iconWidth = width;
-            this.iconHeight = height;
+            iconWidth = width;
+            iconHeight = height;
 
             setImage(null);
             //            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
@@ -86,24 +86,24 @@ public final class ImageUtils {
 
         @Override
         public int getIconHeight() {
-            return this.iconHeight;
+            return iconHeight;
         }
 
         @Override
         public int getIconWidth() {
-            return this.iconWidth;
+            return iconWidth;
         }
 
         @Override
         public Image getImage() {
-            if (this.bufferedImage == null) {
-                this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = this.bufferedImage.getGraphics();
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
 
-            return this.bufferedImage;
+            return bufferedImage;
         }
 
         @Override
@@ -151,33 +151,33 @@ public final class ImageUtils {
         private MissingIcon(final int width, final int height) {
             super();
 
-            this.iconWidth = width;
-            this.iconHeight = height;
+            iconWidth = width;
+            iconHeight = height;
 
             setImage(null);
-            //            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
+            // setImage(new ImageIcon(new byte[]{0, 0}).getImage());
         }
 
         @Override
         public int getIconHeight() {
-            return this.iconHeight;
+            return iconHeight;
         }
 
         @Override
         public int getIconWidth() {
-            return this.iconWidth;
+            return iconWidth;
         }
 
         @Override
         public Image getImage() {
-            if (this.bufferedImage == null) {
-                this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = this.bufferedImage.getGraphics();
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
 
-            return this.bufferedImage;
+            return bufferedImage;
         }
 
         @Override
@@ -241,15 +241,15 @@ public final class ImageUtils {
         private TriangleIcon(final int width, final int height, final int direction, final Color foreground) {
             super();
 
-            this.iconWidth = width;
-            this.iconHeight = height;
+            iconWidth = width;
+            iconHeight = height;
             this.direction = direction;
             this.foreground = foreground;
 
-            if (this.direction != SwingConstants.NORTH
-                    && this.direction != SwingConstants.SOUTH
-                    && this.direction != SwingConstants.EAST
-                    && this.direction != SwingConstants.WEST) {
+            if (direction != SwingConstants.NORTH
+                    && direction != SwingConstants.SOUTH
+                    && direction != SwingConstants.EAST
+                    && direction != SwingConstants.WEST) {
                 throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
             }
 
@@ -259,24 +259,24 @@ public final class ImageUtils {
 
         @Override
         public int getIconHeight() {
-            return this.iconHeight;
+            return iconHeight;
         }
 
         @Override
         public int getIconWidth() {
-            return this.iconWidth;
+            return iconWidth;
         }
 
         @Override
         public Image getImage() {
-            if (this.bufferedImage == null) {
-                this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = this.bufferedImage.getGraphics();
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
 
-            return this.bufferedImage;
+            return bufferedImage;
         }
 
         @Override
@@ -284,26 +284,26 @@ public final class ImageUtils {
             final Graphics2D g2d = (Graphics2D) g.create();
 
             g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
-            g2d.setColor(this.foreground);
+            g2d.setColor(foreground);
 
             final int centerX = getIconWidth() / 2;
             final int centerY = getIconHeight() / 2;
             final int[] xPoints;
             final int[] yPoints;
 
-            if (this.direction == SwingConstants.NORTH) {
+            if (direction == SwingConstants.NORTH) {
                 xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
                 yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
             }
-            else if (this.direction == SwingConstants.SOUTH) {
+            else if (direction == SwingConstants.SOUTH) {
                 xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
                 yPoints = new int[]{y, y + (centerY * 2), y};
             }
-            else if (this.direction == SwingConstants.WEST) {
+            else if (direction == SwingConstants.WEST) {
                 xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
                 yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
             }
-            else if (this.direction == SwingConstants.EAST) {
+            else if (direction == SwingConstants.EAST) {
                 xPoints = new int[]{x, x + (centerX * 2), x, x};
                 yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
             }

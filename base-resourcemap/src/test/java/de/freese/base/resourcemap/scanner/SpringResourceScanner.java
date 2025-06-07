@@ -23,7 +23,7 @@ public class SpringResourceScanner implements ResourceScanner {
     public SpringResourceScanner() {
         super();
 
-        this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
+        resourcePatternResolver = new PathMatchingResourcePatternResolver();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SpringResourceScanner implements ResourceScanner {
         }
 
         try {
-            final Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
+            final Resource[] resources = resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
 
             // Für ResourceBundle normalisieren
             final Set<String> bundleNames = new HashSet<>();

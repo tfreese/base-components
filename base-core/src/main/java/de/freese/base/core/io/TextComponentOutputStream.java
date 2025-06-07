@@ -51,7 +51,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
 
     private void updateComponent(final String text) {
         final Runnable runnable = () -> {
-            final JTextComponent tc = this.textComponent;
+            final JTextComponent tc = textComponent;
             final Document document = tc.getDocument();
 
             try {

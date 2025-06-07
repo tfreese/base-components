@@ -32,15 +32,15 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
         this.fetchSize = fetchSize;
 
-        this.completed = new AtomicBoolean(false);
-        this.counter = new AtomicInteger(0);
+        completed = new AtomicBoolean(false);
+        counter = new AtomicInteger(0);
     }
 
     @Override
     public void onComplete() {
         LOGGER.debug("onComplete");
 
-        this.completed.set(true);
+        completed.set(true);
     }
 
     @Override
@@ -48,22 +48,22 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         LOGGER.error(throwable.getMessage(), throwable);
 
         // Handled in ResultSetSubscription.
-        // this.subscription.cancel();
+        // subscription.cancel();
     }
 
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
-        this.consumer.accept(item);
+        consumer.accept(item);
 
-        this.counter.incrementAndGet();
+        counter.incrementAndGet();
 
-        if (this.counter.get() > (this.fetchSize - 1)) {
-            this.counter.set(0);
+        if (counter.get() > (fetchSize - 1)) {
+            counter.set(0);
 
             // Fetch the next n Elements.
-            this.subscription.request(this.completed.get() ? 0 : this.fetchSize);
+            subscription.request(completed.get() ? 0 : fetchSize);
         }
     }
 
@@ -72,6 +72,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         this.subscription = subscription;
 
         // Fetch the first n Elements.
-        subscription.request(this.fetchSize);
+        subscription.request(fetchSize);
     }
 }

@@ -34,7 +34,7 @@ public final class RoundRobinPool<T> implements AutoCloseable {
         Objects.requireNonNull(creator, "creator required");
         Objects.requireNonNull(doOnClose, "doOnClose required");
 
-        this.queue = new ArrayList<>(size);
+        queue = new ArrayList<>(size);
         this.doOnClose = doOnClose;
 
         for (int i = 0; i < size; i++) {
@@ -53,7 +53,7 @@ public final class RoundRobinPool<T> implements AutoCloseable {
         //     NEXT_INDEX.set(this, 0);
         // }
         //
-        // final T object = this.queue.get(NEXT_INDEX.get(this));
+        // final T object = queue.get(NEXT_INDEX.get(this));
         //
         // NEXT_INDEX.incrementAndGet(this);
 
@@ -61,7 +61,7 @@ public final class RoundRobinPool<T> implements AutoCloseable {
             nextIndex = 0;
         }
 
-        final T object = this.queue.get(nextIndex);
+        final T object = queue.get(nextIndex);
 
         nextIndex += 1;
 

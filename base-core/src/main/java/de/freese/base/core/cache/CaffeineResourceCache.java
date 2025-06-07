@@ -28,15 +28,15 @@ public class CaffeineResourceCache extends FileResourceCache {
 
     @Override
     public void clear() {
-        this.cache.invalidateAll();
-        this.cache.cleanUp();
+        cache.invalidateAll();
+        cache.cleanUp();
 
         super.clear();
     }
 
     @Override
     public InputStream getResource(final URI uri) throws Exception {
-        final byte[] content = this.cache.get(uri);
+        final byte[] content = cache.get(uri);
 
         if (content == null || content.length == 0) {
             return null;

@@ -35,11 +35,11 @@ public class DatabasePopulator {
     private final List<URL> scriptUrls = new ArrayList<>();
 
     public void addScript(final URL scriptUrl) {
-        this.scriptUrls.add(scriptUrl);
+        scriptUrls.add(scriptUrl);
     }
 
     public void populate(final Connection connection) throws Exception {
-        for (URL scriptUrl : this.scriptUrls) {
+        for (URL scriptUrl : scriptUrls) {
             final List<String> sqls = parseSQLs(scriptUrl);
 
             // sqls.forEach(System.out::println);
@@ -90,7 +90,7 @@ public class DatabasePopulator {
         List<String> fileLines = null;
 
         if (scriptUrl != null) {
-            // Funktioniert nicht, wenn die Skripte in einem anderen Archiv liegen.
+            // Doesn't work if the scripts are in an archive.
             final Path path = Paths.get(scriptUrl.toURI());
 
             try (Stream<String> lines = Files.lines(path)) {

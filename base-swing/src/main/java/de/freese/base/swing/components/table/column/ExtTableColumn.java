@@ -48,12 +48,12 @@ public class ExtTableColumn extends TableColumn {
      * Returns the value of the property with the specified key. Only properties added with <code>putClientProperty</code> will return a non-<code>null</code>
      * value.
      *
-     * @param key Object which is used as key to retrieve value
+     * @param key Object which is used as a key to retrieve value
      *
      * @return Object containing value of client property or <code>null</code>
      */
     public Object getClientProperty(final Object key) {
-        return (key == null || this.clientProperties == null) ? null : this.clientProperties.get(key);
+        return (key == null || clientProperties == null) ? null : clientProperties.get(key);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ExtTableColumn extends TableColumn {
     }
 
     public Sort getSort() {
-        return this.sort;
+        return sort;
     }
 
     public String getTitle() {
@@ -72,7 +72,7 @@ public class ExtTableColumn extends TableColumn {
     }
 
     public boolean isSortable() {
-        return this.sortable;
+        return sortable;
     }
 
     /**
@@ -81,11 +81,11 @@ public class ExtTableColumn extends TableColumn {
      * @return boolean indicating whether this view column is visible in the table
      */
     public boolean isVisible() {
-        return this.visible;
+        return visible;
     }
 
     public boolean isVisibleChange() {
-        return this.visibleChange;
+        return visibleChange;
     }
 
     /**
@@ -181,10 +181,10 @@ public class ExtTableColumn extends TableColumn {
     }
 
     private Map<Object, Object> getClientProperties() {
-        if (this.clientProperties == null) {
-            this.clientProperties = new HashMap<>();
+        if (clientProperties == null) {
+            clientProperties = new HashMap<>();
         }
 
-        return this.clientProperties;
+        return clientProperties;
     }
 }

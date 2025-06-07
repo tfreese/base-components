@@ -37,17 +37,17 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T> {
         LOGGER.error(throwable.getMessage(), throwable);
 
         // Handled in ResultSetSubscription.
-        // this.subscription.cancel();
+        // subscription.cancel();
     }
 
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
-        this.consumer.accept(item);
+        consumer.accept(item);
 
         // Fetch next Element.
-        this.subscription.request(1);
+        subscription.request(1);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T> {
         this.subscription = subscription;
 
         // Fetch first Element.
-        this.subscription.request(1);
+        subscription.request(1);
     }
 }

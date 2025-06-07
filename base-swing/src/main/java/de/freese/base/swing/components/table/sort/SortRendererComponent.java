@@ -45,29 +45,29 @@ public class SortRendererComponent extends JPanel {
     }
 
     private Component getMainComponent() {
-        return this.mainComponent;
+        return mainComponent;
     }
 
     private JLabel getSortLabel() {
-        if (this.jLabelIcon == null) {
-            this.jLabelIcon = new JLabel();
-            this.jLabelIcon.setForeground(this.textSortColor);
-            this.jLabelIcon.setBackground(UIManager.getColor("TableHeader.background"));
+        if (jLabelIcon == null) {
+            jLabelIcon = new JLabel();
+            jLabelIcon.setForeground(textSortColor);
+            jLabelIcon.setBackground(UIManager.getColor("TableHeader.background"));
 
-            final Font font = this.jLabelIcon.getFont().deriveFont(10F);
-            this.jLabelIcon.setFont(font);
-            this.jLabelIcon.setIconTextGap(2);
+            final Font font = jLabelIcon.getFont().deriveFont(10F);
+            jLabelIcon.setFont(font);
+            jLabelIcon.setIconTextGap(2);
         }
 
-        return this.jLabelIcon;
+        return jLabelIcon;
     }
 
     private void initialize() {
         setLayout(new BorderLayout(1, 0));
         setForeground(UIManager.getColor("TableHeader.foreground"));
         setBackground(UIManager.getColor("TableHeader.background"));
-        this.add(getMainComponent(), BorderLayout.CENTER);
-        this.add(getSortLabel(), BorderLayout.LINE_END);
+        add(getMainComponent(), BorderLayout.CENTER);
+        add(getSortLabel(), BorderLayout.LINE_END);
     }
 
     private void setSortIcon(final Icon icon) {

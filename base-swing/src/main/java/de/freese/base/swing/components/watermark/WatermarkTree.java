@@ -42,27 +42,27 @@ public class WatermarkTree extends JPanel implements WatermarkComponent {
     }
 
     public JScrollPane getScrollPane() {
-        if (null == this.scrollPane) {
-            this.scrollPane = new JScrollPane();
+        if (scrollPane == null) {
+            scrollPane = new JScrollPane();
             setBackground(Color.WHITE);
-            this.scrollPane.setOpaque(false);
-            this.scrollPane.setViewport(getViewport());
+            scrollPane.setOpaque(false);
+            scrollPane.setViewport(getViewport());
         }
 
-        return this.scrollPane;
+        return scrollPane;
     }
 
     /**
      * Returns the customized Tree.
      */
     public JTree getTree() {
-        if (null == this.tree) {
-            this.tree = new JTree();
-            this.tree.setOpaque(false);
-            this.tree.setCellRenderer(new TransparentRenderer());
+        if (tree == null) {
+            tree = new JTree();
+            tree.setOpaque(false);
+            tree.setCellRenderer(new TransparentRenderer());
         }
 
-        return this.tree;
+        return tree;
     }
 
     @Override
@@ -84,11 +84,11 @@ public class WatermarkTree extends JPanel implements WatermarkComponent {
      * Returns the special viewport which draws the image
      */
     private WatermarkViewport getViewport() {
-        if (null == this.viewport) {
-            this.viewport = new WatermarkViewport(getTree());
+        if (viewport == null) {
+            viewport = new WatermarkViewport(getTree());
         }
 
-        return this.viewport;
+        return viewport;
     }
 
     private void init() {

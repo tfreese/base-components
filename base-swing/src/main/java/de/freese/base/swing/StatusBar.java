@@ -45,18 +45,18 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
         super();
 
         final Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
-        this.messageTimer = new Timer(messageTimeout, event -> this.messageLabel.setText(""));
-        this.messageTimer.setRepeats(false);
-        this.idleIcon = resourceMap.getIcon("statusbar.icon.idle");
+        messageTimer = new Timer(messageTimeout, event -> messageLabel.setText(""));
+        messageTimer.setRepeats(false);
+        idleIcon = resourceMap.getIcon("statusbar.icon.idle");
         final int busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
 
-        for (int i = 0; i < this.busyIcons.length; i++) {
-            this.busyIcons[i] = resourceMap.getIcon("statusbar.icon." + i);
+        for (int i = 0; i < busyIcons.length; i++) {
+            busyIcons[i] = resourceMap.getIcon("statusbar.icon." + i);
         }
 
-        this.busyIconTimer = new Timer(busyAnimationRate, event -> {
-            this.busyIconIndex = (this.busyIconIndex + 1) % this.busyIcons.length;
-            this.statusAnimationLabel.setIcon(this.busyIcons[this.busyIconIndex]);
+        busyIconTimer = new Timer(busyAnimationRate, event -> {
+            busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
+            statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
         });
 
         taskManager.addPropertyChangeListener(this);
@@ -64,24 +64,24 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
 
     public void initialize() {
         setLayout(new GridBagLayout());
-        setBorder(new EmptyBorder(this.zeroInsets));
+        setBorder(new EmptyBorder(zeroInsets));
 
-        this.messageLabel = new JLabel();
+        messageLabel = new JLabel();
 
-        this.progressBar = new JProgressBar(0, 100);
-        this.progressBar.setEnabled(false);
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setEnabled(false);
 
-        this.statusAnimationLabel = new JLabel();
-        this.statusAnimationLabel.setIcon(this.idleIcon);
+        statusAnimationLabel = new JLabel();
+        statusAnimationLabel.setIcon(idleIcon);
 
         add(new JSeparator(),
-                GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridWidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
+                GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridWidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(zeroInsets));
 
-        add(this.messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
+        add(messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 
-        add(this.progressBar, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 3));
+        add(progressBar, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 3));
 
-        add(this.statusAnimationLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
+        add(statusAnimationLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
     }
 
     @Override
@@ -90,8 +90,8 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
 
         if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
             showBusyAnimation();
-            this.progressBar.setEnabled(true);
-            this.progressBar.setIndeterminate(true);
+            progressBar.setEnabled(true);
+            progressBar.setIndeterminate(true);
         }
         else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
             final String text = (String) event.getNewValue();
@@ -99,34 +99,34 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
         }
         else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
             final int value = (Integer) event.getNewValue();
-            this.progressBar.setEnabled(true);
-            this.progressBar.setIndeterminate(false);
-            this.progressBar.setValue(value);
+            progressBar.setEnabled(true);
+            progressBar.setIndeterminate(false);
+            progressBar.setValue(value);
         }
         else if (SwingTask.PROPERTY_CANCELLED.equals(propertyName) || SwingTask.PROPERTY_FAILED.equals(propertyName) || SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
             // Kein Task in Ausführung
             stopBusyAnimation();
-            this.progressBar.setIndeterminate(false);
-            this.progressBar.setEnabled(false);
-            this.progressBar.setValue(0);
+            progressBar.setIndeterminate(false);
+            progressBar.setEnabled(false);
+            progressBar.setValue(0);
         }
     }
 
     public void setMessage(final String s) {
-        this.messageLabel.setText((s == null) ? "" : s);
-        this.messageTimer.restart();
+        messageLabel.setText((s == null) ? "" : s);
+        messageTimer.restart();
     }
 
     public void showBusyAnimation() {
-        if (!this.busyIconTimer.isRunning()) {
-            this.statusAnimationLabel.setIcon(this.busyIcons[0]);
-            this.busyIconIndex = 0;
-            this.busyIconTimer.start();
+        if (!busyIconTimer.isRunning()) {
+            statusAnimationLabel.setIcon(busyIcons[0]);
+            busyIconIndex = 0;
+            busyIconTimer.start();
         }
     }
 
     public void stopBusyAnimation() {
-        this.busyIconTimer.stop();
-        this.statusAnimationLabel.setIcon(this.idleIcon);
+        busyIconTimer.stop();
+        statusAnimationLabel.setIcon(idleIcon);
     }
 }

@@ -27,7 +27,7 @@ public abstract class AbstractGuiState implements GuiState {
     }
 
     public long getCreated() {
-        return this.created;
+        return created;
     }
 
     @Override
@@ -36,21 +36,21 @@ public abstract class AbstractGuiState implements GuiState {
             throw new NullPointerException("component");
         }
 
-        component.setEnabled(this.enabled);
-        component.setVisible(this.visible);
+        component.setEnabled(enabled);
+        component.setVisible(visible);
     }
 
     @Override
     public void store(final Component component) {
         Objects.requireNonNull(component, "component required");
 
-        this.enabled = component.isEnabled();
-        this.visible = component.isVisible();
+        enabled = component.isEnabled();
+        visible = component.isVisible();
     }
 
     @Override
     public boolean supportsType(final Class<?> type) {
-        for (Class<?> supportedType : this.supportedTypes) {
+        for (Class<?> supportedType : supportedTypes) {
             if (supportedType.equals(type)) {
                 return true;
             }

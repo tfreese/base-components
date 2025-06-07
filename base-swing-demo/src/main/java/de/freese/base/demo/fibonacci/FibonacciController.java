@@ -19,8 +19,8 @@ public class FibonacciController extends AbstractController {
     public FibonacciController(final FibonacciView view) {
         super(view);
 
-        // this.forkJoinPool = new ForkJoinPool();
-        this.forkJoinPool = ForkJoinPool.commonPool();
+        // forkJoinPool = new ForkJoinPool();
+        forkJoinPool = ForkJoinPool.commonPool();
     }
 
     public long fibonacci(final int n) {
@@ -36,7 +36,7 @@ public class FibonacciController extends AbstractController {
 
         final FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, false);
 
-        return this.forkJoinPool.invoke(task);
+        return forkJoinPool.invoke(task);
     }
 
     @Override
@@ -45,6 +45,6 @@ public class FibonacciController extends AbstractController {
     }
 
     public void shutdown() {
-        this.forkJoinPool.shutdown();
+        forkJoinPool.shutdown();
     }
 }

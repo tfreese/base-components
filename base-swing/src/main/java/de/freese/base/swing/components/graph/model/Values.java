@@ -17,16 +17,16 @@ public final class Values<T extends Comparable<?>> {
     private LinkedList<T> newValues;
 
     public synchronized void addValue(final T value) {
-        if (this.newValues == null) {
-            this.newValues = new LinkedList<>();
+        if (newValues == null) {
+            newValues = new LinkedList<>();
         }
 
-        this.newValues.add(value);
+        newValues.add(value);
     }
 
     public synchronized List<T> getLastValues(final int count) {
-        final List<T> lastValues = this.newValues;
-        this.newValues = null;
+        final List<T> lastValues = newValues;
+        newValues = null;
 
         if (lastValues != null) {
             // Neue Werte hinzufügen.

@@ -24,10 +24,10 @@ public class FibonacciTaskListener implements PropertyChangeListener {
         final String propertyName = event.getPropertyName();
 
         if (SwingTask.PROPERTY_FAILED.equals(propertyName)) {
-            this.view.handleException((Throwable) event.getNewValue());
+            view.handleException((Throwable) event.getNewValue());
         }
         else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
-            this.view.setResult((long) event.getNewValue());
+            view.setResult((long) event.getNewValue());
         }
     }
 }

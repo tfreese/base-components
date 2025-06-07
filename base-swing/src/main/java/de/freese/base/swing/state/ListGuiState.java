@@ -31,7 +31,7 @@ public class ListGuiState extends AbstractGuiState {
         final JList<?> list = (JList<?>) component;
 
         try {
-            list.setSelectedIndices(this.selectedIndices);
+            list.setSelectedIndices(selectedIndices);
         }
         catch (Exception ex) {
             // Ignore
@@ -44,6 +44,6 @@ public class ListGuiState extends AbstractGuiState {
 
         final JList<?> list = (JList<?>) component;
 
-        this.selectedIndices = list.getSelectedIndices();
+        selectedIndices = list.getSelectedIndices();
     }
 }

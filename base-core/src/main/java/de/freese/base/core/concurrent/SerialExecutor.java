@@ -23,7 +23,7 @@ public class SerialExecutor implements Executor {
 
     @Override
     public synchronized void execute(final Runnable runnable) {
-        this.queue.add(() -> {
+        queue.add(() -> {
             try {
                 runnable.run();
             }
@@ -32,16 +32,16 @@ public class SerialExecutor implements Executor {
             }
         });
 
-        if (this.active == null) {
+        if (active == null) {
             scheduleNext();
         }
     }
 
     private synchronized void scheduleNext() {
-        this.active = this.queue.poll();
+        active = queue.poll();
 
-        if (this.active != null) {
-            this.delegate.execute(this.active);
+        if (active != null) {
+            delegate.execute(active);
         }
     }
 }

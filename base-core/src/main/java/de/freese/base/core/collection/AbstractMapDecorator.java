@@ -98,6 +98,6 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     }
 
     protected Map<K, V> getDecoratedMap() {
-        return this.decoratedMap;
+        return decoratedMap;
     }
 }

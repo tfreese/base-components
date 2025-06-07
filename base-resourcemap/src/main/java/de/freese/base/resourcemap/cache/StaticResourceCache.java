@@ -32,14 +32,14 @@ public final class StaticResourceCache implements ResourceCache {
 
     @Override
     public void clear(final String bundleName, final Locale locale) {
-        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = cache.computeIfAbsent(bundleName, k -> new HashMap<>());
 
         byLocale.remove(locale);
     }
 
     @Override
     public void clearAll() {
-        this.cache.clear();
+        cache.clear();
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class StaticResourceCache implements ResourceCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
-        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = cache.computeIfAbsent(bundleName, k -> new HashMap<>());
         final Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
         final Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
 
@@ -68,7 +68,7 @@ public final class StaticResourceCache implements ResourceCache {
 
     @Override
     public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
-        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = cache.computeIfAbsent(bundleName, k -> new HashMap<>());
         final Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
 
         byType.put(type, values);

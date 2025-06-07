@@ -79,13 +79,13 @@ public final class ResourceConverters {
 
     @SuppressWarnings("unchecked")
     public <T> ResourceConverter<T> getConverter(final Class<T> type) {
-        ResourceConverter<?> resourceConverter = this.converters.get(type);
+        ResourceConverter<?> resourceConverter = converters.get(type);
 
         if (resourceConverter == null && type.isPrimitive()) {
             // MethodType..unwrap()
             final Class<T> wrapperType = (Class<T>) MethodType.methodType(type).wrap().returnType();
 
-            resourceConverter = this.converters.get(wrapperType);
+            resourceConverter = converters.get(wrapperType);
         }
 
         return (ResourceConverter<T>) resourceConverter;

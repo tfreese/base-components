@@ -45,28 +45,28 @@ public class ResultSetSubscription<T> implements Subscription {
 
         try {
             for (int i = 0; i < n; i++) {
-                if (this.resultSet.next()) {
-                    final T row = this.rowMapper.mapRow(this.resultSet);
-                    this.subscriber.onNext(row);
+                if (resultSet.next()) {
+                    final T row = rowMapper.mapRow(resultSet);
+                    subscriber.onNext(row);
                 }
                 else {
                     closeJdbcResources();
-                    this.subscriber.onComplete();
+                    subscriber.onComplete();
                     break;
                 }
             }
         }
         catch (SQLException sex) {
             closeJdbcResources();
-            this.subscriber.onError(sex);
+            subscriber.onError(sex);
         }
     }
 
     protected void closeJdbcResources() {
         LOGGER.debug("close jdbc subscription");
 
-        doOnClose.accept(this.resultSet);
+        doOnClose.accept(resultSet);
 
-        this.resultSet = null;
+        resultSet = null;
     }
 }

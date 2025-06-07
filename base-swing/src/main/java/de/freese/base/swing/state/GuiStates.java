@@ -51,7 +51,7 @@ public final class GuiStates {
 
     public GuiState getState(final Class<? extends Component> componentClass) {
         for (Class<? extends GuiState> stateClass : states) {
-            GuiState state = this.instanceMap.get(stateClass);
+            GuiState state = instanceMap.get(stateClass);
 
             if (state == null) {
                 try {
@@ -64,7 +64,7 @@ public final class GuiStates {
                     throw new RuntimeException(ex);
                 }
 
-                this.instanceMap.put(stateClass, state);
+                instanceMap.put(stateClass, state);
             }
 
             if (state.supportsType(componentClass)) {

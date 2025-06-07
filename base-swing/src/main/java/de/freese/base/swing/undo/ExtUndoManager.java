@@ -16,14 +16,14 @@ public class ExtUndoManager extends UndoManager {
     private static final long serialVersionUID = 8132103408414717090L;
 
     public synchronized List<UndoableEdit> getEdits() {
-        return Collections.unmodifiableList(this.edits);
+        return Collections.unmodifiableList(edits);
     }
 
     public synchronized List<UndoableEdit> getUndoableEdits() {
         final List<UndoableEdit> undoableEdits = new ArrayList<>();
         final UndoableEdit nextRedoableEdit = editToBeRedone();
 
-        for (UndoableEdit undoableEdit : this.edits) {
+        for (UndoableEdit undoableEdit : edits) {
             if (undoableEdit == nextRedoableEdit) {
                 break;
             }

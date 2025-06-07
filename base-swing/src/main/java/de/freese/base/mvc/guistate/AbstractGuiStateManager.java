@@ -37,7 +37,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager {
 
     @Override
     public void restore(final Component component, final String name) {
-        final Path relativePath = Paths.get(name + "." + this.fileExtension);
+        final Path relativePath = Paths.get(name + "." + fileExtension);
 
         GuiState guiState = getGuiStates().getState(component.getClass());
 
@@ -63,7 +63,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager {
 
     @Override
     public void store(final Component component, final String name) {
-        final Path relativePath = Paths.get(name + "." + this.fileExtension);
+        final Path relativePath = Paths.get(name + "." + fileExtension);
 
         final GuiState guiState = getGuiStates().getState(component.getClass());
 
@@ -84,15 +84,15 @@ public abstract class AbstractGuiStateManager implements GuiStateManager {
     }
 
     protected GuiStates getGuiStates() {
-        return this.guiStates;
+        return guiStates;
     }
 
     protected LocalStorage getLocalStorage() {
-        return this.localStorage;
+        return localStorage;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected abstract GuiState load(GuiState guiState, InputStream inputStream) throws Exception;

@@ -48,11 +48,11 @@ public class ColumnControlWindow implements AWTEventListener {
     }
 
     public void clear() {
-        if (this.window != null) {
-            this.window.setVisible(false);
-            this.window.removeAll();
-            this.window.dispose();
-            this.window = null;
+        if (window != null) {
+            window.setVisible(false);
+            window.removeAll();
+            window.dispose();
+            window = null;
         }
     }
 
@@ -61,7 +61,7 @@ public class ColumnControlWindow implements AWTEventListener {
         if (event.getID() == MouseEvent.MOUSE_EXITED) {
             final Component source = (Component) event.getSource();
 
-            if (!isChild(source, getWindow()) && !(event.getSource() instanceof JWindow) && !event.getSource().equals(this.controlButton)) {
+            if (!isChild(source, getWindow()) && !(event.getSource() instanceof JWindow) && !event.getSource().equals(controlButton)) {
                 hideAndClear();
             }
         }
@@ -74,7 +74,7 @@ public class ColumnControlWindow implements AWTEventListener {
         // panel.add(new JLabel("Column control"));
 
         // Spalten der Tabellen
-        for (ExtTable table : this.controlButton.getTables()) {
+        for (ExtTable table : controlButton.getTables()) {
             final ExtTableColumnModel tableColumnModelExt = (ExtTableColumnModel) table.getColumnModel();
             final List<TableColumn> columns = tableColumnModelExt.getColumns(true);
 
@@ -125,9 +125,9 @@ public class ColumnControlWindow implements AWTEventListener {
 
         final Dimension windowSize = getWindow().getSize();
 
-        final int dX = this.controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
+        final int dX = controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
 
-        final Point pt = this.controlButton.getLocationOnScreen();
+        final Point pt = controlButton.getLocationOnScreen();
         pt.translate(dX, 0);
         getWindow().setLocation(pt);
         getWindow().pack();
@@ -142,7 +142,7 @@ public class ColumnControlWindow implements AWTEventListener {
         Component c = comp;
 
         if (c == null) {
-            c = this.controlButton;
+            c = controlButton;
         }
 
         final Component parent = c.getParent();
@@ -155,35 +155,33 @@ public class ColumnControlWindow implements AWTEventListener {
     }
 
     protected JWindow getWindow() {
-        if (this.window == null) {
-            this.window = new JWindow(getFrame(this.controlButton));
-            this.window.setLayout(new BorderLayout());
-            this.window.setFocusableWindowState(false);
+        if (window == null) {
+            window = new JWindow(getFrame(controlButton));
+            window.setLayout(new BorderLayout());
+            window.setFocusableWindowState(false);
 
-            this.window.addMouseListener(new MouseAdapter() {
+            window.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseExited(final MouseEvent e) {
                     hideAndClear();
                 }
             });
-            // this.window.addFocusListener(new FocusAdapter()
-            // {
+            // window.addFocusListener(new FocusAdapter() {
             // @Override
-            // public void focusLost(final FocusEvent e)
-            // {
+            // public void focusLost(final FocusEvent event) {
             // hideAndClear();
             // }
             // });
         }
 
-        return this.window;
+        return window;
     }
 
     protected void hideAndClear() {
-        if (this.window != null) {
+        if (window != null) {
             Toolkit.getDefaultToolkit().removeAWTEventListener(this);
 
-            this.window.setVisible(false);
+            window.setVisible(false);
             clear();
         }
     }

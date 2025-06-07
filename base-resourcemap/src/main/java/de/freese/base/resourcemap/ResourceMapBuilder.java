@@ -63,9 +63,9 @@ public final class ResourceMapBuilder {
     }
 
     public ResourceMap build() {
-        Objects.requireNonNull(this.bundleName, "bundleName required");
+        Objects.requireNonNull(bundleName, "bundleName required");
 
-        if (this.bundleName.isEmpty()) {
+        if (bundleName.isEmpty()) {
             throw new IllegalArgumentException("bundleName is empty");
         }
 
@@ -75,12 +75,12 @@ public final class ResourceMapBuilder {
             resourceConverters.customize(map -> map.putAll(converters));
         }
 
-        final DefaultResourceMap resourceMap = new DefaultResourceMap(this.bundleName);
-        resourceMap.setResourceProvider(this.resourceProvider);
-        resourceMap.setResourceCache(this.resourceCache != null ? this.resourceCache : new SingleResourceCache());
+        final DefaultResourceMap resourceMap = new DefaultResourceMap(bundleName);
+        resourceMap.setResourceProvider(resourceProvider);
+        resourceMap.setResourceCache(resourceCache != null ? resourceCache : new SingleResourceCache());
         resourceMap.setResourceConverters(resourceConverters);
 
-        for (ResourceMapBuilder childBuilder : this.childBuilders) {
+        for (ResourceMapBuilder childBuilder : childBuilders) {
             final ResourceMap child = childBuilder.build();
 
             resourceMap.addChild((DefaultResourceMap) child);
@@ -117,11 +117,11 @@ public final class ResourceMapBuilder {
         Objects.requireNonNull(type, "type required");
         Objects.requireNonNull(converter, "converter required");
 
-        if (this.converters == null) {
-            this.converters = new HashMap<>();
+        if (converters == null) {
+            converters = new HashMap<>();
         }
 
-        this.converters.put(type, converter);
+        converters.put(type, converter);
 
         return this;
     }
@@ -130,7 +130,7 @@ public final class ResourceMapBuilder {
      * Child-Builder ends.
      */
     public ResourceMapBuilder done() {
-        return this.parentBuilder.addChild(this);
+        return parentBuilder.addChild(this);
     }
 
     /**

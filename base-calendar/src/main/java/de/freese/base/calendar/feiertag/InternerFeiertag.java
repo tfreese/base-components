@@ -41,14 +41,14 @@ public class InternerFeiertag extends Feiertag {
     }
 
     private int getJahr() {
-        return this.jahr;
+        return jahr;
     }
 
     private int getMonat() {
-        return this.monat;
+        return monat;
     }
 
     private int getTag() {
-        return this.tag;
+        return tag;
     }
 }

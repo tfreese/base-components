@@ -370,7 +370,7 @@ class PgpCryptoBc {
             final PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             // We just loop through the collection till we find a key suitable for signing.
-            // In the real world you would probably want to be a bit smarter about this.
+            // In the real world, you would probably want to be a bit smarter about this.
             final Iterator<PGPSecretKeyRing> rIt = keyRingCollection.getKeyRings();
 
             while (secretKey == null && rIt.hasNext()) {

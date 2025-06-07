@@ -97,6 +97,6 @@ public class BuilderGenerator {
             ReflectionUtils.doWithLocalFields(clazz, field -> fields.put(field.getName(), field));
         }
 
-        return this.fieldHandler.apply(fields);
+        return fieldHandler.apply(fields);
     }
 }

@@ -92,7 +92,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     }
 
     public void setExpirationDuration(final Duration duration) {
-        this.expirationDuration = duration.toMillis();
+        expirationDuration = duration.toMillis();
     }
 
     @Override

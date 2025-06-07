@@ -21,7 +21,7 @@ public class TreeAndTable {
     public TreeAndTable() {
         super();
 
-        final CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(this.tree);
+        final CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(getTree());
         getTree().setSelectionModel(selectionModel);
         getTable().setSelectionModel(selectionModel.getListSelectionModel());
 
@@ -30,16 +30,16 @@ public class TreeAndTable {
     }
 
     public JTable getTable() {
-        if (this.table == null) {
-            this.table = new ExtTable();
+        if (table == null) {
+            table = new ExtTable();
         }
 
-        return this.table;
+        return table;
     }
 
     public JTree getTree() {
-        if (this.tree == null) {
-            this.tree = new JXTree() {
+        if (tree == null) {
+            tree = new JXTree() {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -47,8 +47,7 @@ public class TreeAndTable {
                 public void setBounds(final int x, final int y, final int width, final int height) {
                     final Rectangle tableBounds = getTable().getBounds();
 
-                    // if (y != tableBounds.y)
-                    // {
+                    // if (y != tableBounds.y) {
                     // System.out.printf("%d,%d,%d,%d\n", x, y, width, height);
                     // }
 
@@ -57,10 +56,10 @@ public class TreeAndTable {
 
                 @Override
                 public void setRowHeight(final int rowHeight) {
-                    if (this.rowHeight > 0) {
-                        super.setRowHeight(this.rowHeight);
+                    if (rowHeight > 0) {
+                        super.setRowHeight(rowHeight);
 
-                        if (getTable().getRowHeight() != this.rowHeight) {
+                        if (getTable().getRowHeight() != rowHeight) {
                             getTable().setRowHeight(getRowHeight());
                         }
                     }
@@ -68,6 +67,6 @@ public class TreeAndTable {
             };
         }
 
-        return this.tree;
+        return tree;
     }
 }

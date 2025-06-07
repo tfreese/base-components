@@ -86,17 +86,17 @@ public final class ErrorPane extends JPanel {
     }
 
     private JButton getButtonClipboard() {
-        if (this.buttonClipboard == null) {
-            this.buttonClipboard = new JButton();
+        if (buttonClipboard == null) {
+            buttonClipboard = new JButton();
 
             if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
-                this.buttonClipboard.setText("In Zwischenablage kopieren");
+                buttonClipboard.setText("In Zwischenablage kopieren");
             }
             else {
-                this.buttonClipboard.setText("Copy to Clipboard");
+                buttonClipboard.setText("Copy to Clipboard");
             }
 
-            this.buttonClipboard.addActionListener(event -> {
+            buttonClipboard.addActionListener(event -> {
                 final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
                 getEditorPaneDetails().selectAll();
@@ -138,21 +138,21 @@ public final class ErrorPane extends JPanel {
             });
         }
 
-        return this.buttonClipboard;
+        return buttonClipboard;
     }
 
     private JButton getButtonClose() {
-        if (this.buttonClose == null) {
-            this.buttonClose = new JButton();
+        if (buttonClose == null) {
+            buttonClose = new JButton();
 
             if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
-                this.buttonClose.setText("Schliessen");
+                buttonClose.setText("Schliessen");
             }
             else {
-                this.buttonClose.setText("Close");
+                buttonClose.setText("Close");
             }
 
-            this.buttonClose.addKeyListener(new KeyAdapter() {
+            buttonClose.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(final KeyEvent event) {
                     if (event.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -161,7 +161,7 @@ public final class ErrorPane extends JPanel {
                 }
             });
 
-            this.buttonClose.addActionListener(event -> {
+            buttonClose.addActionListener(event -> {
                 final Component c = getOwner();
 
                 if (c instanceof Window w) {
@@ -170,17 +170,17 @@ public final class ErrorPane extends JPanel {
             });
         }
 
-        return this.buttonClose;
+        return buttonClose;
     }
 
     private JButton getButtonDetails() {
-        if (this.buttonDetails == null) {
+        if (buttonDetails == null) {
             final String text = "Details";
 
-            this.buttonDetails = new JButton();
-            this.buttonDetails.setText(text + " >>");
+            buttonDetails = new JButton();
+            buttonDetails.setText(text + " >>");
 
-            this.buttonDetails.addKeyListener(new KeyAdapter() {
+            buttonDetails.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(final KeyEvent event) {
                     if (event.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -189,7 +189,7 @@ public final class ErrorPane extends JPanel {
                 }
             });
 
-            this.buttonDetails.addActionListener(event -> {
+            buttonDetails.addActionListener(event -> {
                 Dimension newSize = null;
 
                 final Component component = getOwner();
@@ -212,21 +212,21 @@ public final class ErrorPane extends JPanel {
             });
         }
 
-        return this.buttonDetails;
+        return buttonDetails;
     }
 
     private JButton getButtonSend() {
-        if (this.buttonSend == null) {
-            this.buttonSend = new JButton();
+        if (buttonSend == null) {
+            buttonSend = new JButton();
 
             if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
-                this.buttonSend.setText("Senden");
+                buttonSend.setText("Senden");
             }
             else {
-                this.buttonSend.setText("Send");
+                buttonSend.setText("Send");
             }
 
-            this.buttonSend.addActionListener(event -> {
+            buttonSend.addActionListener(event -> {
                 try {
                     final Component x = getOwner();
                     Component ownerParent = SwingUtilities.getAncestorOfClass(Dialog.class, x);
@@ -294,26 +294,26 @@ public final class ErrorPane extends JPanel {
             });
         }
 
-        return this.buttonSend;
+        return buttonSend;
     }
 
     private JPanel getDetailPanel() {
-        if (this.detailPanel == null) {
-            this.detailPanel = new JPanel();
-            this.detailPanel.setLayout(new GridBagLayout());
-            this.detailPanel.setMinimumSize(SIZE_DETAIL);
-            this.detailPanel.setPreferredSize(SIZE_DETAIL);
-            this.detailPanel.setMaximumSize(SIZE_DETAIL);
+        if (detailPanel == null) {
+            detailPanel = new JPanel();
+            detailPanel.setLayout(new GridBagLayout());
+            detailPanel.setMinimumSize(SIZE_DETAIL);
+            detailPanel.setPreferredSize(SIZE_DETAIL);
+            detailPanel.setMaximumSize(SIZE_DETAIL);
 
             final JScrollPane scrollPane = new JScrollPane(getEditorPaneDetails());
 
-            this.detailPanel.add(scrollPane, GbcBuilder.of(0, 0).fillBoth());
-            this.detailPanel.add(getButtonClipboard(), GbcBuilder.of(0, 1).anchorCenter());
+            detailPanel.add(scrollPane, GbcBuilder.of(0, 0).fillBoth());
+            detailPanel.add(getButtonClipboard(), GbcBuilder.of(0, 1).anchorCenter());
 
-            this.detailPanel.setVisible(false);
+            detailPanel.setVisible(false);
         }
 
-        return this.detailPanel;
+        return detailPanel;
     }
 
     private String getDetailsAsHTML(final ErrorInfo errorInfo) {
@@ -359,57 +359,57 @@ public final class ErrorPane extends JPanel {
     }
 
     private JEditorPane getEditorPaneDetails() {
-        if (this.editorPaneDetails == null) {
-            this.editorPaneDetails = new JEditorPane();
+        if (editorPaneDetails == null) {
+            editorPaneDetails = new JEditorPane();
 
-            this.editorPaneDetails.setEditable(false);
-            this.editorPaneDetails.setContentType("text/html");
-            this.editorPaneDetails.setEditorKitForContentType("text/plain", new StyledEditorKit());
-            this.editorPaneDetails.setEditorKitForContentType("text/html", new HTMLEditorKit());
+            editorPaneDetails.setEditable(false);
+            editorPaneDetails.setContentType("text/html");
+            editorPaneDetails.setEditorKitForContentType("text/plain", new StyledEditorKit());
+            editorPaneDetails.setEditorKitForContentType("text/html", new HTMLEditorKit());
 
             // editorPaneDetails.setOpaque(false);
-            setMessage(this.editorPaneDetails, getDetailsAsHTML(getErrorInfo()));
+            setMessage(editorPaneDetails, getDetailsAsHTML(getErrorInfo()));
         }
 
-        return this.editorPaneDetails;
+        return editorPaneDetails;
     }
 
     private JEditorPane getEditorPaneMessage() {
-        if (this.editorPaneMessage == null) {
-            this.editorPaneMessage = new JEditorPane();
+        if (editorPaneMessage == null) {
+            editorPaneMessage = new JEditorPane();
 
-            this.editorPaneMessage.setEditable(false);
-            this.editorPaneMessage.setContentType("text/html");
-            this.editorPaneMessage.setEditorKitForContentType("text/plain", new StyledEditorKit());
-            this.editorPaneMessage.setEditorKitForContentType("text/html", new HTMLEditorKit());
-            this.editorPaneMessage.setOpaque(false);
+            editorPaneMessage.setEditable(false);
+            editorPaneMessage.setContentType("text/html");
+            editorPaneMessage.setEditorKitForContentType("text/plain", new StyledEditorKit());
+            editorPaneMessage.setEditorKitForContentType("text/html", new HTMLEditorKit());
+            editorPaneMessage.setOpaque(false);
 
-            setMessage(this.editorPaneMessage, getErrorInfo().getBasicErrorMessage());
+            setMessage(editorPaneMessage, getErrorInfo().getBasicErrorMessage());
 
-            // this.editorPaneMessage.setMinimumSize(SIZE_MESSAGE);
-            // this.editorPaneMessage.setPreferredSize(SIZE_MESSAGE);
-            // this.editorPaneMessage.setMaximumSize(SIZE_MESSAGE);
+            // editorPaneMessage.setMinimumSize(SIZE_MESSAGE);
+            // editorPaneMessage.setPreferredSize(SIZE_MESSAGE);
+            // editorPaneMessage.setMaximumSize(SIZE_MESSAGE);
         }
 
-        return this.editorPaneMessage;
+        return editorPaneMessage;
     }
 
     private ErrorInfo getErrorInfo() {
-        return this.errorInfo;
+        return errorInfo;
     }
 
     private JLabel getLabelIcon() {
-        if (this.labelIcon == null) {
-            this.labelIcon = new JLabel();
+        if (labelIcon == null) {
+            labelIcon = new JLabel();
 
-            this.labelIcon.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+            labelIcon.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
         }
 
-        return this.labelIcon;
+        return labelIcon;
     }
 
     private Component getOwner() {
-        if (this.owner == null) {
+        if (owner == null) {
             for (Component p = this; p != null; p = p.getParent()) {
                 if (p instanceof Window) {
                     return p;
@@ -419,20 +419,20 @@ public final class ErrorPane extends JPanel {
             return null;
         }
 
-        return this.owner;
+        return owner;
     }
 
     private JScrollPane getScrollPaneMessage() {
-        if (this.scrollPaneMessage == null) {
-            this.scrollPaneMessage = new JScrollPane(getEditorPaneMessage());
-            this.scrollPaneMessage.setBorder(null);
+        if (scrollPaneMessage == null) {
+            scrollPaneMessage = new JScrollPane(getEditorPaneMessage());
+            scrollPaneMessage.setBorder(null);
 
-            this.scrollPaneMessage.setMinimumSize(SIZE_MESSAGE);
-            this.scrollPaneMessage.setPreferredSize(SIZE_MESSAGE);
-            this.scrollPaneMessage.setMaximumSize(SIZE_MESSAGE);
+            scrollPaneMessage.setMinimumSize(SIZE_MESSAGE);
+            scrollPaneMessage.setPreferredSize(SIZE_MESSAGE);
+            scrollPaneMessage.setMaximumSize(SIZE_MESSAGE);
         }
 
-        return this.scrollPaneMessage;
+        return scrollPaneMessage;
     }
 
     private void initialize(final boolean enableSendMail) {

@@ -56,7 +56,7 @@ public class ExtTitledPanel extends JXTitledPanel {
 
         setBorder(BorderFactory.createLineBorder(UICustomization.getColorLightGray()));
 
-        this.buttonEnabledPropertyChangeListener = new ButtonEnabledPropertyChangeListener();
+        buttonEnabledPropertyChangeListener = new ButtonEnabledPropertyChangeListener();
     }
 
     /**
@@ -76,34 +76,34 @@ public class ExtTitledPanel extends JXTitledPanel {
     public void addTitleComponentLeft(final JComponent component) {
         getLeftButtonPanel().add(component);
 
-        component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
+        component.addPropertyChangeListener("enabled", buttonEnabledPropertyChangeListener);
     }
 
     public void addTitleComponentRight(final JComponent component) {
         getRightButtonPanel().add(component);
 
-        component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
+        component.addPropertyChangeListener("enabled", buttonEnabledPropertyChangeListener);
     }
 
     private JPanel getLeftButtonPanel() {
-        if (this.leftButtonPanel == null) {
-            this.leftButtonPanel = new JPanel();
-            this.leftButtonPanel.setOpaque(false);
-            this.leftButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-            setLeftDecoration(this.leftButtonPanel);
+        if (leftButtonPanel == null) {
+            leftButtonPanel = new JPanel();
+            leftButtonPanel.setOpaque(false);
+            leftButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+            setLeftDecoration(leftButtonPanel);
         }
 
-        return this.leftButtonPanel;
+        return leftButtonPanel;
     }
 
     private JPanel getRightButtonPanel() {
-        if (this.rightButtonPanel == null) {
-            this.rightButtonPanel = new JPanel();
-            this.rightButtonPanel.setOpaque(false);
-            this.rightButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-            setRightDecoration(this.rightButtonPanel);
+        if (rightButtonPanel == null) {
+            rightButtonPanel = new JPanel();
+            rightButtonPanel.setOpaque(false);
+            rightButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+            setRightDecoration(rightButtonPanel);
         }
 
-        return this.rightButtonPanel;
+        return rightButtonPanel;
     }
 }

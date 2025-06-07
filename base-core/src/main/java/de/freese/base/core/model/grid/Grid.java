@@ -83,10 +83,10 @@ public class Grid {
     }
 
     protected List<GridColumn<?>> getColumns() {
-        return this.columns;
+        return columns;
     }
 
     protected List<GridRow> getRows() {
-        return this.rows;
+        return rows;
     }
 }

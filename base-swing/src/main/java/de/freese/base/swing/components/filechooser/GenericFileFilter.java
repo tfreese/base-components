@@ -26,13 +26,13 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
 
     @Override
     public boolean accept(final File f) {
-        if (this.includeDirectories && f.isDirectory()) {
+        if (includeDirectories && f.isDirectory()) {
             return true;
         }
 
         final String filename = f.getName();
 
-        for (String type : this.types) {
+        for (String type : types) {
             if (filename.toLowerCase().endsWith(type)) {
                 return true;
             }

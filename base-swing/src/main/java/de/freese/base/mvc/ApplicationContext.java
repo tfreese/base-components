@@ -16,7 +16,7 @@ public final class ApplicationContext extends AbstractServiceRegistry {
     private String userId;
 
     public JFrame getMainFrame() {
-        return this.mainFrame;
+        return mainFrame;
     }
 
     public ResourceMap getResourceMap(final String bundleName) {
@@ -24,18 +24,18 @@ public final class ApplicationContext extends AbstractServiceRegistry {
     }
 
     public ResourceMap getResourceMapRoot() {
-        return this.resourceMapRoot;
+        return resourceMapRoot;
     }
 
     /**
      * If not set, the SystemProperty "user.name" is used.
      */
     public String getUserId() {
-        if (this.userId == null) {
-            this.userId = System.getProperty("user.name").toUpperCase();
+        if (userId == null) {
+            userId = System.getProperty("user.name").toUpperCase();
         }
 
-        return this.userId;
+        return userId;
     }
 
     public void setMainFrame(final JFrame mainFrame) {

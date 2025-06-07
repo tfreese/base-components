@@ -47,18 +47,18 @@ public final class JavaFxGraphApplication extends Application {
         private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
 
         public synchronized void addValue(final float value) {
-            this.linePainter.getValues().addValue(value);
-            this.barPainter.getValues().addValue(value);
+            linePainter.getValues().addValue(value);
+            barPainter.getValues().addValue(value);
         }
 
         @Override
         public void paintGraph(final GraphicsContext gc, final double width, final double height) {
             final double halfHeight = height / 2D;
 
-            this.linePainter.paintGraph(gc, width, halfHeight);
+            linePainter.paintGraph(gc, width, halfHeight);
 
             gc.translate(0D, halfHeight);
-            this.barPainter.paintGraph(gc, width, halfHeight);
+            barPainter.paintGraph(gc, width, halfHeight);
             gc.translate(0D, -halfHeight);
 
             final double fontSize = 11D;
@@ -95,10 +95,10 @@ public final class JavaFxGraphApplication extends Application {
 
         getLogger().info("start");
 
-        this.valueSupplier = new SinusValueSupplier();
+        valueSupplier = new SinusValueSupplier();
 
         final Canvas canvas = new Canvas();
-        this.gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
 
         final Group pane = new Group(canvas);
         // pane.getChildren().add(canvas);
@@ -143,16 +143,16 @@ public final class JavaFxGraphApplication extends Application {
 
         final CompositeGraphPainter graphPainter = new CompositeGraphPainter();
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            final float value = this.valueSupplier.get();
+        scheduledExecutorService = Executors.newScheduledThreadPool(2);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            final float value = valueSupplier.get();
             graphPainter.addValue(value);
 
             if (Platform.isFxApplicationThread()) {
-                graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight());
+                graphPainter.paint(gc, canvas.getWidth(), canvas.getHeight());
             }
             else {
-                Platform.runLater(() -> graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight()));
+                Platform.runLater(() -> graphPainter.paint(gc, canvas.getWidth(), canvas.getHeight()));
             }
         }, 500L, 40L, TimeUnit.MILLISECONDS);
 
@@ -181,9 +181,9 @@ public final class JavaFxGraphApplication extends Application {
     public void stop() throws Exception {
         getLogger().info("stop");
 
-        this.scheduledExecutorService.close();
+        scheduledExecutorService.close();
 
-        this.scheduledExecutorService.awaitTermination(3L, TimeUnit.SECONDS);
+        scheduledExecutorService.awaitTermination(3L, TimeUnit.SECONDS);
 
         // System.exit(0); // Blockiert, wegen ShutdownHook.
     }

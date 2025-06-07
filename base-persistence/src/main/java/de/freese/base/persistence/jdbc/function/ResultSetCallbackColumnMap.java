@@ -19,17 +19,17 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
 
     @Override
     public List<Map<String, Object>> doInResultSet(final ResultSet resultSet) throws SQLException {
-        if (this.columnNames == null) {
-            this.columnNames = getColumnNames(resultSet);
+        if (columnNames == null) {
+            columnNames = getColumnNames(resultSet);
         }
 
         final List<Map<String, Object>> list = new ArrayList<>();
 
         while (resultSet.next()) {
-            final Map<String, Object> map = LinkedHashMap.newLinkedHashMap(this.columnNames.length);
+            final Map<String, Object> map = LinkedHashMap.newLinkedHashMap(columnNames.length);
 
-            for (int i = 1; i <= this.columnNames.length; i++) {
-                final String columnName = this.columnNames[i - 1];
+            for (int i = 1; i <= columnNames.length; i++) {
+                final String columnName = columnNames[i - 1];
                 final Object obj = getColumnValue(resultSet, i);
 
                 map.put(columnName, obj);

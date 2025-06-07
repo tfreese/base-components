@@ -16,7 +16,7 @@ public abstract class AbstractFxGraphPainter {
     }
 
     public Values<Float> getValues() {
-        return this.values;
+        return values;
     }
 
     public void paint(final GraphicsContext gc, final double width, final double height) {

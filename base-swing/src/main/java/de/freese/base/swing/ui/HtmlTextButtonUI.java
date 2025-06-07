@@ -62,7 +62,7 @@ public class HtmlTextButtonUI extends BasicButtonUI {
             final FontMetrics fm = g.getFontMetrics();
             final AttributedString s = new AttributedString(text);
             s.addAttribute(TextAttribute.FONT, b.getFont());
-            s.addAttribute(TextAttribute.FOREGROUND, this.rolloverColor);
+            s.addAttribute(TextAttribute.FOREGROUND, rolloverColor);
             s.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             g.drawString(s.getIterator(), textRect.x + getTextShiftOffset(), textRect.y + fm.getAscent() + getTextShiftOffset());
         }

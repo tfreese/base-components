@@ -22,7 +22,7 @@ public class SerializableTransferable implements Transferable {
     @Override
     public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
         if (isDataFlavorSupported(flavor)) {
-            return this.objects;
+            return objects;
         }
 
         throw new UnsupportedFlavorException(flavor);

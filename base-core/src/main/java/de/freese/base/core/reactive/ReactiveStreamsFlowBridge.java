@@ -20,17 +20,17 @@ public final class ReactiveStreamsFlowBridge {
         FlowPublisherFromReactive(final org.reactivestreams.Publisher<? extends T> reactivePublisher) {
             super();
 
-            this.reactiveStreams = reactivePublisher;
+            reactiveStreams = reactivePublisher;
         }
 
         @Override
         public void subscribe(final Flow.Subscriber<? super T> flow) {
             if (flow == null) {
-                this.reactiveStreams.subscribe(null);
+                reactiveStreams.subscribe(null);
                 return;
             }
 
-            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(flow));
+            reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(flow));
         }
     }
 
@@ -46,37 +46,37 @@ public final class ReactiveStreamsFlowBridge {
         FlowToReactiveProcessor(final org.reactivestreams.Processor<? super T, ? extends U> reactive) {
             super();
 
-            this.reactiveStreams = reactive;
+            reactiveStreams = reactive;
         }
 
         @Override
         public void onComplete() {
-            this.reactiveStreams.onComplete();
+            reactiveStreams.onComplete();
         }
 
         @Override
         public void onError(final Throwable t) {
-            this.reactiveStreams.onError(t);
+            reactiveStreams.onError(t);
         }
 
         @Override
         public void onNext(final T t) {
-            this.reactiveStreams.onNext(t);
+            reactiveStreams.onNext(t);
         }
 
         @Override
         public void onSubscribe(final Flow.Subscription s) {
-            this.reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(s));
+            reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(s));
         }
 
         @Override
         public void subscribe(final Flow.Subscriber<? super U> s) {
             if (s == null) {
-                this.reactiveStreams.subscribe(null);
+                reactiveStreams.subscribe(null);
                 return;
             }
 
-            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(s));
+            reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(s));
         }
     }
 
@@ -89,27 +89,27 @@ public final class ReactiveStreamsFlowBridge {
         FlowToReactiveSubscriber(final org.reactivestreams.Subscriber<? super T> reactive) {
             super();
 
-            this.reactiveStreams = reactive;
+            reactiveStreams = reactive;
         }
 
         @Override
         public void onComplete() {
-            this.reactiveStreams.onComplete();
+            reactiveStreams.onComplete();
         }
 
         @Override
         public void onError(final Throwable throwable) {
-            this.reactiveStreams.onError(throwable);
+            reactiveStreams.onError(throwable);
         }
 
         @Override
         public void onNext(final T item) {
-            this.reactiveStreams.onNext(item);
+            reactiveStreams.onNext(item);
         }
 
         @Override
         public void onSubscribe(final Flow.Subscription subscription) {
-            this.reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(subscription));
+            reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(subscription));
         }
     }
 
@@ -122,17 +122,17 @@ public final class ReactiveStreamsFlowBridge {
         FlowToReactiveSubscription(final org.reactivestreams.Subscription reactive) {
             super();
 
-            this.reactiveStreams = reactive;
+            reactiveStreams = reactive;
         }
 
         @Override
         public void cancel() {
-            this.reactiveStreams.cancel();
+            reactiveStreams.cancel();
         }
 
         @Override
         public void request(final long n) {
-            this.reactiveStreams.request(n);
+            reactiveStreams.request(n);
         }
     }
 
@@ -145,17 +145,17 @@ public final class ReactiveStreamsFlowBridge {
         ReactivePublisherFromFlow(final Flow.Publisher<? extends T> flowPublisher) {
             super();
 
-            this.flow = flowPublisher;
+            flow = flowPublisher;
         }
 
         @Override
         public void subscribe(final org.reactivestreams.Subscriber<? super T> reactive) {
             if (reactive == null) {
-                this.flow.subscribe(null);
+                flow.subscribe(null);
                 return;
             }
 
-            this.flow.subscribe(new FlowToReactiveSubscriber<>(reactive));
+            flow.subscribe(new FlowToReactiveSubscriber<>(reactive));
         }
     }
 
@@ -176,32 +176,32 @@ public final class ReactiveStreamsFlowBridge {
 
         @Override
         public void onComplete() {
-            this.flow.onComplete();
+            flow.onComplete();
         }
 
         @Override
         public void onError(final Throwable t) {
-            this.flow.onError(t);
+            flow.onError(t);
         }
 
         @Override
         public void onNext(final T t) {
-            this.flow.onNext(t);
+            flow.onNext(t);
         }
 
         @Override
         public void onSubscribe(final org.reactivestreams.Subscription s) {
-            this.flow.onSubscribe(new FlowToReactiveSubscription(s));
+            flow.onSubscribe(new FlowToReactiveSubscription(s));
         }
 
         @Override
         public void subscribe(final org.reactivestreams.Subscriber<? super U> s) {
             if (s == null) {
-                this.flow.subscribe(null);
+                flow.subscribe(null);
                 return;
             }
 
-            this.flow.subscribe(new FlowToReactiveSubscriber<>(s));
+            flow.subscribe(new FlowToReactiveSubscriber<>(s));
         }
     }
 
@@ -219,22 +219,22 @@ public final class ReactiveStreamsFlowBridge {
 
         @Override
         public void onComplete() {
-            this.flow.onComplete();
+            flow.onComplete();
         }
 
         @Override
         public void onError(final Throwable throwable) {
-            this.flow.onError(throwable);
+            flow.onError(throwable);
         }
 
         @Override
         public void onNext(final T item) {
-            this.flow.onNext(item);
+            flow.onNext(item);
         }
 
         @Override
         public void onSubscribe(final org.reactivestreams.Subscription subscription) {
-            this.flow.onSubscribe(new FlowToReactiveSubscription(subscription));
+            flow.onSubscribe(new FlowToReactiveSubscription(subscription));
         }
     }
 
@@ -252,12 +252,12 @@ public final class ReactiveStreamsFlowBridge {
 
         @Override
         public void cancel() {
-            this.flow.cancel();
+            flow.cancel();
         }
 
         @Override
         public void request(final long n) {
-            this.flow.request(n);
+            flow.request(n);
         }
     }
 

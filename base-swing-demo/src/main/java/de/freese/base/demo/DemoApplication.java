@@ -251,9 +251,9 @@ public class DemoApplication {
             }
         };
 
-        this.shutdownHook = new Thread(shutdownTask, "ShutdownHook");
+        shutdownHook = new Thread(shutdownTask, "ShutdownHook");
 
-        Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
     private void release(final ApplicationContext applicationContext) {
@@ -278,7 +278,7 @@ public class DemoApplication {
 
         ExecutorUtils.shutdown(applicationContext.getService(ExecutorService.class), getLogger());
 
-        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+        Runtime.getRuntime().removeShutdownHook(shutdownHook);
 
         System.exit(0);
     }

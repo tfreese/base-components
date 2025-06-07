@@ -28,7 +28,7 @@ public abstract class AbstractResourceCache implements ResourceCache {
     protected AbstractResourceCache() {
         super();
 
-        this.hexFormat = HexFormat.of().withUpperCase();
+        hexFormat = HexFormat.of().withUpperCase();
     }
 
     protected MessageDigest createMessageDigest() {
@@ -104,7 +104,7 @@ public abstract class AbstractResourceCache implements ResourceCache {
     }
 
     protected HexFormat getHexFormat() {
-        return this.hexFormat;
+        return hexFormat;
     }
 
     protected Logger getLogger() {
@@ -116,7 +116,7 @@ public abstract class AbstractResourceCache implements ResourceCache {
             messageDigest = createMessageDigest();
         }
 
-        return this.messageDigest;
+        return messageDigest;
     }
 
     protected InputStream toInputStream(final URI uri) throws Exception {

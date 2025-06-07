@@ -92,11 +92,11 @@ public class ExtTree extends JTree implements Autoscroll {
     }
 
     public int getMargin() {
-        return this.margin;
+        return margin;
     }
 
     public boolean isPaintAutoscrollBorder() {
-        return this.paintAutoscrollBorder;
+        return paintAutoscrollBorder;
     }
 
     public void setMargin(final int margin) {

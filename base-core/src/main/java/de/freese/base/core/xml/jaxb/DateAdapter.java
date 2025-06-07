@@ -20,16 +20,16 @@ public class DateAdapter extends XmlAdapter<String, Date> {
     public DateAdapter(final String pattern) {
         super();
 
-        this.formatter = new SimpleDateFormat(pattern);
+        formatter = new SimpleDateFormat(pattern);
     }
 
     @Override
     public String marshal(final Date date) {
-        return this.formatter.format(date);
+        return formatter.format(date);
     }
 
     @Override
     public Date unmarshal(final String date) throws Exception {
-        return this.formatter.parse(date);
+        return formatter.parse(date);
     }
 }

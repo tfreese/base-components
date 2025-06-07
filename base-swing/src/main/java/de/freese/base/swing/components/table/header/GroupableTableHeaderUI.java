@@ -43,14 +43,14 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
         // Scheint 1. unnötig und behebt ausserdem 2. das Problem der nicht bündigen ColumnHeader,
         // die von Fall zu Fall durch das Setzen bzw. NichtSetzten der Margin auf 0 (s.u.) verursacht wurde.
-        // ((GroupableTableHeader) this.header).setColumnMargin();
+        // ((GroupableTableHeader) header).setColumnMargin();
 
         int column = 0;
         final Dimension size = header.getSize();
         final Rectangle cellRect = new Rectangle(0, 0, size.width, size.height);
         final Map<GroupableColumn, Rectangle> map = new HashMap<>();
 
-        // int columnMargin = this.header.getColumnModel().getColumnMargin();
+        // int columnMargin = header.getColumnModel().getColumnMargin();
 
         // Fehler bei columnMargin > 0 werden die Header nicht mehr bündig zu den Columns gemalt!
         final int columnMargin = 0;

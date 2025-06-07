@@ -16,6 +16,6 @@ public abstract class AbstractLoggingProvider implements LoggingProvider {
 
     @Override
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

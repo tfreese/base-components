@@ -35,14 +35,14 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T> {
         LOGGER.error(throwable.getMessage(), throwable);
 
         // Handled in ResultSetSubscription.
-        // this.subscription.cancel();
+        // subscription.cancel();
     }
 
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
-        this.consumer.accept(item);
+        consumer.accept(item);
     }
 
     @Override

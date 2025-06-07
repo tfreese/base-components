@@ -18,7 +18,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream {
     public SharedByteArrayInputStream(final byte[] buf, final int offset, final int length) {
         super(buf, offset, length);
 
-        this.startIndex = offset;
+        startIndex = offset;
     }
 
     public int getStartIndex() {

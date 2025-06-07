@@ -62,7 +62,7 @@ public class AutoCompleteableTextField extends JTextField {
 
         @Override
         public String toString() {
-            return this.term;
+            return term;
         }
     }
 
@@ -118,16 +118,16 @@ public class AutoCompleteableTextField extends JTextField {
     }
 
     private void popupMenu(final int x, final int y) {
-        if (this.prevSearchMenu != null) {
-            this.prevSearchMenu.setVisible(false);
-            this.prevSearchMenu.removeAll();
-            this.prevSearchMenu = null;
+        if (prevSearchMenu != null) {
+            prevSearchMenu.setVisible(false);
+            prevSearchMenu.removeAll();
+            prevSearchMenu = null;
         }
 
-        if (!this.prevSearches.isEmpty() && !getText().isBlank()) {
-            this.prevSearchMenu = new JPopupMenu();
+        if (!prevSearches.isEmpty() && !getText().isBlank()) {
+            prevSearchMenu = new JPopupMenu();
 
-            final Iterator<String> it = this.prevSearches.iterator();
+            final Iterator<String> it = prevSearches.iterator();
             final List<String> matches = new ArrayList<>();
 
             // Treffer herausfinden
@@ -145,15 +145,14 @@ public class AutoCompleteableTextField extends JTextField {
             for (String element : matches) {
                 final Action action = new PrevSearchAction(element);
 
-                this.prevSearchMenu.add(action);
+                prevSearchMenu.add(action);
             }
 
-            if (this.prevSearchMenu.getComponentCount() > 0) {
-                this.prevSearchMenu.show(this, x, y);
+            if (prevSearchMenu.getComponentCount() > 0) {
+                prevSearchMenu.show(this, x, y);
 
                 // Cursor wieder zurück ins Textfeld.
-                // if (!hasFocus())
-                // {
+                // if (!hasFocus()) {
                 requestFocus();
 
                 // }
@@ -167,12 +166,12 @@ public class AutoCompleteableTextField extends JTextField {
     private void saveLastSearch() {
         final String search = getText().strip();
 
-        if (search != null && search.length() > 1 && !this.prevSearches.contains(search)) {
+        if (search != null && search.length() > 1 && !prevSearches.contains(search)) {
             // System.out.println("AutoCompleteableTextField.saveLastSearch(): " + search);
-            this.prevSearches.addFirst(search);
+            prevSearches.addFirst(search);
 
-            if (this.prevSearches.size() > 10) {
-                this.prevSearches.removeLast();
+            if (prevSearches.size() > 10) {
+                prevSearches.removeLast();
             }
         }
     }

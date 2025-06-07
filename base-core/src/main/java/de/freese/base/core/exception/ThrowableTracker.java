@@ -14,7 +14,7 @@ public class ThrowableTracker {
     private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     public void addThrowable(final Throwable th) {
-        this.throwables.put(th.getMessage(), th);
+        throwables.put(th.getMessage(), th);
     }
 
     public Throwable getFirstThrowable() {
@@ -28,10 +28,10 @@ public class ThrowableTracker {
     }
 
     public List<Throwable> getThrowables() {
-        return new ArrayList<>(this.throwables.values());
+        return new ArrayList<>(throwables.values());
     }
 
     public boolean isEmpty() {
-        return this.throwables.isEmpty();
+        return throwables.isEmpty();
     }
 }

@@ -98,6 +98,6 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
     }
 
     protected JTree getTree() {
-        return this.tree;
+        return tree;
     }
 }

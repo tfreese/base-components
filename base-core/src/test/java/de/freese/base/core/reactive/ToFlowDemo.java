@@ -59,7 +59,7 @@ public final class ToFlowDemo {
                 LOGGER.info("subscriber: {}", item);
 
                 // Nächstes Element anfordern.
-                this.subscription.request(1);
+                subscription.request(1);
             }
 
             @Override

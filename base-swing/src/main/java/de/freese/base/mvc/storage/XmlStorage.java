@@ -17,8 +17,8 @@ public final class XmlStorage {
 
         @Override
         public void exceptionThrown(final Exception ex) {
-            if (this.exception == null) {
-                this.exception = ex;
+            if (exception == null) {
+                exception = ex;
             }
         }
     }

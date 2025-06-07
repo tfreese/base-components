@@ -27,15 +27,15 @@ public final class RegExToWildcard implements RegExTransformer {
     private RegExToWildcard() {
         super();
 
-        this.transformers = new ArrayList<>();
+        transformers = new ArrayList<>();
 
-        this.transformers.add(new EscapeBracketTransformer());
-        this.transformers.add(new EscapeSlashesTransformer());
-        this.transformers.add(new SingleSignTransformer());
-        this.transformers.add(new ManySignsTransformer());
-        this.transformers.add(new ManyPointsTransformer());
-        this.transformers.add(new StartsWithTransformer());
-        this.transformers.add(new EndsWithTransformer());
+        transformers.add(new EscapeBracketTransformer());
+        transformers.add(new EscapeSlashesTransformer());
+        transformers.add(new SingleSignTransformer());
+        transformers.add(new ManySignsTransformer());
+        transformers.add(new ManyPointsTransformer());
+        transformers.add(new StartsWithTransformer());
+        transformers.add(new EndsWithTransformer());
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class RegExToWildcard implements RegExTransformer {
             return "";
         }
 
-        for (RegExTransformer transformer : this.transformers) {
+        for (RegExTransformer transformer : transformers) {
             expression = transformer.regExToWildcard(expression);
         }
 
@@ -78,7 +78,7 @@ public final class RegExToWildcard implements RegExTransformer {
             return expression.substring(1);
         }
 
-        for (RegExTransformer transformer : this.transformers) {
+        for (RegExTransformer transformer : transformers) {
             expression = transformer.wildcardToRegEx(expression);
         }
 

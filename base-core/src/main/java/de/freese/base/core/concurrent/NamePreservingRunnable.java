@@ -29,10 +29,10 @@ public class NamePreservingRunnable implements Runnable {
         final Thread currentThread = Thread.currentThread();
         final String oldName = currentThread.getName();
 
-        setName(currentThread, this.runnableName);
+        setName(currentThread, runnableName);
 
         try {
-            this.runnable.run();
+            runnable.run();
         }
         finally {
             setName(currentThread, oldName);

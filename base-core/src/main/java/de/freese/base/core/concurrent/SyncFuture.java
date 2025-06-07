@@ -25,22 +25,22 @@ public class SyncFuture<T> implements Future<T> {
 
     @Override
     public T get() throws InterruptedException, ExecutionException {
-        this.latch.await();
+        latch.await();
 
-        return this.result;
+        return result;
     }
 
     @Override
     public T get(final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        if (this.latch.await(timeout, unit)) {
-            return this.result;
+        if (latch.await(timeout, unit)) {
+            return result;
         }
 
         return null;
     }
 
     public long getStartTime() {
-        return this.startTime;
+        return startTime;
     }
 
     @Override
@@ -50,12 +50,12 @@ public class SyncFuture<T> implements Future<T> {
 
     @Override
     public boolean isDone() {
-        return this.result != null;
+        return result != null;
     }
 
     public void setResult(final T result) {
         this.result = result;
 
-        this.latch.countDown();
+        latch.countDown();
     }
 }

@@ -64,7 +64,7 @@ public final class Segment7 extends Canvas {
         super();
 
         this.digit = digit;
-        this.hasfocus = false;
+        hasfocus = false;
 
         enableEvents(AWTEvent.COMPONENT_EVENT_MASK);
         enableEvents(AWTEvent.FOCUS_EVENT_MASK);
@@ -83,7 +83,7 @@ public final class Segment7 extends Canvas {
     }
 
     public int getValue() {
-        return this.digit;
+        return digit;
     }
 
     @Override
@@ -101,7 +101,7 @@ public final class Segment7 extends Canvas {
         g.fillRect(0, 0, getSize().width, getSize().height);
 
         // Segmente
-        if (this.hasfocus) {
+        if (hasfocus) {
             g.setColor(yellow);
         }
         else {
@@ -110,11 +110,11 @@ public final class Segment7 extends Canvas {
 
         for (int i = 0; i < 7; ++i) {
             // alle Segmente
-            if (this.digits[this.digit][i] == 1) {
+            if (digits[digit][i] == 1) {
                 final Polygon poly = new Polygon();
 
                 for (int j = 0; j < 6; ++j) { // alle Eckpunkte
-                    poly.addPoint(dx * this.polysx[i][j], dy * this.polysy[i][j]);
+                    poly.addPoint(dx * polysx[i][j], dy * polysy[i][j]);
                 }
 
                 g.fillPolygon(poly);
@@ -130,7 +130,7 @@ public final class Segment7 extends Canvas {
     }
 
     public void setValue(final int value) {
-        this.digit = value % 10;
+        digit = value % 10;
 
         repaint();
     }
@@ -147,11 +147,11 @@ public final class Segment7 extends Canvas {
     @Override
     protected void processFocusEvent(final FocusEvent event) {
         if (event.getID() == FocusEvent.FOCUS_GAINED) {
-            this.hasfocus = true;
+            hasfocus = true;
             repaint();
         }
         else if (event.getID() == FocusEvent.FOCUS_LOST) {
-            this.hasfocus = false;
+            hasfocus = false;
             repaint();
         }
 

@@ -14,7 +14,7 @@ public abstract class AbstractProcessor<C> implements Processor<C> {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override
@@ -23,6 +23,6 @@ public abstract class AbstractProcessor<C> implements Processor<C> {
     }
 
     protected final Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

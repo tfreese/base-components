@@ -85,7 +85,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
-        this.rateLimiter = new Semaphore(parallelism, true);
+        rateLimiter = new Semaphore(parallelism, true);
 
         delegate.execute(new QueueScheduler());
     }
@@ -96,11 +96,11 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
             throw new NullPointerException();
         }
 
-        this.queue.add(runnable);
+        queue.add(runnable);
     }
 
     public int getQueueSize() {
-        return this.queue.size();
+        return queue.size();
     }
 
     public void shutdown() {

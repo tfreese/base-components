@@ -29,16 +29,16 @@ public class MemoryGraphComponent extends AbstractGraphComponent {
     }
 
     public void start() {
-        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
+        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(() -> {
             ((MemoryGraphPainter) getPainter()).generateValue();
             paintGraph();
         }, 500, 40, TimeUnit.MILLISECONDS);
     }
 
     public void stop() {
-        if (this.scheduledFuture != null) {
-            this.scheduledFuture.cancel(false);
-            this.scheduledFuture = null;
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(false);
+            scheduledFuture = null;
         }
     }
 
@@ -47,7 +47,7 @@ public class MemoryGraphComponent extends AbstractGraphComponent {
         if (((event.getModifiersEx()) & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
             System.gc();
         }
-        else if (this.scheduledFuture == null) {
+        else if (scheduledFuture == null) {
             start();
         }
         else {

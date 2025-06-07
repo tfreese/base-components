@@ -23,30 +23,30 @@ public class ExcelSheet implements Serializable {
     }
 
     public int getColumnCount() {
-        if (this.rowValues == null) {
+        if (rowValues == null) {
             return 0;
         }
 
-        return this.rowValues.getFirst().length;
+        return rowValues.getFirst().length;
     }
 
     public int getRowCount() {
-        if (this.rowValues == null) {
+        if (rowValues == null) {
             return 0;
         }
 
-        return this.rowValues.size();
+        return rowValues.size();
     }
 
     public String getSheetName() {
-        return this.sheetName;
+        return sheetName;
     }
 
     public String getValueAt(final int row, final int column) {
-        if (this.rowValues == null) {
+        if (rowValues == null) {
             return null;
         }
 
-        return this.rowValues.get(row)[column];
+        return rowValues.get(row)[column];
     }
 }

@@ -38,11 +38,11 @@ public class LineLayoutElement extends AbstractLayoutElement {
      * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */
     public int getOrientation() {
-        return this.orientation;
+        return orientation;
     }
 
     public int getThickness() {
-        return this.thickness;
+        return thickness;
     }
 
     @Override

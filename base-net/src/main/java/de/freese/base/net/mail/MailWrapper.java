@@ -31,7 +31,7 @@ public class MailWrapper {
     private final List<DataSource> attachments = new ArrayList<>();
     private final List<DataSource> inlines = new ArrayList<>();
     private final Properties javaMailProperties = new Properties();
-    private final List<InternetAddress> to = new ArrayList<>();
+    private final List<InternetAddress> tos = new ArrayList<>();
 
     private InternetAddress from;
     private boolean html;
@@ -45,47 +45,47 @@ public class MailWrapper {
     }
 
     public void addAttachment(final DataSource dataSource) {
-        this.attachments.add(dataSource);
+        attachments.add(dataSource);
     }
 
     public void addInline(final DataSource dataSource) {
-        this.inlines.add(dataSource);
+        inlines.add(dataSource);
     }
 
     public void addTO(final String to) throws NullPointerException, MessagingException {
-        this.to.add(parseAddress(to));
+        tos.add(parseAddress(to));
     }
 
     public void clearAdditionalHeader() {
-        this.additionalHeaderProperties.clear();
+        additionalHeaderProperties.clear();
     }
 
     public void clearAttachments() {
-        this.attachments.clear();
+        attachments.clear();
     }
 
     public void clearInlines() {
-        this.inlines.clear();
+        inlines.clear();
     }
 
     public void clearTo() {
-        this.to.clear();
+        tos.clear();
     }
 
     public int getAttachmentSize() {
-        return this.attachments.size();
+        return attachments.size();
     }
 
     public int getInlineSize() {
-        return this.inlines.size();
+        return inlines.size();
     }
 
     public int getToSize() {
-        return this.to.size();
+        return tos.size();
     }
 
     public void send() throws Exception {
-        if (this.from == null) {
+        if (from == null) {
             throw new NullPointerException("from");
         }
 
@@ -93,16 +93,16 @@ public class MailWrapper {
             throw new IllegalStateException("recipients: size = " + getToSize());
         }
 
-        final Session session = Session.getInstance(this.javaMailProperties);
+        final Session session = Session.getInstance(javaMailProperties);
         // session.setDebug(debug);
 
         final MimeMessage mail = new MimeMessage(session);
-        mail.setFrom(this.from);
-        mail.setRecipients(Message.RecipientType.TO, this.to.toArray(new InternetAddress[0]));
-        mail.setSubject((this.subject == null) ? "" : this.subject);
+        mail.setFrom(from);
+        mail.setRecipients(Message.RecipientType.TO, tos.toArray(new InternetAddress[0]));
+        mail.setSubject((subject == null) ? "" : subject);
         mail.setSentDate(new Date());
 
-        for (Entry<Object, Object> header : this.additionalHeaderProperties.entrySet()) {
+        for (Entry<Object, Object> header : additionalHeaderProperties.entrySet()) {
             mail.addHeader(header.getKey().toString(), header.getValue().toString());
         }
 
@@ -115,22 +115,22 @@ public class MailWrapper {
         relatedBodyPart.setContent(relatedMultipart);
         rootMultipart.addBodyPart(relatedBodyPart);
 
-        if (this.text != null) {
+        if (text != null) {
             final MimeBodyPart textBodyPart = new MimeBodyPart();
-            // textBodyPart.setText(this.text);
+            // textBodyPart.setText(text);
 
-            if (this.html) {
-                textBodyPart.setContent(this.text, "text/html; charset=UTF-8");
+            if (html) {
+                textBodyPart.setContent(text, "text/html; charset=UTF-8");
             }
             else {
-                textBodyPart.setContent(this.text, "text/plain; charset=UTF-8");
+                textBodyPart.setContent(text, "text/plain; charset=UTF-8");
             }
 
             relatedMultipart.addBodyPart(textBodyPart);
         }
 
-        for (int i = 0; i < this.inlines.size(); i++) {
-            final DataSource dataSource = this.inlines.get(i);
+        for (int i = 0; i < inlines.size(); i++) {
+            final DataSource dataSource = inlines.get(i);
 
             final MimeBodyPart inlineBodyPart = new MimeBodyPart();
             inlineBodyPart.setDisposition(Part.INLINE);
@@ -139,7 +139,7 @@ public class MailWrapper {
             relatedMultipart.addBodyPart(inlineBodyPart);
         }
 
-        for (DataSource dataSource : this.attachments) {
+        for (DataSource dataSource : attachments) {
             final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
             attachmentBodyPart.setDisposition(Part.ATTACHMENT);
             attachmentBodyPart.setFileName(dataSource.getName());
@@ -169,15 +169,15 @@ public class MailWrapper {
         }
 
         if (value == null || value.isBlank()) {
-            this.additionalHeaderProperties.remove(key);
+            additionalHeaderProperties.remove(key);
             return;
         }
 
-        this.additionalHeaderProperties.put(key.strip(), value.strip());
+        additionalHeaderProperties.put(key.strip(), value.strip());
     }
 
     public void setDebug(final boolean debug) {
-        this.javaMailProperties.put("mail.debug", debug);
+        javaMailProperties.put("mail.debug", debug);
     }
 
     public void setFrom(final String from) throws NullPointerException, MessagingException {
@@ -185,11 +185,11 @@ public class MailWrapper {
     }
 
     public void setHost(final String host) {
-        this.javaMailProperties.setProperty("mail.smtp.host", host);
+        javaMailProperties.setProperty("mail.smtp.host", host);
     }
 
     public void setJavaMailProperty(final String key, final String value) {
-        this.javaMailProperties.setProperty(key, value);
+        javaMailProperties.setProperty(key, value);
     }
 
     public void setSubject(final String subject) {

@@ -20,7 +20,7 @@ public class ImageLayoutElement extends AbstractLayoutElement {
     }
 
     public Image getImage() {
-        return this.image;
+        return image;
     }
 
     public void setImage(final Image image) {

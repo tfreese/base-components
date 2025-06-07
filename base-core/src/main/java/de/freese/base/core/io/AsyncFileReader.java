@@ -47,7 +47,7 @@ public final class AsyncFileReader<CH> {
             this.channel = Objects.requireNonNull(afc, "AsynchronousFileChannel required");
             this.future = Objects.requireNonNull(cf, "CompletableFuture required");
             this.handler = Objects.requireNonNull(handler, "handler required");
-            this.buffer = ByteBuffer.allocate(bufferSize);
+            buffer = ByteBuffer.allocate(bufferSize);
         }
 
         public void close() {

@@ -42,27 +42,27 @@ public final class LookupException extends RuntimeException {
     }
 
     public String getBaseName() {
-        return this.baseName;
+        return baseName;
     }
 
     public String getInfo() {
-        return this.info;
+        return info;
     }
 
     public String getKey() {
-        return this.key;
+        return key;
     }
 
     public Locale getLocale() {
-        return this.locale;
+        return locale;
     }
 
     public Class<?> getType() {
-        return this.type;
+        return type;
     }
 
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

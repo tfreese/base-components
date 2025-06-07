@@ -53,35 +53,35 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel {
     }
 
     public JLabel getFilterLabel() {
-        if (this.filterLabel == null) {
-            this.filterLabel = new JLabel("#Filter");
+        if (filterLabel == null) {
+            filterLabel = new JLabel("#Filter");
         }
 
-        return this.filterLabel;
+        return filterLabel;
     }
 
     public JTextField getFilterTextField() {
-        if (this.filterTextField == null) {
-            this.filterTextField = new JTextField(16);
+        if (filterTextField == null) {
+            filterTextField = new JTextField(16);
         }
 
-        return this.filterTextField;
+        return filterTextField;
     }
 
     public JList<T> getList() {
-        if (this.list == null) {
-            this.list = new JList<>();
+        if (list == null) {
+            list = new JList<>();
         }
 
-        return this.list;
+        return list;
     }
 
     public JScrollPane getScrollPane() {
-        if (this.scrollPane == null) {
-            this.scrollPane = new JScrollPane(getList());
+        if (scrollPane == null) {
+            scrollPane = new JScrollPane(getList());
         }
 
-        return this.scrollPane;
+        return scrollPane;
     }
 
     public void setFilter(final Predicate<T> filter) {

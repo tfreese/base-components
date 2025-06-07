@@ -31,11 +31,11 @@ public final class ButtonFactory {
         private final String text;
 
         ArrowDirection(final int value) {
-            this.text = String.valueOf((char) value);
+            text = String.valueOf((char) value);
         }
 
         public String getText() {
-            return this.text;
+            return text;
         }
     }
 

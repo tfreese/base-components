@@ -38,7 +38,7 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C> {
     }
 
     public final D getValueD() {
-        return this.valueD;
+        return valueD;
     }
 
     @Override

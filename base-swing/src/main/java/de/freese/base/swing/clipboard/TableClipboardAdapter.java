@@ -97,7 +97,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             }
         }
     }
-    
+
     private boolean externalPopup;
     private JPopupMenu popup;
 
@@ -111,7 +111,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         this.popup = popupMenu;
 
         if (popupMenu != null) {
-            this.externalPopup = true;
+            externalPopup = true;
         }
 
         initialize();

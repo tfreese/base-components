@@ -37,14 +37,14 @@ class StreamSubscription<T> implements Subscription {
     @Override
     public void request(final long n) {
         if (n <= 0 && !terminate()) {
-            getExecutor().execute(() -> this.subscriber.onError(new IllegalArgumentException("negative subscription request")));
+            getExecutor().execute(() -> subscriber.onError(new IllegalArgumentException("negative subscription request")));
 
             return;
         }
 
         for (; ; ) {
-            final long currentDemand = this.demand.getAcquire(); // >= Java9
-            // final long currentDemand = this.demand.get(); // <= Java8
+            final long currentDemand = demand.getAcquire(); // >= Java9
+            // final long currentDemand = demand.get(); // <= Java8
 
             if (currentDemand == Long.MAX_VALUE) {
                 return;
@@ -56,7 +56,7 @@ class StreamSubscription<T> implements Subscription {
                 adjustedDemand = Long.MAX_VALUE;
             }
 
-            if (this.demand.compareAndSet(currentDemand, adjustedDemand)) {
+            if (demand.compareAndSet(currentDemand, adjustedDemand)) {
                 if (currentDemand > 0) {
                     return;
                 }
@@ -65,39 +65,39 @@ class StreamSubscription<T> implements Subscription {
             }
         }
 
-        for (; this.demand.get() > 0 && this.iterator.hasNext() && !isTerminated(); this.demand.decrementAndGet()) {
+        for (; demand.get() > 0 && iterator.hasNext() && !isTerminated(); demand.decrementAndGet()) {
             try {
-                getExecutor().execute(() -> this.subscriber.onNext(this.iterator.next()));
+                getExecutor().execute(() -> subscriber.onNext(iterator.next()));
             }
             catch (Exception ex) {
                 if (!terminate()) {
-                    getExecutor().execute(() -> this.subscriber.onError(ex));
+                    getExecutor().execute(() -> subscriber.onError(ex));
                 }
             }
         }
 
-        if (!this.iterator.hasNext() && !terminate()) {
-            getExecutor().execute(this.subscriber::onComplete);
+        if (!iterator.hasNext() && !terminate()) {
+            getExecutor().execute(subscriber::onComplete);
         }
     }
 
     void doOnSubscribed() {
-        final Throwable throwable = this.error.get();
+        final Throwable throwable = error.get();
 
         if (throwable != null && !terminate()) {
-            getExecutor().execute(() -> this.subscriber.onError(throwable));
+            getExecutor().execute(() -> subscriber.onError(throwable));
         }
     }
 
     private Executor getExecutor() {
-        return this.executor;
+        return executor;
     }
 
     private boolean isTerminated() {
-        return this.isTerminated.get();
+        return isTerminated.get();
     }
 
     private boolean terminate() {
-        return this.isTerminated.getAndSet(true);
+        return isTerminated.getAndSet(true);
     }
 }

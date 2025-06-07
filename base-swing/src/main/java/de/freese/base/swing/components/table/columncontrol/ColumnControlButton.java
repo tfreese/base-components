@@ -30,7 +30,7 @@ public class ColumnControlButton extends JButton {
             throw new IllegalArgumentException("TableColumnModel muss vom Typ IExtTableColumnModel sein !");
         }
 
-        this.tables.add(table);
+        tables.add(table);
         setIcon(new ColumnControlIcon());
         addActionListener(event -> {
             getColumnControlWindow().clear();
@@ -40,7 +40,7 @@ public class ColumnControlButton extends JButton {
     }
 
     public List<ExtTable> getTables() {
-        return this.tables;
+        return tables;
     }
 
     protected ColumnControlWindow createColumnControlWindow() {
@@ -48,10 +48,10 @@ public class ColumnControlButton extends JButton {
     }
 
     private ColumnControlWindow getColumnControlWindow() {
-        if (this.columnControlWindow == null) {
-            this.columnControlWindow = createColumnControlWindow();
+        if (columnControlWindow == null) {
+            columnControlWindow = createColumnControlWindow();
         }
 
-        return this.columnControlWindow;
+        return columnControlWindow;
     }
 }

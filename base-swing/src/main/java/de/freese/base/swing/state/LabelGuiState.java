@@ -30,7 +30,7 @@ public class LabelGuiState extends AbstractGuiState {
 
         final JLabel label = (JLabel) component;
 
-        label.setText(this.text);
+        label.setText(text);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class LabelGuiState extends AbstractGuiState {
 
         final JLabel label = (JLabel) component;
 
-        this.text = label.getText();
+        text = label.getText();
     }
 }

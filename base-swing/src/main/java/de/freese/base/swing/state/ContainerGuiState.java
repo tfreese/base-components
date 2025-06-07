@@ -37,12 +37,12 @@ public class ContainerGuiState extends AbstractGuiState {
 
         final Container container = (Container) component;
 
-        if (this.width == 0 && this.height == 0) {
-            // Configuration not saved before.
+        if (width == 0 && height == 0) {
+            // Configuration isn't saved before.
             return;
         }
 
-        container.setBounds(this.x, this.y, this.width, this.height);
+        container.setBounds(x, y, width, height);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class ContainerGuiState extends AbstractGuiState {
 
         final Rectangle bounds = container.getBounds();
 
-        this.x = (int) bounds.getX();
-        this.y = (int) bounds.getY();
-        this.width = (int) bounds.getWidth();
-        this.height = (int) bounds.getHeight();
+        x = (int) bounds.getX();
+        y = (int) bounds.getY();
+        width = (int) bounds.getWidth();
+        height = (int) bounds.getHeight();
     }
 }

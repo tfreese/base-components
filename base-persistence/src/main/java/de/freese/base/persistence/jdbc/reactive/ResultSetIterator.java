@@ -28,8 +28,8 @@ public class ResultSetIterator<T> implements Iterator<T> {
     @Override
     public boolean hasNext() {
         try {
-            return this.resultSet.next();
-            // return !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
+            return resultSet.next();
+            // return !resultSet.isClosed() && !resultSet.isAfterLast() && resultSet.next();
         }
         catch (SQLException sex) {
             throw new NoSuchElementException(sex.getMessage());
@@ -39,7 +39,7 @@ public class ResultSetIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         try {
-            return this.rowMapper.mapRow(this.resultSet);
+            return rowMapper.mapRow(resultSet);
         }
         catch (SQLException ex) {
             throw new NoSuchElementException(ex);

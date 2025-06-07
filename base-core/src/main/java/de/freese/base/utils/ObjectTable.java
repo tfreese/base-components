@@ -67,11 +67,11 @@ public final class ObjectTable {
     }
 
     public List<Object[]> getData() {
-        return List.copyOf(this.data);
+        return List.copyOf(data);
     }
 
     public List<String> getHeader() {
-        return List.copyOf(this.header);
+        return List.copyOf(header);
     }
 
     public int getRowCount() {
@@ -83,7 +83,7 @@ public final class ObjectTable {
      * Der Stream wird nicht geschlossen.
      */
     public void writeCsv(final OutputStream outputStream) {
-        final IntFunction<String> headerFunction = this.header::get;
+        final IntFunction<String> headerFunction = header::get;
         final BiFunction<Integer, Integer, String> dataFunction = (row, column) -> Objects.toString(data.get(row)[column], null);
         final IntPredicate finishPredicate = row -> row < getRowCount();
 

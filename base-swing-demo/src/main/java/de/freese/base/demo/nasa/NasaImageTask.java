@@ -35,7 +35,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
 
     @Override
     protected void cancelled() {
-        this.view.setMessage("nasa.load.canceled", this.uri, null);
+        view.setMessage("nasa.load.canceled", uri, null);
 
         getLogger().info("Cancelled");
     }
@@ -44,10 +44,10 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
     protected BufferedImage doInBackground() throws Exception {
         getLogger().info("Started");
 
-        this.uri = this.uriCallable.call();
+        uri = uriCallable.call();
 
-        this.view.setMessage("nasa.load.start", this.uri, null);
-        setSubTitle(this.resourceMap.getString("nasa.load.start", this.uri));
+        view.setMessage("nasa.load.start", uri, null);
+        setSubTitle(resourceMap.getString("nasa.load.start", uri));
 
         final IIOReadProgressListener rpl = new IioReadProgressAdapter() {
             @Override
@@ -56,19 +56,19 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
             }
         };
 
-        return this.nasaController.loadImage(this.view.getService(LocalStorage.class), this.uri, rpl);
+        return nasaController.loadImage(view.getService(LocalStorage.class), uri, rpl);
     }
 
     @Override
     protected void failed(final Throwable cause) {
         super.failed(cause);
 
-        this.view.setMessage("nasa.load.failed", this.uri, cause);
+        view.setMessage("nasa.load.failed", uri, cause);
     }
 
     @Override
     protected void succeeded(final BufferedImage result) {
-        this.view.setImage(this.uri, result);
+        view.setImage(uri, result);
 
         getLogger().info("Succeeded");
     }

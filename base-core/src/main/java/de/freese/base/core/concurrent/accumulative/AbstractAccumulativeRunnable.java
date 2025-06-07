@@ -74,12 +74,12 @@ public abstract class AbstractAccumulativeRunnable<T> implements Runnable {
     public final synchronized void add(final T arg) {
         boolean isSubmitted = true;
 
-        if (this.arguments == null) {
+        if (arguments == null) {
             isSubmitted = false;
-            this.arguments = new ArrayList<>();
+            arguments = new ArrayList<>();
         }
 
-        this.arguments.add(arg);
+        arguments.add(arg);
 
         if (!isSubmitted) {
             submit();
@@ -116,8 +116,8 @@ public abstract class AbstractAccumulativeRunnable<T> implements Runnable {
      * @return accumulated arguments
      */
     private synchronized List<T> flush() {
-        final List<T> list = this.arguments;
-        this.arguments = null;
+        final List<T> list = arguments;
+        arguments = null;
 
         return list;
     }

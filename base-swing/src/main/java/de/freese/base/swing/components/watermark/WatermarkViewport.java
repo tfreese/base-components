@@ -27,25 +27,25 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent {
 
     @Override
     public ImageIcon getWatermark() {
-        return this.watermark;
+        return watermark;
     }
 
     @Override
     public void paint(final Graphics g) {
-        if (this.watermark != null) {
+        if (watermark != null) {
             int x = 0;
             int y = 0;
 
-            if (null != this.position) {
-                x = (int) this.position.getX();
-                y = (int) this.position.getY();
+            if (null != position) {
+                x = (int) position.getX();
+                y = (int) position.getY();
             }
 
             // Draw the background image
             // Rectangle d = getViewRect();
             // for( int x = 0; x < d.width; x += watermark.getIconWidth() )
             // for( int y = 0; y < d.height; y += watermark.getIconHeight() )
-            g.drawImage(this.watermark.getImage(), x, y, null, null);
+            g.drawImage(watermark.getImage(), x, y, null, null);
 
             // Do not use cached image for scrolling
             setScrollMode(JViewport.BLIT_SCROLL_MODE);

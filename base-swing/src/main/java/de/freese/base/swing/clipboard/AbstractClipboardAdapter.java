@@ -95,7 +95,7 @@ public abstract class AbstractClipboardAdapter {
         }
     }
 
-    private final Clipboard clipboard;
+    private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     private final JComponent component;
     private final Map<Class<?>, ClipboardConverter> converterMap = new HashMap<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -109,8 +109,6 @@ public abstract class AbstractClipboardAdapter {
         super();
 
         this.component = component;
-        this.clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-
         this.component.putClientProperty(getClass(), this);
     }
 
@@ -127,27 +125,27 @@ public abstract class AbstractClipboardAdapter {
     public abstract void doPaste(boolean flipAxes);
 
     public Action getActionCopy() {
-        if (this.actionCopy == null) {
-            this.actionCopy = new ActionCopy();
+        if (actionCopy == null) {
+            actionCopy = new ActionCopy();
         }
 
-        return this.actionCopy;
+        return actionCopy;
     }
 
     public Action getActionPaste() {
-        if (this.actionPaste == null) {
-            this.actionPaste = new ActionPaste();
+        if (actionPaste == null) {
+            actionPaste = new ActionPaste();
         }
 
-        return this.actionPaste;
+        return actionPaste;
     }
 
     public Action getActionPasteFlipAxes() {
-        if (this.actionPasteFlipAxes == null) {
-            this.actionPasteFlipAxes = new ActionPasteFlipAxes();
+        if (actionPasteFlipAxes == null) {
+            actionPasteFlipAxes = new ActionPasteFlipAxes();
         }
 
-        return this.actionPasteFlipAxes;
+        return actionPasteFlipAxes;
     }
 
     /**
@@ -169,7 +167,7 @@ public abstract class AbstractClipboardAdapter {
     }
 
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     public void register(final Class<?> clazz, final ClipboardConverter converter) {
@@ -185,15 +183,15 @@ public abstract class AbstractClipboardAdapter {
     }
 
     protected Clipboard getClipboard() {
-        return this.clipboard;
+        return clipboard;
     }
 
     protected JComponent getComponent() {
-        return this.component;
+        return component;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected void initialize() {
@@ -224,6 +222,6 @@ public abstract class AbstractClipboardAdapter {
     }
 
     private Map<Class<?>, ClipboardConverter> getConverterMap() {
-        return this.converterMap;
+        return converterMap;
     }
 }

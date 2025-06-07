@@ -28,7 +28,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
     public MemoryGraphPainter() {
         super();
 
-        this.runtime = Runtime.getRuntime();
+        runtime = Runtime.getRuntime();
     }
 
     public void generateValue() {
@@ -72,15 +72,15 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
         g.setColor(new Color(0, 100, 0));
 
         for (int i = 0; i < memUsage; i++) {
-            this.rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
-            g.fill(this.rectangle2d);
+            rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
+            g.fill(rectangle2d);
         }
 
         g.setColor(Color.GREEN);
 
         for (int i = memUsage; i < 10; i++) {
-            this.rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
-            g.fill(this.rectangle2d);
+            rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
+            g.fill(rectangle2d);
         }
 
         // Rand zwischen Blocks und Graph.
@@ -90,8 +90,8 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
 
         // Rahmen zeichnen.
         g.setColor(Color.RED);
-        this.rectangle2d.setRect(xOffset, yOffset, graphWidth, graphHeight);
-        g.draw(this.rectangle2d);
+        rectangle2d.setRect(xOffset, yOffset, graphWidth, graphHeight);
+        g.draw(rectangle2d);
         // float strokeWidth = ((BasicStroke) g.getStroke()).getLineWidth();
         final float strokeWidth = 1F;
         xOffset += strokeWidth;
@@ -117,11 +117,11 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
     }
 
     private float getFreeMemory() {
-        return this.runtime.freeMemory();
+        return runtime.freeMemory();
     }
 
     private float getTotalMemory() {
-        return this.runtime.totalMemory();
+        return runtime.totalMemory();
     }
 
     private void paintPlot(final Graphics2D g, final float width, final float height) {
@@ -142,36 +142,36 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
             final float x = getXKoordinate(value, i, width);
             final float y = getYKoordinate(value, height);
 
-            this.rectangle2d.setRect(x + xOffset, height - y, 1, y);
+            rectangle2d.setRect(x + xOffset, height - y, 1, y);
 
-            g.fill(this.rectangle2d);
+            g.fill(rectangle2d);
         }
 
         // g.setColor(Color.MAGENTA);
-        // this.rectangle2d.setRect(0, 0, width, height);
-        // g.draw(this.rectangle2d);
+        // rectangle2d.setRect(0, 0, width, height);
+        // g.draw(rectangle2d);
     }
 
     private void paintRaster(final Graphics2D g, final float width, final float height) {
-        g.setColor(this.rasterColor);
+        g.setColor(rasterColor);
 
         final float rowHeight = height / 10F;
         final float columnWidth = width / 15F;
 
         for (int row = 1; row < 10; row++) {
-            this.line2d.setLine(0, row * rowHeight, width, row * rowHeight);
-            g.draw(this.line2d);
+            line2d.setLine(0, row * rowHeight, width, row * rowHeight);
+            g.draw(line2d);
         }
 
-        if (this.columnOffset <= 0.0F) {
-            this.columnOffset = columnWidth;
+        if (columnOffset <= 0.0F) {
+            columnOffset = columnWidth;
         }
 
-        for (float x = this.columnOffset; x <= width; x += columnWidth) {
-            this.line2d.setLine(x, 0, x, height);
-            g.draw(this.line2d);
+        for (float x = columnOffset; x <= width; x += columnWidth) {
+            line2d.setLine(x, 0, x, height);
+            g.draw(line2d);
         }
 
-        this.columnOffset--;
+        columnOffset--;
     }
 }

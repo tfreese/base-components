@@ -25,7 +25,7 @@ public class TabbedPaneGuiState extends AbstractGuiState {
     }
 
     public int getSelectedIndex() {
-        return this.selectedIndex;
+        return selectedIndex;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class TabbedPaneGuiState extends AbstractGuiState {
         final JTabbedPane tabbedPane = (JTabbedPane) component;
 
         try {
-            tabbedPane.setSelectedIndex(this.selectedIndex != -1 ? this.selectedIndex : 0);
+            tabbedPane.setSelectedIndex(selectedIndex != -1 ? selectedIndex : 0);
         }
         catch (Exception ex) {
             // Ignore
@@ -52,6 +52,6 @@ public class TabbedPaneGuiState extends AbstractGuiState {
 
         final JTabbedPane tabbedPane = (JTabbedPane) component;
 
-        this.selectedIndex = tabbedPane.getSelectedIndex();
+        selectedIndex = tabbedPane.getSelectedIndex();
     }
 }

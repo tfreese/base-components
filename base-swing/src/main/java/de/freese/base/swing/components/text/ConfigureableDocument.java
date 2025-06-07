@@ -89,7 +89,7 @@ public class ConfigureableDocument extends PlainDocument {
          * @return <code>true</code> wenn ja, sonst <code>false</code>
          */
         private boolean areFloatsAllowed() {
-            return this.floatsAllowed;
+            return floatsAllowed;
         }
     }
 
@@ -142,7 +142,7 @@ public class ConfigureableDocument extends PlainDocument {
         public void execute(final DocumentContext context) {
             final String fullText = context.fullText;
 
-            if (fullText.length() > this.maxLength) {
+            if (fullText.length() > maxLength) {
                 throw new IllegalStateException("Max. length of Document reached !");
             }
         }
@@ -181,16 +181,16 @@ public class ConfigureableDocument extends PlainDocument {
         putProperty("filterNewlines", Boolean.TRUE);
 
         // Längenüberprüfung
-        this.lengthProcessor = new LengthProcessor();
-        this.processorChain.addProcessor(this.lengthProcessor);
+        lengthProcessor = new LengthProcessor();
+        processorChain.addProcessor(lengthProcessor);
 
         // Zahlenprüfung
-        this.digitProcessor = new DigitProcessor();
-        this.processorChain.addProcessor(this.digitProcessor);
+        digitProcessor = new DigitProcessor();
+        processorChain.addProcessor(digitProcessor);
 
         // UpperCase
-        this.upperCaseProcessor = new UpperCaseProcessor();
-        this.processorChain.addProcessor(this.upperCaseProcessor);
+        upperCaseProcessor = new UpperCaseProcessor();
+        processorChain.addProcessor(upperCaseProcessor);
     }
 
     @Override
@@ -213,7 +213,7 @@ public class ConfigureableDocument extends PlainDocument {
         }
 
         try {
-            this.processorChain.execute(context);
+            processorChain.execute(context);
 
             super.insertString(offs, context.newText, a);
         }
@@ -223,20 +223,20 @@ public class ConfigureableDocument extends PlainDocument {
     }
 
     public void setFloatAllowed(final boolean floatDigits) {
-        this.digitProcessor.setFloatsAllowed(floatDigits);
+        digitProcessor.setFloatsAllowed(floatDigits);
     }
 
     public void setMaxLength(final int maxLength) {
-        this.lengthProcessor.setMaxLength(maxLength);
-        this.lengthProcessor.setEnabled(true);
+        lengthProcessor.setMaxLength(maxLength);
+        lengthProcessor.setEnabled(true);
     }
 
     public void setOnlyDigits(final boolean onlyDigits) {
-        this.digitProcessor.setEnabled(onlyDigits);
+        digitProcessor.setEnabled(onlyDigits);
     }
 
     public void setToUpperCase(final boolean toUpperCase) {
-        this.upperCaseProcessor.setEnabled(toUpperCase);
+        upperCaseProcessor.setEnabled(toUpperCase);
     }
 
     protected void handleException(final Exception ex) {

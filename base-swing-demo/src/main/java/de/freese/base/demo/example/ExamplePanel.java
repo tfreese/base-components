@@ -16,11 +16,11 @@ class ExamplePanel extends JPanel {
     private JButton buttonTaskStatistik;
 
     JButton getButtonTaskStatistik() {
-        if (this.buttonTaskStatistik == null) {
-            this.buttonTaskStatistik = new JButton();
+        if (buttonTaskStatistik == null) {
+            buttonTaskStatistik = new JButton();
         }
 
-        return this.buttonTaskStatistik;
+        return buttonTaskStatistik;
     }
 
     void init() {

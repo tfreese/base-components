@@ -23,7 +23,7 @@ public class StringGuiState extends AbstractGuiState {
     }
 
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

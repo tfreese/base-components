@@ -26,9 +26,9 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     public MultiDatabaseExtension(final boolean autoCommit) {
         super();
 
-        this.servers.computeIfAbsent(EmbeddedDatabaseType.H2, key -> new DbServerExtension(key, autoCommit));
-        this.servers.computeIfAbsent(EmbeddedDatabaseType.HSQL, key -> new DbServerExtension(key, autoCommit));
-        this.servers.computeIfAbsent(EmbeddedDatabaseType.DERBY, key -> new DbServerExtension(key, autoCommit));
+        servers.computeIfAbsent(EmbeddedDatabaseType.H2, key -> new DbServerExtension(key, autoCommit));
+        servers.computeIfAbsent(EmbeddedDatabaseType.HSQL, key -> new DbServerExtension(key, autoCommit));
+        servers.computeIfAbsent(EmbeddedDatabaseType.DERBY, key -> new DbServerExtension(key, autoCommit));
     }
 
     @Override

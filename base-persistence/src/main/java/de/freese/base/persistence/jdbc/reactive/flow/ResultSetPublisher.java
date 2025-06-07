@@ -27,7 +27,7 @@ public class ResultSetPublisher<T> implements Publisher<T> {
 
     @Override
     public void subscribe(final Subscriber<? super T> subscriber) {
-        final ResultSetSubscription<T> subscription = new ResultSetSubscription<>(this.resultSet, this.rowMapper, this.doOnClose, subscriber);
+        final ResultSetSubscription<T> subscription = new ResultSetSubscription<>(resultSet, rowMapper, doOnClose, subscriber);
 
         subscriber.onSubscribe(subscription);
     }

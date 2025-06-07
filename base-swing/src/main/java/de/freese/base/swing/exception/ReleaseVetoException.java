@@ -38,6 +38,6 @@ public class ReleaseVetoException extends Exception {
     }
 
     public Object getSource() {
-        return this.source;
+        return source;
     }
 }

@@ -72,7 +72,7 @@ public class NasaController extends AbstractController {
     }
 
     public URI getPreviousUri() throws Exception {
-        // if (--this.uriHistoryCurrentIndex < 0) {
+        // if (--uriHistoryCurrentIndex < 0) {
         // uriHistoryCurrentIndex = imageNames.length - 1;
         // }
 
@@ -120,7 +120,7 @@ public class NasaController extends AbstractController {
             inputStream = uri.toURL().openStream();
         }
 
-        // byte[] digest = this.messageDigest.digest(uri.toString().getBytes(StandardCharsets.UTF_8));
+        // byte[] digest = messageDigest.digest(uri.toString().getBytes(StandardCharsets.UTF_8));
         // String hex = Hex.encodeHexString(digest, false);
 
         ImageReader reader = null;

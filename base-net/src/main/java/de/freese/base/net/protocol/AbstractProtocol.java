@@ -43,6 +43,6 @@ public abstract class AbstractProtocol {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

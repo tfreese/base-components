@@ -59,7 +59,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
 
     @Override
     public synchronized void addListDataListener(final ListDataListener listener) {
-        this.eventListenerList.add(ListDataListener.class, listener);
+        eventListenerList.add(ListDataListener.class, listener);
     }
 
     public void clear() {
@@ -115,7 +115,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
 
     @Override
     public synchronized void removeListDataListener(final ListDataListener listener) {
-        this.eventListenerList.add(ListDataListener.class, listener);
+        eventListenerList.add(ListDataListener.class, listener);
     }
 
     /**
@@ -127,7 +127,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
-        final Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -150,7 +150,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
-        final Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -166,7 +166,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
 
     /**
      * <code>AbstractListModel</code> subclasses must call this method <b>after</b> one or more elements are removed from the model. The new elements are
-     * specified by a closed interval index0, index1, i.e. the range that includes both index0 and index1. Note that index0 need not be less than or equal to
+     * specified by a closed interval index0, index1, i.e., the range that includes both index0 and index1. Note that index0 need not be less than or equal to
      * index1.
      *
      * @param source the ListModel that changed, typically "this"
@@ -174,7 +174,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        final Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -189,6 +189,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
     }
 
     protected List<T> getList() {
-        return this.list;
+        return list;
     }
 }

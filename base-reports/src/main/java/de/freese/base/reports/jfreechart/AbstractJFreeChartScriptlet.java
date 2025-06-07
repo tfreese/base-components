@@ -52,47 +52,47 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         }
 
         public LegendItemSource getRenderer(final int index) {
-            if (this.plot instanceof XYPlot xyPlot) {
+            if (plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRenderer(index);
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRenderer(index);
             }
 
-            throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
+            throw new UnsupportedOperationException(plot.getClass().getSimpleName());
         }
 
         public int getRendererCount() {
-            if (this.plot instanceof XYPlot xyPlot) {
+            if (plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRendererCount();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRendererCount();
             }
 
-            throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
+            throw new UnsupportedOperationException(plot.getClass().getSimpleName());
         }
 
         public Axis getXAxis() {
-            if (this.plot instanceof XYPlot xyPlot) {
+            if (plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRangeAxis();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getDomainAxis();
             }
 
-            throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
+            throw new UnsupportedOperationException(plot.getClass().getSimpleName());
         }
 
         public Axis getYAxis() {
-            if (this.plot instanceof XYPlot xyPlot) {
+            if (plot instanceof XYPlot xyPlot) {
                 return xyPlot.getDomainAxis();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRangeAxis();
             }
 
-            throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
+            throw new UnsupportedOperationException(plot.getClass().getSimpleName());
         }
     }
 
@@ -209,15 +209,15 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      * 123456.123 wird zu 123.456,1
      */
     protected DecimalFormat getDecimalFormatter() {
-        if (this.decimalFormatter == null) {
-            this.decimalFormatter = new DecimalFormat();
+        if (decimalFormatter == null) {
+            decimalFormatter = new DecimalFormat();
 
-            this.decimalFormatter.setGroupingSize(3);
-            this.decimalFormatter.setMaximumFractionDigits(0);
-            this.decimalFormatter.setDecimalSeparatorAlwaysShown(false);
+            decimalFormatter.setGroupingSize(3);
+            decimalFormatter.setMaximumFractionDigits(0);
+            decimalFormatter.setDecimalSeparatorAlwaysShown(false);
         }
 
-        return this.decimalFormatter;
+        return decimalFormatter;
     }
 
     /**
@@ -332,12 +332,12 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      * 1.234 wird zu 1.2
      */
     private DecimalFormat getFloatDecimalFormatter() {
-        if (this.floatFormatter == null) {
-            this.floatFormatter = new DecimalFormat();
-            this.floatFormatter.setMinimumFractionDigits(1);
-            this.floatFormatter.setDecimalSeparatorAlwaysShown(true);
+        if (floatFormatter == null) {
+            floatFormatter = new DecimalFormat();
+            floatFormatter.setMinimumFractionDigits(1);
+            floatFormatter.setDecimalSeparatorAlwaysShown(true);
         }
 
-        return this.floatFormatter;
+        return floatFormatter;
     }
 }

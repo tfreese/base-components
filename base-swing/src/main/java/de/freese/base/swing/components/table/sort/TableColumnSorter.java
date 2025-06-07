@@ -84,7 +84,7 @@ public class TableColumnSorter {
             throw new NullPointerException();
         }
 
-        // this.propertyChangeSupport = new PropertyChangeSupport(this);
+        // propertyChangeSupport = new PropertyChangeSupport(this);
         this.table = table;
 
         if (table.getClientProperty("ROWSORTER") != null) {
@@ -98,29 +98,27 @@ public class TableColumnSorter {
         header.setDefaultRenderer(new RowSorterHeaderRenderer(this, header.getDefaultRenderer()));
     }
 
-    // public void addPropertyChangeListener(final PropertyChangeListener listener)
-    // {
+    // public void addPropertyChangeListener(final PropertyChangeListener listener) {
     // getPropertyChangeSupport().addPropertyChangeListener(listener);
     // }
     //
-    // private PropertyChangeSupport getPropertyChangeSupport()
-    // {
-    // return this.propertyChangeSupport;
+    // private PropertyChangeSupport getPropertyChangeSupport() {
+    // return propertyChangeSupport;
     // }
 
     /**
      * @return int, -1 = Keine Sortierung auf Spalte möglich, 0 = erste Spalte, 1 = zweite Spalte
      */
     public int getSortPriority(final ExtTableColumn tableColumnExt) {
-        return this.sortIndexList.indexOf(tableColumnExt);
+        return sortIndexList.indexOf(tableColumnExt);
     }
 
     public void setSortStatus(final ExtTableColumn tableColumnExt, final Sort sort) {
         if (Sort.UNSORTED.equals(sort)) {
-            this.sortIndexList.remove(tableColumnExt);
+            sortIndexList.remove(tableColumnExt);
         }
         else if (Sort.ASCENDING.equals(sort)) {
-            this.sortIndexList.add(tableColumnExt);
+            sortIndexList.add(tableColumnExt);
         }
 
         tableColumnExt.setSort(sort);

@@ -54,12 +54,12 @@ public class ExcelPanel extends JPanel {
     }
 
     private JTabbedPane getJTabbedPane() {
-        if (this.tabbedPane == null) {
-            this.tabbedPane = new JTabbedPane();
-            this.tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
+        if (tabbedPane == null) {
+            tabbedPane = new JTabbedPane();
+            tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
         }
 
-        return this.tabbedPane;
+        return tabbedPane;
     }
 
     private void initialize() {
@@ -70,8 +70,8 @@ public class ExcelPanel extends JPanel {
         gridBagConstraints.weightx = 1.0D;
         gridBagConstraints.weighty = 1.0D;
         setLayout(new GridBagLayout());
-        this.setSize(800, 600);
+        setSize(800, 600);
         setPreferredSize(new Dimension(800, 600));
-        this.add(getJTabbedPane(), gridBagConstraints);
+        add(getJTabbedPane(), gridBagConstraints);
     }
 }

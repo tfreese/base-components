@@ -37,13 +37,13 @@ public class BarGraphPainter extends AbstractGraphPainter {
             final float y = Math.abs(value * middle);
 
             if (value > 0F) {
-                this.rectangle2d.setRect(x, middle - y, 1, y);
+                rectangle2d.setRect(x, middle - y, 1, y);
             }
             else {
-                this.rectangle2d.setRect(x, middle, 1, y);
+                rectangle2d.setRect(x, middle, 1, y);
             }
 
-            g.fill(this.rectangle2d);
+            g.fill(rectangle2d);
         }
     }
 }

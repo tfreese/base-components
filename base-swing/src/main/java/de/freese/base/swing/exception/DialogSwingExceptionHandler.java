@@ -17,7 +17,7 @@ public class DialogSwingExceptionHandler extends DefaultSwingExceptionHandler {
     public DialogSwingExceptionHandler() {
         super();
 
-        this.enableSendMail = false;
+        enableSendMail = false;
     }
 
     @Override
@@ -32,6 +32,6 @@ public class DialogSwingExceptionHandler extends DefaultSwingExceptionHandler {
     private void showErrorPane(final Component parentComponent, final String message, final Throwable throwable) {
         final ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);
 
-        ErrorPane.showDialog(parentComponent, errorInfo, this.enableSendMail);
+        ErrorPane.showDialog(parentComponent, errorInfo, enableSendMail);
     }
 }

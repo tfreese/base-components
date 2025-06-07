@@ -40,11 +40,11 @@ public class Tupel2<A, B> {
     }
 
     public final A getValueA() {
-        return this.valueA;
+        return valueA;
     }
 
     public final B getValueB() {
-        return this.valueB;
+        return valueB;
     }
 
     @Override

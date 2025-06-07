@@ -64,14 +64,14 @@ public class RendererKeySelectionManager implements KeySelectionManager {
 
     @SuppressWarnings("unchecked")
     private String getString(final int row) {
-        if (this.list.getModel() != this.comboBox.getModel()) {
+        if (list.getModel() != comboBox.getModel()) {
             // JList wird nur für den ComboBoxRenderer gebraucht
-            this.list.setModel(this.comboBox.getModel());
+            list.setModel(comboBox.getModel());
         }
 
-        final Object value = this.comboBox.getModel().getElementAt(row);
+        final Object value = comboBox.getModel().getElementAt(row);
 
-        final Component rendererComponent = this.comboBox.getRenderer().getListCellRendererComponent(this.list, value, row, false, false);
+        final Component rendererComponent = comboBox.getRenderer().getListCellRendererComponent(list, value, row, false, false);
 
         final String text = switch (rendererComponent) {
             case JLabel l -> l.getText();
@@ -96,7 +96,7 @@ public class RendererKeySelectionManager implements KeySelectionManager {
             if (model.getElementAt(i) != null) {
                 final String s = getString(i);
 
-                if (s.startsWith(this.pattern)) {
+                if (s.startsWith(pattern)) {
                     return i;
                 }
             }
@@ -112,15 +112,15 @@ public class RendererKeySelectionManager implements KeySelectionManager {
     private void setPattern(final char aKey) {
         final long curTime = System.currentTimeMillis();
 
-        // If last key was typed less than 250 ms ago, append to current pattern
-        if ((curTime - this.lastKeyTime) < 250) {
-            this.pattern += ("" + aKey).toLowerCase();
+        // If the last key was typed less than 250 ms ago, append to the current pattern.
+        if ((curTime - lastKeyTime) < 250) {
+            pattern += ("" + aKey).toLowerCase();
         }
         else {
-            this.pattern = ("" + aKey).toLowerCase();
+            pattern = ("" + aKey).toLowerCase();
         }
 
-        // Save current time
-        this.lastKeyTime = curTime;
+        // Save current time.
+        lastKeyTime = curTime;
     }
 }

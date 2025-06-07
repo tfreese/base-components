@@ -34,11 +34,11 @@ public enum ColorChannel {
      * @see #getValue(int)
      */
     public int getBitOperator() {
-        return this.bitOperator;
+        return bitOperator;
     }
 
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     public int getValue(final int pixel) {

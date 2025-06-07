@@ -8,7 +8,7 @@ public abstract class AbstractPainterModel {
     private final Values<Float> values = new Values<>();
 
     public Values<Float> getValues() {
-        return this.values;
+        return values;
     }
 
     /**

@@ -93,7 +93,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
             throw new NullPointerException("clazz");
         }
 
-        for (Class<?> class1 : this.clazzes) {
+        for (Class<?> class1 : clazzes) {
             if (class1.equals(clazz)) {
                 return true;
             }

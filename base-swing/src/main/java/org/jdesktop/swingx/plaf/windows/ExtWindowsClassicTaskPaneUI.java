@@ -68,12 +68,12 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             final Paint storedPaint = g2.getPaint();
 
             if (group.isSpecial()) {
-                g.setColor(this.specialTitleBackground);
+                g.setColor(specialTitleBackground);
             }
             else {
-                g.setColor(this.titleBackgroundGradientStart);
+                g.setColor(titleBackgroundGradientStart);
 
-                g2.setPaint(new GradientPaint(0, 0, this.titleBackgroundGradientStart, 0, getTitleHeight(null), this.titleBackgroundGradientEnd));
+                g2.setPaint(new GradientPaint(0, 0, titleBackgroundGradientStart, 0, getTitleHeight(null), titleBackgroundGradientEnd));
             }
 
             g.fillRect(0, 0, group.getWidth(), getTitleHeight(null) - 1);
@@ -227,14 +227,14 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     public ExtWindowsClassicTaskPaneUI() {
         super();
 
-        this.buttonEnabledPropertyChangeListener = event -> this.group.repaint();
+        buttonEnabledPropertyChangeListener = event -> group.repaint();
     }
 
     /**
      * Hinzufügen eines Separators in den Title.
      */
     public void addSeparator() {
-        this.titleObjects.add(new Dimension(TITLE_ICON_SIZE, TITLE_ICON_SIZE));
+        titleObjects.add(new Dimension(TITLE_ICON_SIZE, TITLE_ICON_SIZE));
     }
 
     /**
@@ -243,7 +243,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
      * @param dimension {@link Dimension}
      */
     public void addSeparator(final Dimension dimension) {
-        this.titleObjects.add(dimension);
+        titleObjects.add(dimension);
     }
 
     /**
@@ -254,10 +254,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     public void addTitleButton(final JButton button) {
         button.setBounds(0, 0, TITLE_ICON_SIZE, TITLE_ICON_SIZE);
 
-        this.titleButtons.add(button);
-        this.titleObjects.add(button);
+        titleButtons.add(button);
+        titleObjects.add(button);
 
-        button.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
+        button.addPropertyChangeListener("enabled", buttonEnabledPropertyChangeListener);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     @Override
     protected int getTitleHeight(final Component c) {
         // return super.getTitleHeight(c);
-        return this.titleHeight;
+        return titleHeight;
     }
 
     @Override
@@ -301,7 +301,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     }
 
     protected void paintToolTip(final JButton button) {
-        if (this.group.isCollapsed()) {
+        if (group.isCollapsed()) {
             return;
         }
 
@@ -340,7 +340,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     }
 
     private JButton getButtonFor(final int x, final int y) {
-        for (JButton button : this.titleButtons) {
+        for (JButton button : titleButtons) {
             final Rectangle rect = getRectangleFor(button);
 
             if (rect == null) {
@@ -356,17 +356,17 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     }
 
     private Rectangle getRectangleFor(final JButton button) {
-        final int index = this.titleObjects.indexOf(button);
+        final int index = titleObjects.indexOf(button);
 
         if (index < 0) {
             return null;
         }
 
-        int x = this.group.getWidth() - 40;
+        int x = group.getWidth() - 40;
 
         // Breiten der anderen Icons abziehen
         for (int i = 0; i < index; i++) {
-            final Object titelObject = this.titleObjects.get(i);
+            final Object titelObject = titleObjects.get(i);
 
             if (titelObject instanceof Dimension d) {
                 x -= d.width;

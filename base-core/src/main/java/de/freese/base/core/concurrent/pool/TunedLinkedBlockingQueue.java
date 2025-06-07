@@ -50,7 +50,7 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
 
     @Override
     public boolean offer(final T e) {
-        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {
+        if (poolCurrentSize.getAsInt() < poolMaxSize.getAsInt()) {
             // FALSE triggert den ThreadPoolExecutor neue Threads zu erzeugen.
             return false;
         }
@@ -60,7 +60,7 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
 
     @Override
     public boolean offer(final T e, final long timeout, final TimeUnit unit) throws InterruptedException {
-        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {
+        if (poolCurrentSize.getAsInt() < poolMaxSize.getAsInt()) {
             // FALSE triggert den ThreadPoolExecutor neue Threads zu erzeugen.
             return false;
         }

@@ -22,12 +22,12 @@ public class MemoryResourceCache extends AbstractResourceCache {
 
     @Override
     public void clear() {
-        this.map.clear();
+        map.clear();
     }
 
     @Override
     public InputStream getResource(final URI uri) throws Exception {
-        byte[] content = this.map.get(uri);
+        byte[] content = map.get(uri);
 
         if (content == null) {
             // final int size = (int) getContentLength(uri);
@@ -49,7 +49,7 @@ public class MemoryResourceCache extends AbstractResourceCache {
 
                 content = baos.toByteArray();
 
-                this.map.put(uri, content);
+                map.put(uri, content);
             }
         }
 

@@ -18,7 +18,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
 
     @Override
     public Object getSelectedItem() {
-        return this.selectedObject;
+        return selectedObject;
     }
 
     @Override
@@ -26,10 +26,10 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
         final int index = getList().indexOf(anItem);
 
         if (index != -1) {
-            this.selectedObject = getList().get(index);
+            selectedObject = getList().get(index);
         }
         else {
-            this.selectedObject = null;
+            selectedObject = null;
         }
 
         fireContentsChanged(this, index, index);
@@ -37,7 +37,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
 
     @Override
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
-        this.selectedObject = null;
+        selectedObject = null;
 
         super.fireContentsChanged(source, index0, index1);
     }
@@ -47,7 +47,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
      */
     @Override
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        if (this.selectedObject != null) {
+        if (selectedObject != null) {
             setSelectedItem(null);
         }
 

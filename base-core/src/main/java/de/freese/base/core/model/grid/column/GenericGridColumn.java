@@ -30,6 +30,6 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
             return null;
         }
 
-        return this.mapper.apply(object);
+        return mapper.apply(object);
     }
 }

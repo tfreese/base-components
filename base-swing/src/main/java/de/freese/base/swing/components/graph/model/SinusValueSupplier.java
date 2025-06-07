@@ -13,13 +13,13 @@ public class SinusValueSupplier implements Supplier<Float> {
 
     @Override
     public Float get() {
-        final double radian = this.grad * GRAD_TO_RADIAN_FACTOR;
+        final double radian = grad * GRAD_TO_RADIAN_FACTOR;
         final double sinus = Math.sin(radian);
 
-        this.grad += 1;
+        grad += 1;
 
-        if (this.grad > 360) {
-            this.grad = 0;
+        if (grad > 360) {
+            grad = 0;
         }
 
         return (float) sinus;

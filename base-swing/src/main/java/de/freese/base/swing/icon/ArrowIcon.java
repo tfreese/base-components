@@ -55,20 +55,19 @@ public class ArrowIcon implements Icon {
             throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
         }
 
-        // setImage(new ImageIcon(new byte[]
-        // {
+        // setImage(new ImageIcon(new byte[] {
         // 0, 0
         // }).getImage());
     }
 
     @Override
     public int getIconHeight() {
-        return this.height;
+        return height;
     }
 
     @Override
     public int getIconWidth() {
-        return this.width;
+        return width;
     }
 
     @Override
@@ -76,26 +75,26 @@ public class ArrowIcon implements Icon {
         final Graphics2D g2d = (Graphics2D) g.create();
 
         g2d.addRenderingHints(RENDERING_HINTS);
-        g2d.setColor(this.foreground);
+        g2d.setColor(foreground);
 
-        final int centerX = this.width / 2;
-        final int centerY = this.height / 2;
+        final int centerX = width / 2;
+        final int centerY = height / 2;
         final int[] xPoints;
         final int[] yPoints;
 
-        if (this.direction == SwingConstants.NORTH) {
+        if (direction == SwingConstants.NORTH) {
             xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
             yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
         }
-        else if (this.direction == SwingConstants.SOUTH) {
+        else if (direction == SwingConstants.SOUTH) {
             xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
             yPoints = new int[]{y, y + (centerY * 2), y};
         }
-        else if (this.direction == SwingConstants.WEST) {
+        else if (direction == SwingConstants.WEST) {
             xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
             yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
         }
-        else if (this.direction == SwingConstants.EAST) {
+        else if (direction == SwingConstants.EAST) {
             xPoints = new int[]{x, x + (centerX * 2), x, x};
             yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
         }

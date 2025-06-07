@@ -16,11 +16,11 @@ public class Feiertag {
     }
 
     public final FeiertagTyp getTyp() {
-        return this.typ;
+        return typ;
     }
 
     public final boolean isVariablerFeiertag() {
-        return this.variablerFeiertag;
+        return variablerFeiertag;
     }
 
     @Override

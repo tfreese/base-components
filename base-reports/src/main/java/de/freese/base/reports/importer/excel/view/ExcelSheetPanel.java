@@ -34,20 +34,20 @@ public class ExcelSheetPanel extends JPanel {
     }
 
     public JTable getTable() {
-        if (this.table == null) {
-            this.table = new JTable();
+        if (table == null) {
+            table = new JTable();
         }
 
-        return this.table;
+        return table;
     }
 
     private JScrollPane getScrollPane() {
-        if (this.scrollPane == null) {
-            this.scrollPane = new JScrollPane();
-            this.scrollPane.setViewportView(getTable());
+        if (scrollPane == null) {
+            scrollPane = new JScrollPane();
+            scrollPane.setViewportView(getTable());
         }
 
-        return this.scrollPane;
+        return scrollPane;
     }
 
     private void initialize() {
@@ -59,7 +59,7 @@ public class ExcelSheetPanel extends JPanel {
         setPreferredSize(new Dimension(800, 600));
         add(getScrollPane(), gbc);
 
-        getTable().setModel(new ExcelSheetTableModel(this.excelSheet));
+        getTable().setModel(new ExcelSheetTableModel(excelSheet));
         getTable().setDefaultRenderer(Object.class, new ExcelSheetRenderer());
         getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         getTable().setColumnSelectionAllowed(true);

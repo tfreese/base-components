@@ -24,7 +24,7 @@ public class ExcelSheetTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return this.excelSheet.getColumnCount();
+        return excelSheet.getColumnCount();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ExcelSheetTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return this.excelSheet.getRowCount();
+        return excelSheet.getRowCount();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ExcelSheetTableModel extends AbstractTableModel {
         }
 
         if (columnIndex < getColumnCount() && rowIndex < getRowCount()) {
-            return this.excelSheet.getValueAt(rowIndex, columnIndex - 1);
+            return excelSheet.getValueAt(rowIndex, columnIndex - 1);
         }
 
         return "";

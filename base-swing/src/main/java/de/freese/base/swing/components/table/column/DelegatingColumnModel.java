@@ -77,11 +77,11 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     }
 
     public TableColumnModel getDelegateColumnModel() {
-        return this.delegateTable.getColumnModel();
+        return delegateTable.getColumnModel();
     }
 
     public JTable getDelegateTable() {
-        return this.delegateTable;
+        return delegateTable;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
 
     @Override
     public ListSelectionModel getSelectionModel() {
-        return this.listSelectionModel;
+        return listSelectionModel;
     }
 
     @Override

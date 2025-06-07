@@ -86,6 +86,6 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
     }
 
     private String getCrlf() {
-        return this.crlf;
+        return crlf;
     }
 }

@@ -15,16 +15,15 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     private final int precision;
     private final Class<T> type;
 
-    //    protected AbstractGridColumn()
-    //    {
-    //        super();
+    // protected AbstractGridColumn() {
+    //     super();
     //
-    //        // This works only, if the Super-Class is not generic too !
-    //        // public class IntegerGridColumn extends AbstractGridColumn<Integer>
-    //        final ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+    //     // This works only, if the Super-Class is not generic too !
+    //     // public class IntegerGridColumn extends AbstractGridColumn<Integer>
+    //     final ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
     //
-    //        this.type = (Class<T>) parameterizedType.getActualTypeArguments()[0];
-    //    }
+    //     this.type = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+    // }
 
     protected AbstractGridColumn(final Class<T> type, final String name, final int length, final int precision, final String comment) {
         super();
@@ -38,38 +37,38 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
 
     @Override
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     @Override
     public int getLength() {
-        return this.length;
+        return length;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public int getPrecision() {
-        return this.precision;
+        return precision;
     }
 
     @Override
     public Class<T> getType() {
-        return this.type;
+        return type;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("GridColumn [");
-        builder.append("name=").append(this.name);
-        builder.append(", type=").append(this.type.getSimpleName());
-        builder.append(", comment=").append(this.comment);
-        builder.append(", length=").append(this.length);
-        builder.append(", precision=").append(this.precision);
+        builder.append("name=").append(name);
+        builder.append(", type=").append(type.getSimpleName());
+        builder.append(", comment=").append(comment);
+        builder.append(", length=").append(length);
+        builder.append(", precision=").append(precision);
         builder.append("]");
 
         return builder.toString();

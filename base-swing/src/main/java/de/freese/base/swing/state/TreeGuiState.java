@@ -30,7 +30,7 @@ public class TreeGuiState extends AbstractGuiState {
     }
 
     public boolean hasSelectedRows() {
-        return this.selectedRows != null && this.selectedRows.length > 0;
+        return selectedRows != null && selectedRows.length > 0;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TreeGuiState extends AbstractGuiState {
         }
 
         // Restore expanded TreePaths.
-        for (int[] indices : this.expansionIndices) {
+        for (int[] indices : expansionIndices) {
             Object parent = model.getRoot();
             TreePath treePath = new TreePath(parent);
 
@@ -69,7 +69,7 @@ public class TreeGuiState extends AbstractGuiState {
         }
 
         if (hasSelectedRows()) {
-            tree.setSelectionRows(this.selectedRows);
+            tree.setSelectionRows(selectedRows);
         }
     }
 
@@ -79,7 +79,7 @@ public class TreeGuiState extends AbstractGuiState {
 
         final JTree tree = (JTree) component;
 
-        this.expansionIndices.clear();
+        expansionIndices.clear();
 
         final TreeModel model = tree.getModel();
 
@@ -114,11 +114,11 @@ public class TreeGuiState extends AbstractGuiState {
                 }
 
                 if (indices.length > 0) {
-                    this.expansionIndices.add(indices);
+                    expansionIndices.add(indices);
                 }
             }
         }
 
-        this.selectedRows = tree.getSelectionRows();
+        selectedRows = tree.getSelectionRows();
     }
 }

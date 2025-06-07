@@ -40,7 +40,7 @@ public class DefaultSwingExceptionHandler implements SwingExceptionHandler {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected String getTranslatedMessage(final Throwable throwable, final Translator translator) {

@@ -57,20 +57,20 @@ class TestLoggingJdbcDriver {
         BasicDataSourceConnectionPool() {
             super();
 
-            this.dataSource = new BasicDataSource();
+            dataSource = new BasicDataSource();
 
             // commons-dbcp2: Creates at first the Driver from the Class-Name, then from the DriverManager.
-            ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
+            ConnectionPoolConfigurer.configureBasic(dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
         }
 
         @Override
         public void close() throws SQLException {
-            this.dataSource.close();
+            dataSource.close();
         }
 
         @Override
         public Connection getConnection() throws SQLException {
-            return this.dataSource.getConnection();
+            return dataSource.getConnection();
         }
     }
 
@@ -99,17 +99,17 @@ class TestLoggingJdbcDriver {
 
             ConnectionPoolConfigurer.configureHikari(config, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 
-            this.dataSource = new HikariDataSource(config);
+            dataSource = new HikariDataSource(config);
         }
 
         @Override
         public void close() {
-            this.dataSource.close();
+            dataSource.close();
         }
 
         @Override
         public Connection getConnection() throws SQLException {
-            return this.dataSource.getConnection();
+            return dataSource.getConnection();
         }
     }
 
@@ -122,22 +122,22 @@ class TestLoggingJdbcDriver {
         SpringSingleConnectionDataSource() {
             super();
 
-            this.dataSource = new SingleConnectionDataSource();
-            this.dataSource.setDriverClassName(DRIVER);
-            this.dataSource.setUrl(URL);
-            this.dataSource.setUsername("sa");
-            this.dataSource.setPassword(null);
-            this.dataSource.setSuppressClose(true);
+            dataSource = new SingleConnectionDataSource();
+            dataSource.setDriverClassName(DRIVER);
+            dataSource.setUrl(URL);
+            dataSource.setUsername("sa");
+            dataSource.setPassword(null);
+            dataSource.setSuppressClose(true);
         }
 
         @Override
         public void close() {
-            this.dataSource.destroy();
+            dataSource.destroy();
         }
 
         @Override
         public Connection getConnection() throws SQLException {
-            return this.dataSource.getConnection();
+            return dataSource.getConnection();
         }
     }
 
@@ -154,17 +154,17 @@ class TestLoggingJdbcDriver {
 
             ConnectionPoolConfigurer.configureTomcat(poolProperties, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 
-            this.dataSource = new DataSource(poolProperties);
+            dataSource = new DataSource(poolProperties);
         }
 
         @Override
         public void close() {
-            this.dataSource.close();
+            dataSource.close();
         }
 
         @Override
         public Connection getConnection() throws SQLException {
-            return this.dataSource.getConnection();
+            return dataSource.getConnection();
         }
     }
 

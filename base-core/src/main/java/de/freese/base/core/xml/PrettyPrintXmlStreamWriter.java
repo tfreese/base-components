@@ -47,7 +47,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
 
         this.delegate = delegate;
 
-        this.lineSeparator = System.lineSeparator();
+        lineSeparator = System.lineSeparator();
     }
 
     @Override
@@ -61,11 +61,11 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     }
 
     public int getIndentAmount() {
-        return this.indentAmount;
+        return indentAmount;
     }
 
     public String getLineSeparator() {
-        return this.lineSeparator;
+        return lineSeparator;
     }
 
     @Override
@@ -234,19 +234,19 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     }
 
     protected XMLStreamWriter getDelegate() {
-        return this.delegate;
+        return delegate;
     }
 
     protected int getDepth() {
-        return this.depth;
+        return depth;
     }
 
     protected Map<Integer, Boolean> getNodeStates() {
-        return this.nodeStates;
+        return nodeStates;
     }
 
     protected void handleWriteEmptyElement() throws XMLStreamException {
-        if (this.depth > 0) {
+        if (depth > 0) {
             getNodeStates().put(getDepth() - 1, true);
         }
 
@@ -255,7 +255,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     }
 
     protected void handleWriteEndElement() throws XMLStreamException {
-        this.depth--;
+        depth--;
 
         if (getNodeStates().getOrDefault(getDepth(), false)) {
             getDelegate().writeCharacters(getLineSeparator());
@@ -264,7 +264,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     }
 
     protected void handleWriteStartElement() throws XMLStreamException {
-        if (this.depth > 0) {
+        if (depth > 0) {
             getNodeStates().put(getDepth() - 1, true);
         }
 
@@ -273,7 +273,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         getDelegate().writeCharacters(getLineSeparator());
         getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
 
-        this.depth++;
+        depth++;
     }
 
     protected String indent(final int depth, final int amount) {

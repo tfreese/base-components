@@ -61,11 +61,11 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
     public void addNotify() {
         super.addNotify();
 
-        if (this.rowHeaderReplacement != null) {
-            installRowHeader(this.rowHeaderReplacement);
+        if (rowHeaderReplacement != null) {
+            installRowHeader(rowHeaderReplacement);
         }
-        else if (this.columnHeaderReplacement != null) {
-            installColumnHeader(this.columnHeaderReplacement);
+        else if (columnHeaderReplacement != null) {
+            installColumnHeader(columnHeaderReplacement);
         }
     }
 
@@ -134,11 +134,11 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
     }
 
     public ColumnControlButton getColumnControl() {
-        if (this.columnControlButton == null) {
-            this.columnControlButton = (ColumnControlButton) createDefaultColumnControl();
+        if (columnControlButton == null) {
+            columnControlButton = (ColumnControlButton) createDefaultColumnControl();
         }
 
-        return this.columnControlButton;
+        return columnControlButton;
     }
 
     public ExtTableColumnModel getColumnModelExt() {
@@ -150,7 +150,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             return;
         }
 
-        this.columnHeaderReplacement = tableHeaderReplacement;
+        columnHeaderReplacement = tableHeaderReplacement;
 
         final Container parent = getParent();
 
@@ -171,7 +171,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             return;
         }
 
-        this.rowHeaderReplacement = tableHeaderReplacement;
+        rowHeaderReplacement = tableHeaderReplacement;
 
         final Container parent = getParent();
 
@@ -192,7 +192,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
     }
 
     public boolean isSortable() {
-        return this.sortable;
+        return sortable;
     }
 
     /**
@@ -307,6 +307,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
     }
 
     protected boolean showHeader() {
-        return this.showHeader;
+        return showHeader;
     }
 }

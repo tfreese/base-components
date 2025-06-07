@@ -49,10 +49,10 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
 
         addMouseListener(this);
         setOpaque(false);
-        setAlpha(this.alphaStart);
+        setAlpha(alphaStart);
         setBackground(Color.WHITE);
 
-        this.animateTimer = new Timer(getTimerIncrementMillies(), event -> setAlpha(getAlpha() + TranslucentGlassPane.this.alphaIncrement));
+        animateTimer = new Timer(getTimerIncrementMillies(), event -> setAlpha(getAlpha() + TranslucentGlassPane.this.alphaIncrement));
     }
 
     /**
@@ -123,18 +123,18 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
      * @param alpha must be a value between 0 and 1 inclusive.
      */
     public void setAlpha(final double alpha) {
-        if (Double.compare(this.alpha, alpha) != 0) {
-            final double oldAlpha = this.alpha;
+        if (Double.compare(alpha, alpha) != 0) {
+            final double oldAlpha = alpha;
             this.alpha = alpha;
 
             if (alpha > 0D && alpha < 1D) {
                 if (Double.compare(oldAlpha, 1D) == 0) {
                     // it used to be 1, but now is not. Save the oldOpaque
-                    this.oldOpaque = isOpaque();
+                    oldOpaque = isOpaque();
                     setOpaque(false);
                 }
             }
-            else if (Double.compare(alpha, 1D) == 0 && this.oldOpaque) {
+            else if (Double.compare(alpha, 1D) == 0 && oldOpaque) {
                 // restore the oldOpaque if it was true (since opaque is false now)
                 setOpaque(true);
             }
@@ -143,7 +143,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             repaint();
         }
 
-        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / ((double) getShowDelayMillies() / getTimerIncrementMillies());
+        alphaIncrement = (alphaEnd - alphaStart) / ((double) getShowDelayMillies() / getTimerIncrementMillies());
     }
 
     /**
@@ -168,7 +168,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
 
     @Override
     public void setVisible(final boolean flag) {
-        setAlpha(this.alphaStart);
+        setAlpha(alphaStart);
 
         super.setVisible(flag);
 
@@ -192,12 +192,12 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         // final Graphics2D g2d = (Graphics2D) g;
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // getAlpha()));
-        if (!this.animateTimer.isRunning() && getAlpha() < this.alphaEnd) {
-            this.animateTimer.start();
+        if (!animateTimer.isRunning() && getAlpha() < alphaEnd) {
+            animateTimer.start();
         }
 
-        if (this.animateTimer.isRunning() && getAlpha() >= this.alphaEnd) {
-            this.animateTimer.stop();
+        if (animateTimer.isRunning() && getAlpha() >= alphaEnd) {
+            animateTimer.stop();
         }
 
         // Composite-Wert auf default für Children

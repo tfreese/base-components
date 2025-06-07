@@ -31,54 +31,54 @@ class NasaPanel extends JPanel {
     private JScrollPane scrollPane;
 
     JButton getButtonCancel() {
-        if (this.buttonCancel == null) {
-            this.buttonCancel = new JButton();
+        if (buttonCancel == null) {
+            buttonCancel = new JButton();
         }
 
-        return this.buttonCancel;
+        return buttonCancel;
     }
 
     JButton getButtonNext() {
-        if (this.buttonNext == null) {
-            this.buttonNext = new JButton();
+        if (buttonNext == null) {
+            buttonNext = new JButton();
         }
 
-        return this.buttonNext;
+        return buttonNext;
     }
 
     JButton getButtonPrevious() {
-        if (this.buttonPrevious == null) {
-            this.buttonPrevious = new JButton();
+        if (buttonPrevious == null) {
+            buttonPrevious = new JButton();
         }
 
-        return this.buttonPrevious;
+        return buttonPrevious;
     }
 
     JLabel getLabelImage() {
-        if (this.labelImage == null) {
-            this.labelImage = new JLabel();
-            this.labelImage.setOpaque(true);
-            this.labelImage.setHorizontalAlignment(SwingConstants.CENTER);
-            this.labelImage.setVerticalAlignment(SwingConstants.CENTER);
+        if (labelImage == null) {
+            labelImage = new JLabel();
+            labelImage.setOpaque(true);
+            labelImage.setHorizontalAlignment(SwingConstants.CENTER);
+            labelImage.setVerticalAlignment(SwingConstants.CENTER);
         }
 
-        return this.labelImage;
+        return labelImage;
     }
 
     JLabel getLabelUri() {
-        if (this.labelUri == null) {
-            this.labelUri = new JLabel();
+        if (labelUri == null) {
+            labelUri = new JLabel();
         }
 
-        return this.labelUri;
+        return labelUri;
     }
 
     JScrollPane getScrollPane() {
-        if (this.scrollPane == null) {
-            this.scrollPane = new JScrollPane(getLabelImage());
+        if (scrollPane == null) {
+            scrollPane = new JScrollPane(getLabelImage());
         }
 
-        return this.scrollPane;
+        return scrollPane;
     }
 
     void init() {

@@ -26,17 +26,17 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void> {
 
     @Override
     protected Long doInBackground() {
-        if (this.value > 50) {
+        if (value > 50) {
             throw new IllegalArgumentException("Wert > 50");
         }
 
         getLogger().info("Started");
 
-        setSubTitle(this.resourceMap.getString("fibonacci.start"));
+        setSubTitle(resourceMap.getString("fibonacci.start"));
 
-        final long result = this.controller.fibonacci(this.value);
+        final long result = controller.fibonacci(value);
 
-        setSubTitle(this.resourceMap.getString("fibonacci.finished"));
+        setSubTitle(resourceMap.getString("fibonacci.finished"));
 
         getLogger().info("Finished");
 

@@ -17,11 +17,11 @@ public class ComboBoxGroup implements ItemListener {
     private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<>());
 
     public void add(final JComboBox<?> comboBox) {
-        if (comboBox == null || this.boxes.contains(comboBox)) {
+        if (comboBox == null || boxes.contains(comboBox)) {
             return;
         }
 
-        this.boxes.add(comboBox);
+        boxes.add(comboBox);
         comboBox.addItemListener(this);
     }
 
@@ -31,7 +31,7 @@ public class ComboBoxGroup implements ItemListener {
             final JComboBox<?> srcComboBox = (JComboBox<?>) event.getSource();
 
             // Remove selection from all other ComboBoxes.
-            for (JComboBox<?> comboBox : this.boxes) {
+            for (JComboBox<?> comboBox : boxes) {
                 if (comboBox != srcComboBox) {
                     comboBox.removeItemListener(this);
                     comboBox.setSelectedIndex(-1);
@@ -46,7 +46,7 @@ public class ComboBoxGroup implements ItemListener {
             return;
         }
 
-        this.boxes.remove(comboBox);
+        boxes.remove(comboBox);
         comboBox.removeItemListener(this);
     }
 }

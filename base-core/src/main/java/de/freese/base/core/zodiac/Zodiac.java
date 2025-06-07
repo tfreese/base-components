@@ -142,7 +142,7 @@ public enum Zodiac {
      * @return int, Format: (M)MDD, inklusiv dieses Tages
      */
     int getEnd() {
-        return this.end;
+        return end;
     }
 
     /**
@@ -151,6 +151,6 @@ public enum Zodiac {
      * @return int, Format: (M)MDD
      */
     int getStart() {
-        return this.start;
+        return start;
     }
 }

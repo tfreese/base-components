@@ -64,7 +64,7 @@ public class CurvedLineBorder extends LineBorder {
         final Color oldColor = g.getColor();
 
         g.setColor(getLineColor());
-        g.drawRoundRect(x, y, width - 1, height - 1, this.arcSize, this.arcSize);
+        g.drawRoundRect(x, y, width - 1, height - 1, arcSize, arcSize);
         g.setColor(oldColor);
     }
 }

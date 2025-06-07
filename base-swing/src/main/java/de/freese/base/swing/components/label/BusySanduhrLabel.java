@@ -68,7 +68,7 @@ public class BusySanduhrLabel extends JLabel {
 
         this.icons = Arrays.copyOf(icons, icons.length);
 
-        this.animateTimer = new Timer(150, event -> performAnimation());
+        animateTimer = new Timer(150, event -> performAnimation());
     }
 
     public boolean isRunning() {

@@ -36,11 +36,11 @@ public final class DateServerMain extends Thread {
             this.clientSocket = clientSocket;
 
             try {
-                this.outputStream = this.clientSocket.getOutputStream();
+                outputStream = clientSocket.getOutputStream();
             }
             catch (Exception ex) {
                 try {
-                    this.clientSocket.close();
+                    clientSocket.close();
                 }
                 catch (Exception ex1) {
                     LOGGER.error(ex.getMessage(), ex);
@@ -50,18 +50,18 @@ public final class DateServerMain extends Thread {
 
         @Override
         public void run() {
-            if (this.clientSocket.isClosed() || this.outputStream == null) {
+            if (clientSocket.isClosed() || outputStream == null) {
                 return;
             }
 
             try {
                 LOGGER.info("DateServerMain.Connect.run()");
-                this.outputStream.write(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
-                this.outputStream.flush();
+                outputStream.write(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
 
                 // Close streams and connections.
-                this.outputStream.close();
-                this.clientSocket.close();
+                outputStream.close();
+                clientSocket.close();
             }
             catch (Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
@@ -107,9 +107,9 @@ public final class DateServerMain extends Thread {
             serverSocketFactory = ServerSocketFactory.getDefault();
         }
 
-        this.serverSocket = serverSocketFactory.createServerSocket(3333);
+        serverSocket = serverSocketFactory.createServerSocket(3333);
 
-        if (this.serverSocket instanceof SSLServerSocket sslServerSocket) {
+        if (serverSocket instanceof SSLServerSocket sslServerSocket) {
             sslServerSocket.setNeedClientAuth(true);
         }
 
@@ -122,7 +122,7 @@ public final class DateServerMain extends Thread {
             LOGGER.info("Waiting for connections.");
 
             try {
-                final Socket clientSocket = this.serverSocket.accept();
+                final Socket clientSocket = serverSocket.accept();
                 LOGGER.info("Accepted a connection from: {}", clientSocket.getInetAddress());
 
                 final Runnable connect = new Connect(clientSocket);

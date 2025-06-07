@@ -16,7 +16,7 @@ public final class ProcessorChain<C> implements Processor<C> {
     public void addProcessor(final Processor<C> processor) {
         Objects.requireNonNull(processor, "processor required");
 
-        this.processors.add(processor);
+        processors.add(processor);
     }
 
     @Override
@@ -25,7 +25,7 @@ public final class ProcessorChain<C> implements Processor<C> {
             return;
         }
 
-        for (Processor<C> processor : this.processors) {
+        for (Processor<C> processor : processors) {
             if (!processor.isEnabled()) {
                 continue;
             }
@@ -35,24 +35,24 @@ public final class ProcessorChain<C> implements Processor<C> {
     }
 
     public Processor<C> getProcessorAt(final int index) {
-        return this.processors.get(index);
+        return processors.get(index);
     }
 
     public int getSize() {
-        return this.processors.size();
+        return processors.size();
     }
 
     public int indexOf(final Processor<C> processor) {
-        return this.processors.indexOf(processor);
+        return processors.indexOf(processor);
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     public boolean removeProcessor(final Processor<C> processor) {
-        return this.processors.remove(processor);
+        return processors.remove(processor);
     }
 
     @Override

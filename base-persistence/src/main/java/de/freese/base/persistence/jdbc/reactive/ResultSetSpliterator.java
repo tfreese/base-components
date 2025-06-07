@@ -23,7 +23,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> {
     public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper) {
         super();
 
-        this.iterator = new ResultSetIterator<>(resultSet, rowMapper);
+        iterator = new ResultSetIterator<>(resultSet, rowMapper);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ResultSetSpliterator<T> implements Spliterator<T> {
 
     @Override
     public boolean tryAdvance(final Consumer<? super T> action) {
-        if (this.iterator.hasNext()) {
-            action.accept(this.iterator.next());
+        if (iterator.hasNext()) {
+            action.accept(iterator.next());
 
             return true;
         }

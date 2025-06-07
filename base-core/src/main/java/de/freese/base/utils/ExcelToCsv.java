@@ -82,9 +82,9 @@ public class ExcelToCsv {
             throw new IllegalArgumentException("excelSource not readable");
         }
 
-        Objects.requireNonNull(this.parseableColumns, "columnIndices required");
+        Objects.requireNonNull(parseableColumns, "columnIndices required");
 
-        if (this.parseableColumns.isEmpty()) {
+        if (parseableColumns.isEmpty()) {
             throw new IllegalArgumentException("columnIndices length is empty");
         }
 
@@ -92,24 +92,24 @@ public class ExcelToCsv {
             final Sheet sheet = workbook.getSheetAt(0);
 
             // Write Header.
-            if (this.headerRow >= 0) {
+            if (headerRow >= 0) {
                 final String[] headers = getHeaders(sheet);
                 writeCSV(csvWriter, headers);
             }
 
             // Read Data.
-            // for (int r = this.firstDataRow; r < (sheet.getLastRowNum() + 1); r++)
-            for (int r = this.firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++) {
+            // for (int r = firstDataRow; r < (sheet.getLastRowNum() + 1); r++)
+            for (int r = firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++) {
                 final Row row = sheet.getRow(r);
 
                 if (row == null) {
                     continue;
                 }
 
-                final String[] values = new String[this.parseableColumns.size()];
+                final String[] values = new String[parseableColumns.size()];
 
-                for (int c = 0; c < this.parseableColumns.size(); c++) {
-                    values[c] = getValue(row, this.parseableColumns.get(c));
+                for (int c = 0; c < parseableColumns.size(); c++) {
+                    values[c] = getValue(row, parseableColumns.get(c));
                 }
 
                 // Do not write empty rows.
@@ -180,16 +180,16 @@ public class ExcelToCsv {
      * Returns the Header or null, if headerLine < 0.
      */
     private String[] getHeaders(final Sheet sheet) {
-        if (this.headerRow < 0) {
+        if (headerRow < 0) {
             return new String[0];
         }
 
-        final Row row = sheet.getRow(this.headerRow);
+        final Row row = sheet.getRow(headerRow);
 
-        final String[] headers = new String[this.parseableColumns.size()];
+        final String[] headers = new String[parseableColumns.size()];
 
-        for (int c = 0; c < this.parseableColumns.size(); c++) {
-            headers[c] = getValue(row, this.parseableColumns.get(c));
+        for (int c = 0; c < parseableColumns.size(); c++) {
+            headers[c] = getValue(row, parseableColumns.get(c));
         }
 
         return headers;
@@ -205,31 +205,29 @@ public class ExcelToCsv {
         String value;
 
         if (!CellType.FORMULA.equals(cell.getCellType())) {
-            value = this.dataFormatter.formatCellValue(cell);
+            value = dataFormatter.formatCellValue(cell);
         }
         else {
-            // this.formulaEvaluator.evaluate(cell).getStringValue();
-            value = this.dataFormatter.formatCellValue(cell, this.formulaEvaluator);
+            // formulaEvaluator.evaluate(cell).getStringValue();
+            value = dataFormatter.formatCellValue(cell, formulaEvaluator);
         }
 
-        // if (CellType.STRING.equals(cell.getCellTypeEnum()))
-        // {
+        // if (CellType.STRING.equals(cell.getCellTypeEnum())) {
         // value = cell.getRichStringCellValue().getString();
         // }
-        // else if (CellType.NUMERIC.equals(cell.getCellTypeEnum()))
-        // {
+        // else if (CellType.NUMERIC.equals(cell.getCellTypeEnum())) {
         // final double v = cell.getNumericCellValue();
         // value = Double.toString(v);
         // }
 
-        //        value = Optional.ofNullable(value).map(String::strip).orElse("");
+        // value = Optional.ofNullable(value).map(String::strip).orElse("");
 
         if (value.isBlank()) {
             value = null;
         }
 
-        if (value != null && row.getRowNum() != this.headerRow) {
-            value = this.columnValueConverter.apply(column, value);
+        if (value != null && row.getRowNum() != headerRow) {
+            value = columnValueConverter.apply(column, value);
         }
 
         return value;
@@ -241,14 +239,14 @@ public class ExcelToCsv {
         // workbook = WorkbookFactory.create(Files.newInputStream(excelSource, StandardOpenOption.READ));
         if (excelSource.toString().toLowerCase().endsWith(".xls")) {
             workbook = new HSSFWorkbook(Files.newInputStream(excelSource, StandardOpenOption.READ));
-            // this.formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
+            // formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
         }
         else {
             workbook = new XSSFWorkbook(Files.newInputStream(excelSource, StandardOpenOption.READ));
-            // this.formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
+            // formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
         }
 
-        this.formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
         workbook.setMissingCellPolicy(MissingCellPolicy.RETURN_BLANK_AS_NULL);
 
         return workbook;
@@ -258,10 +256,10 @@ public class ExcelToCsv {
         final StringBuilder row = new StringBuilder();
 
         for (int i = 0; i < values.length; i++) {
-            row.append(this.quoteCharacter).append(values[i]).append(this.quoteCharacter);
+            row.append(quoteCharacter).append(values[i]).append(quoteCharacter);
 
             if (i < (values.length - 1)) {
-                row.append(this.fieldSeparator);
+                row.append(fieldSeparator);
             }
         }
 

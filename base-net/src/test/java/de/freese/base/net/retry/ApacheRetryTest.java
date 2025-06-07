@@ -62,7 +62,7 @@ class ApacheRetryTest {
                 HttpStatus.SC_INTERNAL_SERVER_ERROR
         );
 
-        public MyDefaultHttpRequestRetryStrategy(final int maxRetries, final TimeValue defaultRetryInterval) {
+        MyDefaultHttpRequestRetryStrategy(final int maxRetries, final TimeValue defaultRetryInterval) {
             super(maxRetries, defaultRetryInterval, NON_RETRIABLE_EXCEPTIONS, RETRIABLE_CODES);
         }
 

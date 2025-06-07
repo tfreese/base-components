@@ -56,7 +56,7 @@ class TestStreamPublisher {
         public void onNext(final T item) {
             LOGGER.info("{}: {}#onNext", Thread.currentThread().getName(), getClass().getSimpleName());
 
-            this.subscription.request(1); // Nächstes Element anfordern.
+            subscription.request(1); // Nächstes Element anfordern.
         }
 
         @Override
@@ -64,7 +64,7 @@ class TestStreamPublisher {
             LOGGER.info("{}: {}#onSubscribe", Thread.currentThread().getName(), getClass().getSimpleName());
 
             this.subscription = subscription;
-            this.subscription.request(1); // Erstes Element anfordern.
+            subscription.request(1); // Erstes Element anfordern.
             // subscription.request(Long.MAX_VALUE); // Alle Elemente anfordern.
         }
     }
@@ -112,8 +112,8 @@ class TestStreamPublisher {
         public void onNext(final T item) {
             LOGGER.info("{}: {}#onNext", Thread.currentThread().getName(), getClass().getSimpleName());
 
-            submit(this.function.apply(item)); // Dieses Element verarbeiten.
-            this.subscription.request(1); // Nächstes Element anfordern.
+            submit(function.apply(item)); // Dieses Element verarbeiten.
+            subscription.request(1); // Nächstes Element anfordern.
         }
 
         @Override

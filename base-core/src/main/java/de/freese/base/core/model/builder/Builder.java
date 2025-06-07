@@ -18,23 +18,23 @@ package de.freese.base.core.model.builder;
  *     private Font font;
  *
  *     public FontBuilder(String fontName) {
- *         this.font = new Font(fontName, Font.PLAIN, 12);
+ *         font = new Font(fontName, Font.PLAIN, 12);
  *     }
  *
  *     public FontBuilder bold() {
- *         this.font = this.font.deriveFont(Font.BOLD);
+ *         font = font.deriveFont(Font.BOLD);
  *         return this; // Reference returned so calls can be chained
  *     }
  *
  *     public FontBuilder size(float pointSize) {
- *         this.font = this.font.deriveFont(pointSize);
+ *         font = font.deriveFont(pointSize);
  *         return this; // Reference returned so calls can be chained
  *     }
  *
  *     // Other Font construction methods
  *
  *     public Font build() {
- *         return this.font;
+ *         return font;
  *     }
  * }
  * }

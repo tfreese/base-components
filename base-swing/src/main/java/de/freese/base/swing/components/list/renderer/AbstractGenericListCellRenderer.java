@@ -42,7 +42,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
 
         if (value != null) {
             try {
-                label.setText(getString(value, this.attribute));
+                label.setText(getString(value, attribute));
             }
             catch (Exception ex) {
                 getLogger().warn(null, ex);
@@ -53,19 +53,19 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
                 catch (Exception ex2) {
                     getLogger().error(ex2.getMessage(), ex2);
 
-                    label.setText("Unknown Attribute: " + this.attribute);
+                    label.setText("Unknown Attribute: " + attribute);
                 }
             }
         }
         else {
-            label.setText(this.nullText);
+            label.setText(nullText);
         }
 
         return label;
     }
 
     protected final Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected abstract String getString(Object object, String attribute) throws Exception;

@@ -43,13 +43,13 @@ public class ConnectionNotClosingInvocationHandler implements InvocationHandler 
             case "isClosed":
                 return false;
             case "getTargetConnection":
-                return this.target;
+                return target;
             default:
                 break;
         }
 
         try {
-            return method.invoke(this.target, args);
+            return method.invoke(target, args);
         }
         catch (final InvocationTargetException ex) {
             throw ex.getTargetException();

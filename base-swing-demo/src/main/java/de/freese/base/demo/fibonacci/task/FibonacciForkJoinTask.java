@@ -28,7 +28,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        final Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
+        final Long value = FibonacciController.FIBONACCI_CACHE.get(n);
 
         if (value != null && value > 0L) {
             return value;
@@ -36,8 +36,8 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
 
         final long result;
 
-        if (this.n < THRESHOLD) {
-            result = fibonacci(this.n);
+        if (n < THRESHOLD) {
+            result = fibonacci(n);
         }
         else {
             final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(n - 1, enableCache);

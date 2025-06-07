@@ -55,11 +55,11 @@ public final class XmlGuiStateManager extends AbstractGuiStateManager {
         try {
             final JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates().toArray(Class[]::new));
 
-            this.marshaller = jaxbContext.createMarshaller();
-            this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            this.marshaller.setProperty(Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());
+            marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());
 
-            this.unMarshaller = jaxbContext.createUnmarshaller();
+            unMarshaller = jaxbContext.createUnmarshaller();
         }
         catch (RuntimeException ex) {
             throw ex;

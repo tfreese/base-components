@@ -28,7 +28,7 @@ public class HorizontalLayout implements LayoutManager {
     }
 
     public int getGap() {
-        return this.gap;
+        return gap;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class HorizontalLayout implements LayoutManager {
 
             if (m.isVisible()) {
                 m.setBounds(width, insets.top, m.getPreferredSize().width, height);
-                width += m.getSize().width + this.gap;
+                width += m.getSize().width + gap;
             }
         }
     }
@@ -65,7 +65,7 @@ public class HorizontalLayout implements LayoutManager {
             if (m.isVisible()) {
                 final Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
                 pref.height = Math.max(pref.height, componentPreferredSize.height);
-                pref.width += componentPreferredSize.width + this.gap;
+                pref.width += componentPreferredSize.width + gap;
             }
         }
 

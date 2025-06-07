@@ -53,7 +53,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
      * Blockiert den rufenden Thread solange, bis die Children des aktuellen Knotens geladen worden sind.
      */
     public void awaitChildNodes() {
-        this.semaphore.acquireUninterruptibly();
+        semaphore.acquireUninterruptibly();
     }
 
     @Override
@@ -80,11 +80,11 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
     }
 
     protected Executor getExecutor() {
-        return this.executor;
+        return executor;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected void loadChildren(final DefaultTreeModel treeModel, final LazyLoadingTreeNode node) {

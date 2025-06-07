@@ -98,7 +98,7 @@ public final class LocalStorage {
     }
 
     public Path getStorageDirectory() {
-        return this.storageDirectory;
+        return storageDirectory;
     }
 
     public void openPath(final Path relativePath) throws IOException {

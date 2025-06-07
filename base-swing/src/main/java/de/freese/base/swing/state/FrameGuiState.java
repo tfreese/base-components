@@ -35,7 +35,7 @@ public class FrameGuiState extends ContainerGuiState {
 
         final Frame frame = (Frame) component;
 
-        frame.setExtendedState(this.extendedState);
+        frame.setExtendedState(extendedState);
 
         // Frames are always visible.
         if (!frame.isVisible()) {
@@ -49,7 +49,7 @@ public class FrameGuiState extends ContainerGuiState {
 
         final Frame frame = (Frame) component;
 
-        this.extendedState = frame.getExtendedState();
+        extendedState = frame.getExtendedState();
 
         // Frames are always visible.
         setVisible(true);

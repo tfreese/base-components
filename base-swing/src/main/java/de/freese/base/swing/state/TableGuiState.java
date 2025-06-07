@@ -48,43 +48,43 @@ public class TableGuiState extends AbstractGuiState {
         public ColumnState(final TableColumn tableColumn) {
             super();
 
-            this.minWidth = tableColumn.getMinWidth();
-            this.maxWidth = tableColumn.getMaxWidth();
-            this.preferredWidth = tableColumn.getPreferredWidth();
-            this.width = tableColumn.getWidth();
-            this.resizeable = tableColumn.getResizable();
-            this.modelIndex = tableColumn.getModelIndex();
+            minWidth = tableColumn.getMinWidth();
+            maxWidth = tableColumn.getMaxWidth();
+            preferredWidth = tableColumn.getPreferredWidth();
+            width = tableColumn.getWidth();
+            resizeable = tableColumn.getResizable();
+            modelIndex = tableColumn.getModelIndex();
 
             if (tableColumn instanceof TableColumnExt tableColumnExt) {
-                this.visible = tableColumnExt.isVisible();
-                this.editable = tableColumnExt.isEditable();
-                this.sortable = tableColumnExt.isSortable();
+                visible = tableColumnExt.isVisible();
+                editable = tableColumnExt.isEditable();
+                sortable = tableColumnExt.isSortable();
             }
         }
 
         public void update(final TableColumn tableColumn) {
-            if (this.width != -1) {
-                tableColumn.setWidth(this.width);
+            if (width != -1) {
+                tableColumn.setWidth(width);
             }
 
-            if (this.minWidth != -1) {
-                tableColumn.setMinWidth(this.minWidth);
+            if (minWidth != -1) {
+                tableColumn.setMinWidth(minWidth);
             }
 
-            if (this.maxWidth != -1) {
-                tableColumn.setMaxWidth(this.maxWidth);
+            if (maxWidth != -1) {
+                tableColumn.setMaxWidth(maxWidth);
             }
 
-            if (this.preferredWidth != -1) {
-                tableColumn.setPreferredWidth(this.preferredWidth);
+            if (preferredWidth != -1) {
+                tableColumn.setPreferredWidth(preferredWidth);
             }
 
-            tableColumn.setResizable(this.resizeable);
+            tableColumn.setResizable(resizeable);
 
             if (tableColumn instanceof TableColumnExt tableColumnExt) {
-                tableColumnExt.setVisible(this.visible);
-                tableColumnExt.setEditable(this.editable);
-                tableColumnExt.setSortable(this.sortable);
+                tableColumnExt.setVisible(visible);
+                tableColumnExt.setEditable(editable);
+                tableColumnExt.setSortable(sortable);
             }
         }
     }
@@ -103,14 +103,14 @@ public class TableGuiState extends AbstractGuiState {
 
         final JTable table = (JTable) component;
 
-        if (this.selectedRows != null && this.selectedRows.length > 0) {
+        if (selectedRows != null && selectedRows.length > 0) {
             // With SINGLE_SELECTION must setColumnSelectionAllowed(false) be called to do this working.
             try {
-                for (int row : this.selectedRows) {
+                for (int row : selectedRows) {
                     table.addRowSelectionInterval(row, row);
                 }
 
-                final Rectangle rectangle = table.getCellRect(this.selectedRows[0], 0, true);
+                final Rectangle rectangle = table.getCellRect(selectedRows[0], 0, true);
                 table.scrollRectToVisible(rectangle);
             }
             catch (Exception ex) {
@@ -118,7 +118,7 @@ public class TableGuiState extends AbstractGuiState {
             }
         }
 
-        if (this.columnStates != null && this.columnStates.length > 0) {
+        if (columnStates != null && columnStates.length > 0) {
             final List<TableColumn> columns = getColumns(table);
 
             for (int i = 0; i < columns.size(); i++) {
@@ -134,7 +134,7 @@ public class TableGuiState extends AbstractGuiState {
                     tableColumn = columns.get(index);
                 }
 
-                final ColumnState columnState = this.columnStates[index];
+                final ColumnState columnState = columnStates[index];
 
                 columnState.update(tableColumn);
             }
@@ -147,20 +147,20 @@ public class TableGuiState extends AbstractGuiState {
 
         final JTable table = (JTable) component;
 
-        this.selectedRows = table.getSelectedRows();
+        selectedRows = table.getSelectedRows();
 
         final List<TableColumn> columns = getColumns(table);
-        this.columnStates = new ColumnState[columns.size()];
+        columnStates = new ColumnState[columns.size()];
 
         for (int i = 0; i < columns.size(); i++) {
             final TableColumn column = columns.get(i);
-            this.columnStates[i] = new ColumnState(column);
+            columnStates[i] = new ColumnState(column);
         }
     }
 
     private int findModelIndex(final int index) {
-        for (int j = 0; j < this.columnStates.length; j++) {
-            if (this.columnStates[j].modelIndex == index) {
+        for (int j = 0; j < columnStates.length; j++) {
+            if (columnStates[j].modelIndex == index) {
                 return j;
             }
         }

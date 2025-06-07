@@ -25,6 +25,6 @@ public class ResultSetIterable<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new ResultSetIterator<>(this.resultSet, this.rowMapper);
+        return new ResultSetIterator<>(resultSet, rowMapper);
     }
 }

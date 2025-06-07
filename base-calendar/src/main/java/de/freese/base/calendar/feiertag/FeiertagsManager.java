@@ -55,7 +55,7 @@ public final class FeiertagsManager {
     public Feiertag getFeiertag(final int jahr, final int monat, final int tag) {
         erzeugeFeiertage(jahr);
 
-        final InternerFeiertag internerFeiertag = this.feiertagsMap.getOrDefault(jahr, Collections.emptyMap()).get(monat + "-" + tag);
+        final InternerFeiertag internerFeiertag = feiertagsMap.getOrDefault(jahr, Collections.emptyMap()).get(monat + "-" + tag);
         Feiertag feiertag = null;
 
         if (internerFeiertag != null) {
@@ -74,7 +74,7 @@ public final class FeiertagsManager {
     }
 
     private void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag) {
-        final Map<String, InternerFeiertag> jahrMap = this.feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
+        final Map<String, InternerFeiertag> jahrMap = feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
 
         jahrMap.put(monat + "-" + tag, new InternerFeiertag(jahr, monat, tag, typ, berechneterFeiertag));
     }
@@ -137,7 +137,7 @@ public final class FeiertagsManager {
      */
     private void erzeugeFeiertage(final int jahr) {
         // Ist das Jahr schon enthalten?
-        if (this.feiertagsMap.containsKey(jahr)) {
+        if (feiertagsMap.containsKey(jahr)) {
             return;
         }
 

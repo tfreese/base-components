@@ -25,43 +25,43 @@ class FibonacciPanel extends JPanel {
     private JTextField textField;
 
     JButton getButtonComponentBlock() {
-        if (this.buttonComponentBlock == null) {
-            this.buttonComponentBlock = new JButton();
+        if (buttonComponentBlock == null) {
+            buttonComponentBlock = new JButton();
         }
 
-        return this.buttonComponentBlock;
+        return buttonComponentBlock;
     }
 
     JButton getButtonGlassPaneBlock() {
-        if (this.buttonGlassPaneBlock == null) {
-            this.buttonGlassPaneBlock = new JButton();
+        if (buttonGlassPaneBlock == null) {
+            buttonGlassPaneBlock = new JButton();
         }
 
-        return this.buttonGlassPaneBlock;
+        return buttonGlassPaneBlock;
     }
 
     JLabel getLabel() {
-        if (this.label == null) {
-            this.label = new JLabel("#Fibonacci: Wert");
+        if (label == null) {
+            label = new JLabel("#Fibonacci: Wert");
         }
 
-        return this.label;
+        return label;
     }
 
     JLabel getLabelResult() {
-        if (this.labelResult == null) {
-            this.labelResult = new JLabel();
+        if (labelResult == null) {
+            labelResult = new JLabel();
         }
 
-        return this.labelResult;
+        return labelResult;
     }
 
     JTextField getTextField() {
-        if (this.textField == null) {
-            this.textField = new JTextField();
+        if (textField == null) {
+            textField = new JTextField();
         }
 
-        return this.textField;
+        return textField;
     }
 
     void init() {

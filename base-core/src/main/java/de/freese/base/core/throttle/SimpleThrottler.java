@@ -44,9 +44,9 @@ public final class SimpleThrottler implements Throttler {
         Objects.requireNonNull(duration, "duration required");
 
         // duration.dividedBy(permits).toNanos()
-        this.permitIntervalNanos = duration.toNanos() / permits;
+        permitIntervalNanos = duration.toNanos() / permits;
 
-        this.nextFreeSlotNanos = System.nanoTime();
+        nextFreeSlotNanos = System.nanoTime();
     }
 
     @Override

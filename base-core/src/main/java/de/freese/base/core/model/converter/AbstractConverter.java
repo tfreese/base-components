@@ -20,12 +20,12 @@ public abstract class AbstractConverter<SOURCE, TARGET> implements Converter<SOU
 
     @Override
     public TARGET convertFromSource(final SOURCE source) {
-        return this.fromSource.apply(source);
+        return fromSource.apply(source);
     }
 
     @Override
     public SOURCE convertFromTarget(final TARGET target) {
-        return this.fromTarget.apply(target);
+        return fromTarget.apply(target);
     }
 
 }

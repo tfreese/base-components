@@ -18,12 +18,12 @@ public class SingleResourceCache implements ResourceCache {
 
     @Override
     public void clear(final String bundleName, final Locale locale) {
-        this.cache.remove(locale);
+        cache.remove(locale);
     }
 
     @Override
     public void clearAll() {
-        this.cache.clear();
+        cache.clear();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class SingleResourceCache implements ResourceCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
-        final Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = cache.computeIfAbsent(locale, k -> new HashMap<>());
         final Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
 
         return (Map<String, T>) byKey;
@@ -51,7 +51,7 @@ public class SingleResourceCache implements ResourceCache {
 
     @Override
     public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
-        final Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = cache.computeIfAbsent(locale, k -> new HashMap<>());
 
         byType.put(type, values);
     }

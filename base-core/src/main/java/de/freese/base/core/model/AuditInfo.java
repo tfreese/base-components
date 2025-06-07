@@ -19,27 +19,27 @@ public class AuditInfo implements Serializable {
     private Date validUntil;
 
     public Date getChanged() {
-        return this.changed;
+        return changed;
     }
 
     public String getChangedBy() {
-        return this.changedBy;
+        return changedBy;
     }
 
     public Date getCreated() {
-        return this.created;
+        return created;
     }
 
     public String getCreatedBy() {
-        return this.createdBy;
+        return createdBy;
     }
 
     public Date getValidFrom() {
-        return this.validFrom;
+        return validFrom;
     }
 
     public Date getValidUntil() {
-        return this.validUntil;
+        return validUntil;
     }
 
     public void setChanged(final Date changed) {

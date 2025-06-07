@@ -92,12 +92,12 @@ public final class SshExec {
         LOGGER.debug("disconnecting session");
 
         try {
-            if (this.clientSession.isOpen()) {
+            if (clientSession.isOpen()) {
                 clientSession.close(false).await(Duration.ofSeconds(3));
             }
 
-            if (this.sshClient.isOpen()) {
-                this.sshClient.stop();
+            if (sshClient.isOpen()) {
+                sshClient.stop();
             }
         }
         catch (IOException ex) {
@@ -108,9 +108,9 @@ public final class SshExec {
     }
 
     public String execute(final String command) throws IOException {
-        //        this.clientSession.createChannel(Channel.CHANNEL_EXEC);
+        // clientSession.createChannel(Channel.CHANNEL_EXEC);
 
-        try (ChannelExec channelExec = this.clientSession.createExecChannel(command);
+        try (ChannelExec channelExec = clientSession.createExecChannel(command);
              ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
              ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
             channelExec.setOut(responseStream);
@@ -124,7 +124,7 @@ public final class SshExec {
 
             // Check if timed out
             if (events.contains(ClientChannelEvent.TIMEOUT)) {
-                throw new IOException(String.format("Timeout after %d seconds on host '%s' for command '%s'", timeout.toSeconds(), this.host, command));
+                throw new IOException(String.format("Timeout after %d seconds on host '%s' for command '%s'", timeout.toSeconds(), host, command));
             }
 
             errorStream.flush();

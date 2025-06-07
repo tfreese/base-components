@@ -18,12 +18,12 @@ public class RowFilterEntry<M> extends Entry<M, Integer> {
 
     @Override
     public Integer getIdentifier() {
-        return this.column;
+        return column;
     }
 
     @Override
     public M getModel() {
-        return this.model;
+        return model;
     }
 
     @Override

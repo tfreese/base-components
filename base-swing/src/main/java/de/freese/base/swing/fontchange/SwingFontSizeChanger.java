@@ -62,12 +62,12 @@ public final class SwingFontSizeChanger {
     private SwingFontSizeChanger() {
         super();
 
-        this.propertyChangeSupport = new PropertyChangeSupport(this);
+        propertyChangeSupport = new PropertyChangeSupport(this);
 
         // DefaultFont
-        // this.font = new Font("Arial", Font.PLAIN, 11);
-        // this.font = new Font("Dialog", Font.PLAIN, 11);
-        this.font = new JLabel().getFont();
+        // font = new Font("Arial", Font.PLAIN, 11);
+        // font = new Font("Dialog", Font.PLAIN, 11);
+        font = new JLabel().getFont();
 
         // Handlers
         addFontChangeHandler(Component.class, new ComponentFontChangeHandler());
@@ -86,26 +86,26 @@ public final class SwingFontSizeChanger {
     }
 
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
-        this.propertyChangeSupport.addPropertyChangeListener(listener);
+        propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
     public Font getFont() {
-        return this.font;
+        return font;
     }
 
     public String getFontFamily() {
-        return this.font.getFamily();
+        return font.getFamily();
     }
 
     public int getFontSize() {
-        return this.font.getSize();
+        return font.getSize();
     }
 
     /**
      * @return int; Font.PLAIN
      */
     public int getFontStyle() {
-        return this.font.getStyle();
+        return font.getStyle();
     }
 
     public void register(final Object object) {
@@ -121,14 +121,14 @@ public final class SwingFontSizeChanger {
     }
 
     public void removePropertyChangeListener(final PropertyChangeListener listener) {
-        this.propertyChangeSupport.removePropertyChangeListener(listener);
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     public void setFont(final Font font) {
         final Font oldFont = this.font;
         this.font = font;
 
-        this.propertyChangeSupport.firePropertyChange("font", oldFont, this.font);
+        propertyChangeSupport.firePropertyChange("font", oldFont, this.font);
 
         UICustomization.setDefaultFont(font);
     }
@@ -138,13 +138,13 @@ public final class SwingFontSizeChanger {
             return;
         }
 
-        final Font newFont = this.font.deriveFont(fontSize);
+        final Font newFont = font.deriveFont(fontSize);
 
         setFont(newFont);
     }
 
     private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler) {
-        this.handlers.put(componentClass, handler);
+        handlers.put(componentClass, handler);
     }
 
     private void updateFontForComponent(final Font newFont, final JComponent component) {
@@ -170,7 +170,7 @@ public final class SwingFontSizeChanger {
         FontChangeHandler handler = null;
 
         while (clazz != Object.class) {
-            handler = this.handlers.get(clazz);
+            handler = handlers.get(clazz);
 
             if (handler != null) {
                 break;

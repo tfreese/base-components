@@ -50,22 +50,22 @@ public class Pop3Protocol extends AbstractProtocol {
 
             if (isSSL) {
                 final SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                this.serverSocket = socketFactory.createSocket(host, myPort);
-                ((SSLSocket) this.serverSocket).setEnabledProtocols(new String[]{"TLSv3"});
+                serverSocket = socketFactory.createSocket(host, myPort);
+                ((SSLSocket) serverSocket).setEnabledProtocols(new String[]{"TLSv3"});
             }
             else {
-                this.serverSocket = new Socket(host, myPort);
+                serverSocket = new Socket(host, myPort);
             }
 
             // should be US-ASCII, but not all JDK's support
-            this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), StandardCharsets.ISO_8859_1));
-            this.outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(this.serverSocket.getOutputStream(), StandardCharsets.ISO_8859_1)));
+            inputReader = new BufferedReader(new InputStreamReader(serverSocket.getInputStream(), StandardCharsets.ISO_8859_1));
+            outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream(), StandardCharsets.ISO_8859_1)));
 
             response = simpleCommand(null);
         }
         catch (IOException ioe) {
             try {
-                this.serverSocket.close();
+                serverSocket.close();
             }
             catch (Exception th) {
                 throw new IOException("Connect failed: ", th);
@@ -74,7 +74,7 @@ public class Pop3Protocol extends AbstractProtocol {
 
         if (!response.isOk()) {
             try {
-                this.serverSocket.close();
+                serverSocket.close();
             }
             catch (IOException th) {
                 throw new IOException("Connect failed");
@@ -82,22 +82,22 @@ public class Pop3Protocol extends AbstractProtocol {
         }
 
         if (enableAPOP) {
-            final int challStart = response.getData().indexOf('<'); // start of challenge
-            final int challEnd = response.getData().indexOf('>', challStart); // end of challenge
+            final int challStart = response.getData().indexOf('<'); // start of the challenge
+            final int challEnd = response.getData().indexOf('>', challStart); // end of the challenge
 
             if (challStart != -1 && challEnd != -1) {
-                this.apopChallenge = response.getData().substring(challStart, challEnd + 1);
+                apopChallenge = response.getData().substring(challStart, challEnd + 1);
             }
 
-            getLogger().debug("APOP challenge: {}", this.apopChallenge);
+            getLogger().debug("APOP challenge: {}", apopChallenge);
         }
     }
 
     @Override
     public void close() {
         try {
-            if (this.serverSocket != null) {
-                // Forgot to log out ?!
+            if (serverSocket != null) {
+                // Forgot to log out?!
                 quit();
             }
         }
@@ -143,11 +143,11 @@ public class Pop3Protocol extends AbstractProtocol {
         Pop3Response r;
         String dpw = null;
 
-        if (this.apopChallenge != null) {
+        if (apopChallenge != null) {
             dpw = getDigest(password);
         }
 
-        if (this.apopChallenge != null && dpw != null) {
+        if (apopChallenge != null && dpw != null) {
             r = simpleCommand(Pop3Command.APOP + " " + user + " " + dpw);
         }
         else {
@@ -198,12 +198,12 @@ public class Pop3Protocol extends AbstractProtocol {
         }
         finally {
             try {
-                this.serverSocket.close();
+                serverSocket.close();
             }
             finally {
-                this.serverSocket = null;
-                this.inputReader = null;
-                this.outputWriter = null;
+                serverSocket = null;
+                inputReader = null;
+                outputWriter = null;
             }
         }
 
@@ -211,7 +211,7 @@ public class Pop3Protocol extends AbstractProtocol {
     }
 
     /**
-     * Retrieve the specified message. Given an estimate of the message's size we can be more efficient, preallocating the array and returning a
+     * Retrieve the specified message. Given an estimate of the message's size, we can be more efficient, pre-allocating the array and returning a
      * ISharedInputStream to allow us to share the array.
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException {
@@ -314,7 +314,7 @@ public class Pop3Protocol extends AbstractProtocol {
 
     @Override
     protected String getDigest(final String password) {
-        return super.getDigest(this.apopChallenge + password);
+        return super.getDigest(apopChallenge + password);
     }
 
     /**
@@ -331,13 +331,13 @@ public class Pop3Protocol extends AbstractProtocol {
             int b;
             int lastb = '\n';
 
-            while ((b = this.inputReader.read()) >= 0) {
+            while ((b = inputReader.read()) >= 0) {
                 if (lastb == '\n' && b == '.') {
-                    b = this.inputReader.read();
+                    b = inputReader.read();
 
                     if (b == '\r') {
                         // end of response, consume LF as well
-                        this.inputReader.read();
+                        inputReader.read();
 
                         break;
                     }
@@ -362,7 +362,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Issue a simple POP3 command and return the response.
      */
     private Pop3Response simpleCommand(final String cmd) throws IOException {
-        if (this.serverSocket == null) {
+        if (serverSocket == null) {
             throw new IOException("Folder is closed");
         }
 
@@ -372,11 +372,11 @@ public class Pop3Protocol extends AbstractProtocol {
             getLogger().debug("C: {}", mCmd);
 
             mCmd += Pop3Command.CRLF;
-            this.outputWriter.write(mCmd);
-            this.outputWriter.flush();
+            outputWriter.write(mCmd);
+            outputWriter.flush();
         }
 
-        final String line = this.inputReader.readLine();
+        final String line = inputReader.readLine();
 
         if (line == null) {
             getLogger().debug("S: EOF");

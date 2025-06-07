@@ -44,24 +44,24 @@ public class WatermarkTable extends JPanel implements WatermarkComponent {
     }
 
     public JScrollPane getScrollPane() {
-        if (null == this.scrollPane) {
-            this.scrollPane = new JScrollPane();
+        if (scrollPane == null) {
+            scrollPane = new JScrollPane();
             setBackground(Color.WHITE);
-            this.scrollPane.setOpaque(false);
-            this.scrollPane.setViewport(getViewport());
+            scrollPane.setOpaque(false);
+            scrollPane.setViewport(getViewport());
         }
 
-        return this.scrollPane;
+        return scrollPane;
     }
 
     public JTable getTable() {
-        if (null == this.table) {
-            this.table = new ExtTable();
-            this.table.setOpaque(false);
-            this.table.setDefaultRenderer(Object.class, new TransparentRenderer());
+        if (null == table) {
+            table = new ExtTable();
+            table.setOpaque(false);
+            table.setDefaultRenderer(Object.class, new TransparentRenderer());
         }
 
-        return this.table;
+        return table;
     }
 
     @Override
@@ -83,11 +83,11 @@ public class WatermarkTable extends JPanel implements WatermarkComponent {
      * Returns the special viewport which draws the image
      */
     private WatermarkViewport getViewport() {
-        if (null == this.viewport) {
-            this.viewport = new WatermarkViewport(getTable());
+        if (viewport == null) {
+            viewport = new WatermarkViewport(getTable());
         }
 
-        return this.viewport;
+        return viewport;
     }
 
     private void init() {

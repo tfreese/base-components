@@ -33,11 +33,11 @@ public class StopWatch {
 
         @Override
         public void accept(final StopWatch sw) {
-            printSummary(sw, this.printStream, TimeUnit.MILLISECONDS);
-            this.printStream.println();
-            printTasks(sw, this.printStream, TimeUnit.MILLISECONDS);
+            printSummary(sw, printStream, TimeUnit.MILLISECONDS);
+            printStream.println();
+            printTasks(sw, printStream, TimeUnit.MILLISECONDS);
 
-            this.printStream.flush();
+            printStream.flush();
         }
 
         protected void printSummary(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
@@ -78,7 +78,7 @@ public class StopWatch {
         }
 
         public long getTime(final TimeUnit timeUnit) {
-            return timeUnit.convert(this.timeNanos, TimeUnit.NANOSECONDS);
+            return timeUnit.convert(timeNanos, TimeUnit.NANOSECONDS);
         }
     }
 
@@ -102,38 +102,38 @@ public class StopWatch {
     }
 
     public void clearTaskList() {
-        this.taskList.clear();
+        taskList.clear();
     }
 
     public String getCurrentTaskName() {
-        return this.currentTaskName;
+        return currentTaskName;
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public TaskInfo getLastTaskInfo() {
-        if (this.lastTaskInfo == null) {
+        if (lastTaskInfo == null) {
             throw new IllegalStateException("No tasks run: can't get last task info");
         }
 
-        return this.lastTaskInfo;
+        return lastTaskInfo;
     }
 
     public int getTaskCount() {
-        return this.taskList.size();
+        return taskList.size();
     }
 
     public List<TaskInfo> getTaskList() {
         final List<TaskInfo> copy = new ArrayList<>(getTaskCount());
-        copy.addAll(this.taskList);
+        copy.addAll(taskList);
 
         return copy;
     }
 
     public long getTotalTimeNanos() {
-        return this.totalTimeNanos;
+        return totalTimeNanos;
     }
 
     /**
@@ -143,7 +143,7 @@ public class StopWatch {
      * Default is {@code true}.
      */
     public boolean isKeepTaskList() {
-        return this.keepTaskList;
+        return keepTaskList;
     }
 
     public boolean isRunning() {
@@ -187,12 +187,12 @@ public class StopWatch {
      * The results are undefined if {@link #stop()} is called without invoking this method first.t.
      */
     public void start(final String taskName) {
-        if (this.currentTaskName != null) {
+        if (currentTaskName != null) {
             throw new IllegalStateException("Can't start StopWatch: it's already running");
         }
 
-        this.currentTaskName = taskName;
-        this.startTimeNanos = System.nanoTime();
+        currentTaskName = taskName;
+        startTimeNanos = System.nanoTime();
     }
 
     /**
@@ -200,18 +200,18 @@ public class StopWatch {
      * The results are undefined if {@code start()}is called.
      */
     public void stop() {
-        if (this.currentTaskName == null) {
+        if (currentTaskName == null) {
             throw new IllegalStateException("Can't stop StopWatch: it's not running");
         }
 
-        final long lastTime = System.nanoTime() - this.startTimeNanos;
-        this.totalTimeNanos += lastTime;
-        this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
+        final long lastTime = System.nanoTime() - startTimeNanos;
+        totalTimeNanos += lastTime;
+        lastTaskInfo = new TaskInfo(currentTaskName, lastTime);
 
-        if (this.keepTaskList) {
-            this.taskList.add(this.lastTaskInfo);
+        if (keepTaskList) {
+            taskList.add(lastTaskInfo);
         }
 
-        this.currentTaskName = null;
+        currentTaskName = null;
     }
 }

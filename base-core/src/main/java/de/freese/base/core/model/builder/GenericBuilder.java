@@ -93,10 +93,10 @@ public class GenericBuilder<T> implements Builder<T> {
     }
 
     protected List<Consumer<T>> getInstanceModifiers() {
-        return this.instanceModifiers;
+        return instanceModifiers;
     }
 
     protected Supplier<T> getInstantiator() {
-        return this.instantiator;
+        return instantiator;
     }
 }

@@ -33,7 +33,7 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
 
     @Override
     public void clear() {
-        this.expirationMap.clear();
+        expirationMap.clear();
 
         super.clear();
     }
@@ -94,7 +94,7 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     public V put(final K key, final V value) {
         final Instant expiration = now().plus(expirationDuration);
 
-        this.expirationMap.put(key, expiration);
+        expirationMap.put(key, expiration);
 
         return super.put(key, value);
     }
@@ -106,14 +106,14 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
         final Instant expiration = now().plus(expirationDuration);
 
         for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
-            this.expirationMap.put(entry.getKey(), expiration);
+            expirationMap.put(entry.getKey(), expiration);
             super.put(entry.getKey(), entry.getValue());
         }
     }
 
     @Override
     public V remove(final Object key) {
-        this.expirationMap.remove(key);
+        expirationMap.remove(key);
 
         return super.remove(key);
     }

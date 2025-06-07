@@ -44,8 +44,8 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public void addElement(final LayoutElement element) {
-        if (!this.elements.contains(element)) {
-            this.elements.add(element);
+        if (!elements.contains(element)) {
+            elements.add(element);
 
             element.setParent(this);
         }
@@ -68,57 +68,57 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public Color getBackground() {
-        return this.background;
+        return background;
     }
 
     @Override
     public LayoutElement getElementAt(final int index) {
-        return this.elements.get(index);
+        return elements.get(index);
     }
 
     @Override
     public int getElementCount() {
-        return this.elements.size();
+        return elements.size();
     }
 
     @Override
     public Font getFont() {
-        return this.font;
+        return font;
     }
 
     @Override
     public Color getForeground() {
-        return this.foreground;
+        return foreground;
     }
 
     @Override
     public double getHeight() {
-        return this.height;
+        return height;
     }
 
     @Override
     public Insets getInsets() {
-        return this.insets;
+        return insets;
     }
 
     @Override
     public LayoutElement getParent() {
-        return this.parent;
+        return parent;
     }
 
     @Override
     public double getWidth() {
-        return this.width;
+        return width;
     }
 
     @Override
     public double getX() {
-        return (getParent() == null) ? this.x : (this.x + getParent().getX());
+        return (getParent() == null) ? x : (x + getParent().getX());
     }
 
     @Override
     public double getY() {
-        return (getParent() == null) ? this.y : (this.y + getParent().getY());
+        return (getParent() == null) ? y : (y + getParent().getY());
     }
 
     @Override
@@ -136,7 +136,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public boolean removeElement(final LayoutElement element) {
-        final boolean contains = this.elements.remove(element);
+        final boolean contains = elements.remove(element);
 
         if (contains) {
             element.setParent(null);
@@ -152,7 +152,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public void setBackground(final Color color) {
-        this.background = color;
+        background = color;
     }
 
     @Override
@@ -162,7 +162,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public void setForeground(final Color color) {
-        this.foreground = color;
+        foreground = color;
     }
 
     @Override
@@ -196,7 +196,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
     }
 
     protected String getName() {
-        return this.name;
+        return name;
     }
 
     protected void paintChildren(final Graphics2D g2d) {

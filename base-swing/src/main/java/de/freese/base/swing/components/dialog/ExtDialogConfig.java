@@ -42,51 +42,51 @@ public class ExtDialogConfig {
     private WindowListener windowListener;
 
     public ActionListener getButtonActionListener(final int buttonIndex) {
-        return this.buttonActionListeners.get(buttonIndex);
+        return buttonActionListeners.get(buttonIndex);
     }
 
     public Icon getIcon() {
-        return this.icon;
+        return icon;
     }
 
     public Object getMessage() {
-        return this.message;
+        return message;
     }
 
     public int getMessageType() {
-        return this.messageType;
+        return messageType;
     }
 
     public int getOptionType() {
-        return this.optionType;
+        return optionType;
     }
 
     public String[] getOptions() {
-        return this.options;
+        return options;
     }
 
     public Component getOwner() {
-        return this.owner;
+        return owner;
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public WindowListener getWindowListener() {
-        return this.windowListener;
+        return windowListener;
     }
 
     public boolean isModal() {
-        return this.modal;
+        return modal;
     }
 
     public boolean isResizeable() {
-        return this.resizeable;
+        return resizeable;
     }
 
     public void setButtonActionListener(final int buttonIndex, final ActionListener actionListener) {
-        this.buttonActionListeners.put(buttonIndex, actionListener);
+        buttonActionListeners.put(buttonIndex, actionListener);
     }
 
     public void setIcon(final Icon icon) {

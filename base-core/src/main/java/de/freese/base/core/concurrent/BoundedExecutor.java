@@ -27,7 +27,7 @@ public class BoundedExecutor implements Executor {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
-        this.rateLimiter = new Semaphore(parallelism, true);
+        rateLimiter = new Semaphore(parallelism, true);
     }
 
     @Override
@@ -37,19 +37,19 @@ public class BoundedExecutor implements Executor {
         }
 
         try {
-            this.rateLimiter.acquire();
+            rateLimiter.acquire();
 
-            this.delegate.execute(() -> {
+            delegate.execute(() -> {
                 try {
                     runnable.run();
                 }
                 finally {
-                    this.rateLimiter.release();
+                    rateLimiter.release();
                 }
             });
         }
         catch (RejectedExecutionException ex) {
-            this.rateLimiter.release();
+            rateLimiter.release();
 
             throw ex;
         }

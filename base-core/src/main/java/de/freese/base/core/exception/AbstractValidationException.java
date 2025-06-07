@@ -34,11 +34,11 @@ public abstract class AbstractValidationException extends Exception {
     }
 
     public String getAppendMessage() {
-        return this.appendMessage;
+        return appendMessage;
     }
 
     public String[] getParameters() {
-        return this.parameters;
+        return parameters;
     }
 
     public String translate(final Translator translatorAdapter) {

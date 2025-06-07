@@ -59,7 +59,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             final long mittelwert = taskStatistik.getAvg();
 
             if (mittelwert > 0) {
-                this.timer = new Timer(250, evt -> {
+                timer = new Timer(250, evt -> {
                     if (mittelwert <= 0) {
                         return;
                     }
@@ -78,7 +78,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
                     }
                 });
 
-                this.timer.start();
+                timer.start();
             }
         }
     }
@@ -95,8 +95,8 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
     }
 
     private void stopTimer() {
-        if (this.timer != null) {
-            this.timer.stop();
+        if (timer != null) {
+            timer.stop();
         }
     }
 

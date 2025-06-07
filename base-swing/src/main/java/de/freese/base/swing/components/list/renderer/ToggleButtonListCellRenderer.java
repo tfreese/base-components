@@ -32,27 +32,28 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
 
         this.toggleButton = toggleButton;
         this.toggleButton.setHorizontalAlignment(SwingConstants.CENTER);
-        this.labelRenderer = new DefaultListCellRenderer();
-        this.labelRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        labelRenderer = new DefaultListCellRenderer();
+        labelRenderer.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         if (value instanceof Boolean b) {
             if (isSelected) {
-                this.toggleButton.setBackground(list.getSelectionBackground());
-                this.toggleButton.setForeground(list.getSelectionForeground());
+                toggleButton.setBackground(list.getSelectionBackground());
+                toggleButton.setForeground(list.getSelectionForeground());
             }
             else {
-                this.toggleButton.setBackground(list.getBackground());
-                this.toggleButton.setForeground(list.getForeground());
+                toggleButton.setBackground(list.getBackground());
+                toggleButton.setForeground(list.getForeground());
             }
 
-            this.toggleButton.setSelected(b);
+            toggleButton.setSelected(b);
 
-            return this.toggleButton;
+            return toggleButton;
         }
 
-        return this.labelRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        return labelRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }
 }

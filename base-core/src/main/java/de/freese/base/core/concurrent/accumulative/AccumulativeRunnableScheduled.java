@@ -53,16 +53,16 @@ public class AccumulativeRunnableScheduled<T> extends AbstractAccumulativeRunnab
 
     @Override
     protected void run(final List<T> args) {
-        this.submitConsumer.accept(args);
+        submitConsumer.accept(args);
     }
 
     @Override
     protected final void submit() {
-        if (this.scheduledExecutor != null) {
-            this.scheduledExecutor.schedule(() -> SwingUtilities.invokeLater(this), this.delay.toMillis(), TimeUnit.MILLISECONDS);
+        if (scheduledExecutor != null) {
+            scheduledExecutor.schedule(() -> SwingUtilities.invokeLater(this), delay.toMillis(), TimeUnit.MILLISECONDS);
         }
         else {
-            final Timer timer = new Timer((int) this.delay.toMillis(), event -> SwingUtilities.invokeLater(this));
+            final Timer timer = new Timer((int) delay.toMillis(), event -> SwingUtilities.invokeLater(this));
             timer.setRepeats(false);
             timer.start();
         }

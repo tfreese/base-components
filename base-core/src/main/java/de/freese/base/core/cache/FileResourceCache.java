@@ -28,7 +28,7 @@ public class FileResourceCache extends AbstractResourceCache {
     @Override
     public void clear() {
         try {
-            if (!Files.exists(this.cacheDirectory)) {
+            if (!Files.exists(cacheDirectory)) {
                 return;
             }
 
@@ -78,6 +78,6 @@ public class FileResourceCache extends AbstractResourceCache {
     }
 
     protected Path getCacheDirectory() {
-        return this.cacheDirectory;
+        return cacheDirectory;
     }
 }

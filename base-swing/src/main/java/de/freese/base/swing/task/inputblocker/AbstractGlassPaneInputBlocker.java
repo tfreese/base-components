@@ -34,15 +34,15 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
     }
 
     protected JComponent getGlassPane() {
-        if (this.glassPane == null) {
+        if (glassPane == null) {
             final TranslucentGlassPane gp = new TranslucentGlassPane();
             gp.setShowDelayMillies(100);
             gp.setTimerIncrementMillies(10);
 
-            this.glassPane = gp;
+            glassPane = gp;
         }
 
-        return this.glassPane;
+        return glassPane;
     }
 
     protected void setGlassPaneVisible(final boolean visible) {

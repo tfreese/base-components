@@ -31,20 +31,20 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         try {
-            final boolean logMethod = this.logMethods.contains(method.getName());
+            final boolean logMethod = logMethods.contains(method.getName());
 
             // if (LOGGER.isDebugEnabled())
             if (logMethod) {
-                LOGGER.debug("Invoke {}#{}: {}", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
+                LOGGER.debug("Invoke {}#{}: {}", target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
             }
 
             // long start = System.currentTimeMillis();
-            final Object result = method.invoke(this.target, args);
+            final Object result = method.invoke(target, args);
             // long end = System.currentTimeMillis();
             //
             // if (LOGGER.isDebugEnabled())
             // {
-            // LOGGER.debug(String.format("Result [%dms] %s#%s: %s", end - start, this.target.getClass().getSimpleName(), method.getName(), result));
+            // LOGGER.debug(String.format("Result [%dms] %s#%s: %s", end - start, target.getClass().getSimpleName(), method.getName(), result));
             // }
 
             if (result == null) {
@@ -53,7 +53,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
 
             if (method.getReturnType().isInterface()) {
                 return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{method.getReturnType()},
-                        new LoggingJdbcInvocationHandler(result, this.logMethods));
+                        new LoggingJdbcInvocationHandler(result, logMethods));
             }
 
             return result;

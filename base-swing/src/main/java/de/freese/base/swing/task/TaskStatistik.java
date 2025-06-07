@@ -26,7 +26,7 @@ public class TaskStatistik implements Serializable {
         int anzahl = 0;
         long summe = 0;
 
-        for (long zeit : this.durations) {
+        for (long zeit : durations) {
             summe += zeit;
             anzahl++;
         }
@@ -35,13 +35,13 @@ public class TaskStatistik implements Serializable {
     }
 
     public LocalDateTime getLastAccess() {
-        return this.lastAccess;
+        return lastAccess;
     }
 
     public long getMax() {
         long max = Long.MIN_VALUE;
 
-        for (long zeit : this.durations) {
+        for (long zeit : durations) {
             max = Math.max(max, zeit);
         }
 
@@ -51,7 +51,7 @@ public class TaskStatistik implements Serializable {
     public long getMin() {
         long min = Long.MAX_VALUE;
 
-        for (long zeit : this.durations) {
+        for (long zeit : durations) {
             min = Math.min(min, zeit);
         }
 
@@ -59,7 +59,7 @@ public class TaskStatistik implements Serializable {
     }
 
     public String getTaskName() {
-        return this.taskName;
+        return taskName;
     }
 
     public void measureDuration(final long duration) {
@@ -70,7 +70,7 @@ public class TaskStatistik implements Serializable {
             appendDuration(duration);
         }
 
-        this.lastAccess = LocalDateTime.now();
+        lastAccess = LocalDateTime.now();
     }
 
     public void setDurations(final long[] durations) {
@@ -95,17 +95,17 @@ public class TaskStatistik implements Serializable {
         builder.append("; Min=").append(getMin());
         builder.append("; Max=").append(getMax());
         builder.append("; Avg=").append(getAvg());
-        builder.append("; Size=").append(this.durations.size());
+        builder.append("; Size=").append(durations.size());
         builder.append("; Datum=").append(getLastAccess());
 
         return builder.toString();
     }
 
     protected void appendDuration(final long zeit) {
-        this.durations.add(zeit);
+        durations.add(zeit);
 
-        if (this.durations.size() > MAX_SIZE) {
-            this.durations.poll();
+        if (durations.size() > MAX_SIZE) {
+            durations.poll();
         }
     }
 }

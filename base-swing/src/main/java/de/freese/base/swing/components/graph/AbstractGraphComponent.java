@@ -38,7 +38,7 @@ public abstract class AbstractGraphComponent extends Component {
     }
 
     public boolean isUseBufferedImage() {
-        return this.useBufferedImage;
+        return useBufferedImage;
     }
 
     /**
@@ -79,15 +79,15 @@ public abstract class AbstractGraphComponent extends Component {
     }
 
     protected BufferedImage getBufferedImage() {
-        return this.bufferedImage;
+        return bufferedImage;
     }
 
     protected Graphics2D getBufferedImageGraphics2d() {
-        return this.bufferedImageGraphics2d;
+        return bufferedImageGraphics2d;
     }
 
     protected Painter<Component> getPainter() {
-        return this.painter;
+        return painter;
     }
 
     protected void init() {
@@ -130,10 +130,10 @@ public abstract class AbstractGraphComponent extends Component {
     // protected void paintComponent(final Graphics g) {
     // // super.paintComponent(g);
     //
-    // if (this.bufferedImage != null) {
-    // getPainter().paint(this.bufferedImageGraphics2d, this, getWidth(), getHeight());
+    // if (bufferedImage != null) {
+    // getPainter().paint(bufferedImageGraphics2d, this, getWidth(), getHeight());
     //
-    // g.drawImage(this.bufferedImage, 0, 0, this);
+    // g.drawImage(bufferedImage, 0, 0, this);
     // }
     // else {
     // Graphics2D g2d = (Graphics2D) g;

@@ -45,17 +45,17 @@ public class StatementBenchmarks extends BenchmarkSettings {
             super();
 
             try {
-                this.derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
-                this.h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
-                this.hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
+                derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
+                h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
+                hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
             }
             catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
-            populateDb(this.h2);
-            populateDb(this.hsqldb);
-            populateDb(this.derby);
+            populateDb(h2);
+            populateDb(hsqldb);
+            populateDb(derby);
         }
 
         /**
@@ -63,11 +63,11 @@ public class StatementBenchmarks extends BenchmarkSettings {
          */
         @Setup
         public void setup() {
-            this.connection = switch (this.db) {
-                case "h2" -> this.h2;
-                case "hsqldb" -> this.hsqldb;
-                case "derby" -> this.derby;
-                default -> throw new IllegalStateException("Unknown Database: " + this.db);
+            connection = switch (db) {
+                case "h2" -> h2;
+                case "hsqldb" -> hsqldb;
+                case "derby" -> derby;
+                default -> throw new IllegalStateException("Unknown Database: " + db);
             };
         }
 
@@ -76,7 +76,7 @@ public class StatementBenchmarks extends BenchmarkSettings {
          */
         @TearDown
         public void tearDown() {
-            this.connection = null;
+            connection = null;
         }
 
         private void populateDb(final Connection connection) {

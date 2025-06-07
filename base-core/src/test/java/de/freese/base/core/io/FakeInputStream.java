@@ -21,7 +21,7 @@ public class FakeInputStream extends InputStream {
 
     @Override
     public int available() {
-        return this.size - this.position;
+        return size - position;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class FakeInputStream extends InputStream {
         ensureOpen();
 
         if (available() > 0) {
-            this.position++;
+            position++;
 
             return 1;
         }

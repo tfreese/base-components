@@ -12,10 +12,10 @@ import reactor.core.scheduler.Schedulers;
  * Spring-Konfiguration des {@link Scheduler}s vom reactor-Framework für JDBC-Verarbeitung.<br>
  *
  * <pre>{@code
- * Mono<City> city = Mono.defer(() -> Mono.just(this.cityRepository.findByNameAndCountryAllIgnoringCase(name, country)))
+ * Mono<City> city = Mono.defer(() -> Mono.just(cityRepository.findByNameAndCountryAllIgnoringCase(name, country)))
  *                  .subscribeOn(jdbcScheduler);
  *
- * Mono<Iterable<City>> cities = Mono.fromCallable(() -> this.cityRepository.findAll())
+ * Mono<Iterable<City>> cities = Mono.fromCallable(() -> cityRepository.findAll())
  *                  .subscribeOn(jdbcScheduler);
  *
  * return Mono.fromCallable(() -> transactionTemplate.execute(status -> {
@@ -36,11 +36,11 @@ public class ReactorSchedulerConfiguration {
             throw new IllegalArgumentException("connectionPoolSize <= 0: " + connectionPoolSize);
         }
 
-        this.scheduler = Schedulers.fromExecutor(Executors.newFixedThreadPool(connectionPoolSize));
+        scheduler = Schedulers.fromExecutor(Executors.newFixedThreadPool(connectionPoolSize));
     }
 
     @Bean
     public Scheduler jdbcScheduler() {
-        return this.scheduler;
+        return scheduler;
     }
 }

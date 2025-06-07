@@ -46,7 +46,7 @@ public class IconBorder implements Border, Serializable {
         super();
 
         this.iconPosition = iconPosition;
-        this.borderInsets = null;
+        borderInsets = null;
         validatePosition(iconPosition);
 
         setIcon(icon);

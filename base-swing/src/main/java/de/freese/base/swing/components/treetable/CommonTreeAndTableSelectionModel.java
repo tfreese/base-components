@@ -88,7 +88,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     }
 
     private final JTree tree;
-    
+
     private boolean updateTreeSelectionMode = true;
     /**
      * Set to true when we are updating the ListSelectionModel.
@@ -98,10 +98,10 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     public CommonTreeAndTableSelectionModel(final JTree tree) {
         super();
 
-        this.listSelectionModel = new ThisListSelectionModel();
         this.tree = tree;
 
-        getListSelectionModel().addListSelectionListener(new ListSelectionHandler());
+        listSelectionModel = new ThisListSelectionModel();
+        listSelectionModel.addListSelectionListener(new ListSelectionHandler());
     }
 
     public ListSelectionModel getListSelectionModel() {

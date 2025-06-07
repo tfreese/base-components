@@ -47,35 +47,35 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     public void destroy() {
-        this.reentrantLock.lock();
+        reentrantLock.lock();
 
         try {
             closeConnection();
         }
         finally {
-            this.reentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        this.reentrantLock.lock();
+        reentrantLock.lock();
 
         try {
-            if (this.connection == null) {
+            if (connection == null) {
                 initConnection();
             }
 
-            if (this.connection.isClosed()) {
+            if (connection.isClosed()) {
                 throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections,"
                         + " or set 'suppressClose' to 'true'");
             }
         }
         finally {
-            this.reentrantLock.unlock();
+            reentrantLock.unlock();
         }
 
-        return this.proxyConnection;
+        return proxyConnection;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     public Properties getConnectionProperties() {
-        return this.connectionProperties;
+        return connectionProperties;
     }
 
     @Override
@@ -110,15 +110,15 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     @Override
@@ -195,11 +195,11 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     private void closeConnection() {
-        if (this.connection != null) {
-            this.proxyConnection = null;
+        if (connection != null) {
+            proxyConnection = null;
 
             try {
-                this.connection.close();
+                connection.close();
             }
             catch (final Exception th) {
                 LOGGER.warn("Could not close shared JDBC Connection", th);
@@ -208,7 +208,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     private Boolean getAutoCommitValue() {
-        return this.autoCommit;
+        return autoCommit;
     }
 
     private Connection getCloseSuppressingConnectionProxy(final Connection connection) {
@@ -250,7 +250,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     private Boolean getReadOnlyValue() {
-        return this.readOnly;
+        return readOnly;
     }
 
     private void initConnection() throws SQLException {
@@ -260,14 +260,14 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
         closeConnection();
 
-        this.connection = getConnectionFromDriver(getUsername(), getPassword());
-        prepareConnection(this.connection);
+        connection = getConnectionFromDriver(getUsername(), getPassword());
+        prepareConnection(connection);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Established shared JDBC Connection: {}", this.connection);
+            LOGGER.debug("Established shared JDBC Connection: {}", connection);
         }
 
-        this.proxyConnection = getCloseSuppressingConnectionProxy(this.connection);
+        proxyConnection = getCloseSuppressingConnectionProxy(connection);
     }
 
     private void prepareConnection(final Connection con) throws SQLException {

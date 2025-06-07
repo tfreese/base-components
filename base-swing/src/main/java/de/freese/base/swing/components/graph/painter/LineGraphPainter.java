@@ -38,8 +38,8 @@ public class LineGraphPainter extends AbstractGraphPainter {
             final float x = i + xOffset;
             final float y = middle - (value * middle);
 
-            this.line2d.setLine(x - 1, yLast, x, y);
-            g.draw(this.line2d);
+            line2d.setLine(x - 1, yLast, x, y);
+            g.draw(line2d);
             // g.drawLine(x - 1, (int) yLast, x, (int) y);
 
             yLast = y;

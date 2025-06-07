@@ -61,7 +61,7 @@ class DefaultResourceMap implements ResourceMap {
 
     @Override
     public String getBundleName() {
-        return this.bundleName;
+        return bundleName;
     }
 
     @Override
@@ -153,13 +153,13 @@ class DefaultResourceMap implements ResourceMap {
     public void load(final Locale locale) {
         this.locale = Objects.requireNonNull(locale, "locale required");
 
-        if (this.resources.get(locale) != null) {
+        if (resources.get(locale) != null) {
             return;
         }
 
         final Map<String, String> resourcesLocale = getResourceProvider().getResources(getBundleName(), locale);
 
-        this.resources.put(locale, resourcesLocale);
+        resources.put(locale, resourcesLocale);
 
         substitutePlaceholder(resourcesLocale);
 
@@ -183,7 +183,7 @@ class DefaultResourceMap implements ResourceMap {
     }
 
     List<DefaultResourceMap> getChildren() {
-        return this.children;
+        return children;
     }
 
     void setParent(final DefaultResourceMap parent) {
@@ -203,11 +203,11 @@ class DefaultResourceMap implements ResourceMap {
     }
 
     protected <T> ResourceConverter<T> getConverter(final Class<T> type) {
-        if (this.resourceConverters == null) {
+        if (resourceConverters == null) {
             return getParent().getConverter(type);
         }
 
-        ResourceConverter<T> converter = this.resourceConverters.getConverter(type);
+        ResourceConverter<T> converter = resourceConverters.getConverter(type);
 
         if (converter == null) {
             converter = getParent().getConverter(type);
@@ -217,19 +217,19 @@ class DefaultResourceMap implements ResourceMap {
     }
 
     protected Locale getLocale() {
-        return this.locale;
+        return locale;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected DefaultResourceMap getParent() {
-        return this.parent;
+        return parent;
     }
 
     protected String getResource(final String key) {
-        String resource = this.resources.get(getLocale()).get(key);
+        String resource = resources.get(getLocale()).get(key);
 
         if (resource == null && getParent() != null) {
             resource = getParent().getResource(key);
@@ -243,15 +243,15 @@ class DefaultResourceMap implements ResourceMap {
     }
 
     protected ResourceCache getResourceCache() {
-        return this.resourceCache;
+        return resourceCache;
     }
 
     protected ResourceProvider getResourceProvider() {
-        if (this.resourceProvider == null) {
+        if (resourceProvider == null) {
             return getParent().getResourceProvider();
         }
 
-        return this.resourceProvider;
+        return resourceProvider;
     }
 
     protected final void substitutePlaceholder(final Map<String, String> resources) {

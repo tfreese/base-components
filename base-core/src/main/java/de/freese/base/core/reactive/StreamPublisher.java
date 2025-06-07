@@ -31,7 +31,7 @@ public class StreamPublisher<T> implements Publisher<T> {
 
     @Override
     public void subscribe(final Subscriber<? super T> subscriber) {
-        final StreamSubscription<T> subscription = new StreamSubscription<>(getExecutor(), this.streamSupplier.get().iterator(), subscriber);
+        final StreamSubscription<T> subscription = new StreamSubscription<>(getExecutor(), streamSupplier.get().iterator(), subscriber);
 
         getExecutor().execute(() -> {
             subscriber.onSubscribe(subscription);
@@ -40,6 +40,6 @@ public class StreamPublisher<T> implements Publisher<T> {
     }
 
     private Executor getExecutor() {
-        return this.executor;
+        return executor;
     }
 }

@@ -78,6 +78,6 @@ public class SerializableTransferHandler extends TransferHandler {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

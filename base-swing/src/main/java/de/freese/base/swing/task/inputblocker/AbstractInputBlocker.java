@@ -38,7 +38,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
     }
 
     protected void addTarget(final T target) {
-        this.targets.add(target);
+        targets.add(target);
     }
 
     protected JRootPane detectRootPane() {
@@ -82,12 +82,12 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected JRootPane getRootPane() {
-        if (this.rootPane != null) {
-            return this.rootPane;
+        if (rootPane != null) {
+            return rootPane;
         }
 
         // Fallback: Von den Targets holen
@@ -98,7 +98,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
      * Liefert die zu blockenden Objekte (JComponent, Action etc.).
      */
     protected List<T> getTargets() {
-        return this.targets;
+        return targets;
     }
 
     protected void setChangeMouseCursor(final boolean changeMouseCursor) {
@@ -106,7 +106,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
     }
 
     protected void setMouseCursorBusy(final boolean busy) {
-        if (!this.changeMouseCursor) {
+        if (!changeMouseCursor) {
             return;
         }
 

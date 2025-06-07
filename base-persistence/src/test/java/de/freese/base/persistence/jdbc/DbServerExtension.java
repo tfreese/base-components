@@ -89,7 +89,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
             case HSQL, H2:
                 // Handled already by hsql with ';shutdown=true'.
                 // Handled already by h2 with ';DB_CLOSE_ON_EXIT=FALSE'.
-                //                try (Connection connection = this.dataSource.getConnection();
+                //                try (Connection connection = dataSource.getConnection();
                 //                     Statement statement = connection.createStatement()) {
                 //                    statement.execute("SHUTDOWN COMPACT");
                 //                }
@@ -121,7 +121,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
             LOGGER.debug("{} - All Tests took {} ms.", databaseType, duration);
         }
 
-        this.dataSource = null;
+        dataSource = null;
 
         // System.gc();
     }
@@ -132,8 +132,8 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         // final long startTime = getStoreForMethod(context).get("start-time", long.class);
         // final long duration = System.currentTimeMillis() - startTime;
         //
-        // LOGGER.debug("{} - Method [{}] took {} ms.", this.databaseType, testMethod.getName(), duration);
-        // LOGGER.debug("{} - Idle Connections = {}", this.databaseType, this.dataSource.getHikariPoolMXBean().getIdleConnections());
+        // LOGGER.debug("{} - Method [{}] took {} ms.", databaseType, testMethod.getName(), duration);
+        // LOGGER.debug("{} - Idle Connections = {}", databaseType, dataSource.getHikariPoolMXBean().getIdleConnections());
     }
 
     @Override
@@ -169,6 +169,9 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
             }
 
             case DERBY -> {
+                System.setProperty("derby.stream.error.file", "build/derby.log");
+                // System.setProperty("derby.stream.error.file", "/dev/null");
+
                 config.setDriverClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
                 config.setJdbcUrl("jdbc:derby:memory:" + UUID.randomUUID() + ";create=true");
             }

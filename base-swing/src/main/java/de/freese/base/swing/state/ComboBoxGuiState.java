@@ -37,7 +37,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
 
         // Try to find the object by name.
         try {
-            if (this.selectedName != null && !this.selectedName.isEmpty()) {
+            if (selectedName != null && !selectedName.isEmpty()) {
                 final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
                 final JList<Object> dummy = new JList<>();
 
@@ -48,8 +48,8 @@ public class ComboBoxGuiState extends AbstractGuiState {
                     if (c instanceof JLabel l) {
                         final String text = l.getText();
 
-                        if (this.selectedName.equals(text)) {
-                            this.selectedIndex = i;
+                        if (selectedName.equals(text)) {
+                            selectedIndex = i;
 
                             break;
                         }
@@ -62,7 +62,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
         }
 
         try {
-            comboBox.setSelectedIndex(this.selectedIndex);
+            comboBox.setSelectedIndex(selectedIndex);
         }
         catch (Exception ex) {
             // Ignore
@@ -75,17 +75,17 @@ public class ComboBoxGuiState extends AbstractGuiState {
         super.store(component);
 
         final JComboBox<Object> comboBox = (JComboBox<Object>) component;
-        this.selectedIndex = comboBox.getSelectedIndex();
-        this.selectedIndex = (this.selectedIndex == -1) ? 0 : this.selectedIndex;
+        selectedIndex = comboBox.getSelectedIndex();
+        selectedIndex = (selectedIndex == -1) ? 0 : selectedIndex;
 
         try {
             final JList<Object> dummy = new JList<>();
             final Object value = comboBox.getSelectedItem();
             final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
-            final Component c = renderer.getListCellRendererComponent(dummy, value, this.selectedIndex, true, true);
+            final Component c = renderer.getListCellRendererComponent(dummy, value, selectedIndex, true, true);
 
             if (c instanceof JLabel l) {
-                this.selectedName = l.getText();
+                selectedName = l.getText();
             }
         }
         catch (Exception ex) {

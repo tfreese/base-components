@@ -25,7 +25,7 @@ public class TextComponentGuiState extends AbstractGuiState {
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TextComponentGuiState extends AbstractGuiState {
 
         final JTextComponent textComponent = (JTextComponent) component;
 
-        this.text = textComponent.getText();
+        text = textComponent.getText();
     }
 
     @Override

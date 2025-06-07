@@ -27,7 +27,7 @@ public class ConnectionToDataSourceWrapper implements DataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
-        return this.connection;
+        return connection;
     }
 
     @Override

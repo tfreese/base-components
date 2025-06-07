@@ -44,18 +44,18 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public TransparentRenderer() {
         super();
 
-        this.foregroundColor = UIManager.getColor("Table.foreground");
-        this.backgroundColor = UIManager.getColor("Table.background");
-        this.selectedForeground = UIManager.getColor("Table.selectionForeground");
-        this.selectedBackground = UIManager.getColor("Table.selectionBackground");
-        this.focusForeground = UIManager.getColor("Table.focusCellForeground");
-        this.focusBackground = UIManager.getColor("Table.focusCellBackground");
+        foregroundColor = UIManager.getColor("Table.foreground");
+        backgroundColor = UIManager.getColor("Table.background");
+        selectedForeground = UIManager.getColor("Table.selectionForeground");
+        selectedBackground = UIManager.getColor("Table.selectionBackground");
+        focusForeground = UIManager.getColor("Table.focusCellForeground");
+        focusBackground = UIManager.getColor("Table.focusCellBackground");
 
-        this.noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-        this.focusBorder = UIManager.getBorder("Table.focusCellHighlightBorder");
+        noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+        focusBorder = UIManager.getBorder("Table.focusCellHighlightBorder");
 
         setOpaque(false);
-        setBorder(this.noFocusBorder);
+        setBorder(noFocusBorder);
     }
 
     @Override
@@ -163,21 +163,21 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index) {
         if (isSelected) {
             this.index = index;
-            super.setForeground(this.selectedForeground);
-            super.setBackground(this.selectedBackground);
+            super.setForeground(selectedForeground);
+            super.setBackground(selectedBackground);
         }
         else {
-            super.setForeground(this.foregroundColor);
-            super.setBackground(this.backgroundColor);
+            super.setForeground(foregroundColor);
+            super.setBackground(backgroundColor);
         }
 
         setFont(parent.getFont());
 
         if (hasFocus) {
-            setBorder(this.focusBorder);
+            setBorder(focusBorder);
         }
         else {
-            setBorder(this.noFocusBorder);
+            setBorder(noFocusBorder);
         }
 
         setOpaque(index == this.index);
