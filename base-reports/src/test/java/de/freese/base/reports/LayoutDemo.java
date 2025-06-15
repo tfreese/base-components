@@ -9,7 +9,7 @@ import de.freese.base.reports.layout.LineLayoutElement;
 /**
  * @author Thomas Freese
  */
-public final class TestLayoutMain {
+public final class LayoutDemo {
     public static void main(final String[] args) {
         // Hauptelement
         final DefaultLayoutElement masterElement = new DefaultLayoutElement("Master");
@@ -58,7 +58,7 @@ public final class TestLayoutMain {
         frame.setVisible(true);
     }
 
-    private TestLayoutMain() {
+    private LayoutDemo() {
         super();
     }
 }

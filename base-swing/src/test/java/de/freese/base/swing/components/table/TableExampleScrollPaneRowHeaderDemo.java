@@ -22,7 +22,7 @@ import javax.swing.table.TableColumnModel;
 /**
  * @author Thomas Freese
  */
-public final class TableExampleScrollPaneRowHeaderMain {
+public final class TableExampleScrollPaneRowHeaderDemo {
     /**
      * @author Thomas Freese
      */
@@ -117,7 +117,7 @@ public final class TableExampleScrollPaneRowHeaderMain {
         });
     }
 
-    private TableExampleScrollPaneRowHeaderMain() {
+    private TableExampleScrollPaneRowHeaderDemo() {
         super();
     }
 }

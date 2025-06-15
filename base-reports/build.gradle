@@ -11,4 +11,7 @@ dependencies {
     implementation("org.jfree:jfreechart")
     implementation("org.apache.poi:poi-ooxml")
     implementation("org.springframework:spring-core")
+
+    testRuntimeOnly("org.apache.logging.log4j:log4j-to-slf4j")
+    testRuntimeOnly("org.slf4j:slf4j-simple")
 }

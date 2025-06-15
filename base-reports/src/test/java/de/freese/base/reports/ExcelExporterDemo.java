@@ -29,8 +29,8 @@ import de.freese.base.reports.exporter.Exporter;
 /**
  * @author Thomas Freese
  */
-public final class TestExcelExporterMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestExcelExporterMain.class);
+public final class ExcelExporterDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelExporterDemo.class);
 
     private static CellStyle cellStyleDefault;
     private static CellStyle cellStyleDefaultBackground;
@@ -38,7 +38,7 @@ public final class TestExcelExporterMain {
     public static void main(final String[] args) throws Exception {
         final Exporter<Integer> exporter = new AbstractExcelExporter<>() {
             @Override
-            public void export(final Workbook workbook, final Integer dataCount) {
+            public void export(final Workbook workbook, final Integer model) {
                 final Sheet sheet = workbook.createSheet("SHEET_NAME");
                 sheet.setZoom(100);
 
@@ -54,7 +54,7 @@ public final class TestExcelExporterMain {
                 cell.setCellStyle(getCellStyleDefaultBackground(workbook));
 
                 // Daten
-                for (int rowIndex = 1; rowIndex <= dataCount; rowIndex++) {
+                for (int rowIndex = 1; rowIndex <= model; rowIndex++) {
                     row = CellUtil.getRow(rowIndex, sheet);
 
                     cell = CellUtil.getCell(row, 0);
@@ -66,7 +66,7 @@ public final class TestExcelExporterMain {
                     cell.setCellStyle(getCellStyleDefault(workbook));
                 }
 
-                sheet.setAutoFilter(new CellRangeAddress(0, dataCount, 0, 1));
+                sheet.setAutoFilter(new CellRangeAddress(0, model, 0, 1));
                 sheet.createFreezePane(0, 1);
 
                 for (int c = 0; c < 2; c++) {
@@ -123,7 +123,7 @@ public final class TestExcelExporterMain {
         return cellStyleDefaultBackground;
     }
 
-    private TestExcelExporterMain() {
+    private ExcelExporterDemo() {
         super();
     }
 }

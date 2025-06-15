@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public final class TableExampleObservableListMain {
+public final class TableExampleObservableListDemo {
     /**
      * @author Thomas Freese
      */
@@ -79,7 +79,7 @@ public final class TableExampleObservableListMain {
         swingWorker.execute();
     }
 
-    private TableExampleObservableListMain() {
+    private TableExampleObservableListDemo() {
         super();
     }
 }

@@ -28,7 +28,7 @@ import de.freese.base.reports.exporter.Exporter;
 /**
  * @author Thomas Freese
  */
-public final class TestPdfExporterMain {
+public final class PdfExporterDemo {
     private static final Font PDF_FONT_12_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.NORMAL, Color.BLACK);
     private static final Font PDF_FONT_12_BLACK_BOLD = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.BOLD, Color.BLACK);
 
@@ -47,7 +47,7 @@ public final class TestPdfExporterMain {
                 document.setPageSize(PageSize.A4.rotate());
 
                 // left, right, top, bottom
-                document.setMargins(40, 20, 20, 20);
+                document.setMargins(40F, 20F, 20F, 20F);
 
                 //        document.addKeywords(...);
                 //        document.addCreator(...);
@@ -74,11 +74,11 @@ public final class TestPdfExporterMain {
 
                 //                getDocument().add(table);
 
-                drawLine(writer, 200, 200, 300, 300, Color.RED);
-                drawLine(writer, 200, 250, 300, 350, null);
+                drawLine(writer, 200F, 200F, 300F, 300F, Color.RED);
+                drawLine(writer, 200F, 250F, 300F, 350F, null);
 
-                drawRectangle(writer, 400, 400, 100, 100, Color.BLUE, Color.MAGENTA);
-                drawRectangle(writer, 400, 250, 100, 100, null, null);
+                drawRectangle(writer, 400F, 400F, 100F, 100F, Color.BLUE, Color.MAGENTA);
+                drawRectangle(writer, 400F, 250F, 100F, 100F, null, null);
 
                 final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 drawTextFooter(document, writer, "Footer: " + LocalDateTime.now().format(formatter), PDF_FONT_12_BLACK);
@@ -130,7 +130,7 @@ public final class TestPdfExporterMain {
         return cell;
     }
 
-    private TestPdfExporterMain() {
+    private PdfExporterDemo() {
         super();
     }
 }

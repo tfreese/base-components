@@ -34,16 +34,16 @@ import de.freese.base.utils.TreeUtils;
  *
  * @author Thomas Freese
  */
-public final class LazyLoadingTreeFrameMain extends JFrame {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrameMain.class);
+public final class LazyLoadingTreeFrameDemo extends JFrame {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrameDemo.class);
     @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
     public static void main(final String[] args) {
-        SwingUtilities.invokeLater(LazyLoadingTreeFrameMain::new);
+        SwingUtilities.invokeLater(LazyLoadingTreeFrameDemo::new);
     }
 
-    private LazyLoadingTreeFrameMain() {
+    private LazyLoadingTreeFrameDemo() {
         super();
 
         // Tree

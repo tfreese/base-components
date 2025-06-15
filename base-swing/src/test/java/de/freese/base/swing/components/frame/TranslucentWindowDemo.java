@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class TranslucentWindowMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TranslucentWindowMain.class);
+public final class TranslucentWindowDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TranslucentWindowDemo.class);
 
     public static void main(final String[] args) {
         // Determine if the GraphicsDevice supports translucency.
@@ -61,7 +61,7 @@ public final class TranslucentWindowMain {
         });
     }
 
-    private TranslucentWindowMain() {
+    private TranslucentWindowDemo() {
         super();
     }
 }

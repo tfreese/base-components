@@ -1,16 +1,21 @@
 // Created: 11.11.2020
 package de.freese.base.swing.components.frame;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Ellipse2D;
+import java.awt.Paint;
+import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -26,8 +31,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class ShapedWindowMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShapedWindowMain.class);
+public final class GradientTranslucentWindowDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GradientTranslucentWindowDemo.class);
 
     public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
@@ -35,55 +40,53 @@ public final class ShapedWindowMain {
         final GraphicsDevice gd = ge.getDefaultScreenDevice();
 
         final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
-        final boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
-        // If shaped windows aren't supported, exit.
+        // If translucent windows aren't supported, exit.
         if (!isPerPixelTranslucencySupported) {
             LOGGER.warn("Per-pixel translucency is not supported on device {}", gd.getIDstring());
             System.exit(0);
         }
 
-        // If translucent windows aren't supported,
-        // create an opaque window.
-        if (!isTranslucencySupported) {
-            LOGGER.warn("Translucency is not supported, creating an opaque window");
-        }
+        // Sonst kommt Exception: The frame is getDecoratedMap
+        JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() -> {
-            final JFrame frame = new JFrame("ShapedWindow");
-            frame.setLayout(new GridBagLayout());
-
-            // It is best practice to set the window's shape in
-            // the componentResized method. Then, if the window
-            // changes size, the shape will be correctly recalculated.
-            frame.addComponentListener(new ComponentAdapter() {
-                // Give the window an elliptical shape.
-                // If the window is resized, the shape is recalculated here.
-                @Override
-                public void componentResized(final ComponentEvent event) {
-                    frame.setShape(new Ellipse2D.Double(0, 0, frame.getWidth(), frame.getHeight()));
-                }
-            });
-
-            frame.setUndecorated(true);
-            frame.setSize(600, 400);
+            final JFrame frame = new JFrame("GradientTranslucentWindow");
+            frame.setBackground(new Color(0, 0, 0, 0));
+            frame.setSize(new Dimension(600, 400));
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            frame.add(new JButton("I am a Button"));
+            final JPanel panel = new JPanel() {
+                @Serial
+                private static final long serialVersionUID = 1L;
 
-            // Set the window to 70% translucency, if supported.
-            if (isTranslucencySupported) {
-                frame.setOpacity(0.7F);
-            }
+                @Override
+                protected void paintComponent(final Graphics g) {
+                    if (g instanceof Graphics2D g2d) {
+                        final int R = 240;
+                        final int G = 240;
+                        final int B = 240;
+
+                        final Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
+                        // final Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
+                        g2d.setPaint(paint);
+                        g2d.fillRect(0, 0, getWidth(), getHeight());
+                    }
+                }
+            };
+
+            frame.setContentPane(panel);
+            frame.setLayout(new GridBagLayout());
+            frame.add(new JButton("I am a Button"));
 
             // Display the window.
             frame.setVisible(true);
         });
     }
 
-    private ShapedWindowMain() {
+    private GradientTranslucentWindowDemo() {
         super();
     }
 }
