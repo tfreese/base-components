@@ -81,16 +81,17 @@ class TestCrypto {
             @Override
             public String decrypt(final String encrypted) throws GeneralSecurityException {
                 final byte[] decoded = Encoding.BASE64.decode(encrypted);
-                final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
-                final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH, decoded.length);
 
                 // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
                 //
                 // final byte[] iv = new byte[16];
                 // byteBuffer.get(iv);
                 //
-                // final byte[] encrypted = new byte[byteBuffer.remaining()];
-                // byteBuffer.get(encrypted);
+                // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
+                // byteBuffer.get(encryptedBytes);
+
+                final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
+                final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH, decoded.length);
 
                 final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
                 final byte[] decrypted = cipher.doFinal(encryptedBytes);
@@ -103,7 +104,7 @@ class TestCrypto {
                 final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
                 final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
 
-                // prefix IV
+                // Prefix IV
                 outputStream.write(iv);
 
                 return new CipherOutputStream(outputStream, cipher);

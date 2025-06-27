@@ -101,7 +101,7 @@ public final class KeystoreMain {
 
         // Stream
         try (InputStream in = new FileInputStream("build.gradle");
-             CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher)) {
+             CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream(System.getProperty("java.io.tmpdir") + "/pom-crypt.dat"), encryptCipher)) {
             // OutputStream out = new ByteArrayOutputStream();
             final byte[] buffer = new byte[1024];
             int numRead = 0;

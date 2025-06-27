@@ -55,7 +55,7 @@ public final class PbeCryptoAesGcm implements Crypto {
     }
 
     /**
-     * AES-GCM Cipher can not be reused !
+     * AES-GCM Cipher cannot be reused!
      */
     private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv) throws GeneralSecurityException {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
