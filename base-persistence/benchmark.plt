@@ -17,17 +17,21 @@ set grid
 set key off
 set boxwidth 0.8 relative
 
-# box style
+# Box style
 set style line 1 lc rgb '#5C91CD' lt 1
 set style fill solid
 
-# remove top and right borders
+# Remove top and right borders
 set style line 2 lc rgb '#808080' lt 1
 set border 3 back ls 2
 set tics nomirror
 
+# Indices are '1' based.
 # every ::1 => 1. Zeile überspringen (Überschrift)
 # using 0:5 => 0. Spalte X-Achse, 5. Spalte Y-Achse
 
 plot 'benchmark.csv' every ::1 using 0:5:xticlabels(8) with boxes ls 1,\
      'benchmark.csv' every ::1 using 0:($5 + 1500):(sprintf("%d",$5)) with labels offset char 0,1
+
+# Create Image
+# gnuplot benchmark.plt
