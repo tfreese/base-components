@@ -1,16 +1,47 @@
 package de.freese.base.swing.components.label;
 
+import java.util.stream.IntStream;
+
 import javax.swing.ImageIcon;
 
 /**
- * Klasse für statische Sanduhr-Icons.
+ * Static HoutGlass-Icons.
  *
  * @author Thomas Freese
  */
-public final class WaitIcons {
-    public static ImageIcon getWaitIcon1() {
-        return new ImageIcon(new byte
-                []{
+public final class HourGlassIcons {
+    public static ImageIcon[] getHourGlassIconsClockWise() {
+        final ImageIcon[] imageIcons = new ImageIcon[15];
+
+        imageIcons[0] = getWaitIcon1();
+        imageIcons[1] = getWaitIcon2();
+        imageIcons[2] = getWaitIcon3();
+        imageIcons[3] = getWaitIcon4();
+        imageIcons[4] = getWaitIcon5();
+        imageIcons[5] = getWaitIcon6();
+        imageIcons[6] = getWaitIcon7();
+        imageIcons[7] = getWaitIcon8();
+        imageIcons[8] = getWaitIcon9();
+        imageIcons[9] = getWaitIcon10();
+        imageIcons[10] = getWaitIcon11();
+        imageIcons[11] = getWaitIcon12();
+        imageIcons[12] = getWaitIcon13();
+        imageIcons[13] = getWaitIcon14();
+        imageIcons[14] = getWaitIcon15();
+
+        return imageIcons;
+    }
+
+    public static ImageIcon[] getHourGlassIconsCounterClockWise() {
+        final ImageIcon[] imageIcons = getHourGlassIconsClockWise();
+
+        return IntStream.rangeClosed(1, imageIcons.length)
+                .mapToObj(i -> imageIcons[imageIcons.length - i])
+                .toArray(ImageIcon[]::new);
+    }
+
+    private static ImageIcon getWaitIcon1() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33, -7, 4, 1,
                 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,9 +70,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon10() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon10() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -71,9 +101,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon11() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon11() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -103,9 +132,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon12() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon12() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -135,9 +163,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon13() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon13() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -167,9 +194,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon14() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon14() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -128, -128, -128, -1, -1, 0, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -199,9 +225,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon15() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon15() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, 0, 0, 0, -128, -128, 0, -64, -64, -64, -1, -1, 0, -1, -1, -1, -128, -128, -128, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -231,9 +256,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon2() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon2() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -263,9 +287,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon3() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon3() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -295,9 +318,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon4() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon4() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -327,9 +349,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon5() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon5() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -359,9 +380,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon6() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon6() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -391,9 +411,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon7() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon7() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -423,9 +442,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon8() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon8() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -455,9 +473,8 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon getWaitIcon9() {
-        return new ImageIcon(new byte
-                []{
+    private static ImageIcon getWaitIcon9() {
+        return new ImageIcon(new byte[]{
                 71, 73, 70, 56, 57, 97, 32, 0, 32, 0, -14, 0, 0, -1, 0, -1, -128, -128, 0, 0, 0, 0, -1, -1, 0, -128, -128, -128, -64, -64, -64, -1, -1, -1, 0, 0, 0, 33,
                 -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 32, 0, 32, 0, 0, 8, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -487,29 +504,7 @@ public final class WaitIcons {
         });
     }
 
-    public static ImageIcon[] getWaitIcons() {
-        final ImageIcon[] imageArray = new ImageIcon[15];
-
-        imageArray[0] = getWaitIcon1();
-        imageArray[1] = getWaitIcon2();
-        imageArray[2] = getWaitIcon3();
-        imageArray[3] = getWaitIcon4();
-        imageArray[4] = getWaitIcon5();
-        imageArray[5] = getWaitIcon6();
-        imageArray[6] = getWaitIcon7();
-        imageArray[7] = getWaitIcon8();
-        imageArray[8] = getWaitIcon9();
-        imageArray[9] = getWaitIcon10();
-        imageArray[10] = getWaitIcon11();
-        imageArray[11] = getWaitIcon12();
-        imageArray[12] = getWaitIcon13();
-        imageArray[13] = getWaitIcon14();
-        imageArray[14] = getWaitIcon15();
-
-        return imageArray;
-    }
-
-    private WaitIcons() {
+    private HourGlassIcons() {
         super();
     }
 }
