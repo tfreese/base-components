@@ -7,46 +7,30 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+import javax.swing.UIManager;
+
 /**
  * @author Thomas Freese
  */
 public final class AnimatedIconMozilla implements AnimatedIcon {
-    /**
-     * Number of Circles.
-     */
+    private Color[] circleColors;
     private int circleCount = 8;
-    /**
-     * Index of the current animated Circle.
-     */
     private int circleIndex = -1;
-    /**
-     * Radius of the hole circle.
-     */
-    private int circleRadius = 20;
-    /**
-     * Color of the first circle.
-     */
     private Color colorFirst = Color.BLACK;
-    /**
-     * Color of the last circle.
-     */
-    private Color colorLast = Color.WHITE;
-    /**
-     * Length of the tail.<br>
-     * Max.: circleCount
-     */
-    private int trailCount = circleCount;
+    private Color colorLast = UIManager.getColor("Panel.background");
+    private int iconSize = 20;
+    private int trailCount = 7;
 
     @Override
     public int getIconHeight() {
         // return circleIndex == 0 ? 0 : circleRadius;
-        return circleRadius + 5;
+        return iconSize + 5;
     }
 
     @Override
     public int getIconWidth() {
         // return circleIndex == 0 ? 0 : circleRadius;
-        return circleRadius + 5;
+        return iconSize + 5;
     }
 
     @Override
@@ -64,30 +48,35 @@ public final class AnimatedIconMozilla implements AnimatedIcon {
             return;
         }
 
+        if (circleColors == null) {
+            generateCircleColors();
+        }
+
         final Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g.setColor(colorLast);
-
-        // Center of the animation.
-        final int newX = x + (circleRadius / 2) + 5;
-        final int newY = y + (circleRadius / 2);
+        // Change the center of the animation.
+        final int newX = x + (iconSize / 2) + 5;
+        final int newY = y + (iconSize / 2);
 
         g.translate(newX, newY);
 
         final double theta = Math.TAU / circleCount;
 
         // Radius and Diameter of the small circles.
-        final int r = circleRadius / 8;
+        final int r = iconSize / 8;
         final int d = 2 * r;
 
         for (int index = 0; index < circleCount; index++) {
-            g.setColor(calcCircleColor(index));
+            final Color color = circleColors[(((circleIndex - index) + circleCount) % circleCount)];
+            g.setColor(color);
 
             g2d.fillOval(r, r, d, d);
 
             g2d.rotate(theta);
         }
+
+        // g.setColor(colorLast);
 
         g.translate(-newX, -newY);
     }
@@ -98,71 +87,82 @@ public final class AnimatedIconMozilla implements AnimatedIcon {
     }
 
     /**
-     * Number of Circles.
+     * Number of Circles.<br>
+     * Default: 8
      */
     public void setCircleCount(final int circleCount) {
         this.circleCount = circleCount;
 
-        if (trailCount > circleCount) {
-            trailCount = circleCount;
-        }
+        circleColors = null;
     }
 
     /**
-     * Radius of the hole circle.
-     */
-    public void setCircleRadius(final int circleRadius) {
-        this.circleRadius = circleRadius;
-    }
-
-    /**
-     * Color of the first circle.
+     * Color of the first circle.<br>
+     * Default: <code>Color.BLACK</code>
      */
     public void setColorFirst(final Color colorFirst) {
         this.colorFirst = colorFirst;
+
+        circleColors = null;
     }
 
     /**
-     * Color of the last circle.
+     * Color of the last circle.<br>
+     * Default: <code>UIManager.getColor("Panel.background")</code>
      */
     public void setColorLast(final Color colorLast) {
         this.colorLast = colorLast;
+
+        circleColors = null;
+    }
+
+    /**
+     * Size of the Icon.<br>
+     * Default: 20
+     */
+    public void setIconSize(final int iconSize) {
+        this.iconSize = iconSize;
     }
 
     /**
      * Length of the tail.<br>
-     * Max.: circleCount
+     * Cannot be greater than circleCount.<br>
+     * Default: 7
      */
     public void setTrailCount(final int trailCount) {
         this.trailCount = Math.min(trailCount, circleCount);
+
+        circleColors = null;
     }
 
     /**
-     * Calculate the gradient color for the current animated circle.
+     * Calculate the gradient colors for circles.
      */
-    private Color calcCircleColor(final int index) {
-        if (index == circleIndex) {
-            return colorFirst;
-        }
+    private void generateCircleColors() {
+        circleColors = new Color[circleCount];
 
-        for (int t = 0; t < trailCount; t++) {
-            if (index == (((circleIndex - t) + circleCount) % circleCount)) {
-                // Interpolation factor.
-                final float factor = (float) (1D - (((double) (trailCount - t)) / (double) trailCount));
+        final float[] rgbFirst = colorFirst.getRGBComponents(null);
+        final float[] rgbLast = colorLast.getRGBComponents(null);
 
+        final double percent = 1D / (trailCount - 1);
+
+        for (int i = 0; i < circleColors.length; i++) {
+            if (i < trailCount) {
                 // Merge two colors with an Interpolation factor.
-                final float[] aComp = colorFirst.getRGBComponents(null);
-                final float[] bComp = colorLast.getRGBComponents(null);
-                final float[] cComp = new float[4];
+                final double factor = i * percent;
 
-                for (int i = 0; i < 4; i++) {
-                    cComp[i] = aComp[i] + ((bComp[i] - aComp[i]) * factor);
+                final double[] rgbMerged = new double[4];
+
+                for (int c = 0; c < 4; c++) {
+                    rgbMerged[c] = rgbFirst[c] + (((double) rgbLast[c] - rgbFirst[c]) * factor);
                 }
 
-                return new Color(cComp[0], cComp[1], cComp[2], cComp[3]);
+                circleColors[i] = new Color((float) rgbMerged[0], (float) rgbMerged[1], (float) rgbMerged[2], (float) rgbMerged[3]);
+            }
+            else {
+                // Empty/invisible circles.
+                circleColors[i] = UIManager.getColor("Panel.background");
             }
         }
-
-        return colorLast;
     }
 }

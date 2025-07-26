@@ -12,7 +12,7 @@ import javax.swing.Timer;
  *
  * @author Thomas Freese
  */
-public class AnimatedLabel extends JLabel {
+public final class AnimatedLabel extends JLabel {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
@@ -65,7 +65,7 @@ public class AnimatedLabel extends JLabel {
         super.setIcon(icon);
     }
 
-    protected void performAnimation() {
+    private void performAnimation() {
         if (!isVisible() || getIcon() == null) {
             animateTimer.stop();
 
@@ -76,7 +76,7 @@ public class AnimatedLabel extends JLabel {
 
         repaint();
 
-        // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
+        // Synchronising the painting on systems that buffer graphics events.
         // Without this line, the animation might not be smooth on Linux.
         Toolkit.getDefaultToolkit().sync();
     }

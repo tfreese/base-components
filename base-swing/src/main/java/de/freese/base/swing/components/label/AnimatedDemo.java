@@ -27,9 +27,14 @@ public final class AnimatedDemo {
         animatedLabelHourGlass.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         final AnimatedIconMozilla animatedIconMozilla = new AnimatedIconMozilla();
-        // animatedIconMozilla.setCircleRadius(18);
         final AnimatedLabel animatedLabelMozilla = new AnimatedLabel("Mozilla", animatedIconMozilla);
         animatedLabelMozilla.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+        animatedIconMozilla.setColorFirst(Color.BLUE);
+        animatedIconMozilla.setColorLast(Color.RED);
+        animatedIconMozilla.setIconSize(25);
+        // animatedIconMozilla.setCircleCount(16);
+        // animatedIconMozilla.setTrailCount(6);
 
         final JToggleButton jToggleButton = new JToggleButton("Start/Stop");
         jToggleButton.addActionListener(event -> {

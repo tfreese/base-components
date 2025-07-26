@@ -177,7 +177,7 @@ public final class TreeUtils {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Empty
         }
 
@@ -219,7 +219,7 @@ public final class TreeUtils {
         return nodes;
     }
 
-    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Iterable<Class<?>> userObjectTypes) {
+    public static DefaultMutableTreeNode getSelectedTreeNode(final JTree tree, final Iterable<Class<?>> userObjectTypes) {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
         final Object[] selectedObjects = getSelectedObjects(tree);
 
@@ -228,7 +228,7 @@ public final class TreeUtils {
 
             for (Class<?> element : userObjectTypes) {
                 if (element.isInstance(selectedTreeNode.getUserObject())) {
-                    return (K) selectedTreeNode;
+                    return selectedTreeNode;
                 }
             }
         }

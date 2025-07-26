@@ -3,9 +3,9 @@ package de.freese.base.swing.components.label;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.util.Arrays;
 import java.util.Objects;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -14,8 +14,7 @@ import javax.swing.ImageIcon;
 public final class AnimatedIconHourGlass implements AnimatedIcon {
     private final ImageIcon[] icons;
 
-    private Icon currentIcon;
-    private int index = 0;
+    private int index = -1;
 
     public AnimatedIconHourGlass() {
         this(HourGlassIcons.getHourGlassIconsClockWise());
@@ -24,17 +23,23 @@ public final class AnimatedIconHourGlass implements AnimatedIcon {
     public AnimatedIconHourGlass(final ImageIcon[] icons) {
         super();
 
-        this.icons = Objects.requireNonNull(icons, "icons required");
+        Objects.requireNonNull(icons, "icons required");
+
+        if (icons.length == 0) {
+            throw new IllegalArgumentException("array is empty");
+        }
+
+        this.icons = Arrays.copyOf(icons, icons.length);
     }
 
     @Override
     public int getIconHeight() {
-        return currentIcon == null ? 0 : currentIcon.getIconHeight();
+        return icons[0].getIconHeight();
     }
 
     @Override
     public int getIconWidth() {
-        return currentIcon == null ? 0 : currentIcon.getIconWidth();
+        return icons[0].getIconWidth();
     }
 
     @Override
@@ -44,22 +49,19 @@ public final class AnimatedIconHourGlass implements AnimatedIcon {
         if (index == icons.length) {
             index = 0;
         }
-
-        currentIcon = icons[index];
     }
 
     @Override
     public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-        if (currentIcon == null) {
+        if (index < 0) {
             return;
         }
 
-        currentIcon.paintIcon(c, g, x, y);
+        icons[index].paintIcon(c, g, x, y);
     }
 
     @Override
     public void reset() {
-        index = 0;
-        currentIcon = null;
+        index = -1;
     }
 }
