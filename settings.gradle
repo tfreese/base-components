@@ -29,3 +29,9 @@ include "base-swing-demo"
 //         allowInsecureProtocol = true
 //     }
 // }
+
+println("")
+println("Gradle version: ${GradleVersion.current().version}")
+println("Java version: ${JavaVersion.current()}")
+println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("")
