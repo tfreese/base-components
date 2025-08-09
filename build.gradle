@@ -39,7 +39,8 @@ subprojects {
 
         dependencies {
             dependency("com.github.lgooddatepicker:LGoodDatePicker:$version_lGoodDatePicker")
-            dependency("com.github.librepdf:openpdf:$version_openpdf")
+            // dependency("com.github.librepdf:openpdf:$version_openpdf")
+            dependency("com.github.librepdf:openpdf-core-modern:$version_openpdf")
             dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
             dependency("commons-net:commons-net:$version_commonsNet")
             dependency("dev.failsafe:failsafe:$version_failsafe")
@@ -69,7 +70,7 @@ subprojects {
 
         dependencies {
             //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
-            
+
             testImplementation("org.awaitility:awaitility")
             testImplementation("org.junit.jupiter:junit-jupiter")
 
