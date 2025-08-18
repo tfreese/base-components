@@ -15,6 +15,66 @@ import org.openpdf.text.pdf.PdfWriter;
  * @author Thomas Freese
  */
 public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
+    /**
+     * Returns the max. X Coordinate consider the right Margin.
+     */
+    protected static float getMaxX(final Document document) {
+        return document.getPageSize().getWidth() - document.rightMargin();
+    }
+
+    /**
+     * Returns the max. Y Coordinate consider the upper Margin.
+     */
+    protected static float getMaxY(final Document document) {
+        return document.getPageSize().getHeight() - document.topMargin();
+    }
+
+    /**
+     * Returns the min. X Coordinate consider the left Margin.
+     */
+    protected static float getMinX(final Document document) {
+        return document.leftMargin();
+    }
+
+    /**
+     * Returns the max. Y Coordinate consider the bottom Margin.
+     */
+    protected static float getMinY(final Document document) {
+        return document.bottomMargin();
+    }
+
+    /**
+     * Returns the X Coordinate relativ to the origin (minX).
+     */
+    protected static float getX(final Document document, final int offset) {
+        return getMinX(document) + offset;
+    }
+
+    /**
+     * Returns the X Coordinate relativ to the origin (minX).
+     *
+     * @param prozent float, 0...100
+     */
+    protected static float getXRelative(final Document document, final float prozent) {
+        return ((getMaxX(document) - getMinX(document)) * (prozent / 100F)) + getMinX(document);
+    }
+
+    /**
+     * Returns the Y Coordinate relativ to the origin (minY).
+     */
+    protected static float getY(final Document document, final int offset) {
+        return getMinY(document) + offset;
+    }
+
+    /**
+     * Returns the Y Coordinate relativ to the origin (minY).
+     *
+     * @param prozent float, 0...100
+     */
+    protected static float getYRelative(final Document document, final float prozent) {
+        return ((getMaxY(document) - getMinY(document)) * (prozent / 100F)) + getMinY(document);
+    }
+
     @Override
     public void export(final OutputStream outputStream, final T model) throws Exception {
         final Document document = new Document();
@@ -64,8 +124,8 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
 
         contentByte.rectangle(x, y, width, height);
         contentByte.fillStroke();
-        //        contentByte.fill();
-        //        contentByte.stroke();
+        // contentByte.fill();
+        // contentByte.stroke();
 
         contentByte.restoreState();
     }
@@ -77,74 +137,14 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
         final PdfContentByte contentByte = writer.getDirectContent();
         contentByte.beginText();
         contentByte.setFontAndSize(baseFont, fontSize);
-        contentByte.showTextAligned(align, text, x, y, 0);
-        //        contentByte.setTextMatrix(x, y);
-        //        contentByte.showText(text);
+        contentByte.showTextAligned(align, text, x, y, 0F);
+        // contentByte.setTextMatrix(x, y);
+        // contentByte.showText(text);
         contentByte.endText();
     }
 
     protected void drawTextFooter(final Document document, final PdfWriter writer, final String text, final Font font) throws DocumentException {
         drawText(writer, text, getMaxX(document), getMinY(document), font.getSize(), PdfContentByte.ALIGN_RIGHT, font.getBaseFont());
-    }
-
-    /**
-     * Returns the max. X Coordinate consider the right Margin.
-     */
-    protected final float getMaxX(final Document document) {
-        return document.getPageSize().getWidth() - document.rightMargin();
-    }
-
-    /**
-     * Returns the max. Y Coordinate consider the upper Margin.
-     */
-    protected final float getMaxY(final Document document) {
-        return document.getPageSize().getHeight() - document.topMargin();
-    }
-
-    /**
-     * Returns the min. X Coordinate consider the left Margin.
-     */
-    protected final float getMinX(final Document document) {
-        return document.leftMargin();
-    }
-
-    /**
-     * Returns the max. Y Coordinate consider the bottom Margin.
-     */
-    protected final float getMinY(final Document document) {
-        return document.bottomMargin();
-    }
-
-    /**
-     * Returns the X Coordinate relativ to the origin (minX).
-     */
-    protected final float getX(final Document document, final int offset) {
-        return getMinX(document) + offset;
-    }
-
-    /**
-     * Returns the X Coordinate relativ to the origin (minX).
-     *
-     * @param prozent float, 0...100
-     */
-    protected final float getXRelative(final Document document, final float prozent) {
-        return ((getMaxX(document) - getMinX(document)) * (prozent / 100F)) + getMinX(document);
-    }
-
-    /**
-     * Returns the Y Coordinate relativ to the origin (minY).
-     */
-    protected final float getY(final Document document, final int offset) {
-        return getMinY(document) + offset;
-    }
-
-    /**
-     * Returns the Y Coordinate relativ to the origin (minY).
-     *
-     * @param prozent float, 0...100
-     */
-    protected final float getYRelative(final Document document, final float prozent) {
-        return ((getMaxY(document) - getMinY(document)) * (prozent / 100F)) + getMinY(document);
     }
 
     /**

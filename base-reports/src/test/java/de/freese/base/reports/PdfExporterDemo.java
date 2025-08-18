@@ -49,11 +49,11 @@ public final class PdfExporterDemo {
                 // left, right, top, bottom
                 document.setMargins(40F, 20F, 20F, 20F);
 
-                //        document.addKeywords(...);
-                //        document.addCreator(...);
-                //        document.addAuthor(...);
-                //        document.addSubject(...);
-                //        document.addTitle(...);
+                // document.addKeywords(...);
+                // document.addCreator(...);
+                // document.addAuthor(...);
+                // document.addSubject(...);
+                // document.addTitle(...);
 
                 // setFullCompression set PDF-Version to 1.5
                 writer.setFullCompression();
@@ -72,7 +72,7 @@ public final class PdfExporterDemo {
                 final PdfContentByte contentByte = writer.getDirectContent();
                 table.writeSelectedRows(0, -1, getMinX(document) - 0.5F, getMaxY(document) - 20F, contentByte);
 
-                //                getDocument().add(table);
+                // document.add(table);
 
                 drawLine(writer, 200F, 200F, 300F, 300F, Color.RED);
                 drawLine(writer, 200F, 250F, 300F, 350F, null);

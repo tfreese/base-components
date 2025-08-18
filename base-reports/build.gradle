@@ -7,7 +7,7 @@ description = "Common Classes for creating Reports or import Office Documents."
 dependencies {
     api(project(":base-core"))
 
-    implementation("com.github.librepdf:openpdf-core-modern")
+    implementation("com.github.librepdf:openpdf")
     implementation("org.jfree:jfreechart")
     implementation("org.apache.poi:poi-ooxml")
     implementation("org.springframework:spring-core")
