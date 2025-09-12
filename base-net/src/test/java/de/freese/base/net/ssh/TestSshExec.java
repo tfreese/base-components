@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,33 +23,44 @@ class TestSshExec {
     private static final String PASSWORD = "pass";
     private static final String USER = "user";
 
-    //    @EnabledOnOs({OS.LINUX, OS.MAC})
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
-    void testSshUserCertificate() throws Exception {
-        final SshExec sshExec = SshExec.connectByUserCertificate(USER, PASSWORD, HOST, 22);
+    void testSshTunnel() throws Exception {
+        final String remoteHost = "remoteHost";
+        final int remotePort = 4321;
 
-        final String result = sshExec.execute("df -h");
-
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-
-        LOGGER.info(result);
-
-        sshExec.disconnect();
+        try (SshTunnel sshTunnel = SshTunnel.create(USER, PASSWORD, 1234, HOST, 22, remoteHost, remotePort)) {
+            assertNotNull(sshTunnel);
+        }
     }
 
-    //    @EnabledOnOs({OS.LINUX, OS.MAC})
+    @EnabledOnOs({OS.LINUX, OS.MAC})
+    @Test
+    void testSshUserCertificate() throws Exception {
+        try (SshExec sshExec = SshExec.create(USER, PASSWORD, HOST, 22, true)) {
+            assertNotNull(sshExec);
+
+            final String result = sshExec.execute("df -h");
+
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
+
+            LOGGER.info(result);
+        }
+    }
+
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
     void testSshUserPassword() throws Exception {
-        final SshExec sshExec = SshExec.connectByUserPassword(USER, PASSWORD, HOST, 22);
+        try (SshExec sshExec = SshExec.create(USER, PASSWORD, HOST, 22, false)) {
+            assertNotNull(sshExec);
 
-        final String result = sshExec.execute("df -h");
+            final String result = sshExec.execute("df -h");
 
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
 
-        LOGGER.info(result);
-
-        sshExec.disconnect();
+            LOGGER.info(result);
+        }
     }
 }

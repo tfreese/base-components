@@ -3,18 +3,14 @@ package de.freese.base.net.ssh;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ClientChannelEvent;
-import org.apache.sshd.client.config.hosts.ConfigFileHostEntryResolver;
-import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
@@ -27,102 +23,67 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class SshExec {
+public final class SshExec extends AbstractSsh {
     private static final Logger LOGGER = LoggerFactory.getLogger(SshExec.class);
 
-    public static SshExec connectByUserCertificate(final String user, final CharSequence password, final String host, final int port) throws IOException {
-        return connect(user, host, port, sshClient -> {
-            // HOST is configured in ~/.ssh/config.
-            sshClient.setHostConfigEntryResolver(new ConfigFileHostEntryResolver(Paths.get(System.getProperty("user.home"), ".ssh", "config")));
-
-            // Password for Certificate.
-            sshClient.setFilePasswordProvider(FilePasswordProvider.of(password.toString()));
-        }, clientSession -> {
-            // Empty
-        });
-    }
-
-    public static SshExec connectByUserPassword(final String user, final CharSequence password, final String host, final int port) throws IOException {
-        return connect(user, host, port, sshClient -> {
-                    // Empty
-                }, clientSession ->
-                        // Only for User/Password authentication without certificate.
-                        clientSession.addPasswordIdentity(password.toString())
-        );
-    }
-
-    private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer,
-                                   final Consumer<ClientSession> clientSessionConfigurer) throws IOException {
-        LOGGER.debug("connecting to {}@{}", user, host);
+    public static SshExec create(final String user, final CharSequence password, final String host, final int port, final boolean useCertificate) throws IOException {
+        LOGGER.info("Connecting to {}@{}:{}", user, host, port);
 
         final SshClient sshClient = SshClient.setUpDefaultClient();
         sshClient.setServerKeyVerifier(AcceptAllServerKeyVerifier.INSTANCE);
 
-        sshClientConfigurer.accept(sshClient);
+        if (useCertificate) {
+            // HOST is configured in ~/.ssh/config (Optional).
+            // sshClient.setHostConfigEntryResolver(new ConfigFileHostEntryResolver(Paths.get(System.getProperty("user.home"), ".ssh", "config")));
 
-        // Open the client
+            // Password for Certificate.
+            sshClient.setFilePasswordProvider(FilePasswordProvider.of(password.toString()));
+        }
+
         sshClient.start();
 
-        // Connect to the server
-        final ConnectFuture cf = sshClient.connect(user, host, port);
-        final ClientSession clientSession = cf.verify().getSession();
+        // Connect to the server.
+        final ClientSession clientSession = sshClient.connect(user, host, port).verify(Duration.ofSeconds(5)).getSession();
 
-        clientSessionConfigurer.accept(clientSession);
+        if (!useCertificate) {
+            // For User/Password authentication without certificate.
+            clientSession.addPasswordIdentity(password.toString());
+        }
 
-        clientSession.auth().verify(Duration.ofSeconds(5));
+        if (!clientSession.auth().verify(Duration.ofSeconds(5)).await(Duration.ofSeconds(5))) {
+            LOGGER.error("Authentication failed");
+            return null;
+        }
 
-        LOGGER.debug("session connected");
+        LOGGER.info("Connection established: {}@{}:{}", user, host, port);
 
         return new SshExec(sshClient, clientSession, host);
     }
 
-    private final ClientSession clientSession;
     private final String host;
-    private final SshClient sshClient;
 
     private SshExec(final SshClient sshClient, final ClientSession clientSession, final String host) {
-        super();
+        super(sshClient, clientSession);
 
-        this.sshClient = Objects.requireNonNull(sshClient, "sshClient required");
-        this.clientSession = Objects.requireNonNull(clientSession, "clientSession required");
         this.host = Objects.requireNonNull(host, "host required");
-    }
-
-    public void disconnect() {
-        LOGGER.debug("disconnecting session");
-
-        try {
-            if (clientSession.isOpen()) {
-                clientSession.close(false).await(Duration.ofSeconds(3));
-            }
-
-            if (sshClient.isOpen()) {
-                sshClient.stop();
-            }
-        }
-        catch (IOException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-
-        LOGGER.debug("session disconnected");
     }
 
     public String execute(final String command) throws IOException {
         // clientSession.createChannel(Channel.CHANNEL_EXEC);
 
-        try (ChannelExec channelExec = clientSession.createExecChannel(command);
+        try (ChannelExec channelExec = getClientSession().createExecChannel(command);
              ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
              ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
             channelExec.setOut(responseStream);
             channelExec.setErr(errorStream);
 
-            // Execute and wait
+            // Execute and wait-
             channelExec.open();
 
             final Duration timeout = Duration.ofSeconds(3);
             final Set<ClientChannelEvent> events = channelExec.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), timeout);
 
-            // Check if timed out
+            // Check if timed out.
             if (events.contains(ClientChannelEvent.TIMEOUT)) {
                 throw new IOException(String.format("Timeout after %d seconds on host '%s' for command '%s'", timeout.toSeconds(), host, command));
             }
