@@ -40,13 +40,12 @@ public final class SshTunnel extends AbstractSsh {
         // clientSession.addPasswordIdentity(password.toString());
 
         if (!clientSession.auth().verify(Duration.ofSeconds(5)).await(Duration.ofSeconds(5))) {
-            LOGGER.error("Authentication failed");
-            return null;
+            throw new IllegalStateException("SSH Authentication failed");
         }
 
         clientSession.startLocalPortForwarding(localPort, new SshdSocketAddress(targetHost, targetPort));
 
-        LOGGER.info("Tunnel established: localhost:{} -> {}:{} -> {}:{}", localPort, tunnelHost, tunnelPort, targetHost, targetPort);
+        LOGGER.info("SSH Tunnel established: localhost:{} -> {}:{} -> {}:{}", localPort, tunnelHost, tunnelPort, targetHost, targetPort);
 
         return new SshTunnel(sshClient, clientSession);
     }

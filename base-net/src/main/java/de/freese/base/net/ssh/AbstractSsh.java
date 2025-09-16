@@ -27,7 +27,7 @@ public abstract class AbstractSsh implements AutoCloseable {
 
     @Override
     public void close() {
-        getLogger().info("disconnecting session");
+        getLogger().info("disconnecting SSH session");
 
         try {
             if (clientSession.isOpen()) {
@@ -42,7 +42,7 @@ public abstract class AbstractSsh implements AutoCloseable {
             getLogger().error(ex.getMessage(), ex);
         }
 
-        getLogger().info("session disconnected");
+        getLogger().info("SSH session disconnected");
     }
 
     protected ClientSession getClientSession() {

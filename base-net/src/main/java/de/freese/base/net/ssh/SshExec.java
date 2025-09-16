@@ -51,11 +51,10 @@ public final class SshExec extends AbstractSsh {
         }
 
         if (!clientSession.auth().verify(Duration.ofSeconds(5)).await(Duration.ofSeconds(5))) {
-            LOGGER.error("Authentication failed");
-            return null;
+            throw new IllegalStateException("SSH Authentication failed");
         }
 
-        LOGGER.info("Connection established: {}@{}:{}", user, host, port);
+        LOGGER.info("SSH Connection established: {}@{}:{}", user, host, port);
 
         return new SshExec(sshClient, clientSession, host);
     }
@@ -68,7 +67,7 @@ public final class SshExec extends AbstractSsh {
         this.host = Objects.requireNonNull(host, "host required");
     }
 
-    public String execute(final String command) throws IOException {
+    public String execute(final String command) throws Exception {
         // clientSession.createChannel(Channel.CHANNEL_EXEC);
 
         try (ChannelExec channelExec = getClientSession().createExecChannel(command);
@@ -85,7 +84,7 @@ public final class SshExec extends AbstractSsh {
 
             // Check if timed out.
             if (events.contains(ClientChannelEvent.TIMEOUT)) {
-                throw new IOException(String.format("Timeout after %d seconds on host '%s' for command '%s'", timeout.toSeconds(), host, command));
+                throw new IllegalStateException(String.format("Timeout after %d seconds on host '%s' for command '%s'", timeout.toSeconds(), host, command));
             }
 
             errorStream.flush();
@@ -93,7 +92,7 @@ public final class SshExec extends AbstractSsh {
             final String error = errorStream.toString(StandardCharsets.UTF_8);
 
             if (!error.isEmpty()) {
-                throw new IOException(error);
+                throw new IllegalStateException(error);
             }
 
             responseStream.flush();
