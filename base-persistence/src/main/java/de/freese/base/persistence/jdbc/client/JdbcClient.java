@@ -119,7 +119,11 @@ public class JdbcClient implements Wrapper {
     }
 
     protected void close(final Connection connection) {
-        final Transaction transaction = TRANSACTION.orElse(null);
+        Transaction transaction = null;
+
+        if (TRANSACTION.isBound()) {
+            transaction = TRANSACTION.get();
+        }
 
         if (transaction != null) {
             // Closed by Transaction#close.
@@ -179,7 +183,11 @@ public class JdbcClient implements Wrapper {
     }
 
     protected Connection getConnection() {
-        final Transaction transaction = TRANSACTION.orElse(null);
+        Transaction transaction = null;
+
+        if (TRANSACTION.isBound()) {
+            transaction = TRANSACTION.get();
+        }
 
         if (transaction != null) {
             return transaction.getConnection();
