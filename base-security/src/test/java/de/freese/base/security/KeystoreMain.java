@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public final class KeystoreMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(KeystoreMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final String provider = "SunJCE"; // "SUN";
 
         final char[] keystorePSW = "gehaim".toCharArray();

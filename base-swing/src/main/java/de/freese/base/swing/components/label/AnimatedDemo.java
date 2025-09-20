@@ -16,7 +16,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class AnimatedDemo {
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame(AnimatedDemo.class.getSimpleName());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().setLayout(new GridLayout(3, 1));

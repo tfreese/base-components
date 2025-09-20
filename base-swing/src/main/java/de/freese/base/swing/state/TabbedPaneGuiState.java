@@ -37,7 +37,7 @@ public class TabbedPaneGuiState extends AbstractGuiState {
         try {
             tabbedPane.setSelectedIndex(selectedIndex != -1 ? selectedIndex : 0);
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }

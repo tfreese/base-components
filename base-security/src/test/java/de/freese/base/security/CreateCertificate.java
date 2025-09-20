@@ -87,8 +87,7 @@ public class CreateCertificate {
     // System.out.println(certText);
     // }
     //
-    // public static void main(final String[] args) throws Exception
-    // {
+    // static void main() throws Exception {
     // cryptoSelfSignedCert();
     // }
 }

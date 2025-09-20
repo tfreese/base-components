@@ -63,7 +63,7 @@ public class Pop3Protocol extends AbstractProtocol {
 
             response = simpleCommand(null);
         }
-        catch (IOException ioe) {
+        catch (IOException _) {
             try {
                 serverSocket.close();
             }
@@ -76,7 +76,7 @@ public class Pop3Protocol extends AbstractProtocol {
             try {
                 serverSocket.close();
             }
-            catch (IOException th) {
+            catch (IOException _) {
                 throw new IOException("Connect failed");
             }
         }
@@ -245,7 +245,7 @@ public class Pop3Protocol extends AbstractProtocol {
                 result[0] = Integer.parseInt(st.nextToken());
                 result[1] = Integer.parseInt(st.nextToken());
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }

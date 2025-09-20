@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public final class TranslucentWindowDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(TranslucentWindowDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         // Determine if the GraphicsDevice supports translucency.
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         final GraphicsDevice gd = ge.getDefaultScreenDevice();

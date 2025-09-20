@@ -42,7 +42,7 @@ public final class DateServerMain extends Thread {
                 try {
                     clientSocket.close();
                 }
-                catch (Exception ex1) {
+                catch (Exception _) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -69,7 +69,7 @@ public final class DateServerMain extends Thread {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final DateServerMain server = new DateServerMain();
         server.start();
     }

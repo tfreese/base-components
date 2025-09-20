@@ -10,7 +10,7 @@ import de.freese.base.reports.layout.LineLayoutElement;
  * @author Thomas Freese
  */
 public final class LayoutDemo {
-    public static void main(final String[] args) {
+    static void main() {
         // Hauptelement
         final DefaultLayoutElement masterElement = new DefaultLayoutElement("Master");
         masterElement.setHeight(300D);

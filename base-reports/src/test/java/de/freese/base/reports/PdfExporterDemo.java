@@ -34,7 +34,7 @@ public final class PdfExporterDemo {
 
     // BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-    static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
             @Override
             public void export(final Document document, final PdfWriter writer, final List<String> model) {

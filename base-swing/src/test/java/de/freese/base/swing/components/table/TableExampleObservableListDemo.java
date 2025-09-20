@@ -39,7 +39,7 @@ public final class TableExampleObservableListDemo {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() {
         final ObservableList<int[]> list = FXCollections.observableArrayList();
 
         final JTable table = new JTable();

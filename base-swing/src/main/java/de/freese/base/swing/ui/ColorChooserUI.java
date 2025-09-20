@@ -20,7 +20,7 @@ public class ColorChooserUI extends BasicColorChooserUI {
         return new ColorChooserUI();
     }
 
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

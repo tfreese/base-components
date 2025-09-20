@@ -69,7 +69,7 @@ public class ThrottledInputStream extends FilterInputStream {
                 b[off + i] = (byte) c;
             }
         }
-        catch (IOException ex) {
+        catch (IOException _) {
             // Ignore
         }
 

@@ -115,7 +115,7 @@ public final class ExecutorUtils {
                 }
             }
         }
-        catch (InterruptedException | IOException ex) {
+        catch (InterruptedException | IOException _) {
             if (logger.isWarnEnabled()) {
                 logger.warn("Interrupted while waiting for ChannelGroup");
             }
@@ -124,7 +124,7 @@ public final class ExecutorUtils {
             try {
                 channelGroup.shutdownNow();
             }
-            catch (IOException ex2) {
+            catch (IOException _) {
                 logger.error("ChannelGroup did not terminate");
             }
 
@@ -172,7 +172,7 @@ public final class ExecutorUtils {
                 logger.info("ExecutorService terminated");
             }
         }
-        catch (InterruptedException iex) {
+        catch (InterruptedException _) {
             logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.

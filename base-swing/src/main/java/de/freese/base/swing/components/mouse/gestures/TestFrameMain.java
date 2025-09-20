@@ -44,7 +44,7 @@ public final class TestFrameMain extends JFrame {
     @Serial
     private static final long serialVersionUID = -3351411878765636929L;
 
-    public static void main(final String[] args) {
+    static void main() {
         final TestFrameMain frame = new TestFrameMain();
         frame.setVisible(true);
     }
@@ -55,7 +55,7 @@ public final class TestFrameMain extends JFrame {
 
     private TestFrameMain() {
         super();
-        
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Mouse Gestures Test Frame");
         getContentPane().setLayout(new BorderLayout());
@@ -108,7 +108,7 @@ public final class TestFrameMain extends JFrame {
                 try {
                     TimeUnit.MILLISECONDS.sleep(200);
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }

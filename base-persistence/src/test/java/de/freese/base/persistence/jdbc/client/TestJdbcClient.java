@@ -416,7 +416,7 @@ class TestJdbcClient {
 
             transaction.commit();
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             if (transaction != null) {
                 transaction.rollback();
             }

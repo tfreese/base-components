@@ -121,7 +121,7 @@ class TestBoundedExecutor {
             try {
                 t.get();
             }
-            catch (InterruptedException ex) {
+            catch (InterruptedException _) {
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }

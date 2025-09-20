@@ -87,7 +87,7 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings {
                     try {
                         statement.execute("DROP TABLE result_sizes");
                     }
-                    catch (SQLException ex) {
+                    catch (SQLException _) {
                         // Empty
                     }
                 }

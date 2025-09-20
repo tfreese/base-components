@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public final class PgpCryptoBcMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(PgpCryptoBcMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main(final String[] args) throws Exception {
         // KeyID = -3266217749052483355
         LOGGER.info("{}", Long.decode("0x09DFF54A96322AD9"));
         LOGGER.info("{}", new BigInteger("09DFF54A96322AD9", 16).longValue());

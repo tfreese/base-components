@@ -169,7 +169,7 @@ public final class JavaFxGraphApplication extends Application {
             try {
                 stop();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }, "ShutdownHook"));

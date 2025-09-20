@@ -87,7 +87,7 @@ public class StatementBenchmarks extends BenchmarkSettings {
                     try {
                         statement.execute("DROP TABLE simple_test");
                     }
-                    catch (SQLException ex) {
+                    catch (SQLException _) {
                         // Empty
                     }
                 }

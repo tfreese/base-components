@@ -7,11 +7,11 @@ import de.freese.base.core.model.tupel.Tupel3;
  * @author Thomas Freese
  */
 public final class BuilderGeneratorMain {
-    public static void main(final String[] args) {
+    static void main() {
         final BuilderGenerator generator = new BuilderGenerator(fields -> {
             fields.remove("serialVersionUID");
             fields.remove("valueB");
-            
+
             return fields;
         });
         generator.createBuilder(Tupel3.class, true, System.out);

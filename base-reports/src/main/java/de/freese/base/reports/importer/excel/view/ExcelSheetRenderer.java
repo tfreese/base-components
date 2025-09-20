@@ -34,7 +34,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer {
         try {
             num = value != null ? Double.valueOf(value.toString()) : null;
         }
-        catch (Throwable th) {
+        catch (Throwable _) {
             // Empty;
         }
 

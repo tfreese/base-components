@@ -178,7 +178,7 @@ public class NasaController extends AbstractController {
                 return true;
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             getLogger().warn("URI not exist: {}", uri);
         }
 

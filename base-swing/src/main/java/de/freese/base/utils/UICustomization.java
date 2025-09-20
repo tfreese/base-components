@@ -44,12 +44,6 @@ public final class UICustomization {
         installDefaults();
     }
 
-    public static void main(final String[] args) throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        writeUIDefaults(System.out);
-    }
-
     public static void setDefaultFont(final Font font) {
         for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
             final Object key = entry.getKey();
@@ -128,6 +122,12 @@ public final class UICustomization {
 
             formatter.flush();
         }
+    }
+
+    static void main() throws Exception {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+        writeUIDefaults(System.out);
     }
 
     private static void installDefaults() {

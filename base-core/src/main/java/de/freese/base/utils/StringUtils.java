@@ -161,7 +161,7 @@ public final class StringUtils {
              DataInputStream datainputstream = new DataInputStream(bytearrayinputstream)) {
             sign = datainputstream.readUTF();
         }
-        catch (IOException ioexception) {
+        catch (IOException _) {
             sign = EMPTY;
         }
 
@@ -620,7 +620,7 @@ public final class StringUtils {
         try (DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream)) {
             dataoutputstream.writeUTF(cs.toString());
         }
-        catch (IOException ex) {
+        catch (IOException _) {
             return null;
         }
 

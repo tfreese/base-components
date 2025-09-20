@@ -57,14 +57,14 @@ public class ComboBoxGuiState extends AbstractGuiState {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
 
         try {
             comboBox.setSelectedIndex(selectedIndex);
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }
@@ -88,7 +88,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
                 selectedName = l.getText();
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }

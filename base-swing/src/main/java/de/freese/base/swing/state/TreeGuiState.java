@@ -61,7 +61,7 @@ public class TreeGuiState extends AbstractGuiState {
                     treePath = treePath.pathByAddingChild(parent);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
 

@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public final class DateClientMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateClientMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         try {
             final boolean useSSL = false;
             final SocketFactory socketFactory;

@@ -13,7 +13,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class ArrowIconMain {
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

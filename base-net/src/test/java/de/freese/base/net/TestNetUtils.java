@@ -135,7 +135,7 @@ class TestNetUtils {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }

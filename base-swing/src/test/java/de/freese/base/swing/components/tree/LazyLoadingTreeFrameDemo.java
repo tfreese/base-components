@@ -39,7 +39,7 @@ public final class LazyLoadingTreeFrameDemo extends JFrame {
     @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
-    public static void main(final String[] args) {
+    static void main() {
         SwingUtilities.invokeLater(LazyLoadingTreeFrameDemo::new);
     }
 

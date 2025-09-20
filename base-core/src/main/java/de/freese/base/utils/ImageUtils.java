@@ -52,7 +52,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = 102999713634663152L;
 
-        public static void main(final String[] args) {
+        static void main() {
             final JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
 
             final JFrame frame = new JFrame();
@@ -126,7 +126,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = -3986977626709987448L;
 
-        public static void main(final String[] args) {
+        static void main() {
             final JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
 
             final JFrame frame = new JFrame();
@@ -209,7 +209,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = 6491045895051309036L;
 
-        public static void main(final String[] args) {
+        static void main() {
             final JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
 
             final JFrame frame = new JFrame();
@@ -291,24 +291,24 @@ public final class ImageUtils {
             final int[] xPoints;
             final int[] yPoints;
 
-            if (direction == SwingConstants.NORTH) {
-                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-                yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
-            }
-            else if (direction == SwingConstants.SOUTH) {
-                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-                yPoints = new int[]{y, y + (centerY * 2), y};
-            }
-            else if (direction == SwingConstants.WEST) {
-                xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
-                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-            }
-            else if (direction == SwingConstants.EAST) {
-                xPoints = new int[]{x, x + (centerX * 2), x, x};
-                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-            }
-            else {
-                throw new IllegalStateException();
+            switch (direction) {
+                case SwingConstants.NORTH -> {
+                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                    yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
+                }
+                case SwingConstants.SOUTH -> {
+                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                    yPoints = new int[]{y, y + (centerY * 2), y};
+                }
+                case SwingConstants.WEST -> {
+                    xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
+                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+                }
+                case SwingConstants.EAST -> {
+                    xPoints = new int[]{x, x + (centerX * 2), x, x};
+                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+                }
+                default -> throw new IllegalStateException();
             }
 
             g2d.fillPolygon(xPoints, yPoints, 3);
@@ -412,7 +412,7 @@ public final class ImageUtils {
         try {
             pg.grabPixels();
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }

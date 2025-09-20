@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public final class ExtDialogMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExtDialogMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final ExtDialogConfig config = new ExtDialogConfig();
         config.setTitle("Test");
         config.setMessageType(JOptionPane.QUESTION_MESSAGE);

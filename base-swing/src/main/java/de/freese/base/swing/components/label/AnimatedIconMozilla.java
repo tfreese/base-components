@@ -68,7 +68,7 @@ public final class AnimatedIconMozilla implements AnimatedIcon {
         final int d = 2 * r;
 
         for (int index = 0; index < circleCount; index++) {
-            final Color color = circleColors[(((circleIndex - index) + circleCount) % circleCount)];
+            final Color color = circleColors[(circleIndex - index + circleCount) % circleCount];
             g.setColor(color);
 
             g2d.fillOval(r, r, d, d);

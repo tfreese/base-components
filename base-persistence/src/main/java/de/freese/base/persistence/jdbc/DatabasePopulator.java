@@ -96,7 +96,7 @@ public class DatabasePopulator {
             try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }

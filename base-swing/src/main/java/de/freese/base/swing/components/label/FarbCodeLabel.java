@@ -27,7 +27,7 @@ public class FarbCodeLabel extends JLabel {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame(FarbCodeLabel.class.getSimpleName());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new GridLayout(2, 1));

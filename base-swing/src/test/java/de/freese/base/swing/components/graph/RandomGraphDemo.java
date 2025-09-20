@@ -28,7 +28,7 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
 public final class RandomGraphDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomGraphDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
         final GraphicsDevice[] gds = ge.getScreenDevices();

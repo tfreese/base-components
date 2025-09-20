@@ -42,7 +42,7 @@ public final class TableExampleScrollPaneRowHeaderDemo {
         }
     }
 
-    public static void main(final String[] args) {
+    static void main() {
         final List<Map<String, String>> list = new ArrayList<>();
 
         for (int row = 0; row < 100; row++) {

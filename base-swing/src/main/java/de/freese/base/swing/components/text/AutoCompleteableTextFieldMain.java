@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class AutoCompleteableTextFieldMain {
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame("AutoCompleteableTextField");
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

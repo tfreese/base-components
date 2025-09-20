@@ -20,7 +20,7 @@ import javafx.scene.control.DatePicker;
  * @author Thomas Freese
  */
 public final class JxDatePickerMain {
-    public static void main(final String[] args) {
+    static void main() {
         final JLabel jLabel = new JLabel();
 
         final JFXPanel fxPanel = new JFXPanel();

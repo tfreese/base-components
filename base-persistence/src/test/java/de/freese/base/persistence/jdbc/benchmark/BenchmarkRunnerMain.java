@@ -16,7 +16,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  * @author Thomas Freese
  */
 public final class BenchmarkRunnerMain {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // Builder overwrites the Class-Annotations.
         // Needs filled target\classes\META-INF\BenchmarkList -> Rebuild bevor execute
         final Options options = new OptionsBuilder()

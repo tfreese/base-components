@@ -35,7 +35,7 @@ public final class ExcelExporterDemo {
     private static CellStyle cellStyleDefault;
     private static CellStyle cellStyleDefaultBackground;
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final Exporter<Integer> exporter = new AbstractExcelExporter<>() {
             @Override
             public void export(final Workbook workbook, final Integer model) {

@@ -50,7 +50,7 @@ public class ColorResourceConverter extends AbstractResourceConverter<Color> {
                     color = new Color(r, g, b);
                 }
             }
-            catch (NumberFormatException ex) {
+            catch (NumberFormatException _) {
                 throwException(key, value, "invalid R, G, B[, A] color string");
             }
         }

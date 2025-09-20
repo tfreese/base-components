@@ -143,7 +143,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
                 tickIndex++;
                 tick = DEFAULT_TICKS[tickIndex];
             }
-            catch (Throwable ex) {
+            catch (Throwable _) {
                 tick = DEFAULT_TICKS[DEFAULT_TICKS.length - 1];
             }
         }

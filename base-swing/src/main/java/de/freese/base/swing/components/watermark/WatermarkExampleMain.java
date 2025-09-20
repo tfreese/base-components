@@ -29,7 +29,7 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
     @Serial
     private static final long serialVersionUID = -4609321404275287633L;
 
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new WatermarkExampleMain());

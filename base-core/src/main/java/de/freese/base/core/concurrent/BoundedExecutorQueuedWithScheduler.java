@@ -34,7 +34,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
 
                     schedule(runnable);
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
@@ -59,10 +59,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
 
                 throw ex;
             }
-            catch (RuntimeException ex) {
-                throw ex;
-            }
-            catch (InterruptedException ex) {
+            catch (InterruptedException _) {
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }

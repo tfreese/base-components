@@ -35,7 +35,7 @@ public final class LoggerFactory {
                 }
             }
         }
-        catch (Throwable th) {
+        catch (Throwable _) {
             // Ignore
         }
 
@@ -53,14 +53,14 @@ public final class LoggerFactory {
                 return loggerProvider;
             }
         }
-        catch (ServiceConfigurationError ignore) {
+        catch (ServiceConfigurationError _) {
             // Ignore
         }
 
         try {
             return trySlf4j(null);
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
 

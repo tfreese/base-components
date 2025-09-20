@@ -8,7 +8,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class Segment7Main {
-    public static void main(final String[] args) {
+    static void main() {
         final Segment7 seg = new Segment7();
 
         final JFrame frame = new JFrame();

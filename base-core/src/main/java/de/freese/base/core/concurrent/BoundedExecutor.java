@@ -53,10 +53,7 @@ public class BoundedExecutor implements Executor {
 
             throw ex;
         }
-        catch (RuntimeException ex) {
-            throw ex;
-        }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }

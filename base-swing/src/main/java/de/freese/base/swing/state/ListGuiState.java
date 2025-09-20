@@ -33,7 +33,7 @@ public class ListGuiState extends AbstractGuiState {
         try {
             list.setSelectedIndices(selectedIndices);
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }

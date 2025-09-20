@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoMenuAndToolbarContext.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final DemoMenuAndToolbarContext menuAndToolbarContext = new DemoMenuAndToolbarContext();
         menuAndToolbarContext.configure();
 

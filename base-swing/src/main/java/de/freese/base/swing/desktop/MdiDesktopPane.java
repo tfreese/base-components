@@ -96,7 +96,7 @@ public final class MdiDesktopPane extends JDesktopPane {
                 return dimension.height;
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
 
@@ -224,7 +224,7 @@ public final class MdiDesktopPane extends JDesktopPane {
                         }
                     }
                 }
-                catch (PropertyVetoException ex) {
+                catch (PropertyVetoException _) {
                     // Ignore
                 }
             }

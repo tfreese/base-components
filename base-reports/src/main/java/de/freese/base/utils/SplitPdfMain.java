@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * @author Thomas Freese
  */
 public final class SplitPdfMain {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final SplitPdf splitPdf = new SplitPdf("TEST.pdf");
 
         final String[] ranges = new String[]{"1-1", "2-3", "5-11"};

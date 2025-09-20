@@ -14,7 +14,7 @@ public class UrlResourceConverter extends AbstractResourceConverter<URL> {
         try {
             return new URI(value).toURL();
         }
-        catch (URISyntaxException | MalformedURLException ex) {
+        catch (URISyntaxException | MalformedURLException _) {
             throwException(key, value, "Invalid URL");
         }
 

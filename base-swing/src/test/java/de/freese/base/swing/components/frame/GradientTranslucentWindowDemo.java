@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public final class GradientTranslucentWindowDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradientTranslucentWindowDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         // Determine what the GraphicsDevice can support.
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         final GraphicsDevice gd = ge.getDefaultScreenDevice();

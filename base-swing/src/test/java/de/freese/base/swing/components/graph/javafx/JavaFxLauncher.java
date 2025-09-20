@@ -7,7 +7,7 @@ import javafx.application.Application;
  * @author Thomas Freese
  */
 public final class JavaFxLauncher {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         // Application.launch(JavaFxAnimation.class, args);
         // Application.launch(JavaFxGraphApplication.class, args);
         Application.launch(JavaFxStarSimulation.class, args);

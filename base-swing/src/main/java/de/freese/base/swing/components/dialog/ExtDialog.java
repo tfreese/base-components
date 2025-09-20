@@ -136,7 +136,7 @@ public final class ExtDialog {
         try {
             return Integer.parseInt(value);
         }
-        catch (NumberFormatException ex) {
+        catch (NumberFormatException _) {
             // Ignore
         }
 

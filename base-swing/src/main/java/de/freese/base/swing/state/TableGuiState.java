@@ -113,7 +113,7 @@ public class TableGuiState extends AbstractGuiState {
                 final Rectangle rectangle = table.getCellRect(selectedRows[0], 0, true);
                 table.scrollRectToVisible(rectangle);
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }

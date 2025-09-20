@@ -9,7 +9,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
  * @author Thomas Freese
  */
 public final class ErrorPaneMain {
-    public static void main(final String[] args) {
+    static void main() {
         try {
             final Exception cause = new Exception("I'm the cause");
             throw new Exception("I'm a secondary exception", cause);

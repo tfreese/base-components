@@ -45,7 +45,7 @@ public interface Throttler {
 
                         return;
                     }
-                    catch (InterruptedException ex) {
+                    catch (InterruptedException _) {
                         // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
                         interrupted = true;
                         remainingNanos = end - System.nanoTime();

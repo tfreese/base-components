@@ -12,7 +12,7 @@ public class UriResourceConverter extends AbstractResourceConverter<URI> {
         try {
             return new URI(value);
         }
-        catch (URISyntaxException ex) {
+        catch (URISyntaxException _) {
             throwException(key, value, "Invalid URI");
         }
 

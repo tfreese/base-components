@@ -174,7 +174,7 @@ class TestLoggingJdbcDriver {
             try {
                 pool.close();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }

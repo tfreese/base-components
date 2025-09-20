@@ -158,7 +158,7 @@ public class DemoApplication {
         try {
             clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         }
-        catch (Throwable th) {
+        catch (Throwable _) {
             clipboard = new Clipboard("sandbox");
         }
 

@@ -37,7 +37,7 @@ public class TextComponentGuiState extends AbstractGuiState {
         try {
             textComponent.setText(getText());
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }

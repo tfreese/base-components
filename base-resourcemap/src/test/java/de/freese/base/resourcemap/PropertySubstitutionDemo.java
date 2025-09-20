@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public final class PropertySubstitutionDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertySubstitutionDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final Map<String, String> map = new HashMap<>(Map.of(
                 "one", "1",
                 "two", "2",

@@ -50,7 +50,7 @@ public final class NetUtils {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
         }
 
@@ -59,7 +59,7 @@ public final class NetUtils {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -90,7 +90,7 @@ public final class NetUtils {
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -121,7 +121,7 @@ public final class NetUtils {
             try {
                 return getNtpTime(host, NTP_PORT);
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -140,7 +140,7 @@ public final class NetUtils {
 
             isValid = true;
         }
-        catch (UnknownHostException ex) {
+        catch (UnknownHostException _) {
             // Ignore
         }
 
@@ -150,7 +150,7 @@ public final class NetUtils {
 
                 isValid = true;
             }
-            catch (UnknownHostException ex) {
+            catch (UnknownHostException _) {
                 // Ignore
             }
         }

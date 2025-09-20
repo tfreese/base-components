@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class MemoryGraphDemo {
-    public static void main(final String[] args) {
+    static void main() {
         final MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
 
         final JFrame frame = new JFrame("Memory Monitor");
@@ -39,7 +39,7 @@ public final class MemoryGraphDemo {
                 frame.setIconImage(new ImageIcon(iconURL).getImage());
             }
         }
-        catch (Throwable ex) {
+        catch (Throwable _) {
             // Empty
         }
 

@@ -369,8 +369,8 @@ public abstract class AbstractObjectTreeModel<T> implements TreeModel {
                 }
             }
         }
-        catch (Exception ex) {
-            // Do nothing
+        catch (Exception _) {
+            // Ignore
         }
 
         return found;

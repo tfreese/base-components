@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
  * @author Thomas Freese
  */
 public final class DemoApplicationLauncher {
-    public static void main(final String[] args) {
+    static void main() {
         final DemoApplication application = new DemoApplication();
 
         SwingUtilities.invokeLater(application::start);

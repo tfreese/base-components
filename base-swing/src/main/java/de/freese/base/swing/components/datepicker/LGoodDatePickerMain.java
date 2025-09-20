@@ -21,7 +21,7 @@ import com.github.lgooddatepicker.zinternaltools.YearMonthChangeEvent;
  * @author Thomas Freese
  */
 public final class LGoodDatePickerMain {
-    public static void main(final String[] args) {
+    static void main() {
         final DatePickerSettings datePickerSettings = new DatePickerSettings();
         datePickerSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
         datePickerSettings.setWeekNumbersDisplayed(true, true);
