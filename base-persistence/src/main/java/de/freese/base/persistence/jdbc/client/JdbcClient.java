@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.sql.Wrapper;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -25,7 +24,9 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 /**
  * @author Thomas Freese
  */
-public class JdbcClient implements Wrapper {
+public class JdbcClient {
+    // implements Wrapper
+    
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
     private final DataSource dataSource;
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -52,41 +53,41 @@ public class JdbcClient implements Wrapper {
         return execute(connectionCallback, true);
     }
 
-    @Override
-    public boolean isWrapperFor(final Class<?> iface) {
-        if (iface.isInstance(this)) {
-            return true;
-        }
-
-        if (DataSource.class.equals(iface)) {
-            return true;
-        }
-
-        return Connection.class.equals(iface);
-    }
-
-    public StatementSpec sql(final CharSequence sql) {
-        Objects.requireNonNull(sql, "sql required");
-
-        return new DefaultStatementSpec(sql, this);
-    }
-
-    @Override
-    public <T> T unwrap(final Class<T> iface) throws SQLException {
-        if (iface.isInstance(this)) {
-            return (T) this;
-        }
-
-        if (DataSource.class.equals(iface)) {
-            return (T) getDataSource();
-        }
-
-        if (Connection.class.equals(iface)) {
-            return (T) getDataSource().getConnection();
-        }
-
-        throw new SQLException(getClass().getName() + " can not be unwrapped as [" + iface.getName() + "]");
-    }
+    // @Override
+    // public boolean isWrapperFor(final Class<?> iface) {
+    //     if (iface.isInstance(this)) {
+    //         return true;
+    //     }
+    //
+    //     if (DataSource.class.equals(iface)) {
+    //         return true;
+    //     }
+    //
+    //     return Connection.class.equals(iface);
+    // }
+    //
+    // public StatementSpec sql(final CharSequence sql) {
+    //     Objects.requireNonNull(sql, "sql required");
+    //
+    //     return new DefaultStatementSpec(sql, this);
+    // }
+    //
+    // @Override
+    // public <T> T unwrap(final Class<T> iface) throws SQLException {
+    //     if (iface.isInstance(this)) {
+    //         return (T) this;
+    //     }
+    //
+    //     if (DataSource.class.equals(iface)) {
+    //         return (T) getDataSource();
+    //     }
+    //
+    //     if (Connection.class.equals(iface)) {
+    //         return (T) getDataSource().getConnection();
+    //     }
+    //
+    //     throw new SQLException(getClass().getName() + " can not be unwrapped as [" + iface.getName() + "]");
+    // }
 
     protected void close(final ResultSet resultSet) {
         getLogger().debug("close resultSet");
