@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import de.freese.base.persistence.exception.PersistenceException;
 import de.freese.base.persistence.formatter.SqlFormatter;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 import de.freese.base.persistence.jdbc.function.RowMapper;
 import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementSetter;
@@ -140,12 +141,32 @@ public abstract class AbstractJdbcRepository {
     }
 
     protected <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper, final StatementSetter<PreparedStatement> statementSetter) {
+        return queryObject(sql, resultSet -> {
+            final Instant start = Instant.now();
+
+            final List<T> result = new ArrayList<>();
+
+            while (resultSet.next()) {
+                result.add(rowMapper.mapRow(resultSet));
+            }
+
+            if (getLogger().isDebugEnabled()) {
+                final Duration needed = Duration.between(start, Instant.now());
+                final String message = "processed %d entries in %d.%06ds".formatted(result.size(), needed.toSecondsPart(), needed.toMillisPart());
+                getLogger().debug(message);
+            }
+
+            return result;
+        }, statementSetter);
+    }
+
+    protected <T> T queryObject(final CharSequence sql, final ResultSetCallback<T> resultSetCallback, final StatementSetter<PreparedStatement> statementSetter) {
         Objects.requireNonNull(sql, "sql required");
-        Objects.requireNonNull(rowMapper, "rowMapper required");
+        Objects.requireNonNull(resultSetCallback, "resultSetCallback required");
 
         logSql(sql);
 
-        final Instant start = Instant.now();
+        T result = null;
 
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
@@ -154,27 +175,15 @@ public abstract class AbstractJdbcRepository {
                 statementSetter.setParameter(preparedStatement);
             }
 
-            final List<T> result = new ArrayList<>();
-            int counter = 0;
-
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    result.add(rowMapper.mapRow(resultSet));
-                    counter++;
-                }
+                result = resultSetCallback.doInResultSet(resultSet);
             }
-
-            if (getLogger().isDebugEnabled()) {
-                final Duration needed = Duration.between(start, Instant.now());
-                final String message = "processed %d entries in %d.%06ds".formatted(counter, needed.toSecondsPart(), needed.toMillisPart());
-                getLogger().debug(message);
-            }
-
-            return result;
         }
         catch (SQLException ex) {
             throw convertException(ex);
         }
+
+        return result;
     }
 
     protected int update(final CharSequence sql) {
