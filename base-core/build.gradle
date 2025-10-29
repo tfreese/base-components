@@ -11,6 +11,7 @@ dependencies {
 
     // implementation = scope compile
     implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.fasterxml.jackson.core:jackson-annotations")
     implementation("dev.failsafe:failsafe")
     implementation("io.github.resilience4j:resilience4j-ratelimiter")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")

@@ -130,6 +130,10 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
         contentByte.restoreState();
     }
 
+    protected void drawText(final PdfWriter writer, final float x, final float y, final String text, final Font font) throws DocumentException {
+        drawText(writer, text, x, y, font.getSize(), PdfContentByte.ALIGN_LEFT, font.getBaseFont());
+    }
+
     /**
      * @param align int,  {@link PdfContentByte#ALIGN_LEFT} ...
      */
@@ -145,6 +149,10 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
 
     protected void drawTextFooter(final Document document, final PdfWriter writer, final String text, final Font font) throws DocumentException {
         drawText(writer, text, getMaxX(document), getMinY(document), font.getSize(), PdfContentByte.ALIGN_RIGHT, font.getBaseFont());
+    }
+
+    protected void drawTextHeader(final Document document, final PdfWriter writer, final String text, final Font font) throws DocumentException {
+        drawText(writer, text, getMaxX(document), getMaxY(document), font.getSize(), PdfContentByte.ALIGN_RIGHT, font.getBaseFont());
     }
 
     /**

@@ -16,10 +16,12 @@ import org.openpdf.text.Element;
 import org.openpdf.text.Font;
 import org.openpdf.text.FontFactory;
 import org.openpdf.text.PageSize;
-import org.openpdf.text.Paragraph;
+import org.openpdf.text.Phrase;
 import org.openpdf.text.pdf.PdfContentByte;
+import org.openpdf.text.pdf.PdfDate;
 import org.openpdf.text.pdf.PdfPCell;
 import org.openpdf.text.pdf.PdfPTable;
+import org.openpdf.text.pdf.PdfPageEventHelper;
 import org.openpdf.text.pdf.PdfWriter;
 
 import de.freese.base.reports.exporter.AbstractPdfExporter;
@@ -41,23 +43,49 @@ public final class PdfExporterDemo {
                 // Must be called before opening the Document.
                 // secureReadOnly(writer, "test".getBytes(StandardCharsets.UTF_8), null);
 
-                document.open();
-
                 //  A4 Landscape
                 document.setPageSize(PageSize.A4.rotate());
 
                 // left, right, top, bottom
                 document.setMargins(40F, 20F, 20F, 20F);
 
-                // document.addKeywords(...);
-                // document.addCreator(...);
-                // document.addAuthor(...);
-                // document.addSubject(...);
-                // document.addTitle(...);
-
                 // setFullCompression set PDF-Version to 1.5
                 writer.setFullCompression();
-                writer.setPdfVersion(PdfWriter.VERSION_1_7);
+                writer.setPdfVersion(PdfWriter.VERSION_2_0);
+
+                // MetaData
+                document.addTitle("PDF-Demo");
+                document.addSubject("My PDF-Demo");
+                document.addKeywords("My, PDF, Demo");
+                document.addAuthor("It's me");
+                document.addCreator("Myself");
+                document.addHeader("header-name", "header-value");
+                document.addCreationDate(new PdfDate());
+
+                writer.setPageEvent(new PdfPageEventHelper() {
+                    private int pageNumber;
+
+                    @Override
+                    public void onEndPage(final PdfWriter writer, final Document document) {
+                        // final Paragraph paragraph = new Paragraph("Header", PDF_FONT_12_BLACK);
+                        // document.add(paragraph);
+                        final Phrase phrase = new Phrase("Header", PDF_FONT_12_BLACK);
+                        document.add(phrase);
+
+                        drawTextHeader(document, writer, "Page " + document.getPageNumber(), PDF_FONT_12_BLACK);
+
+                        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        final String footer = "Footer: %s - %d - %d".formatted(LocalDateTime.now().format(formatter), document.getPageNumber(), pageNumber);
+                        drawTextFooter(document, writer, footer, PDF_FONT_12_BLACK);
+                    }
+
+                    @Override
+                    public void onStartPage(final PdfWriter writer, final Document document) {
+                        pageNumber += 1;
+                    }
+                });
+
+                document.open();
 
                 document.newPage();
 
@@ -79,9 +107,6 @@ public final class PdfExporterDemo {
 
                 drawRectangle(writer, 400F, 400F, 100F, 100F, Color.BLUE, Color.MAGENTA);
                 drawRectangle(writer, 400F, 250F, 100F, 100F, null, null);
-
-                final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                drawTextFooter(document, writer, "Footer: " + LocalDateTime.now().format(formatter), PDF_FONT_12_BLACK);
             }
         };
 
@@ -124,8 +149,8 @@ public final class PdfExporterDemo {
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setBorderWidth(0.5F);
 
-        final Paragraph paragraph = new Paragraph(text, font);
-        cell.setPhrase(paragraph);
+        final Phrase phrase = new Phrase(text, font);
+        cell.setPhrase(phrase);
 
         return cell;
     }
