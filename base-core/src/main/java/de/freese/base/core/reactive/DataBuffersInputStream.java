@@ -35,7 +35,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 
 /**
- * An {@link InputStream} wrapper for Spring Boot Flux of {@link DataBuffer DataBuffers}.
+ * An {@link InputStream} wrapper for Spring Boot Flux of {@link DataBuffer}.
  *
  * @author Jerônimo Nunes Rocha
  * @see DataBufferUtils#subscriberInputStream(Publisher, int)
