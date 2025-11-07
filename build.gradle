@@ -5,7 +5,7 @@ plugins {
     // reporting/generateLicenceReport
     id("com.github.jk1.dependency-license-report").version("$version_dependencyLicenseReport")
 
-    id("de.freese.gradle.java.conventions").version("$version_myJavaConventionPlugin").apply(false)
+    id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
 
     // id("io.spring.dependency-management").version("$version_springDependencyManagementPlugin").apply(false)
     id("org.openjfx.javafxplugin").version("$version_javafxPlugin").apply(false)
@@ -33,7 +33,7 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin: "de.freese.gradle.java.conventions")
+    apply(plugin: "de.freese.gradle.conventions")
     apply(plugin: "io.spring.dependency-management")
 
     dependencyManagement {
