@@ -26,7 +26,7 @@ dependencies {
     testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
 
     testImplementation("com.h2database:h2")
-    testImplementation("org.assertj:assertj-core")
+    // testImplementation("org.assertj:assertj-core")
     testImplementation("org.apache.derby:derby")
     testImplementation("org.hsqldb:hsqldb")
     testImplementation("org.openjdk.jmh:jmh-core")

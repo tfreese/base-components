@@ -71,6 +71,7 @@ public class JdbcClient implements Wrapper {
         return new DefaultStatementSpec(sql, this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T unwrap(final Class<T> iface) throws SQLException {
         if (iface.isInstance(this)) {
