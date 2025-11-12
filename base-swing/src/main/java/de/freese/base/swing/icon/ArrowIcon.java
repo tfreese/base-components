@@ -82,24 +82,24 @@ public class ArrowIcon implements Icon {
         final int[] xPoints;
         final int[] yPoints;
 
-        if (direction == SwingConstants.NORTH) {
-            xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-            yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
-        }
-        else if (direction == SwingConstants.SOUTH) {
-            xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-            yPoints = new int[]{y, y + (centerY * 2), y};
-        }
-        else if (direction == SwingConstants.WEST) {
-            xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
-            yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-        }
-        else if (direction == SwingConstants.EAST) {
-            xPoints = new int[]{x, x + (centerX * 2), x, x};
-            yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-        }
-        else {
-            throw new IllegalStateException();
+        switch (direction) {
+            case SwingConstants.NORTH -> {
+                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
+            }
+            case SwingConstants.SOUTH -> {
+                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                yPoints = new int[]{y, y + (centerY * 2), y};
+            }
+            case SwingConstants.WEST -> {
+                xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
+                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+            }
+            case SwingConstants.EAST -> {
+                xPoints = new int[]{x, x + (centerX * 2), x, x};
+                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+            }
+            default -> throw new IllegalStateException();
         }
 
         g2d.fillPolygon(xPoints, yPoints, 3);
