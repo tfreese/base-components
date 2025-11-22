@@ -28,7 +28,7 @@ dependencies {
     api(project(":base-resourcemap"))
 
     implementation("com.github.lgooddatepicker:LGoodDatePicker")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("tools.jackson.core:jackson-databind")
     implementation("org.eclipse.angus:jakarta.mail")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
     implementation("org.swinglabs.swingx:swingx-core")

@@ -5,10 +5,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GuiState;
@@ -18,23 +17,24 @@ import de.freese.base.swing.state.GuiStates;
  * @author Thomas Freese
  */
 public class JsonGuiStateManager extends AbstractGuiStateManager {
-    private final ObjectMapper mapper;
+    private final JsonMapper jsonMapper;
 
     public JsonGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates) {
         super(localStorage, guiStates, "json");
 
-        mapper = new ObjectMapper()
+        jsonMapper = JsonMapper.builder()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(DeserializationFeature.UNWRAP_ROOT_VALUE)
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(SerializationFeature.WRAP_ROOT_VALUE)
                 // .setVisibility(jsonMapper.getVisibilityChecker().with(Visibility.NONE));
-                .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-        // .setVisibility(PropertyAccessor.SETTER, Visibility.PUBLIC_ONLY)
-        // .setVisibility(PropertyAccessor.GETTER, Visibility.PUBLIC_ONLY)
-        // .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        // .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .changeDefaultVisibility(handler -> handler
+                                .withFieldVisibility(Visibility.ANY)
+                        // .withGetterVisibility(Visibility.PUBLIC_ONLY)
+                        // .withSetterVisibility(Visibility.PUBLIC_ONLY)
+                )
+                .build()
         ;
 
         // SimpleModule module = new SimpleModule();
@@ -44,11 +44,11 @@ public class JsonGuiStateManager extends AbstractGuiStateManager {
 
     @Override
     protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception {
-        return mapper.readValue(inputStream, guiState.getClass());
+        return jsonMapper.readValue(inputStream, guiState.getClass());
     }
 
     @Override
     protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception {
-        mapper.writer().writeValue(outputStream, guiState);
+        jsonMapper.writeValue(outputStream, guiState);
     }
 }
