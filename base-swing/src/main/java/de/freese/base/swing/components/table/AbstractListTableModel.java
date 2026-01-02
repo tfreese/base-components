@@ -51,7 +51,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
             throw new IllegalArgumentException("columnNames are empty");
         }
 
-        this.columnNames = columnNames;
+        this.columnNames = List.copyOf(columnNames);
         this.list = Objects.requireNonNull(list, "list required");
     }
 
