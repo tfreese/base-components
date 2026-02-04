@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+
+import org.apache.commons.lang3.function.FailableSupplier;
 
 /**
  * @author Thomas Freese
@@ -19,12 +20,12 @@ public final class RoundRobinPool<T> implements AutoCloseable {
 
     private volatile int nextIndex;
 
-    public RoundRobinPool(final int size, final Supplier<T> creator) {
+    public RoundRobinPool(final int size, final FailableSupplier<T, Exception> creator) throws Exception {
         this(size, creator, v -> {
         });
     }
 
-    public RoundRobinPool(final int size, final Supplier<T> creator, final Consumer<T> doOnClose) {
+    public RoundRobinPool(final int size, final FailableSupplier<T, Exception> creator, final Consumer<T> doOnClose) throws Exception {
         super();
 
         if (size < 1) {

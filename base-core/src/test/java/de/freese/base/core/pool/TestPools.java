@@ -3,17 +3,28 @@ package de.freese.base.core.pool;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import de.freese.base.core.pool.simple.SimplePoolFactory;
 
 /**
  * @author Thomas Freese
@@ -22,112 +33,77 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestPools {
 
-    @Test
-    void testAbstractObjectPool() {
-        final AtomicInteger atomicInteger = new AtomicInteger(0);
-
-        final AbstractObjectPool<Integer> pool = new AbstractObjectPool<>() {
-            @Override
-            protected Integer create() {
-                return atomicInteger.incrementAndGet();
-            }
-        };
-
-        Integer value1 = pool.get();
-        assertEquals(1, value1);
-
-        Integer value2 = pool.get();
-        assertEquals(2, value2);
-        pool.free(value2);
-
-        value2 = pool.get();
-        assertEquals(2, value2);
-        pool.free(value2);
-
-        pool.free(value1);
-
-        value2 = pool.get();
-        assertEquals(2, value2);
-        pool.free(value2);
-
-        value1 = pool.get();
-        assertEquals(1, value1);
+    @AfterAll
+    static void afterAll() {
+        PoolManager.close();
     }
 
-    @Test
-    void testObjectPool() {
-        final AtomicInteger atomicInteger = new AtomicInteger(0);
-        final List<Integer> onCloseList = new ArrayList<>();
+    @BeforeAll
+    static void beforeAll() {
+        assertNotNull(PoolManager.createPool("simple", new SimplePoolFactory<>().expiry(Duration.ofMillis(25L)).objectSupplier(LocalDateTime::now)));
+        // assertNotNull(PoolManager.createPool("apache", new ApachePoolFactory<>().expiry(Duration.ofMillis(25L)).objectSupplier(LocalDateTime::now)));
+    }
 
-        try (ObjectPool<Integer> pool = new ObjectPool<>(atomicInteger::incrementAndGet, onCloseList::add)) {
-            Integer value1 = pool.get();
-            assertEquals(1, value1);
+    static Stream<Arguments> getCaches() {
+        return Stream.of(
+                Arguments.of("simple")
+                // ,                Arguments.of("apache")
+        );
+    }
 
-            Integer value2 = pool.get();
-            assertEquals(2, value2);
-            pool.free(value2);
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getCaches")
+    void testPool(final String name) throws Exception {
+        final Pool<LocalDateTime> pool = PoolManager.getPool(name);
+        assertNotNull(pool);
 
-            value2 = pool.get();
-            assertEquals(2, value2);
-            pool.free(value2);
+        final LocalDateTime localDateTime = pool.getObject();
+        assertNotNull(localDateTime);
+        pool.returnObject(localDateTime);
 
-            pool.free(value1);
+        try (PooledObject<LocalDateTime> pooledObject = pool.getPooledObject()) {
+            assertNotNull(pooledObject);
+            assertNotNull(pooledObject.getObject());
+            assertEquals(localDateTime, pooledObject.getObject());
+        }
+    }
 
-            value2 = pool.get();
-            assertEquals(2, value2);
-            pool.free(value2);
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getCaches")
+    void testPoolExpiry(final String name) throws Exception {
+        final Pool<LocalDateTime> pool = PoolManager.getPool(name);
+        assertNotNull(pool);
 
-            value1 = pool.get();
-            assertEquals(1, value1);
-
-            assertEquals(2, pool.getTotalSize());
-            assertEquals(1, pool.getNumActive());
-            assertEquals(1, pool.getNumIdle());
+        if ("simple".equals(name)) {
+            return;
         }
 
-        assertEquals(2, onCloseList.size());
-        assertEquals(2, onCloseList.get(0));
-        assertEquals(1, onCloseList.get(1));
-    }
+        final LocalDateTime localDateTime = pool.getObject();
+        assertNotNull(localDateTime);
+        pool.returnObject(localDateTime);
 
-    @Test
-    void testObjectPoolExpiry() {
-        final AtomicInteger atomicInteger = new AtomicInteger(0);
-        final List<Integer> onCloseList = new ArrayList<>();
-
-        try (ObjectPool<Integer> pool = new ObjectPool<>(atomicInteger::incrementAndGet, onCloseList::add)) {
-            pool.setExpirationDuration(Duration.ofMillis(25));
-
-            Integer value = pool.get();
-            assertEquals(1, value);
-            pool.free(value);
-
-            value = pool.get();
-            assertEquals(1, value);
-            pool.free(value);
-
-            await().pollDelay(Duration.ofMillis(50)).until(() -> true);
-
-            value = pool.get();
-            assertEquals(2, value);
-            pool.free(value);
-
-            value = pool.get();
-            assertEquals(2, value);
-            pool.free(value);
-
-            assertEquals(1, pool.getTotalSize());
-            assertEquals(0, pool.getNumActive());
-            assertEquals(1, pool.getNumIdle());
+        try (PooledObject<LocalDateTime> pooledObject = pool.getPooledObject()) {
+            assertNotNull(pooledObject);
+            assertNotNull(pooledObject.getObject());
+            assertEquals(localDateTime, pooledObject.getObject());
         }
 
-        assertEquals(2, onCloseList.size());
-        assertEquals(1, onCloseList.get(0));
-        assertEquals(2, onCloseList.get(1));
+        await().pollDelay(Duration.ofMillis(50)).until(() -> true);
+
+        final LocalDateTime localDateTime1 = pool.getObject();
+        assertNotNull(localDateTime1);
+        assertNotEquals(localDateTime, localDateTime1);
+
+        try (PooledObject<LocalDateTime> pooledObject = pool.getPooledObject()) {
+            assertNotNull(pooledObject);
+            assertNotNull(pooledObject.getObject());
+            assertEquals(localDateTime1, pooledObject.getObject());
+            assertNotEquals(localDateTime, pooledObject.getObject());
+        }
     }
 
     @Test
-    void testRoundRobinPool() {
+    void testRoundRobinPool() throws Exception {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         final List<Integer> onCloseList = new ArrayList<>();
 

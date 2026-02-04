@@ -16,6 +16,7 @@ dependencies {
     implementation("io.github.resilience4j:resilience4j-ratelimiter")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
     implementation('org.apache.commons:commons-lang3')
+    implementation('org.apache.commons:commons-pool2')
     implementation("org.apache.poi:poi-ooxml")
     implementation("org.springframework:spring-context")
 
