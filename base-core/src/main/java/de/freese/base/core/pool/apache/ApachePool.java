@@ -33,8 +33,9 @@ final class ApachePool<T> implements Pool<T> {
                 .map(DefaultPooledObjectInfo::getPooledObjectType)
                 .orElse("unknown");
 
-        LOGGER.info("Closing Pool: {}, NumActive={}, NumIdle={}, CreatedCount={}, DestroyedCount={}",
+        LOGGER.info("Closing Pool: {}, Size={}, NumActive={}, NumIdle={}, CreatedCount={}, DestroyedCount={}",
                 clazzName,
+                pool.getNumActive() + pool.getNumIdle(),
                 pool.getNumActive(),
                 pool.getNumIdle(),
                 pool.getCreatedCount(),

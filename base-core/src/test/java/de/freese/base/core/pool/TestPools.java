@@ -24,6 +24,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import de.freese.base.core.pool.apache.ApachePoolFactory;
 import de.freese.base.core.pool.simple.SimplePoolFactory;
 
 /**
@@ -41,13 +42,13 @@ class TestPools {
     @BeforeAll
     static void beforeAll() {
         assertNotNull(PoolManager.createPool("simple", new SimplePoolFactory<>().expiry(Duration.ofMillis(25L)).objectSupplier(LocalDateTime::now)));
-        // assertNotNull(PoolManager.createPool("apache", new ApachePoolFactory<>().expiry(Duration.ofMillis(25L)).objectSupplier(LocalDateTime::now)));
+        assertNotNull(PoolManager.createPool("apache", new ApachePoolFactory<>().expiry(Duration.ofMillis(25L)).objectSupplier(LocalDateTime::now)));
     }
 
     static Stream<Arguments> getCaches() {
         return Stream.of(
-                Arguments.of("simple")
-                // ,                Arguments.of("apache")
+                Arguments.of("simple"),
+                Arguments.of("apache")
         );
     }
 
@@ -93,6 +94,7 @@ class TestPools {
         final LocalDateTime localDateTime1 = pool.getObject();
         assertNotNull(localDateTime1);
         assertNotEquals(localDateTime, localDateTime1);
+        pool.returnObject(localDateTime1);
 
         try (PooledObject<LocalDateTime> pooledObject = pool.getPooledObject()) {
             assertNotNull(pooledObject);

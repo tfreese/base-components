@@ -29,7 +29,7 @@ public final class ApachePoolFactory<T> implements PoolFactory<T> {
             throw new IllegalArgumentException("minSize > maxSize: " + minSize + " > " + maxSize);
         }
 
-        final PooledObjectFactory<T> objectFactory = null;// new ExpiryObjectFactory<>(expiry, objectSupplier);
+        final PooledObjectFactory<T> objectFactory = new ExpiryObjectFactory<>(expiry, objectSupplier);
 
         final GenericObjectPoolConfig<T> config = new GenericObjectPoolConfig<>();
         config.setMaxTotal(maxSize);
@@ -37,7 +37,7 @@ public final class ApachePoolFactory<T> implements PoolFactory<T> {
         config.setMinIdle(minSize);
         config.setFairness(true);
         config.setTestOnBorrow(true);
-        config.setTestOnReturn(true);
+        config.setTestOnReturn(false);
 
         final GenericObjectPool<T> pool = new GenericObjectPool<>(objectFactory, config);
 
