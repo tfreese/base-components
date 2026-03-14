@@ -28,7 +28,7 @@ mkdir "demo";
 
 echo;
 echo "####################################################################################################";
-echo "Create AES Key";
+echo "Create AES Key.";
 echo "####################################################################################################";
 keytool -genseckey -v \
     -storetype PKCS12 \
@@ -64,7 +64,7 @@ keytool -genkey -v \
 
 echo;
 echo "####################################################################################################";
-echo "Export Certificates";
+echo "Export Certificates.";
 echo "####################################################################################################";
 keytool -export -v \
     -storetype PKCS12 \
@@ -84,7 +84,7 @@ keytool -export -v \
 
 echo;
 echo "####################################################################################################";
-echo "Export private Keys: -nodes = Key in Plain Text";
+echo "Export private Keys: -nodes = Key in Plain Text.";
 echo "####################################################################################################";
 openssl pkcs12 -in demo/server_keystore.p12 -nodes -nocerts -out demo/server_private_key.pem -passin pass:"$PW";
 openssl pkcs12 -in demo/client_keystore.p12 -nodes -nocerts -out demo/client_private_key.pem -passin pass:"$PW";
@@ -94,13 +94,23 @@ openssl pkcs12 -in demo/client_keystore.p12 -nodes -nocerts -out demo/client_pri
 #
 ## Export the private key as a PEM file
 #openssl pkcs12 -in demo/server_keystore.p12 -nodes -nocerts -out demo/server_private_key.pem -passin pass:"$PW"
-#
-## Export the certificate with public key as a PEM file
-#openssl pkcs12 -in demo/server_keystore.p12 -nokeys -out demo/server_crt_with_public.crt -passin pass:"$PW"
 
 echo;
 echo "####################################################################################################";
-echo "Import Certificates into the TrustStores";
+echo "Export public Keys.";
+echo "####################################################################################################";
+openssl pkcs12 -in demo/server_keystore.p12 -clcerts -nokeys -out demo/server_public_key.pem -passin pass:"$PW";
+openssl pkcs12 -in demo/client_keystore.p12 -clcerts -nokeys -out demo/client_public_key.pem -passin pass:"$PW";
+
+## Export the certificate with public key as a PEM file
+#openssl pkcs12 -in demo/server_keystore.p12 -nokeys -out demo/server_crt_with_public.crt -passin pass:"$PW"
+#
+## Export public certificate.
+# keytool -exportcert -alias first-key-pair -keystore keystore.jks -rfc -file first-key-pair-cert.pem
+
+echo;
+echo "####################################################################################################";
+echo "Import Certificates into the TrustStores.";
 echo "####################################################################################################";
 keytool -import -v \
     -storetype PKCS12 \
@@ -121,30 +131,30 @@ keytool -import -v \
 
 echo;
 echo "####################################################################################################";
-echo "Content of AES-KeyStore";
+echo "Content of AES-KeyStore.";
 echo "####################################################################################################";
 keytool -list -v -storetype PKCS12 -keystore demo/aes_keystore.p12 -storepass "$PW";
 
 #echo;
 #echo "####################################################################################################";
-#echo "Content of Server-KeyStore";
+#echo "Content of Server-KeyStore.";
 #echo "####################################################################################################";
 #keytool -list -v -storetype PKCS12 -keystore demo/server_keystore.p12 -storepass "$PW";
 #
 #echo;
 #echo "####################################################################################################";
-#echo "Content of Server-TrustStore";
+#echo "Content of Server-TrustStore.";
 #echo "####################################################################################################";
 #keytool -list -v -storetype PKCS12 -keystore demo/server_truststore.p12 -storepass "$PW";
 #
 #echo;
 #echo "####################################################################################################";
-#echo "Content of Client-KeyStore";
+#echo "Content of Client-KeyStore.";
 #echo "####################################################################################################";
 #keytool -list -v -storetype PKCS12 -keystore demo/client_keystore.p12 -storepass "$PW";
 #
 #echo;
 #echo "####################################################################################################";
-#echo "Content of Client-TrustStore";
+#echo "Content of Client-TrustStore.";
 #echo "####################################################################################################";
 #keytool -list -v -storetype PKCS12 -keystore demo/client_truststore.p12 -storepass "$PW";

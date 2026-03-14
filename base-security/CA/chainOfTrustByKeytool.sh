@@ -122,7 +122,7 @@ keytool -gencert -v \
 
 echo;
 echo "####################################################################################################";
-echo "Create the TrustStores.";
+echo "Import Certificates into the TrustStores.";
 echo "####################################################################################################";
 keytool -import -v \
     -keystore keytool/server_truststore.p12 \
@@ -140,7 +140,7 @@ keytool -import -v \
 
 echo;
 echo "####################################################################################################";
-echo "Create the KeyStores.";
+echo "Import Certificates into the KeyStores.";
 echo "####################################################################################################";
 # CA Certificate
 keytool -import -v \
@@ -174,26 +174,36 @@ keytool -import -v \
     -alias myClient \
     -file keytool/client.crt;
 
-#echo;
-#echo "####################################################################################################";
-#echo "Content of Server-Keystore";
-#echo "####################################################################################################";
-#keytool -list -keystore keytool/server_keystore.p12 -storepass "$PW";
-#
-#echo;
-#echo "####################################################################################################";
-#echo "Content of Client-Keystore";
-#echo "####################################################################################################";
-#keytool -list -keystore keytool/client_keystore.p12 -storepass "$PW";
-#
-#echo;
-#echo "####################################################################################################";
-#echo "Content of Server TrustStore";
-#echo "####################################################################################################";
-#keytool -list -v -keystore keytool/server_truststore.p12 -storepass "$PW";
-#
-#echo;
-#echo "####################################################################################################";
-#echo "Content of Client TrustStore";
-#echo "####################################################################################################";
-#keytool -list -v -keystore keytool/client_truststore.p12 -storepass "$PW";
+echo;
+echo "####################################################################################################";
+echo "Export Keys as PEM";
+echo "####################################################################################################";
+keytool -exportcert -alias myServer -keystore keytool/server_keystore.p12 -rfc -file keytool/server_cert.pem -storepass "$PW";
+keytool -exportcert -alias myClient -keystore keytool/client_keystore.p12 -rfc -file keytool/client_cert.pem -storepass "$PW";
+
+keytool -export -alias myServer -keystore keytool/server_keystore.p12 -rfc -file keytool/server_public_key.pem -storepass "$PW";
+keytool -export -alias myClient -keystore keytool/client_keystore.p12 -rfc -file keytool/client_public_key.pem -storepass "$PW";
+
+echo;
+echo "####################################################################################################";
+echo "Content of Server-Keystore";
+echo "####################################################################################################";
+keytool -list -keystore keytool/server_keystore.p12 -storepass "$PW";
+
+echo;
+echo "####################################################################################################";
+echo "Content of Client-Keystore";
+echo "####################################################################################################";
+keytool -list -keystore keytool/client_keystore.p12 -storepass "$PW";
+
+echo;
+echo "####################################################################################################";
+echo "Content of Server TrustStore";
+echo "####################################################################################################";
+keytool -list -v -keystore keytool/server_truststore.p12 -storepass "$PW";
+
+echo;
+echo "####################################################################################################";
+echo "Content of Client TrustStore";
+echo "####################################################################################################";
+keytool -list -v -keystore keytool/client_truststore.p12 -storepass "$PW";

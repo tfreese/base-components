@@ -39,7 +39,7 @@ echo "##########################################################################
 # Create Certificate from PrivateKey.
 #openssl req -x509 -new -key openssl/ca.key -out openssl/ca.crt -days 36500 -passin pass:"$PW" -sha512 -subj "/CN=ca,$DNAME";
 
-openssl req -x509 -newkey rsa:4096 -keyout openssl/ca.key -out openssl/ca.crt -days 36500 -passout pass:"$PW" -sha512 -subj "/CN=ca,$DNAME";
+openssl req -x509 -newkey rsa:4096 -days 36500 -keyout openssl/ca.key -out openssl/ca.crt -passout pass:"$PW" -sha512 -subj "/CN=ca,$DNAME";
 openssl rsa -in openssl/ca.key -check -noout -passin pass:"$PW";
 
 echo;
@@ -109,6 +109,16 @@ keytool -importcert -keystore openssl/client_truststore.p12 -alias myServer -nop
 
 #openssl pkcs12 -export -nokeys -in openssl/client.crt -name myClient -passin pass:"$PW" -passout pass:"$PW" -out openssl/server_truststore.p12;
 #openssl pkcs12 -export -nokeys -in openssl/server.crt -name myServer -passin pass:"$PW" -passout pass:"$PW" -out openssl/client_truststore.p12;
+
+echo;
+echo "####################################################################################################";
+echo "Export Keys as PEM.";
+echo "####################################################################################################";
+openssl pkcs12 -in openssl/server_keystore.p12 -nodes -nocerts -out openssl/server_private_key.pem -passin pass:"$PW";
+openssl pkcs12 -in openssl/client_keystore.p12 -nodes -nocerts -out openssl/client_private_key.pem -passin pass:"$PW";
+
+openssl pkcs12 -in openssl/server_keystore.p12 -clcerts -nokeys -out openssl/server_public_key.pem -passin pass:"$PW";
+openssl pkcs12 -in openssl/client_keystore.p12 -clcerts -nokeys -out openssl/client_public_key.pem -passin pass:"$PW";
 
 #echo;
 #echo "####################################################################################################";
