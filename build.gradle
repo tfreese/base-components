@@ -86,10 +86,10 @@ subprojects {
             }
 
             // To avoid compiler warnings about @API annotations in Log4j Code.
-            // testCompileOnly("com.github.spotbugs:spotbugs-annotations")
+            // testRuntimeOnly("com.github.spotbugs:spotbugs-annotations")
 
             // To avoid compiler warnings about @API annotations in JUnit Code.
-            // testCompileOnly("org.apiguardian:apiguardian-api")
+            // testRuntimeOnly("org.apiguardian:apiguardian-api")
 
             testRuntimeOnly("org.junit.platform:junit-platform-launcher")
             testRuntimeOnly("org.slf4j:slf4j-simple")
@@ -167,7 +167,8 @@ dependencyCheck {
     hostedSuppressions.forceupdate = true
 
     analyzers.assemblyEnabled = false // .NET Analyzer.
-    analyzers.centralEnabled = false // Requires Internet Access, but all Information is already supported by the GradlePlugin.
+    analyzers.centralEnabled = false
+    // Requires Internet Access, but all Information is already supported by the GradlePlugin.
     analyzers.nexusEnabled = false // Requires NexusPro.
 
     // analyzers.artifactory.enabled = true
