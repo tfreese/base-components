@@ -1,9 +1,9 @@
 // Created: 04 Feb. 2026
 package de.freese.base.core.pool;
 
-import java.time.Duration;
-
 import org.apache.commons.lang3.function.FailableSupplier;
+
+import java.time.Duration;
 
 /**
  * @author Thomas Freese
@@ -11,11 +11,11 @@ import org.apache.commons.lang3.function.FailableSupplier;
 public interface PoolFactory<T> {
     Pool<T> build();
 
-    PoolFactory<T> expiry(final Duration expiry);
+    PoolFactory<T> expiry(Duration expiry);
 
-    PoolFactory<T> maxSize(final int maxSize);
+    PoolFactory<T> maxSize(int maxSize);
 
-    PoolFactory<T> minSize(final int minSize);
+    PoolFactory<T> minSize(int minSize);
 
-    PoolFactory<T> objectSupplier(final FailableSupplier<T, Exception> objectSupplier);
+    PoolFactory<T> objectSupplier(FailableSupplier<T, Exception> objectSupplier);
 }

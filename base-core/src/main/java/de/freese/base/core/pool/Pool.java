@@ -15,9 +15,9 @@ public interface Pool<T> {
         return new PooledObject<>(this, getObject());
     }
 
-    boolean isWrapperFor(final Class<?> iFace);
+    boolean isWrapperFor(Class<?> iFace);
 
-    void returnObject(@Nullable final T object);
+    void returnObject(@Nullable T object);
 
-    <C> C unwrap(final Class<C> iFace) throws UnsupportedOperationException;
+    <C> C unwrap(Class<C> iFace) throws UnsupportedOperationException;
 }
