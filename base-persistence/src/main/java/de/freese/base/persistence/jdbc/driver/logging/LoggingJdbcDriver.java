@@ -1,6 +1,9 @@
 // Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
+import org.slf4j.LoggerFactory;
+import org.springframework.util.ClassUtils;
+
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -12,9 +15,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.slf4j.LoggerFactory;
-import org.springframework.util.ClassUtils;
 
 /**
  * Transparent JDBC-Driver, who is creating Logs for configurable Method-Names.<br>
@@ -76,7 +76,8 @@ public class LoggingJdbcDriver implements Driver {
             final Driver targetDriver = DriverManager.getDriver(url.substring(PREFIX.length()));
             final Connection targetConnection = targetDriver.connect(url.substring(PREFIX.length()), info);
 
-            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{Connection.class},
+            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(),
+                    new Class<?>[]{Connection.class},
                     new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
         }
 

@@ -1,14 +1,6 @@
 // Created: 02.07.2009
 package de.freese.base.utils;
 
-import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
@@ -18,10 +10,22 @@ import org.hibernate.proxy.LazyInitializer;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 /**
  * @author Thomas Freese
  */
 public final class HibernateUtils {
+    private HibernateUtils() {
+        super();
+    }
+
     public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger) {
         logger.info("Clear Cache: {}", name);
 
@@ -45,8 +49,7 @@ public final class HibernateUtils {
 
             logger.info("evict QueryRegions");
             cache.evictQueryRegions();
-        }
-        catch (Exception ex) {
+        } catch (final Exception ex) {
             logger.warn(ex.getMessage());
         }
     }
@@ -66,10 +69,10 @@ public final class HibernateUtils {
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
      * @param maybeProxy möglicher {@link HibernateProxy}
-     * @param baseClass Klasse für den cast
+     * @param baseClass  Klasse für den cast
      */
     public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException {
-        if (maybeProxy instanceof HibernateProxy hibernateProxy) {
+        if (maybeProxy instanceof final HibernateProxy hibernateProxy) {
             final LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return baseClass.cast(initializer.getImplementation());
@@ -81,7 +84,7 @@ public final class HibernateUtils {
     public static void dumpStatistics(final PrintWriter pw, final SessionFactory sessionFactory) {
         Object jdbcUrl = null;
 
-        for (String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
+        for (final String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
             jdbcUrl = sessionFactory.getProperties().get(key);
 
             if (jdbcUrl != null) {
@@ -272,17 +275,12 @@ public final class HibernateUtils {
      * almost always better to use the entity name!
      */
     private static Class<?> getClassWithoutInitializingProxy(final Object object) {
-        if (object instanceof HibernateProxy hibernateProxy) {
+        if (object instanceof final HibernateProxy hibernateProxy) {
             final LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return initializer.getPersistentClass();
-        }
-        else {
+        } else {
             return object.getClass();
         }
-    }
-
-    private HibernateUtils() {
-        super();
     }
 }

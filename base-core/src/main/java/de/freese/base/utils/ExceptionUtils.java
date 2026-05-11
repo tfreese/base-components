@@ -11,6 +11,10 @@ import java.util.List;
  * @author Thomas Freese
  */
 public final class ExceptionUtils {
+    private ExceptionUtils() {
+        super();
+    }
+
     /**
      * Liefert den Cause des Typs, falls vorhanden.<br>
      */
@@ -29,8 +33,7 @@ public final class ExceptionUtils {
      */
     public static SQLException findSQLException(final Throwable throwable) {
         return (SQLException) findCause(throwable, SQLException.class);
-        // if (throwable instanceof SQLException)
-        // {
+        // if (throwable instanceof SQLException) {
         // return (SQLException) throwable;
         // }
         //
@@ -52,7 +55,6 @@ public final class ExceptionUtils {
      * </p>
      *
      * @param throwable the throwable to get the root cause for, may be null
-     *
      * @return the root cause of the {@code Throwable}, {@code null} if null throwable input
      */
     public static Throwable getRootCause(final Throwable throwable) {
@@ -64,14 +66,12 @@ public final class ExceptionUtils {
     public static String getStackTrace(final Throwable throwable) {
         if (throwable == null) {
             return "";
-        }
-        else {
+        } else {
             try (StringWriter stringWriter = new StringWriter()) {
                 throwable.printStackTrace(new PrintWriter(stringWriter, true));
 
                 return stringWriter.toString();
-            }
-            catch (IOException ex) {
+            } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -91,7 +91,6 @@ public final class ExceptionUtils {
      * </p>
      *
      * @param throwable the throwable to inspect, may be null
-     *
      * @return List, never null
      */
     public static List<Throwable> getThrowableList(final Throwable throwable) {
@@ -104,9 +103,5 @@ public final class ExceptionUtils {
         }
 
         return list;
-    }
-
-    private ExceptionUtils() {
-        super();
     }
 }

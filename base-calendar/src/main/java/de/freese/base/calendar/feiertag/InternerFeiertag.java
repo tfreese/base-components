@@ -22,7 +22,7 @@ public class InternerFeiertag extends Feiertag {
 
     @Override
     public boolean equals(final Object obj) {
-        if (!(obj instanceof InternerFeiertag statischerFeiertag)) {
+        if (!(obj instanceof final InternerFeiertag statischerFeiertag)) {
             return false;
         }
 

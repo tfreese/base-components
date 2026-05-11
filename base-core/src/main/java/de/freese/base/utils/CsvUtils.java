@@ -26,6 +26,10 @@ import java.util.function.UnaryOperator;
  */
 public final class CsvUtils {
 
+    private CsvUtils() {
+        super();
+    }
+
     /**
      * The {@link InputStream} is not closed.
      */
@@ -39,10 +43,9 @@ public final class CsvUtils {
     public static List<String[]> parseCsv(final Reader reader) {
         final BufferedReader bufferedReader;
 
-        if (reader instanceof BufferedReader br) {
+        if (reader instanceof final BufferedReader br) {
             bufferedReader = br;
-        }
-        else {
+        } else {
             bufferedReader = new BufferedReader(reader);
         }
 
@@ -61,19 +64,18 @@ public final class CsvUtils {
     }
 
     /**
-     * @param outputStream {@link OutputStream}; The Stream is not closed.
+     * @param outputStream       {@link OutputStream}; The Stream is not closed.
      * @param rowFinishPredicate {@link IntPredicate}; row -> true/false
-     * @param headerFunction {@link IntFunction}; row -> value
-     * @param valueFunction {@link BiFunction}; row, column -> value
+     * @param headerFunction     {@link IntFunction}; row -> value
+     * @param valueFunction      {@link BiFunction}; row, column -> value
      */
     public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntPredicate rowFinishPredicate, final IntFunction<String> headerFunction,
                                 final BiFunction<Integer, Integer, String> valueFunction) {
         final PrintStream printStream;
 
-        if (outputStream instanceof PrintStream ps) {
+        if (outputStream instanceof final PrintStream ps) {
             printStream = ps;
-        }
-        else {
+        } else {
             printStream = new PrintStream(outputStream, false, StandardCharsets.UTF_8);
         }
 
@@ -149,12 +151,8 @@ public final class CsvUtils {
         }
 
         return token.stream().map(t -> t.replaceAll("^\"|\"$", "")) // Remove first and last quote.
-                .map(l -> l.replace("\\\"\"", "\"")) // Unescape quotes.
-                .map(l -> l.replace("\\,", ",")) // Unescape comma.
+                .map(t -> t.replace("\\\"\"", "\"")) // Unescape quotes.
+                .map(t -> t.replace("\\,", ",")) // Unescape comma.
                 .map(String::strip).toArray(String[]::new);
-    }
-
-    private CsvUtils() {
-        super();
     }
 }

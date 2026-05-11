@@ -1,5 +1,7 @@
 package de.freese.base.utils;
 
+import jakarta.activation.DataSource;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,8 +11,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-
-import jakarta.activation.DataSource;
 
 /**
  * Einfache {@link DataSource} für ein ByteArray.
@@ -36,49 +36,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
     public static final String MIMETYPE_TEXT_PLAIN = "text/plain";
     @Serial
     private static final long serialVersionUID = -3420529375053580438L;
-
-    public static String getMimeType(final String resourceName) {
-        if (resourceName == null) {
-            return null;
-        }
-
-        final String name = resourceName.toLowerCase();
-        String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
-
-        if (name.startsWith("http")) {
-            mimeType = MIMETYPE_APPLICATION_HTTP;
-        }
-        else if (name.endsWith(".pdf")) {
-            mimeType = MIMETYPE_APPLICATION_PDF;
-        }
-        else if (name.endsWith(".xls")) {
-            mimeType = MIMETYPE_APPLICATION_EXCEL;
-        }
-        else if (name.endsWith(".ppt")) {
-            mimeType = MIMETYPE_APPLICATION_POWERPOINT;
-        }
-        else if (name.endsWith(".png")) {
-            mimeType = MIMETYPE_IMAGE_PNG;
-        }
-        else if (name.endsWith(".gif")) {
-            mimeType = MIMETYPE_IMAGE_GIF;
-        }
-        else if (name.endsWith(".bmp")) {
-            mimeType = MIMETYPE_IMAGE_BMP;
-        }
-        else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe") || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp")) {
-            mimeType = MIMETYPE_IMAGE_JPEG;
-        }
-
-        return mimeType;
-    }
-
-    public static boolean isImageMimeType(final String mimeType) {
-        return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType) || MIMETYPE_IMAGE_BMP.equals(mimeType);
-    }
-
     private final byte[] data;
-
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
     private String name = "";
 
@@ -88,7 +46,6 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         this.data = Objects.requireNonNull(data, "data required");
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
     }
-
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException {
         super();
 
@@ -104,8 +61,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
 
             if (bytesRead > -1) {
                 baos.write(bytes, 0, bytesRead);
-            }
-            else {
+            } else {
                 // no more data...
                 break;
             }
@@ -126,12 +82,44 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             // Otherwise, just pass a charset into this
             // constructor and use it in getBytes()
             data = value.getBytes(StandardCharsets.ISO_8859_1);
-        }
-        else {
+        } else {
             data = null;
         }
 
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
+    }
+
+    public static String getMimeType(final String resourceName) {
+        if (resourceName == null) {
+            return null;
+        }
+
+        final String name = resourceName.toLowerCase();
+        String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
+
+        if (name.startsWith("http")) {
+            mimeType = MIMETYPE_APPLICATION_HTTP;
+        } else if (name.endsWith(".pdf")) {
+            mimeType = MIMETYPE_APPLICATION_PDF;
+        } else if (name.endsWith(".xls")) {
+            mimeType = MIMETYPE_APPLICATION_EXCEL;
+        } else if (name.endsWith(".ppt")) {
+            mimeType = MIMETYPE_APPLICATION_POWERPOINT;
+        } else if (name.endsWith(".png")) {
+            mimeType = MIMETYPE_IMAGE_PNG;
+        } else if (name.endsWith(".gif")) {
+            mimeType = MIMETYPE_IMAGE_GIF;
+        } else if (name.endsWith(".bmp")) {
+            mimeType = MIMETYPE_IMAGE_BMP;
+        } else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe") || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp")) {
+            mimeType = MIMETYPE_IMAGE_JPEG;
+        }
+
+        return mimeType;
+    }
+
+    public static boolean isImageMimeType(final String mimeType) {
+        return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType) || MIMETYPE_IMAGE_BMP.equals(mimeType);
     }
 
     @Override
@@ -153,6 +141,12 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         return name;
     }
 
+    public void setName(final String value) {
+        if (value != null) {
+            name = value;
+        }
+    }
+
     @Override
     public OutputStream getOutputStream() throws IOException {
         if (data == null) {
@@ -163,11 +157,5 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         baos.write(data);
 
         return baos;
-    }
-
-    public void setName(final String value) {
-        if (value != null) {
-            name = value;
-        }
     }
 }

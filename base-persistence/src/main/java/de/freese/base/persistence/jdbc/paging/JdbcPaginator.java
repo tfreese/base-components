@@ -1,6 +1,9 @@
 // Created: 21 Okt. 2025
 package de.freese.base.persistence.jdbc.paging;
 
+import de.freese.base.persistence.jdbc.function.RowMapper;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.sql.DataSource;
-
-import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
@@ -41,8 +40,7 @@ public class JdbcPaginator<T> implements Paginator<T> {
                     result.add(getRowMapper().mapRow(resultSet));
                 }
             }
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw new RuntimeException(ex);
         }
 

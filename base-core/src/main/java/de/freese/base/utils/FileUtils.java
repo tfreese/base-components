@@ -23,6 +23,10 @@ import java.util.zip.ZipFile;
 public final class FileUtils {
     private static final String[] SIZE_UNITS = {"B", "KB", "MB", "GB", "TB"};
 
+    private FileUtils() {
+        super();
+    }
+
     /**
      * Copies the File to *.last.
      */
@@ -128,7 +132,7 @@ public final class FileUtils {
             final ZipEntry zipEntry = entries.nextElement();
 
             totalEntryArchive++;
-            long totalSizeEntry = 0L;
+            final long totalSizeEntry;
 
             try (InputStream inputStream = zipFile.getInputStream(zipEntry);
                  OutputStream outputStream = OutputStream.nullOutputStream()) {
@@ -153,9 +157,5 @@ public final class FileUtils {
                 }
             }
         }
-    }
-
-    private FileUtils() {
-        super();
     }
 }

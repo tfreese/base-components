@@ -1,6 +1,16 @@
 // Created: 17 Mai 2025
 package de.freese.base.persistence.jdbc.repository;
 
+import de.freese.base.persistence.exception.PersistenceException;
+import de.freese.base.persistence.formatter.SqlFormatter;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,18 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.LongConsumer;
-
-import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.freese.base.persistence.exception.PersistenceException;
-import de.freese.base.persistence.formatter.SqlFormatter;
-import de.freese.base.persistence.jdbc.function.ResultSetCallback;
-import de.freese.base.persistence.jdbc.function.RowMapper;
-import de.freese.base.persistence.jdbc.function.StatementCallback;
-import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
@@ -76,7 +74,7 @@ public abstract class AbstractJdbcRepository {
 
         logSql(sql);
 
-        try (Connection connection = getDataSource().getConnection();
+        try (java.sql.Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = connection.prepareCall(sql.toString())) {
 
             if (statementSetter != null) {
@@ -86,8 +84,7 @@ public abstract class AbstractJdbcRepository {
             callableStatement.execute();
 
             return mapper.doInStatement(callableStatement);
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw convertException(ex);
         }
     }
@@ -95,7 +92,7 @@ public abstract class AbstractJdbcRepository {
     protected RuntimeException convertException(final Exception ex) {
         Throwable th = ex;
 
-        if (th instanceof RuntimeException re) {
+        if (th instanceof final RuntimeException re) {
             throw re;
         }
 
@@ -118,8 +115,7 @@ public abstract class AbstractJdbcRepository {
         try (Connection connection = getDataSource().getConnection();
              Statement statement = connection.createStatement()) {
             return statement.execute(sql.toString());
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw convertException(ex);
         }
     }
@@ -178,8 +174,7 @@ public abstract class AbstractJdbcRepository {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 result = resultSetCallback.doInResultSet(resultSet);
             }
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw convertException(ex);
         }
 
@@ -217,8 +212,7 @@ public abstract class AbstractJdbcRepository {
             }
 
             return affectedRows;
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw convertException(ex);
         }
     }

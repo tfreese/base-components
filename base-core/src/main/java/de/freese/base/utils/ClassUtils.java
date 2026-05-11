@@ -29,6 +29,10 @@ import java.util.stream.Stream;
  */
 public final class ClassUtils {
 
+    private ClassUtils() {
+        super();
+    }
+
     /**
      * Returns all Resources find by the ClassLoader in this Path, non-recursive.
      */
@@ -71,13 +75,12 @@ public final class ClassUtils {
 
         final Set<Class<?>> classes = new HashSet<>();
 
-        for (String fileName : fileNames) {
+        for (final String fileName : fileNames) {
             if (fileName.contains(".jar!")) {
                 final URI jarFileURI = URI.create(fileName.substring(0, fileName.indexOf(".jar!") + 4));
 
                 classes.addAll(findClassesInJar(Paths.get(jarFileURI), packagePath, classLoader));
-            }
-            else {
+            } else {
                 classes.addAll(findClassesInFolder(new File(fileName), packageName));
             }
         }
@@ -102,11 +105,10 @@ public final class ClassUtils {
             return classes;
         }
 
-        for (File file : files) {
+        for (final File file : files) {
             if (file.isDirectory()) {
                 classes.addAll(findClassesInFolder(file, packageName + "." + file.getName()));
-            }
-            else if (file.getName().endsWith(".class")) {
+            } else if (file.getName().endsWith(".class")) {
                 classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
             }
         }
@@ -129,14 +131,10 @@ public final class ClassUtils {
 
         final Set<Class<?>> classes = new HashSet<>();
 
-        for (String file : files) {
+        for (final String file : files) {
             classes.add(Class.forName(file.substring(0, file.length() - 6)));
         }
 
         return classes;
-    }
-
-    private ClassUtils() {
-        super();
     }
 }

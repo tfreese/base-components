@@ -1,6 +1,9 @@
 // Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
+import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -10,10 +13,6 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
-
-import javax.sql.DataSource;
-
-import org.slf4j.LoggerFactory;
 
 /**
  * Implementierung analog der org.springframework.jdbc.datasource.SingleConnectionDataSource<br>
@@ -40,8 +39,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     public void close() {
         try {
             destroy();
-        }
-        catch (Exception th) {
+        } catch (final Exception th) {
             LOGGER.error(th.getMessage(), th);
         }
     }
@@ -51,8 +49,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
         try {
             closeConnection();
-        }
-        finally {
+        } finally {
             reentrantLock.unlock();
         }
     }
@@ -70,8 +67,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
                 throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections,"
                         + " or set 'suppressClose' to 'true'");
             }
-        }
-        finally {
+        } finally {
             reentrantLock.unlock();
         }
 
@@ -91,14 +87,30 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return connectionProperties;
     }
 
+    public void setConnectionProperties(final Properties connectionProperties) {
+        Objects.requireNonNull(connectionProperties);
+
+        this.connectionProperties = new Properties(connectionProperties);
+    }
+
     @Override
     public PrintWriter getLogWriter() {
         throw new UnsupportedOperationException("getLogWriter");
     }
 
     @Override
+    public void setLogWriter(final PrintWriter out) {
+        throw new UnsupportedOperationException("setLogWriter");
+    }
+
+    @Override
     public int getLoginTimeout() {
         return 0;
+    }
+
+    @Override
+    public void setLoginTimeout(final int seconds) {
+        throw new UnsupportedOperationException("setLoginTimeout");
     }
 
     @Override
@@ -113,12 +125,30 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return password;
     }
 
+    public void setPassword(final String password) {
+        Objects.requireNonNull(password);
+
+        this.password = password.strip();
+    }
+
     public String getUrl() {
         return url;
     }
 
+    public void setUrl(final String url) {
+        Objects.requireNonNull(url);
+
+        this.url = url.strip();
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(final String username) {
+        Objects.requireNonNull(username);
+
+        this.username = username.strip();
     }
 
     @Override
@@ -130,12 +160,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         this.autoCommit = autoCommit;
     }
 
-    public void setConnectionProperties(final Properties connectionProperties) {
-        Objects.requireNonNull(connectionProperties);
-
-        this.connectionProperties = new Properties(connectionProperties);
-    }
-
     public void setDriverClassName(final String driverClassName) {
         Objects.requireNonNull(driverClassName);
 
@@ -143,8 +167,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
         try {
             Class.forName(driverClassNameToUse, true, Thread.currentThread().getContextClassLoader());
-        }
-        catch (final ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             throw new IllegalStateException("Could not load JDBC driver class [" + driverClassNameToUse + "]", ex);
         }
 
@@ -153,36 +176,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         }
     }
 
-    @Override
-    public void setLogWriter(final PrintWriter out) {
-        throw new UnsupportedOperationException("setLogWriter");
-    }
-
-    @Override
-    public void setLoginTimeout(final int seconds) {
-        throw new UnsupportedOperationException("setLoginTimeout");
-    }
-
-    public void setPassword(final String password) {
-        Objects.requireNonNull(password);
-
-        this.password = password.strip();
-    }
-
     public void setReadOnly(final boolean readOnly) {
         this.readOnly = readOnly;
-    }
-
-    public void setUrl(final String url) {
-        Objects.requireNonNull(url);
-
-        this.url = url.strip();
-    }
-
-    public void setUsername(final String username) {
-        Objects.requireNonNull(username);
-
-        this.username = username.strip();
     }
 
     @Override
@@ -200,8 +195,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
             try {
                 connection.close();
-            }
-            catch (final Exception th) {
+            } catch (final Exception th) {
                 LOGGER.warn("Could not close shared JDBC Connection", th);
             }
         }

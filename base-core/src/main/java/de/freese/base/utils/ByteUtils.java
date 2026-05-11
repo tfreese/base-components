@@ -23,6 +23,10 @@ public final class ByteUtils {
     //
     //    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
+    private ByteUtils() {
+        super();
+    }
+
     public static String bytesToHex(final byte[] bytes) {
         return HexFormat.of().withUpperCase().formatHex(bytes);
         //
@@ -71,12 +75,9 @@ public final class ByteUtils {
         // bos.write(buf, 0, count);
         // }
         //
-        // try
-        // {
+        // try {
         // bos.close();
-        // }
-        // catch (IOException ex)
-        // {
+        // } catch (IOException ex) {
         // }
     }
 
@@ -85,7 +86,7 @@ public final class ByteUtils {
             return new byte[0];
         }
 
-        byte[] decompressed = null;
+        final byte[] decompressed;
 
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
              ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -120,11 +121,9 @@ public final class ByteUtils {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
              ObjectInputStream out = new ObjectInputStream(bais)) {
             object = out.readObject();
-        }
-        catch (final IOException ex) {
+        } catch (final IOException ex) {
             throw new UncheckedIOException(ex);
-        }
-        catch (final ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -146,20 +145,17 @@ public final class ByteUtils {
 
     public static byte[] hexToBytes(final CharSequence hexString) {
         return HexFormat.of().parseHex(hexString);
-        //        if ((hexString.length() % 2) == 1)
-        //        {
+        //        if ((hexString.length() % 2) == 1) {
         //            throw new IllegalArgumentException("Invalid hexadecimal String supplied.");
         //        }
         //
         //        final byte[] bytes = new byte[hexString.length() / 2];
         //
-        //        for (int i = 0; i < hexString.length(); i += 2)
-        //        {
+        //        for (int i = 0; i < hexString.length(); i += 2) {
         //            final int firstDigit = Character.digit(hexString.charAt(i), 16);
         //            final int secondDigit = Character.digit(hexString.charAt(i + 1), 16);
         //
-        //            if ((firstDigit < 0) || (secondDigit < 0))
-        //            {
+        //            if ((firstDigit < 0) || (secondDigit < 0)) {
         //                throw new IllegalArgumentException("Invalid Hexadecimal Character in: " + hexString);
         //            }
         //
@@ -178,8 +174,7 @@ public final class ByteUtils {
 
         try (ObjectOutputStream out = new ObjectOutputStream(baos)) {
             out.writeObject(object);
-        }
-        catch (final IOException ex) {
+        } catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
 
@@ -325,9 +320,5 @@ public final class ByteUtils {
 
     public static short toShort(final byte[] value) {
         return (short) (((value[0] & 0xFF) << 8) + (value[1] & 0xFF));
-    }
-
-    private ByteUtils() {
-        super();
     }
 }

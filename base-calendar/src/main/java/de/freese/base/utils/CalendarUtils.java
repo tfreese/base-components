@@ -18,6 +18,10 @@ import java.util.Locale;
  * @author Thomas Freese
  */
 public final class CalendarUtils {
+    private CalendarUtils() {
+        super();
+    }
+
     /**
      * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
      */
@@ -37,7 +41,7 @@ public final class CalendarUtils {
 
     /**
      * Liefert einen Gregorianischen Kalender.<br>
-     * Calendar calendar = new GregorianCalendar(Locale.GERMAN);<br>
+     * new GregorianCalendar(Locale.GERMAN);<br>
      */
     public static Calendar calendarCreate(final Date date) {
         final Calendar calendar = Calendar.getInstance(Locale.GERMAN);
@@ -98,11 +102,11 @@ public final class CalendarUtils {
     }
 
     public static Instant toInstant(final Date date) {
-        if (date instanceof java.sql.Date d) {
-            // LocalDate localDate = d.toLocalDate();
+        if (date instanceof final java.sql.Date sqlDate) {
+            // LocalDate localDate = sqlDate.toLocalDate();
             // instant = toInstant(localDate);
 
-            return Instant.ofEpochMilli(d.getTime());
+            return Instant.ofEpochMilli(sqlDate.getTime());
         }
 
         return date.toInstant();
@@ -129,8 +133,8 @@ public final class CalendarUtils {
     }
 
     public static LocalDate toLocalDate(final Date date) {
-        if (date instanceof java.sql.Date d) {
-            return d.toLocalDate();
+        if (date instanceof final java.sql.Date sqlDate) {
+            return sqlDate.toLocalDate();
         }
 
         final Instant instant = toInstant(date);
@@ -154,7 +158,7 @@ public final class CalendarUtils {
      * toLocalDate(date).atStartOfDay();<br>
      */
     public static LocalDateTime toLocalDateTime(final Date date) {
-        if (date instanceof Timestamp ts) {
+        if (date instanceof final Timestamp ts) {
             return ts.toLocalDateTime();
         }
 
@@ -221,10 +225,9 @@ public final class CalendarUtils {
     }
 
     static LocalDate toLocalDate(final TemporalAccessor accessor) {
-        if (accessor instanceof LocalDate ld) {
+        if (accessor instanceof final LocalDate ld) {
             return ld;
-        }
-        else if (accessor instanceof LocalDateTime ldt) {
+        } else if (accessor instanceof final LocalDateTime ldt) {
             return ldt.toLocalDate();
         }
 
@@ -234,16 +237,12 @@ public final class CalendarUtils {
     }
 
     static LocalDateTime toLocalDateTime(final TemporalAccessor accessor) {
-        if (accessor instanceof LocalDateTime ldt) {
+        if (accessor instanceof final LocalDateTime ldt) {
             return ldt;
         }
 
         final Instant instant = toInstant(accessor);
 
         return toLocalDateTime(instant);
-    }
-
-    private CalendarUtils() {
-        super();
     }
 }

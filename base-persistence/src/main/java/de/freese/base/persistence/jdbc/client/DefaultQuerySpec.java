@@ -1,6 +1,16 @@
 // Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
+import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.SynchronousSink;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,17 +27,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.SynchronousSink;
-
-import de.freese.base.persistence.jdbc.function.ConnectionCallback;
-import de.freese.base.persistence.jdbc.function.ResultSetCallback;
-import de.freese.base.persistence.jdbc.function.RowMapper;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
-import de.freese.base.persistence.jdbc.function.StatementSetter;
-import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 
 /**
  * @author Thomas Freese
@@ -114,12 +113,10 @@ class DefaultQuerySpec implements QuerySpec {
                 try {
                     if (resultSet.next()) {
                         sink.next(rowMapper.mapRow(resultSet));
-                    }
-                    else {
+                    } else {
                         sink.complete();
                     }
-                }
-                catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     sink.error(ex);
                 }
             }).doFinally(state -> {

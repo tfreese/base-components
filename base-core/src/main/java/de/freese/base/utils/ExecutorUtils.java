@@ -1,6 +1,10 @@
 // Created: 09.04.2020
 package de.freese.base.utils;
 
+import de.freese.base.core.concurrent.NamedThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.channels.AsynchronousChannelGroup;
 import java.util.concurrent.BlockingQueue;
@@ -14,15 +18,14 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.freese.base.core.concurrent.NamedThreadFactory;
-
 /**
  * @author Thomas Freese
  */
 public final class ExecutorUtils {
+    private ExecutorUtils() {
+        super();
+    }
+
     /**
      * <pre>
      * Defaults:
@@ -55,19 +58,19 @@ public final class ExecutorUtils {
      * </pre>
      *
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
-     * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
-     * other value will lead to a SynchronousQueue instance.
+     * @param queueSize         int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
+     *                          other value will lead to a SynchronousQueue instance.
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds) {
         return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, new ThreadPoolExecutor.AbortPolicy(), false, true);
     }
 
     /**
-     * @param threadNamePattern String; Beispiel: thread-%02d
-     * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
-     * other value will lead to a SynchronousQueue instance.
-     * @param allowCoreThreadTimeOut boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
-     * waiting for work.
+     * @param threadNamePattern            String; Beispiel: thread-%02d
+     * @param queueSize                    int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
+     *                                     other value will lead to a SynchronousQueue instance.
+     * @param allowCoreThreadTimeOut       boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
+     *                                     waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds,
@@ -77,8 +80,7 @@ public final class ExecutorUtils {
 
         if (queueSize > 0) {
             queue = new LinkedBlockingQueue<>(queueSize);
-        }
-        else {
+        } else {
             queue = new SynchronousQueue<>();
         }
 
@@ -109,13 +111,12 @@ public final class ExecutorUtils {
 
                 channelGroup.shutdownNow(); // Cancel currently executing tasks
 
-                // Wait a while for tasks to respond to being cancelled
+                // Wait a while for tasks to respond to being canceled.
                 if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("ChannelGroup did not terminate");
                 }
             }
-        }
-        catch (InterruptedException | IOException _) {
+        } catch (InterruptedException | IOException _) {
             if (logger.isWarnEnabled()) {
                 logger.warn("Interrupted while waiting for ChannelGroup");
             }
@@ -123,8 +124,7 @@ public final class ExecutorUtils {
             // (Re-)Cancel if current thread also interrupted
             try {
                 channelGroup.shutdownNow();
-            }
-            catch (IOException _) {
+            } catch (IOException _) {
                 logger.error("ChannelGroup did not terminate");
             }
 
@@ -160,19 +160,16 @@ public final class ExecutorUtils {
                         .forEach(future -> future.cancel(true))
                 ;
 
-                // Wait a while for tasks to respond to being cancelled.
+                // Wait a while for tasks to respond to being canceled.
                 if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("ExecutorService did not terminate");
-                }
-                else {
+                } else {
                     logger.info("ExecutorService terminated");
                 }
-            }
-            else {
+            } else {
                 logger.info("ExecutorService terminated");
             }
-        }
-        catch (InterruptedException _) {
+        } catch (InterruptedException _) {
             logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.
@@ -181,9 +178,5 @@ public final class ExecutorUtils {
             // Preserve interrupt status.
             Thread.currentThread().interrupt();
         }
-    }
-
-    private ExecutorUtils() {
-        super();
     }
 }

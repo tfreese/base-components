@@ -1,9 +1,24 @@
 // Created: 12.11.23
 package de.freese.base.persistence.jdbc.client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.freese.base.persistence.jdbc.DbServerExtension;
+import de.freese.base.persistence.jdbc.JanitorInvocationInterceptor;
+import de.freese.base.persistence.jdbc.MultiDatabaseExtension;
+import de.freese.base.persistence.jdbc.Person;
+import de.freese.base.persistence.jdbc.PersonRowMapper;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
+import de.freese.base.persistence.jdbc.transaction.Transaction;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import java.sql.Types;
 import java.time.OffsetDateTime;
@@ -15,25 +30,9 @@ import java.util.concurrent.Flow;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import de.freese.base.persistence.jdbc.DbServerExtension;
-import de.freese.base.persistence.jdbc.JanitorInvocationInterceptor;
-import de.freese.base.persistence.jdbc.MultiDatabaseExtension;
-import de.freese.base.persistence.jdbc.Person;
-import de.freese.base.persistence.jdbc.PersonRowMapper;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
-import de.freese.base.persistence.jdbc.transaction.Transaction;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Thomas Freese
@@ -295,7 +294,7 @@ class TestJdbcClient {
                 new ResultSetSubscriberForEachObject<>(result::add),
                 new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
-        for (Flow.Subscriber<Person> subscriber : subscribers) {
+        for (final Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
             final Flow.Publisher<Person> publisher = jdbcClient.sql("select * from person order by id asc").query().asPublisher(new PersonRowMapper());
@@ -343,7 +342,7 @@ class TestJdbcClient {
 
         assertEquals(names.size(), affectedRows);
 
-        List<Person> result = null;
+        final List<Person> result;
 
         try (Stream<Person> stream = jdbcClient.sql("select * from person order by id asc").query().asStream(new PersonRowMapper())) {
             result = stream.toList();
@@ -415,8 +414,7 @@ class TestJdbcClient {
             }
 
             transaction.commit();
-        }
-        catch (Exception _) {
+        } catch (Exception _) {
             if (transaction != null) {
                 transaction.rollback();
             }

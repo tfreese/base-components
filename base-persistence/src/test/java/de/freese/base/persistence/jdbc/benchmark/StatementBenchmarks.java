@@ -1,13 +1,5 @@
 package de.freese.base.persistence.jdbc.benchmark;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Level;
@@ -20,6 +12,14 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Thomas Freese
  */
@@ -27,6 +27,29 @@ import org.openjdk.jmh.infra.Blackhole;
 @OutputTimeUnit(TimeUnit.SECONDS)
 // @org.junit.platform.commons.annotation.Testable
 public class StatementBenchmarks extends BenchmarkSettings {
+    @Benchmark
+    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM simple_test WHERE name = ?")) {
+            statement.setString(1, "foo");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    blackhole.consume(resultSet.getString("name"));
+                }
+            }
+        }
+    }
+
+    @Benchmark
+    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (Statement statement = connectionHolder.connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test")) {
+            while (resultSet.next()) {
+                blackhole.consume(resultSet.getString("name"));
+            }
+        }
+    }
+
     /**
      * @author Thomas Freese
      */
@@ -48,8 +71,7 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
                 h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
                 hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
-            }
-            catch (SQLException ex) {
+            } catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -86,12 +108,10 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 if (dbName.toLowerCase().contains("derby")) {
                     try {
                         statement.execute("DROP TABLE simple_test");
-                    }
-                    catch (SQLException _) {
+                    } catch (SQLException _) {
                         // Empty
                     }
-                }
-                else {
+                } else {
                     statement.execute("DROP TABLE IF EXISTS simple_test");
                 }
 
@@ -99,32 +119,8 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 statement.execute("INSERT INTO simple_test VALUES('foo')");
                 statement.execute("INSERT INTO simple_test VALUES('bar')");
                 statement.execute("INSERT INTO simple_test VALUES('baz')");
-            }
-            catch (SQLException ex) {
+            } catch (final SQLException ex) {
                 throw new RuntimeException(ex);
-            }
-        }
-    }
-
-    @Benchmark
-    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
-        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM simple_test WHERE name = ?")) {
-            statement.setString(1, "foo");
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    blackhole.consume(resultSet.getString("name"));
-                }
-            }
-        }
-    }
-
-    @Benchmark
-    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
-        try (Statement statement = connectionHolder.connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test")) {
-            while (resultSet.next()) {
-                blackhole.consume(resultSet.getString("name"));
             }
         }
     }

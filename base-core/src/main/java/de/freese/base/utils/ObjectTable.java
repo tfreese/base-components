@@ -54,7 +54,7 @@ public final class ObjectTable {
         final Object[] rowData = new Object[getColumnCount()];
         int column = 0;
 
-        for (Object value : row) {
+        for (final Object value : row) {
             rowData[column] = value;
             column++;
         }
@@ -103,7 +103,7 @@ public final class ObjectTable {
      * Der Stream wird nicht geschlossen.
      */
     public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, final Function<Object, String> dataFunction) {
-        final PrintStream printStream = outputStream instanceof PrintStream ps ? ps : new PrintStream(outputStream);
+        final PrintStream printStream = outputStream instanceof final PrintStream ps ? ps : new PrintStream(outputStream);
 
         final int[] columnWidths = new int[getColumnCount()];
         Arrays.fill(columnWidths, 0);

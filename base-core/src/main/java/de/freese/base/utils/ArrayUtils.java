@@ -11,13 +11,17 @@ import java.util.stream.Stream;
 public final class ArrayUtils {
     public static final String[] EMPTY_STRING_ARRAY = {};
 
+    private ArrayUtils() {
+        super();
+    }
+
     /**
      * Liefert true, wenn in den ArrayElementen immer nur der Wert enthalten ist.
      *
      * @return boolean
      */
     public static boolean containsOnly(final double[] values, final double value) {
-        for (double value2 : values) {
+        for (final double value2 : values) {
             if (Double.compare(value, value2) != 0) {
                 return false;
             }
@@ -32,7 +36,7 @@ public final class ArrayUtils {
     public static double[] fillWhenAll0(final double[] values, final double filler) {
         boolean zero = true;
 
-        for (double value : values) {
+        for (final double value : values) {
             zero = Double.compare(value, 0.0D) == 0;
 
             if (!zero) {
@@ -85,9 +89,5 @@ public final class ArrayUtils {
         }
 
         return Stream.of(array).map(Object::toString).collect(Collectors.joining(separator));
-    }
-
-    private ArrayUtils() {
-        super();
     }
 }

@@ -1,6 +1,10 @@
 // Created: 30.11.2016
 package de.freese.base.persistence.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,11 +22,6 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.<br>
  * Ein SQL muss immer mit einem ';' abgeschlossen sein.
@@ -39,12 +38,12 @@ public class DatabasePopulator {
     }
 
     public void populate(final Connection connection) throws Exception {
-        for (URL scriptUrl : scriptUrls) {
+        for (final URL scriptUrl : scriptUrls) {
             final List<String> sqls = parseSQLs(scriptUrl);
 
             // sqls.forEach(System.out::println);
             try (Statement statement = connection.createStatement()) {
-                for (String sql : sqls) {
+                for (final String sql : sqls) {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug(sql);
                     }
@@ -95,8 +94,7 @@ public class DatabasePopulator {
 
             try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();
-            }
-            catch (Exception _) {
+            } catch (Exception _) {
                 // Ignore
             }
         }
@@ -116,11 +114,11 @@ public class DatabasePopulator {
 
         return fileLines.stream()
                 .filter(Objects::nonNull)
-                .filter(l -> !l.isEmpty())
-                .filter(l -> !l.startsWith("--"))
-                .filter(l -> !l.startsWith("#"))
+                .filter(line -> !line.isEmpty())
+                .filter(line -> !line.startsWith("--"))
+                .filter(line -> !line.startsWith("#"))
                 .map(String::strip)
-                .filter(l -> !l.isEmpty())
+                .filter(line -> !line.isEmpty())
                 .collect(Collectors.joining(" "))
                 ;
     }

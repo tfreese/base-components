@@ -1,13 +1,12 @@
 // Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
-
-import javax.sql.DataSource;
 
 /**
  * Liefert den nächsten Wert einer Sequence.
@@ -25,7 +24,7 @@ public class SequenceQueryExecutor {
 
     public long getNextID(final String sequence, final Connection connection) throws SQLException {
         final String sql = sequenceQuery.apply(sequence);
-        long id = 0L;
+        final long id;
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

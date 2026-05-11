@@ -1,15 +1,15 @@
 // Created: 05.04.2021
 package de.freese.base.persistence.jdbc;
 
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.Map;
-
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Service to start and stop the DB-Instances.
@@ -33,7 +33,7 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
 
     @Override
     public void afterAll(final ExtensionContext context) throws Exception {
-        for (DbServerExtension server : servers.values()) {
+        for (final DbServerExtension server : servers.values()) {
             server.afterAll(context);
         }
 
@@ -44,7 +44,7 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     public void beforeAll(final ExtensionContext context) throws Exception {
         DbServerExtension.showMemory();
 
-        for (DbServerExtension server : servers.values()) {
+        for (final DbServerExtension server : servers.values()) {
             server.beforeAll(context);
         }
     }

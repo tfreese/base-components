@@ -74,26 +74,21 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
             className = obj.getClass().getName();
         }
 
-        if (obj instanceof Blob blob) {
+        if (obj instanceof final Blob blob) {
             obj = blob.getBytes(1, (int) blob.length());
-        }
-        else if (obj instanceof Clob clob) {
+        } else if (obj instanceof final Clob clob) {
             obj = clob.getSubString(1, (int) clob.length());
-        }
-        else if ("oracle.sql.TIMESTAMP".equals(className) || "oracle.sql.TIMESTAMPTZ".equals(className)) {
+        } else if ("oracle.sql.TIMESTAMP".equals(className) || "oracle.sql.TIMESTAMPTZ".equals(className)) {
             obj = rs.getTimestamp(index);
-        }
-        else if (className != null && className.startsWith("oracle.sql.DATE")) {
+        } else if (className != null && className.startsWith("oracle.sql.DATE")) {
             final String metaDataClassName = rs.getMetaData().getColumnClassName(index);
 
             if ("java.sql.Timestamp".equals(metaDataClassName) || "oracle.sql.TIMESTAMP".equals(metaDataClassName)) {
                 obj = rs.getTimestamp(index);
-            }
-            else {
+            } else {
                 obj = rs.getDate(index);
             }
-        }
-        else if (obj instanceof java.sql.Date) {
+        } else if (obj instanceof java.sql.Date) {
             if ("java.sql.Timestamp".equals(rs.getMetaData().getColumnClassName(index))) {
                 obj = rs.getTimestamp(index);
             }

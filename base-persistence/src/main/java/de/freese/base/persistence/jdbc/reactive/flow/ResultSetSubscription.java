@@ -1,17 +1,16 @@
 // Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.util.function.Consumer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
@@ -48,15 +47,13 @@ public class ResultSetSubscription<T> implements Subscription {
                 if (resultSet.next()) {
                     final T row = rowMapper.mapRow(resultSet);
                     subscriber.onNext(row);
-                }
-                else {
+                } else {
                     closeJdbcResources();
                     subscriber.onComplete();
                     break;
                 }
             }
-        }
-        catch (SQLException sex) {
+        } catch (final SQLException sex) {
             closeJdbcResources();
             subscriber.onError(sex);
         }

@@ -1,6 +1,12 @@
 // Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
+import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,12 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.LongConsumer;
 import java.util.stream.IntStream;
-
-import de.freese.base.persistence.jdbc.function.ConnectionCallback;
-import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.function.StatementCallback;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
-import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
@@ -103,7 +103,7 @@ class DefaultStatementSpec implements StatementSpec {
     public int executeUpdate(final LongConsumer generatedKeysConsumer) {
         jdbcClient.logSql(sql);
 
-        // connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS): funktioniert bei HSQLDB nicht !
+        // connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS): funktioniert bei HSQLDB nicht!
         // connection.prepareStatement(sql, new String[]{"ID"})
         final ConnectionCallback<Integer> connectionCallback = connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS)) {
@@ -145,7 +145,7 @@ class DefaultStatementSpec implements StatementSpec {
                 final List<int[]> affectedRows = new ArrayList<>();
                 int n = 0;
 
-                for (T arg : batchArgs) {
+                for (final T arg : batchArgs) {
                     preparedStatement.clearParameters();
                     parameterizedPreparedStatementSetter.setParameter(preparedStatement, arg);
                     n++;
@@ -164,8 +164,7 @@ class DefaultStatementSpec implements StatementSpec {
                             jdbcClient.handleWarnings(preparedStatement);
                             preparedStatement.clearBatch();
                         }
-                    }
-                    else {
+                    } else {
                         // Batch not possible -> direct execution.
                         final int affectedRow = preparedStatement.executeUpdate();
                         jdbcClient.handleWarnings(preparedStatement);
