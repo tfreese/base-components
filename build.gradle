@@ -88,6 +88,8 @@ subprojects {
             // To avoid compiler warnings about @API annotations in Log4j Code.
             // testRuntimeOnly("com.github.spotbugs:spotbugs-annotations")
 
+//            testImplementation("com.google.code.findbugs:annotations:3.0.1") // SuppressFBWarnings
+
             // To avoid compiler warnings about @API annotations in JUnit Code.
             // testRuntimeOnly("org.apiguardian:apiguardian-api")
 

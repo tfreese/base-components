@@ -420,9 +420,11 @@ public final class ImageUtils {
     private static final class EmptyIcon extends ImageIcon {
         @Serial
         private static final long serialVersionUID = 102999713634663152L;
+
         private final int iconHeight;
         private final int iconWidth;
         private transient BufferedImage bufferedImage;
+
         /**
          * Default: 16 x 16
          */
@@ -492,9 +494,11 @@ public final class ImageUtils {
     private static final class MissingIcon extends ImageIcon {
         @Serial
         private static final long serialVersionUID = -3986977626709987448L;
+
         private final int iconHeight;
         private final int iconWidth;
         private transient BufferedImage bufferedImage;
+
         /**
          * Default: 16 x 16
          */
@@ -573,11 +577,13 @@ public final class ImageUtils {
     private static final class TriangleIcon extends ImageIcon {
         @Serial
         private static final long serialVersionUID = 6491045895051309036L;
+
         private final int direction;
         private final Color foreground;
         private final int iconHeight;
         private final int iconWidth;
         private transient BufferedImage bufferedImage;
+        
         /**
          * Defaults: Width = 16, Height = 16, ForeGround = Black
          *
