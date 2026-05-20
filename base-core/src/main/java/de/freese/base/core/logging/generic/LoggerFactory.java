@@ -11,6 +11,10 @@ import java.util.ServiceLoader;
 public final class LoggerFactory {
     private static final LoggerProvider LOGGER_PROVIDER = find();
 
+    private LoggerFactory() {
+        super();
+    }
+
     public static Logger createLogger(final Class<?> clazz) {
         return LOGGER_PROVIDER.createLogger(clazz);
     }
@@ -29,13 +33,11 @@ public final class LoggerFactory {
             if (loggerProvider != null) {
                 if ("jul".equalsIgnoreCase(loggerProvider)) {
                     return tryJuL("system property");
-                }
-                else if ("slf4j".equalsIgnoreCase(loggerProvider)) {
+                } else if ("slf4j".equalsIgnoreCase(loggerProvider)) {
                     return trySlf4j("system property");
                 }
             }
-        }
-        catch (Throwable _) {
+        } catch (Throwable _) {
             // Ignore
         }
 
@@ -43,7 +45,7 @@ public final class LoggerFactory {
         try {
             final ServiceLoader<LoggerProvider> loader = ServiceLoader.load(LoggerProvider.class, classLoader);
 
-            for (LoggerProvider loggerProvider : loader) {
+            for (final LoggerProvider loggerProvider : loader) {
                 if (loggerProvider == null) {
                     continue;
                 }
@@ -52,15 +54,13 @@ public final class LoggerFactory {
 
                 return loggerProvider;
             }
-        }
-        catch (ServiceConfigurationError _) {
+        } catch (ServiceConfigurationError _) {
             // Ignore
         }
 
         try {
             return trySlf4j(null);
-        }
-        catch (Exception _) {
+        } catch (Exception _) {
             // Ignore
         }
 
@@ -72,8 +72,7 @@ public final class LoggerFactory {
 
         if (via == null) {
             logger.info("Using Logging Provider: %s", provider);
-        }
-        else {
+        } else {
             logger.info("Using Logging Provider: %s found via %s", provider, via);
         }
     }
@@ -92,9 +91,5 @@ public final class LoggerFactory {
         logProvider(provider, via);
 
         return provider;
-    }
-
-    private LoggerFactory() {
-        super();
     }
 }
