@@ -11,16 +11,14 @@ import java.util.concurrent.TimeUnit;
 @FunctionalInterface
 public interface Throttler {
     /**
-     * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or
-     * the thread is interrupted.
+     * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or the thread is interrupted.
      */
     default void acquirePermit() {
         acquirePermits(1);
     }
 
     /**
-     * Attempts to acquire the requested {@code permits} to perform executions against the rate limiter, waiting until
-     * they are available or the thread is interrupted.
+     * Attempts to acquire the requested {@code permits} to perform executions against the rate limiter, waiting until they are available or the thread is interrupted.
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
@@ -44,15 +42,13 @@ public interface Throttler {
                         TimeUnit.NANOSECONDS.sleep(remainingNanos);
 
                         return;
-                    }
-                    catch (InterruptedException _) {
+                    } catch (InterruptedException _) {
                         // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
                         interrupted = true;
                         remainingNanos = end - System.nanoTime();
                     }
                 }
-            }
-            finally {
+            } finally {
                 if (interrupted) {
                     // Preserve interrupt status
                     Thread.currentThread().interrupt();
@@ -62,18 +58,16 @@ public interface Throttler {
     }
 
     /**
-     * Reserves a permit to perform an execution against the rate limiter, and returns the nanoseconds that the caller is
-     * expected to wait before acting on the permit. Returns {@code 0} if the permit is immediately available and no
-     * waiting is needed.
+     * Reserves a permit to perform an execution against the rate limiter, and returns the nanoseconds that the caller is expected to wait before acting on the permit.
+     * Returns {@code 0} if the permit is immediately available and no waiting is needed.
      */
     default long reservePermit() {
         return reservePermits(1);
     }
 
     /**
-     * Reserves the {@code permits} to perform executions against the rate limiter, and returns the nanoseconds that the caller
-     * is expected to wait before acting on the permits. Returns {@code 0} if the permits are immediately available and no
-     * waiting is needed.
+     * Reserves the {@code permits} to perform executions against the rate limiter, and returns the nanoseconds that the caller is expected to wait before acting on the permits.
+     * Returns {@code 0} if the permits are immediately available and no waiting is needed.
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
@@ -89,11 +83,9 @@ public interface Throttler {
     }
 
     /**
-     * Tries to acquire the requested {@code permits} to perform executions against the rate limiter, returning
-     * immediately without waiting.
+     * Tries to acquire the requested {@code permits} to perform executions against the rate limiter, returning immediately without waiting.
      *
      * @return whether the requested {@code permits} are successfully acquired or not
-     *
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
     default boolean tryAcquirePermits(final int permits) {

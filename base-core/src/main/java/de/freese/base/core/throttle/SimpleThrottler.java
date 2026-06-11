@@ -8,30 +8,7 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public final class SimpleThrottler implements Throttler {
-    static Throttler create(final int permits, final Duration duration) {
-        return new SimpleThrottler(permits, duration);
-    }
-
-    static Throttler create(final int permitsPerSecond) {
-        return create(permitsPerSecond, Duration.ofSeconds(1));
-    }
-
-    /**
-     * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
-     * returned, respectively.
-     */
-    private static long saturatedAdd(final long val1, final long val2) {
-        final long naiveSum = val1 + val2;
-
-        if ((val1 ^ val2) < 0 || (val1 ^ naiveSum) >= 0) {
-            return naiveSum;
-        }
-
-        return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
-    }
-
     private final long permitIntervalNanos;
-
     private long nextFreeSlotNanos;
 
     private SimpleThrottler(final int permits, final Duration duration) {
@@ -47,6 +24,28 @@ public final class SimpleThrottler implements Throttler {
         permitIntervalNanos = duration.toNanos() / permits;
 
         nextFreeSlotNanos = System.nanoTime();
+    }
+
+    static Throttler create(final int permitsPerSecond, final Duration duration) {
+        return new SimpleThrottler(permitsPerSecond, duration);
+    }
+
+    static Throttler create(final int permitsPerSecond) {
+        return create(permitsPerSecond, Duration.ofSeconds(1L));
+    }
+
+    /**
+     * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
+     * returned, respectively.
+     */
+    private static long saturatedAdd(final long val1, final long val2) {
+        final long naiveSum = val1 + val2;
+
+        if ((val1 ^ val2) < 0 || (val1 ^ naiveSum) >= 0L) {
+            return naiveSum;
+        }
+
+        return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1L)) ^ 1L);
     }
 
     @Override
@@ -72,11 +71,8 @@ public final class SimpleThrottler implements Throttler {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("permitIntervalNanos=").append(permitIntervalNanos);
-        sb.append("]");
-
-        return sb.toString();
+        return getClass().getSimpleName() + " ["
+                + "permitIntervalNanos=" + permitIntervalNanos
+                + "]";
     }
 }
