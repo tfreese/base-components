@@ -25,7 +25,7 @@ public final class Resilience4JThrottlerAdapter implements Throttler {
         final RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitForPeriod(permitsPerSecond)
                 .limitRefreshPeriod(duration)
-                //.timeoutDuration(Duration.ofMinutes(1))
+                //.timeoutDuration(Duration.ofMinutes(1L))
                 .build();
 
         final String name = UUID.randomUUID().toString();

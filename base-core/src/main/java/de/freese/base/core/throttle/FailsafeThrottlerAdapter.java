@@ -18,7 +18,7 @@ public final class FailsafeThrottlerAdapter implements Throttler {
     }
 
     public static Throttler create(final int permitsPerSecond, final Duration duration) {
-        // builder.withMaxWaitTime(Duration.ofSeconds(1))
+        // builder.withMaxWaitTime(Duration.ofSeconds(1L))
 //        return new FailsafeThrottlerAdapter(RateLimiter.burstyBuilder(permitsPerSecond, duration).build());
         return new FailsafeThrottlerAdapter(RateLimiter.smoothBuilder(permitsPerSecond, duration).build());
     }

@@ -89,6 +89,6 @@ public interface Throttler {
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
     default boolean tryAcquirePermits(final int permits) {
-        return reservePermits(permits) == 0;
+        return reservePermits(permits) == 0L;
     }
 }
