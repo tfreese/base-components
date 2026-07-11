@@ -1,5 +1,8 @@
 package de.freese.base.utils;
 
+import org.apache.commons.net.ntp.NTPUDPClient;
+import org.apache.commons.net.ntp.TimeInfo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,13 +17,32 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Enumeration;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
-
 /**
  * @author Thomas Freese
  */
 public final class NetUtils {
+    private NetUtils() {
+        super();
+    }
+
+    /**
+     * DNS-Lookup over Operating-System.
+     */
+    public static String getIp(final String hostname) {
+        try {
+            final InetAddress[] allAddresses = InetAddress.getAllByName(hostname);
+
+            if (allAddresses != null && allAddresses.length > 0) {
+                return allAddresses[0].getHostAddress();
+            }
+
+            return InetAddress.getByName(hostname).getHostAddress();
+
+        } catch (final UnknownHostException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
     /**
      * Wandelt die binäre IP-Adresse in ein lesbares Format um.
      */
@@ -49,17 +71,16 @@ public final class NetUtils {
 
         try {
             hostName = InetAddress.getLocalHost().getHostName();
-        }
-        catch (Exception _) {
-            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
+        } catch (Exception _) {
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht!
         }
 
         if (hostName == null) {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8))) {
+            try (Process process = Runtime.getRuntime().exec(new String[]{"hostname"});
+                 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
-            }
-            catch (Exception _) {
+            } catch (Exception _) {
                 // Ignore
             }
         }
@@ -89,8 +110,7 @@ public final class NetUtils {
 
                     }
                 }
-            }
-            catch (Exception _) {
+            } catch (Exception _) {
                 // Ignore
             }
         }
@@ -120,8 +140,7 @@ public final class NetUtils {
 
             try {
                 return getNtpTime(host, NTP_PORT);
-            }
-            catch (Exception _) {
+            } catch (Exception _) {
                 // Ignore
             }
         }
@@ -139,8 +158,7 @@ public final class NetUtils {
             InetAddress.getByName("www." + host);
 
             isValid = true;
-        }
-        catch (UnknownHostException _) {
+        } catch (UnknownHostException _) {
             // Ignore
         }
 
@@ -149,16 +167,11 @@ public final class NetUtils {
                 InetAddress.getByName(host);
 
                 isValid = true;
-            }
-            catch (UnknownHostException _) {
+            } catch (UnknownHostException _) {
                 // Ignore
             }
         }
 
         return isValid;
-    }
-
-    private NetUtils() {
-        super();
     }
 }
