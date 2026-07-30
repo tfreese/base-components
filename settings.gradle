@@ -10,6 +10,15 @@ pluginManagement {
 // Without rootProject.name the Name of the Projekt-Directory is used.
 //rootProject.name = "base-components"
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
 include("base-calendar")
 include("base-core")
 include("base-net")
