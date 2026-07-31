@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,7 +34,7 @@ class TestRvs {
 
         assertNotNull(rvsRecord);
         assertEquals("x", rvsRecord.get(RVS_FIELDS.getFirst().getName(), String.class));
-        assertEquals(LocalDate.of(2026, 5, 28), rvsRecord.get(RVS_FIELDS.get(1).getName(), LocalDate.class));
+        assertEquals(LocalDate.of(2026, Month.MAY, 28), rvsRecord.get(RVS_FIELDS.get(1).getName(), LocalDate.class));
         assertEquals(new BigDecimal("13.75"), rvsRecord.get(RVS_FIELDS.getLast().getName(), BigDecimal.class));
     }
 

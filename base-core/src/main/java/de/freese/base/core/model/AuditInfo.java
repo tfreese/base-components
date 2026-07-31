@@ -2,7 +2,7 @@ package de.freese.base.core.model;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author Thomas Freese
@@ -11,58 +11,58 @@ public class AuditInfo implements Serializable {
     @Serial
     private static final long serialVersionUID = 146275334726328864L;
 
-    private Date changed;
+    private LocalDateTime changed;
     private String changedBy;
-    private Date created;
+    private LocalDateTime created;
     private String createdBy;
-    private Date validFrom;
-    private Date validUntil;
+    private LocalDateTime validFrom;
+    private LocalDateTime validUntil;
 
-    public Date getChanged() {
+    public LocalDateTime getChanged() {
         return changed;
+    }
+
+    public void setChanged(final LocalDateTime changed) {
+        this.changed = changed;
     }
 
     public String getChangedBy() {
         return changedBy;
     }
 
-    public Date getCreated() {
+    public void setChangedBy(final String changedBy) {
+        this.changedBy = changedBy;
+    }
+
+    public LocalDateTime getCreated() {
         return created;
+    }
+
+    public void setCreated(final LocalDateTime created) {
+        this.created = created;
     }
 
     public String getCreatedBy() {
         return createdBy;
     }
 
-    public Date getValidFrom() {
-        return validFrom;
-    }
-
-    public Date getValidUntil() {
-        return validUntil;
-    }
-
-    public void setChanged(final Date changed) {
-        this.changed = changed;
-    }
-
-    public void setChangedBy(final String changedBy) {
-        this.changedBy = changedBy;
-    }
-
-    public void setCreated(final Date created) {
-        this.created = created;
-    }
-
     public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
-    public void setValidFrom(final Date validFrom) {
+    public LocalDateTime getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(final LocalDateTime validFrom) {
         this.validFrom = validFrom;
     }
 
-    public void setValidUntil(final Date validUntil) {
+    public LocalDateTime getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(final LocalDateTime validUntil) {
         this.validUntil = validUntil;
     }
 }

@@ -1,15 +1,14 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Decorator für einen {@link XMLStreamWriter} für "PrettyPrint"-Features.<br>
@@ -26,6 +25,7 @@ import javax.xml.stream.XMLStreamWriter;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S5411"})
 public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     private final XMLStreamWriter delegate;
     private final Map<Integer, Boolean> nodeStates = new HashMap<>();
@@ -64,13 +64,26 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         return indentAmount;
     }
 
+    public void setIndentAmount(final int indentAmount) {
+        this.indentAmount = indentAmount;
+    }
+
     public String getLineSeparator() {
         return lineSeparator;
+    }
+
+    public void setLineSeparator(final String lineSeparator) {
+        this.lineSeparator = lineSeparator;
     }
 
     @Override
     public NamespaceContext getNamespaceContext() {
         return getDelegate().getNamespaceContext();
+    }
+
+    @Override
+    public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException {
+        getDelegate().setNamespaceContext(context);
     }
 
     @Override
@@ -86,19 +99,6 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     @Override
     public void setDefaultNamespace(final String uri) throws XMLStreamException {
         getDelegate().setDefaultNamespace(uri);
-    }
-
-    public void setIndentAmount(final int indentAmount) {
-        this.indentAmount = indentAmount;
-    }
-
-    public void setLineSeparator(final String lineSeparator) {
-        this.lineSeparator = lineSeparator;
-    }
-
-    @Override
-    public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException {
-        getDelegate().setNamespaceContext(context);
     }
 
     @Override
@@ -241,6 +241,10 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         return depth;
     }
 
+    protected void setDepth(final int depth) {
+        this.depth = depth;
+    }
+
     protected Map<Integer, Boolean> getNodeStates() {
         return nodeStates;
     }
@@ -278,13 +282,9 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
 
     protected String indent(final int depth, final int amount) {
         if (depth == 0) {
-            return null;
+            return "";
         }
 
         return " ".repeat(depth * amount);
-    }
-
-    protected void setDepth(final int depth) {
-        this.depth = depth;
     }
 }

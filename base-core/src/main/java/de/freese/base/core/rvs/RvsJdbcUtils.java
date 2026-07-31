@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S2111", "java:S2143"})
 public final class RvsJdbcUtils {
 
     private RvsJdbcUtils() {
@@ -37,6 +39,8 @@ public final class RvsJdbcUtils {
             case final Long l -> ps.setLong(index, l);
             case final BigDecimal bd -> ps.setBigDecimal(index, bd);
             case final LocalDate ld -> ps.setDate(index, Date.valueOf(ld));
+            case final LocalDateTime ldt -> ps.setTimestamp(index, Timestamp.valueOf(ldt));
+            // NOSONAR
             case final java.util.Date d -> ps.setTimestamp(index, new Timestamp(d.getTime()));
             default -> ps.setObject(index, value);
         }

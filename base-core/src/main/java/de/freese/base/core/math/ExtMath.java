@@ -28,14 +28,16 @@ public final class ExtMath {
     private static final char[] CHAR_ARRAY = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
+    private ExtMath() {
+        super();
+    }
+
     public static long ackermann(final long n, final long m) {
         if (n == 0) {
             return m + 1;
-        }
-        else if (m == 0) {
+        } else if (m == 0) {
             return ackermann(n - 1, 1);
-        }
-        else {
+        } else {
             return ackermann(n - 1, ackermann(n, m - 1));
         }
     }
@@ -44,7 +46,7 @@ public final class ExtMath {
      * Returns a Decimal-Value of a Value with a different Base.
      *
      * @param number The String which is to be converted
-     * @param base The Base of the Value
+     * @param base   The Base of the Value
      */
     public static long base2Dec(final String number, final int base) {
         if (base <= 1 || base > 36) {
@@ -76,7 +78,7 @@ public final class ExtMath {
      * Returns a String with the new BaseFormat of a Decimal-Value.
      *
      * @param value The Value which is to be converted
-     * @param base the new Base of the Value
+     * @param base  the new Base of the Value
      */
     public static String dec2Base(final long value, final int base) {
         if (base <= 1 || base > 36) {
@@ -128,7 +130,7 @@ public final class ExtMath {
         BigInteger n = BigInteger.valueOf(2);
 
         while (!bi.isProbablePrime(certainty)) {
-            if ((bi.mod(n)).equals(BigInteger.ZERO)) // Teiler gefunden
+            if (bi.mod(n).equals(BigInteger.ZERO)) // Teiler gefunden
             {
                 list.add(n.toString());
                 bi = bi.divide(n);
@@ -271,8 +273,7 @@ public final class ExtMath {
 
         if ((number % 2L) == 0L) {
             prim = false;
-        }
-        else {
+        } else {
             if (number > 3L) {
                 long counter;
 
@@ -282,8 +283,7 @@ public final class ExtMath {
                 // ist, als die zu prüfende Zahl
                 if ((root % 2L) == 0L) {
                     root++;
-                }
-                else {
+                } else {
                     root += 2L;
                 }
 
@@ -378,15 +378,15 @@ public final class ExtMath {
 
         while (!bi.isProbablePrime(certainty)) {
             do {
-                n = (n.add(BigInteger.ONE)).add(BigInteger.ONE);
+                n = n.add(BigInteger.ONE).add(BigInteger.ONE);
             }
             while (!n.isProbablePrime(certainty));
 
-            if ((bi.mod(n)).equals(BigInteger.ZERO)) // Prim-Teiler gefunden
+            if (bi.mod(n).equals(BigInteger.ZERO)) // Prim-Teiler gefunden
             {
                 list.add(n.toString());
                 bi = bi.divide(n);
-                n = (n.subtract(BigInteger.ONE)).subtract(BigInteger.ONE);
+                n = n.subtract(BigInteger.ONE).subtract(BigInteger.ONE);
             }
         }
 
@@ -398,7 +398,7 @@ public final class ExtMath {
     /**
      * Scales a Value (Wikipedia).<br>
      *
-     * @param value double
+     * @param value  double
      * @param minOld double
      * @param maxOld double
      * @param minNew double
@@ -567,9 +567,5 @@ public final class ExtMath {
         final long bValue = (b == null) ? 0L : b;
 
         return aValue + bValue;
-    }
-
-    private ExtMath() {
-        super();
     }
 }

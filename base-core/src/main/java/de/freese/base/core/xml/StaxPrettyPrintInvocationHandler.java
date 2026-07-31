@@ -1,16 +1,16 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
+import javax.xml.stream.XMLStreamWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.stream.XMLStreamWriter;
-
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S5411"})
 public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
     private static final String INDENT_CHAR = " ";
 
@@ -31,10 +31,6 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         final String m = method.getName();
-
-        // if (true) {
-        // System.out.println("StaxPrettyPrintHandler.invoke(): " + m);
-        // }
 
         switch (m) {
             case "writeStartElement" -> {
@@ -75,7 +71,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
 
     private String indent(final int amount, final String indent) {
         if (amount == 0) {
-            return null;
+            return "";
         }
 
         return indent.repeat(amount * 4);

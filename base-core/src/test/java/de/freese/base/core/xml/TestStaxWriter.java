@@ -1,14 +1,13 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
+import javax.xml.stream.XMLStreamWriter;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-import javax.xml.stream.XMLStreamWriter;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Thomas Freese
@@ -56,7 +55,6 @@ class TestStaxWriter {
 
             // End the "name" element
             writer.writeEndElement();
-            // writer.writeCharacters("\n");
 
             // End the "person" element
             writer.writeEndElement();

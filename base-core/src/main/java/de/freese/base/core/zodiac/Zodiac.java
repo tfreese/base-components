@@ -2,7 +2,7 @@ package de.freese.base.core.zodiac;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.Month;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -91,15 +91,34 @@ public enum Zodiac {
         ZODIAC_MAP.put(Zodiac.CAPRICORN.getStart(), Zodiac.CAPRICORN);
     }
 
-    public static Zodiac getZodiac(final Date date) {
-        final int monat = Integer.parseInt(String.format("%1$tm", date));
-        final int tag = Integer.parseInt(String.format("%1$td", date));
+    /**
+     * Enthält das Ende des Sternzeichens.<br>
+     * Format: (M)MDD, inklusiv dieses Tages
+     */
+    private final int end;
+    /**
+     * Enthält den Begin des Sternzeichens.<br>
+     * Format: (M)MDD
+     */
+    private final int start;
 
-        return getZodiac(monat, tag);
+
+    Zodiac(final int start, final int end) {
+        this.start = start;
+        this.end = end;
     }
 
-    public static Zodiac getZodiac(final int month, final int dayOfMonth) {
-        final Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
+    public static Zodiac getZodiac(final LocalDateTime localDateTime) {
+        return getZodiac(localDateTime.toLocalDate());
+    }
+
+    public static Zodiac getZodiac(final LocalDate date) {
+        return getZodiac(date.getMonth(), date.getDayOfMonth());
+    }
+
+
+    public static Zodiac getZodiac(final Month month, final int dayOfMonth) {
+        final Integer monatTag = Integer.valueOf(month.getValue() + "" + dayOfMonth);
 
         Entry<Integer, Zodiac> entry = ZODIAC_MAP.floorEntry(monatTag);
 
@@ -109,31 +128,6 @@ public enum Zodiac {
         }
 
         return entry.getValue();
-    }
-
-    public static Zodiac getZodiac(final LocalDate localDate) {
-        return getZodiac(localDate.getMonthValue(), localDate.getDayOfMonth());
-    }
-
-    public static Zodiac getZodiac(final LocalDateTime localDateTime) {
-        return getZodiac(localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
-    }
-
-    /**
-     * Enthält das Ende des Sternzeichens.<br>
-     * Format: (M)MDD, inklusiv dieses Tages
-     */
-    private final int end;
-
-    /**
-     * Enthält den Begin des Sternzeichens.<br>
-     * Format: (M)MDD
-     */
-    private final int start;
-
-    Zodiac(final int start, final int end) {
-        this.start = start;
-        this.end = end;
     }
 
     /**

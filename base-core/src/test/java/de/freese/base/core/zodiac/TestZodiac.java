@@ -1,17 +1,15 @@
 // Created: 03.07.2011
 package de.freese.base.core.zodiac;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testklasse für die Sternzeichen.
@@ -25,16 +23,10 @@ class TestZodiac {
      */
     @Test
     void testAquarius() {
-        final Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.MONTH, Calendar.JANUARY);
-        calendar.set(Calendar.DAY_OF_MONTH, 21);
-
-        Zodiac zodiac = Zodiac.getZodiac(calendar.getTime());
+        Zodiac zodiac = Zodiac.getZodiac(LocalDate.now().withMonth(Month.JANUARY.getValue()).withDayOfMonth(21));
         assertEquals(Zodiac.AQUARIUS, zodiac);
 
-        calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-        calendar.set(Calendar.DAY_OF_MONTH, 19);
-        zodiac = Zodiac.getZodiac(calendar.getTime());
+        zodiac = Zodiac.getZodiac(LocalDateTime.now().withMonth(Month.FEBRUARY.getValue()).withDayOfMonth(19));
         assertEquals(Zodiac.AQUARIUS, zodiac);
     }
 
@@ -43,12 +35,10 @@ class TestZodiac {
      */
     @Test
     void testAries() {
-        LocalDate localDate = LocalDate.now().withMonth(Month.MARCH.getValue()).withDayOfMonth(21);
-        Zodiac zodiac = Zodiac.getZodiac(localDate);
+        Zodiac zodiac = Zodiac.getZodiac(Month.MARCH, 21);
         assertEquals(Zodiac.ARIES, zodiac);
 
-        localDate = localDate.withMonth(Month.APRIL.getValue()).withDayOfMonth(20);
-        zodiac = Zodiac.getZodiac(localDate);
+        zodiac = Zodiac.getZodiac(Month.APRIL, 20);
         assertEquals(Zodiac.ARIES, zodiac);
     }
 
@@ -57,12 +47,10 @@ class TestZodiac {
      */
     @Test
     void testCancer() {
-        LocalDateTime localDateTime = LocalDateTime.now().withMonth(Month.JUNE.getValue()).withDayOfMonth(22);
-        Zodiac zodiac = Zodiac.getZodiac(localDateTime);
+        Zodiac zodiac = Zodiac.getZodiac(Month.JUNE, 22);
         assertEquals(Zodiac.CANCER, zodiac);
 
-        localDateTime = localDateTime.withMonth(Month.JULY.getValue()).withDayOfMonth(22);
-        zodiac = Zodiac.getZodiac(localDateTime);
+        zodiac = Zodiac.getZodiac(Month.JULY, 22);
         assertEquals(Zodiac.CANCER, zodiac);
     }
 
@@ -71,10 +59,10 @@ class TestZodiac {
      */
     @Test
     void testCapricorn() {
-        Zodiac zodiac = Zodiac.getZodiac(Month.DECEMBER.getValue(), 22);
+        Zodiac zodiac = Zodiac.getZodiac(Month.DECEMBER, 22);
         assertEquals(Zodiac.CAPRICORN, zodiac);
 
-        zodiac = Zodiac.getZodiac(Month.JANUARY.getValue(), 20);
+        zodiac = Zodiac.getZodiac(Month.JANUARY, 20);
         assertEquals(Zodiac.CAPRICORN, zodiac);
     }
 
@@ -83,10 +71,10 @@ class TestZodiac {
      */
     @Test
     void testGemini() {
-        Zodiac zodiac = Zodiac.getZodiac(5, 21);
+        Zodiac zodiac = Zodiac.getZodiac(Month.MAY, 21);
         assertEquals(Zodiac.GEMINI, zodiac);
 
-        zodiac = Zodiac.getZodiac(6, 21);
+        zodiac = Zodiac.getZodiac(Month.JUNE, 21);
         assertEquals(Zodiac.GEMINI, zodiac);
     }
 
@@ -95,10 +83,10 @@ class TestZodiac {
      */
     @Test
     void testLeo() {
-        Zodiac zodiac = Zodiac.getZodiac(7, 23);
+        Zodiac zodiac = Zodiac.getZodiac(Month.JULY, 23);
         assertEquals(Zodiac.LEO, zodiac);
 
-        zodiac = Zodiac.getZodiac(8, 23);
+        zodiac = Zodiac.getZodiac(Month.AUGUST, 23);
         assertEquals(Zodiac.LEO, zodiac);
     }
 
@@ -107,10 +95,10 @@ class TestZodiac {
      */
     @Test
     void testLibra() {
-        Zodiac zodiac = Zodiac.getZodiac(9, 24);
+        Zodiac zodiac = Zodiac.getZodiac(Month.SEPTEMBER, 24);
         assertEquals(Zodiac.LIBRA, zodiac);
 
-        zodiac = Zodiac.getZodiac(10, 23);
+        zodiac = Zodiac.getZodiac(Month.OCTOBER, 23);
         assertEquals(Zodiac.LIBRA, zodiac);
     }
 
@@ -119,10 +107,10 @@ class TestZodiac {
      */
     @Test
     void testPisces() {
-        Zodiac zodiac = Zodiac.getZodiac(2, 20);
+        Zodiac zodiac = Zodiac.getZodiac(Month.FEBRUARY, 20);
         assertEquals(Zodiac.PISCES, zodiac);
 
-        zodiac = Zodiac.getZodiac(3, 20);
+        zodiac = Zodiac.getZodiac(Month.MARCH, 20);
         assertEquals(Zodiac.PISCES, zodiac);
     }
 
@@ -131,10 +119,10 @@ class TestZodiac {
      */
     @Test
     void testSagittarius() {
-        Zodiac zodiac = Zodiac.getZodiac(11, 23);
+        Zodiac zodiac = Zodiac.getZodiac(Month.NOVEMBER, 23);
         assertEquals(Zodiac.SAGITTARIUS, zodiac);
 
-        zodiac = Zodiac.getZodiac(12, 21);
+        zodiac = Zodiac.getZodiac(Month.DECEMBER, 21);
         assertEquals(Zodiac.SAGITTARIUS, zodiac);
     }
 
@@ -143,10 +131,10 @@ class TestZodiac {
      */
     @Test
     void testScorpio() {
-        Zodiac zodiac = Zodiac.getZodiac(10, 24);
+        Zodiac zodiac = Zodiac.getZodiac(Month.OCTOBER, 24);
         assertEquals(Zodiac.SCORPIO, zodiac);
 
-        zodiac = Zodiac.getZodiac(11, 22);
+        zodiac = Zodiac.getZodiac(Month.NOVEMBER, 22);
         assertEquals(Zodiac.SCORPIO, zodiac);
     }
 
@@ -155,10 +143,10 @@ class TestZodiac {
      */
     @Test
     void testTaurus() {
-        Zodiac zodiac = Zodiac.getZodiac(4, 21);
+        Zodiac zodiac = Zodiac.getZodiac(Month.APRIL, 21);
         assertEquals(Zodiac.TAURUS, zodiac);
 
-        zodiac = Zodiac.getZodiac(5, 20);
+        zodiac = Zodiac.getZodiac(Month.MAY, 20);
         assertEquals(Zodiac.TAURUS, zodiac);
     }
 
@@ -167,10 +155,10 @@ class TestZodiac {
      */
     @Test
     void testVirgo() {
-        Zodiac zodiac = Zodiac.getZodiac(8, 24);
+        Zodiac zodiac = Zodiac.getZodiac(Month.AUGUST, 24);
         assertEquals(Zodiac.VIRGO, zodiac);
 
-        zodiac = Zodiac.getZodiac(9, 23);
+        zodiac = Zodiac.getZodiac(Month.SEPTEMBER, 23);
         assertEquals(Zodiac.VIRGO, zodiac);
     }
 }

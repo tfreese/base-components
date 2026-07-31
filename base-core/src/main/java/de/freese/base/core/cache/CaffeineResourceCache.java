@@ -1,15 +1,16 @@
 package de.freese.base.core.cache;
 
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.Weigher;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
-
-import com.github.benmanes.caffeine.cache.CacheLoader;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.LoadingCache;
-import com.github.benmanes.caffeine.cache.Weigher;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -38,8 +39,8 @@ public class CaffeineResourceCache extends FileResourceCache {
     public InputStream getResource(final URI uri) throws Exception {
         final byte[] content = cache.get(uri);
 
-        if (content == null || content.length == 0) {
-            return null;
+        if (content.length == 0) {
+            return InputStream.nullInputStream();
         }
 
         return new ByteArrayInputStream(content);
@@ -49,13 +50,12 @@ public class CaffeineResourceCache extends FileResourceCache {
      * @param keepBytesInMemory int; Disable Caching = 0
      */
     private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory) {
-        // Größe der Datei = Gewicht
+        // Size of File = Weight
         final Weigher<URI, byte[]> weigher = (key, value) -> value.length;
 
         final CacheLoader<URI, byte[]> cacheLoader = key -> {
             byte[] content = {};
 
-            // final int size = (int) getContentLength(key);
             final int size = 1024;
 
             try (InputStream inputStream = super.getResource(key);
@@ -70,10 +70,13 @@ public class CaffeineResourceCache extends FileResourceCache {
         };
 
         return Caffeine.newBuilder()
+                // expireAfterWrite(Duration.ofHours(1L))
                 .maximumWeight(keepBytesInMemory)
                 .weigher(weigher)
-                .evictionListener((key, value, cause) -> getLogger().info("Eviction: {} - {} - {}kB", cause, key, value.length / 1024))
-                .removalListener((key, value, cause) -> getLogger().info("Removal: {} - {} - {}kB", cause, key, value.length / 1024))
+                .evictionListener((key, value, cause) -> getLogger().info("Eviction: {} - {} - {}kB", cause, key,
+                        Objects.requireNonNull(value).length / 1024))
+                .removalListener((key, value, cause) -> getLogger().info("Removal: {} - {} - {}kB", cause, key,
+                        Objects.requireNonNull(value).length / 1024))
                 .build(cacheLoader)
                 ;
     }
