@@ -1,5 +1,3 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
-
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
     // reporting/generateLicenceReport
@@ -23,49 +21,42 @@ plugins {
 }
 
 allprojects {
-    apply(plugin: "base")
-
-    ant.lifecycleLogLevel = "INFO"
-
-    // repositories {
-    //
-    // }
+    plugins.apply("base")
 }
 
 subprojects {
-    apply(plugin: "de.freese.gradle.conventions")
-    apply(plugin: "io.spring.dependency-management")
+    plugins.apply("de.freese.gradle.conventions")
+    plugins.apply("io.spring.dependency-management")
 
     dependencyManagement {
         imports {
-            mavenBom(SpringBootPlugin.BOM_COORDINATES)
-            // mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
+//            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+            mavenBom("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:" + property("version_springCloud"))
         }
 
         dependencies {
-            dependency("com.github.lgooddatepicker:LGoodDatePicker:$version_lGoodDatePicker")
-            // dependency("com.github.librepdf:openpdf:$version_openpdf")
-            dependency("com.github.librepdf:openpdf:$version_openpdf")
-            dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
-            dependency("commons-net:commons-net:$version_commonsNet")
-            dependency("dev.failsafe:failsafe:$version_failsafe")
-            dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
+            dependency("com.github.lgooddatepicker:LGoodDatePicker:" + property("version_lGoodDatePicker"))
+            dependency("com.github.librepdf:openpdf:" + property("version_openpdf"))
+            dependency("com.github.spotbugs:spotbugs-annotations:" + property("version_spotbugs"))
+            dependency("commons-net:commons-net:" + property("version_commonsNet"))
+            dependency("dev.failsafe:failsafe:" + property("version_failsafe"))
+            dependencySet(group: "org.bouncycastle", version: property("version_bouncycastle")) {
                 entry("bcpg-jdk18on")
                 entry("bcmail-jdk18on")
             }
-            dependency("org.apache.poi:poi-ooxml:$version_poi")
-            dependency("org.apache.sshd:sshd-core:$version_sshd")
-            dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
-            dependency("org.jfree:jfreechart:$version_jfreechart") {
+            dependency("org.apache.poi:poi-ooxml:" + property("version_poi"))
+            dependency("org.apache.sshd:sshd-core:" + property("version_sshd"))
+            dependency("org.apiguardian:apiguardian-api:" + property("version_apiGuardian"))
+            dependency("org.jfree:jfreechart:" + property("version_jfreechart")) {
                 // exclude("com.lowagie:itext")
                 // exclude("xml-apis:xml-apis")
             }
-            dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
+            dependencySet(group: "org.openjdk.jmh", version: property("version_jmh")) {
                 entry("jmh-core")
                 entry("jmh-generator-annprocess")
             }
-            dependency("org.swinglabs.swingx:swingx-core:$version_swingx")
+            dependency("org.swinglabs.swingx:swingx-core:" + property("version_swingx"))
         }
     }
 
@@ -97,13 +88,7 @@ subprojects {
             testRuntimeOnly("org.slf4j:slf4j-simple")
         }
 
-        // test {
-        // tasks.named("test")
         tasks.withType(Test).configureEach {
-            enabled = true
-            ignoreFailures = false
-            useJUnitPlatform()
-
             String mockitoFiles = configurations.mockitoAgent.asPath
 
             doFirst {
@@ -227,16 +212,3 @@ sonar {
     }
 }
 
-// project(":base-calendar") {
-//     sonar {
-//         skipProject = true
-//     }
-// }
-
-// For Composite Build.
-tasks.register("cleanAll", GradleBuild) {
-    tasks = ["clean"]
-}
-tasks.register("buildAll", GradleBuild) {
-    tasks = ["build"]
-}

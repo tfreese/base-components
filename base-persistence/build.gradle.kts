@@ -8,7 +8,7 @@ description = "Common Patterns and Classes for the Persistence Layer."
 //     exclude group: "ch.qos.logback", module: "logback-classic"
 // }
 configurations.testImplementation {
-    exclude(group: "ch.qos.logback", module: "logback-classic")
+    exclude(group = "ch.qos.logback", module = "logback-classic")
 }
 
 dependencies {
@@ -32,10 +32,3 @@ dependencies {
     testImplementation("org.openjdk.jmh:jmh-core")
     testImplementation("org.xerial:sqlite-jdbc")
 }
-
-// test {
-//     filter {
-//         // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
-//         excludeTestsMatching "de.freese.base.persistence.jdbc.benchmark.*"
-//     }
-// }

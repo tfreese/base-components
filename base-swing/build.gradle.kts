@@ -15,11 +15,11 @@ description = "Components and Classes for Swing."
 // }
 
 javafx {
-    version = "$version_javafx"
-    modules = ["javafx.controls", "javafx.swing"]
+    version = property("version_javafx").toString()
+    modules = listOf("javafx.controls", "javafx.swing")
     // configuration = "implementation"
-    configurations = ["implementation", "testImplementation"]
-    platform = "linux" // linux, windows, mac
+    configurations = arrayOf("implementation", "testImplementation")
+    setPlatform("linux") // linux, windows, mac
     // sdk = "PATH"
 }
 
