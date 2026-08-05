@@ -1,9 +1,9 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
+    id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
+
     // reporting/generateLicenceReport
     id("com.github.jk1.dependency-license-report").version("$version_dependencyLicenseReport")
-
-    id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
 
     // id("io.spring.dependency-management").version("$version_springDependencyManagementPlugin").apply(false)
     id("org.openjfx.javafxplugin").version("$version_javafxPlugin").apply(false)
