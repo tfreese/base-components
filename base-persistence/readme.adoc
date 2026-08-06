@@ -1,0 +1,72 @@
+= Common Table Expression (CTE)
+
+Works with Oracle, HSQLDB und H2. +
+WITH-Tables are alive only for the Request.
+
+== Examples
+
+[source,sql]
+----
+WITH aktive_kunden AS (
+    SELECT
+        id,
+        name
+    FROM
+        kunde
+    WHERE
+        aktiv = true
+), bestellsummen AS (
+    SELECT
+        kunde_id,
+        SUM(betrag) AS gesamtbetrag
+    FROM
+        bestellung
+    GROUP BY
+        kunde_id
+)
+SELECT
+    k.id,
+    k.name,
+    b.gesamtbetrag
+FROM
+    aktive_kunden k
+    LEFT JOIN bestellsummen b ON b.kunde_id = k.id;
+----
+
+[source,sql]
+----
+WITH
+aktive_kunden AS (
+    SELECT id, name
+    FROM kunde
+    WHERE aktiv = TRUE
+),
+aktive_kunden_mit_bestellungen AS (
+    SELECT
+        k.id,
+        k.name,
+        COUNT(b.id) AS anzahl_bestellungen
+    FROM aktive_kunden k
+    LEFT JOIN bestellung b
+        ON b.kunde_id = k.id
+    GROUP BY k.id, k.name
+)
+SELECT *
+FROM aktive_kunden_mit_bestellungen;
+----
+
+.Hard coded Values:
+[source,sql]
+----
+WITH parameter (kunde_id, mindestbetrag) AS (
+    VALUES
+        (1001, 500.00),
+        (1002, 250.00)
+)
+SELECT
+    b.*
+FROM bestellung b
+JOIN parameter p
+    ON p.kunde_id = b.kunde_id
+   AND b.betrag >= p.mindestbetrag;
+----
