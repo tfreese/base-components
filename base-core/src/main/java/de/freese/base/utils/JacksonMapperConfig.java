@@ -10,6 +10,7 @@ import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.dataformat.xml.XmlFactory;
 import tools.jackson.dataformat.xml.XmlMapper;
+import tools.jackson.datatype.jsonp.JSONPModule;
 
 import java.util.TimeZone;
 
@@ -17,7 +18,7 @@ import java.util.TimeZone;
  * See META-INF/services/jakarta.json.spi.JsonProvider<br/>
  * #org.glassfish.json.JsonProviderImpl<br/>
  * org.eclipse.parsson.JsonProviderImpl<br/>
- * <p>
+ * <p/>
  * implementation("jakarta.json:jakarta.json-api")<br/>
  * runtimeOnly("org.eclipse.parsson:jakarta.json") // jakarta.json-api Impl. See META-INF/services/jakarta.json.spi.JsonProvider<br/>
  * // runtimeOnly("org.glassfish:jakarta.json") // jakarta.json-api Impl.<br/>
@@ -54,7 +55,7 @@ public final class JacksonMapperConfig {
                 // .defaultPropertyInclusion(JsonInclude.Value.construct(JsonInclude.Include.NON_EMPTY, JsonInclude.Include.NON_EMPTY))
                 // .serializationInclusion(JsonInclude.Include.NON_EMPTY)
                 // .addModule(new JavaTimeModule()) //  Already included in Jackson 3.x.
-//                .addModule(new JSONPModule()) // Direct Conversion from Jakarta in Jackson JSON Objects.
+                .addModule(new JSONPModule()) // Direct Conversion from Jakarta in Jackson JSON Objects.
                 .defaultTimeZone(TimeZone.getDefault())
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)

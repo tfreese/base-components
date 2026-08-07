@@ -7,15 +7,15 @@ import java.util.Random;
 /**
  * W3C Trace Context
  * Der standardisierte Header: traceparent
- * <p>
+ * <p/>
  * Format:
  * version-trace-id-parent-id-trace-flags
  * 00-<32 lowercase hex>-<16 lowercase hex>-<2 lowercase hex>
- * <p>
+ * <p/>
  * Beispiel:
- * <p>
+ * <p/>
  * HTTP traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
- * <p>
+ * <p/>
  * oder wenn traceparent nicht vorhanden:
  * HTTP X-Trace-Id: 4bf92f3577b34da6a3ce929d0e0e4736
  *

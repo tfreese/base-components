@@ -1,14 +1,6 @@
 // Created: 16 Sept. 2024
 package de.freese.base.security.ssl;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
@@ -18,6 +10,15 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
@@ -56,13 +57,12 @@ public final class SslContextBuilder {
      * HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())<br>
      */
-    public SSLContext build() throws Exception {
+    public SSLContext build() throws GeneralSecurityException, IOException {
         final KeyStore keyStore;
 
         if (keyStorePath.endsWith(".p12")) {
             keyStore = KeyStore.getInstance("PKCS12");
-        }
-        else {
+        } else {
             keyStore = KeyStore.getInstance("JKS");
         }
 
@@ -78,7 +78,7 @@ public final class SslContextBuilder {
 
         if (clientAlias != null && !clientAlias.isBlank()) {
             for (int i = 0; i < keyManagers.length; i++) {
-                if (keyManagers[i] instanceof X509KeyManager x509KeyManager) {
+                if (keyManagers[i] instanceof final X509KeyManager x509KeyManager) {
                     keyManagers[i] = new Alias509KeyManager(x509KeyManager, clientAlias);
                 }
             }
@@ -86,10 +86,9 @@ public final class SslContextBuilder {
 
         final KeyStore trustStore;
 
-        if (keyStorePath.endsWith(".p12")) {
+        if (trustStorePath.endsWith(".p12")) {
             trustStore = KeyStore.getInstance("PKCS12");
-        }
-        else {
+        } else {
             trustStore = KeyStore.getInstance("JKS");
         }
 
@@ -105,7 +104,7 @@ public final class SslContextBuilder {
 
         if (trustLocalHost) {
             for (int i = 0; i < trustManagers.length; i++) {
-                if (trustManagers[i] instanceof X509TrustManager x509TrustManager) {
+                if (trustManagers[i] instanceof final X509TrustManager x509TrustManager) {
                     trustManagers[i] = new TrustLocalHostTrustManager(x509TrustManager, trustLocalHost);
                 }
             }
@@ -121,14 +120,14 @@ public final class SslContextBuilder {
         return sslContext;
     }
 
-    public SSLContext buildDefault() throws Exception {
+    public SSLContext buildDefault() throws GeneralSecurityException {
         // System.setProperty("javax.net.debug", "ssl");
         // System.setProperty("https.protocols", "SSL");
 
         final TrustManager[] trustManagers = {new TrustAllTrustManager()};
 
         // final SSLContext sslContext = SSLContext.getDefault();
-        final SSLContext sslContext = SSLContext.getInstance("TLS"); // SSL, TLS
+        final SSLContext sslContext = SSLContext.getInstance("TLSv1.3"); // SSL, TLS
         sslContext.init(null, trustManagers, SecureRandom.getInstanceStrong());
 
         SSLContext.setDefault(sslContext);

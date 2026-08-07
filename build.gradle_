@@ -30,6 +30,7 @@ subprojects {
 
     dependencyManagement {
         imports {
+            mavenBom("org.bouncycastle:bc-jdk18on-bom:" + property("version_bouncycastle"))
 //            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
             mavenBom("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:" + property("version_springCloud"))
@@ -41,10 +42,6 @@ subprojects {
             dependency("com.github.spotbugs:spotbugs-annotations:" + property("version_spotbugs"))
             dependency("commons-net:commons-net:" + property("version_commonsNet"))
             dependency("dev.failsafe:failsafe:" + property("version_failsafe"))
-            dependencySet(group: "org.bouncycastle", version: property("version_bouncycastle")) {
-                entry("bcpg-jdk18on")
-                entry("bcmail-jdk18on")
-            }
             dependency("org.apache.poi:poi-ooxml:" + property("version_poi"))
             dependency("org.apache.sshd:sshd-core:" + property("version_sshd"))
             dependency("org.apiguardian:apiguardian-api:" + property("version_apiGuardian"))

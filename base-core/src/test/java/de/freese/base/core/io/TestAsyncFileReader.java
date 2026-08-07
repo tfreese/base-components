@@ -1,7 +1,9 @@
 package de.freese.base.core.io;
 
-import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.freese.base.core.model.builder.GenericBuilder;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -11,11 +13,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.freese.base.core.model.builder.GenericBuilder;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Thomas Freese
@@ -43,7 +42,7 @@ class TestAsyncFileReader {
                 .with(r -> r.setDataConsumer(dataConsumer))
                 .build();
 
-        final Path path = Paths.get(System.getProperty("user.dir"), "build.gradle");
+        final Path path = Paths.get(System.getProperty("user.dir"), "build.gradle.kts");
         LOGGER.info("Reading file: {}", path);
 
         // 2x parallel auslesen.

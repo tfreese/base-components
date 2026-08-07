@@ -21,6 +21,7 @@ dependencies {
     implementation("org.springframework:spring-context")
     implementation("tools.jackson.core:jackson-databind")
     implementation("tools.jackson.dataformat:jackson-dataformat-xml")
+    implementation("tools.jackson.datatype:jackson-datatype-jakarta-jsonp")
 
     // implementation = scope compile
     // compileOnly = scope provided

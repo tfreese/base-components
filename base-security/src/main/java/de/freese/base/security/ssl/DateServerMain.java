@@ -1,20 +1,20 @@
 // Created: 18.10.2005
 package de.freese.base.security.ssl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.concurrent.ForkJoinPool;
-
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocket;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -37,12 +37,10 @@ public final class DateServerMain extends Thread {
 
             try {
                 outputStream = clientSocket.getOutputStream();
-            }
-            catch (Exception ex) {
+            } catch (final Exception ex) {
                 try {
                     clientSocket.close();
-                }
-                catch (Exception _) {
+                } catch (final Exception _) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -56,14 +54,13 @@ public final class DateServerMain extends Thread {
 
             try {
                 LOGGER.info("DateServerMain.Connect.run()");
-                outputStream.write(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.write(LocalDateTime.now(ZoneId.systemDefault()).toString().getBytes(StandardCharsets.UTF_8));
                 outputStream.flush();
 
                 // Close streams and connections.
                 outputStream.close();
                 clientSocket.close();
-            }
-            catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }
@@ -102,14 +99,13 @@ public final class DateServerMain extends Thread {
                     .build();
 
             serverSocketFactory = sslContext.getServerSocketFactory();
-        }
-        else {
+        } else {
             serverSocketFactory = ServerSocketFactory.getDefault();
         }
 
         serverSocket = serverSocketFactory.createServerSocket(3333);
 
-        if (serverSocket instanceof SSLServerSocket sslServerSocket) {
+        if (serverSocket instanceof final SSLServerSocket sslServerSocket) {
             sslServerSocket.setNeedClientAuth(true);
         }
 
@@ -131,8 +127,7 @@ public final class DateServerMain extends Thread {
                 if (isInterrupted()) {
                     break;
                 }
-            }
-            catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }
