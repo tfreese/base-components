@@ -1,12 +1,5 @@
-// Created: 18.10.2005
 package de.freese.base.security.ssl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocket;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,8 +9,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.concurrent.ForkJoinPool;
 
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
+ * @since 18.10.2005
  */
 public final class DateServerMain extends Thread {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateServerMain.class);
@@ -37,10 +38,12 @@ public final class DateServerMain extends Thread {
 
             try {
                 outputStream = clientSocket.getOutputStream();
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 try {
                     clientSocket.close();
-                } catch (final Exception _) {
+                }
+                catch (Exception _) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -60,7 +63,8 @@ public final class DateServerMain extends Thread {
                 // Close streams and connections.
                 outputStream.close();
                 clientSocket.close();
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }
@@ -70,7 +74,6 @@ public final class DateServerMain extends Thread {
         final DateServerMain server = new DateServerMain();
         server.start();
     }
-
     private final ServerSocket serverSocket;
 
     private DateServerMain() throws Exception {
@@ -99,7 +102,8 @@ public final class DateServerMain extends Thread {
                     .build();
 
             serverSocketFactory = sslContext.getServerSocketFactory();
-        } else {
+        }
+        else {
             serverSocketFactory = ServerSocketFactory.getDefault();
         }
 
@@ -127,7 +131,8 @@ public final class DateServerMain extends Thread {
                 if (isInterrupted()) {
                     break;
                 }
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }

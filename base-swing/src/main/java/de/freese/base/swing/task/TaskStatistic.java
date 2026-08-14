@@ -3,13 +3,14 @@ package de.freese.base.swing.task;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author Thomas Freese
  */
-public class TaskStatistik implements Serializable {
+public class TaskStatistic implements Serializable {
     private static final int MAX_SIZE = 10;
 
     @Serial
@@ -19,7 +20,7 @@ public class TaskStatistik implements Serializable {
      */
     private final transient Queue<Long> durations = new ConcurrentLinkedQueue<>();
 
-    private LocalDateTime lastAccess = LocalDateTime.now();
+    private LocalDateTime lastAccess = LocalDateTime.now(ZoneId.systemDefault());
     private String taskName = "";
 
     public long getAvg() {
@@ -36,6 +37,10 @@ public class TaskStatistik implements Serializable {
 
     public LocalDateTime getLastAccess() {
         return lastAccess;
+    }
+
+    public void setLastAccess(final LocalDateTime lastAccess) {
+        this.lastAccess = lastAccess;
     }
 
     public long getMax() {
@@ -62,6 +67,10 @@ public class TaskStatistik implements Serializable {
         return taskName;
     }
 
+    public void setTaskName(final String taskName) {
+        this.taskName = taskName;
+    }
+
     public void measureDuration(final long duration) {
         final long avg = getAvg();
 
@@ -70,7 +79,7 @@ public class TaskStatistik implements Serializable {
             appendDuration(duration);
         }
 
-        lastAccess = LocalDateTime.now();
+        lastAccess = LocalDateTime.now(ZoneId.systemDefault());
     }
 
     public void setDurations(final long[] durations) {
@@ -79,26 +88,14 @@ public class TaskStatistik implements Serializable {
         }
     }
 
-    public void setLastAccess(final LocalDateTime lastAccess) {
-        this.lastAccess = lastAccess;
-    }
-
-    public void setTaskName(final String taskName) {
-        this.taskName = taskName;
-    }
-
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-
-        builder.append(getTaskName());
-        builder.append("; Min=").append(getMin());
-        builder.append("; Max=").append(getMax());
-        builder.append("; Avg=").append(getAvg());
-        builder.append("; Size=").append(durations.size());
-        builder.append("; Datum=").append(getLastAccess());
-
-        return builder.toString();
+        return getTaskName() +
+                "; Min=" + getMin() +
+                "; Max=" + getMax() +
+                "; Avg=" + getAvg() +
+                "; Size=" + durations.size() +
+                "; Datum=" + getLastAccess();
     }
 
     protected void appendDuration(final long zeit) {
