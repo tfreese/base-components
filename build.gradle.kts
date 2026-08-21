@@ -61,7 +61,7 @@ subprojects {
         val mockitoAgent = configurations.create("mockitoAgent")
 
         dependencies {
-            //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
+            // implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
 
             add("testImplementation", "org.awaitility:awaitility")
             add("testImplementation", "org.junit.jupiter:junit-jupiter")
@@ -116,7 +116,7 @@ tasks.named<HtmlDependencyReportTask>("htmlDependencyReport") {
 tasks.propertyReport {
     onlyIf { false } // Wird niemals ausgeführt
 }
-//tasks.named<org.gradle.api.plugins.PropertyReportTask>("propertyReport") {
+// tasks.named<org.gradle.api.plugins.PropertyReportTask>("propertyReport") {
 //    enabled = false
 //}
 
@@ -153,7 +153,7 @@ dependencyCheck {
     analyzers.assemblyEnabled = false // .NET Analyzer.
     analyzers.centralEnabled = false
     // Requires Internet Access, but all Information is already supported by the GradlePlugin.
-    analyzers.nexusEnabled = false // Requires NexusPro.
+    analyzers.nexus.enabled = false // Requires NexusPro.
 
     // analyzers.artifactory.enabled = true
     // analyzers.artifactory.url = https://HOST:PORT/CONTEXT
@@ -188,17 +188,17 @@ sonar {
         property("sonar.projectName", "base-components")
         property("sonar.projectKey", "base-components")
 
-        //property("sonar.language", "java")
+        // property("sonar.language", "java")
         // property("sonar.exclusions", "src/test/**")
 
         // Default: ~/.sonar
         // Must be an absolute Path.
         // As Environment Variable: SONAR_USER_HOME=...
         // As VM Variable: -Dsonar.userHome=...
-        //property("sonar.userHome", "ABSOLUTE-PATH")
+        // property("sonar.userHome", "ABSOLUTE-PATH")
 
-        //property("sonar.log.level", "INFO")
-        //property("sonar.verbose", "false")
+        // property("sonar.log.level", "INFO")
+        // property("sonar.verbose", "false")
 
         property("sonar.log.level", "TRACE")
         property("sonar.verbose", "true")
