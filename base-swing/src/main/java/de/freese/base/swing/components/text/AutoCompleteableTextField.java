@@ -142,7 +142,7 @@ public class AutoCompleteableTextField extends JTextField {
             // Treffer sortieren
             Collections.sort(matches);
 
-            for (String element : matches) {
+            for (final String element : matches) {
                 final Action action = new PrevSearchAction(element);
 
                 prevSearchMenu.add(action);

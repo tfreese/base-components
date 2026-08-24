@@ -45,7 +45,8 @@ public final class CsvUtils {
 
         if (reader instanceof final BufferedReader br) {
             bufferedReader = br;
-        } else {
+        }
+        else {
             bufferedReader = new BufferedReader(reader);
         }
 
@@ -64,10 +65,10 @@ public final class CsvUtils {
     }
 
     /**
-     * @param outputStream       {@link OutputStream}; The Stream is not closed.
+     * @param outputStream {@link OutputStream}; The Stream is not closed.
      * @param rowFinishPredicate {@link IntPredicate}; row -> true/false
-     * @param headerFunction     {@link IntFunction}; row -> value
-     * @param valueFunction      {@link BiFunction}; row, column -> value
+     * @param headerFunction {@link IntFunction}; row -> value
+     * @param valueFunction {@link BiFunction}; row, column -> value
      */
     public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntPredicate rowFinishPredicate, final IntFunction<String> headerFunction,
                                 final BiFunction<Integer, Integer, String> valueFunction) {
@@ -75,7 +76,8 @@ public final class CsvUtils {
 
         if (outputStream instanceof final PrintStream ps) {
             printStream = ps;
-        } else {
+        }
+        else {
             printStream = new PrintStream(outputStream, false, StandardCharsets.UTF_8);
         }
 

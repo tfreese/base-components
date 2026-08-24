@@ -1,9 +1,6 @@
 // Created: 27.07.2016
 package de.freese.base.core.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -15,6 +12,9 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -40,7 +40,8 @@ public abstract class AbstractResourceCache implements ResourceCache {
 
         try {
             return MessageDigest.getInstance("SHA-512");
-        } catch (final NoSuchAlgorithmException ex) {
+        }
+        catch (final NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -72,7 +73,8 @@ public abstract class AbstractResourceCache implements ResourceCache {
             final Path path = Path.of(uri);
 
             return Files.size(path);
-        } else if ("http".equals(protocol) || "https".equals(protocol)) {
+        }
+        else if ("http".equals(protocol) || "https".equals(protocol)) {
             final URLConnection connection = uri.toURL().openConnection();
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
             httpURLConnection.setRequestMethod("HEAD");
@@ -146,7 +148,8 @@ public abstract class AbstractResourceCache implements ResourceCache {
             }
 
             return connection.getInputStream();
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             if (connection instanceof final HttpURLConnection httpURLConnection) {
                 httpURLConnection.disconnect();
             }

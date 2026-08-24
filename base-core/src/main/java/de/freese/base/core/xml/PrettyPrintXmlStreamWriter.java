@@ -1,14 +1,15 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Decorator für einen {@link XMLStreamWriter} für "PrettyPrint"-Features.<br>

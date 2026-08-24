@@ -223,10 +223,10 @@ public final class TreeUtils {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
         final Object[] selectedObjects = getSelectedObjects(tree);
 
-        for (Object selected : selectedObjects) {
+        for (final Object selected : selectedObjects) {
             final DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) selected;
 
-            for (Class<?> element : userObjectTypes) {
+            for (final Class<?> element : userObjectTypes) {
                 if (element.isInstance(selectedTreeNode.getUserObject())) {
                     return selectedTreeNode;
                 }
@@ -243,7 +243,7 @@ public final class TreeUtils {
     }
 
     public static Object getTreeObjectForEvent(final MouseEvent event) {
-        if (event == null || !(event.getSource() instanceof JTree tree)) {
+        if (event == null || !(event.getSource() instanceof final JTree tree)) {
             return null;
         }
 

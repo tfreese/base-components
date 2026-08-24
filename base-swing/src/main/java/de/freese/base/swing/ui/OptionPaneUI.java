@@ -28,7 +28,7 @@ public class OptionPaneUI extends BasicOptionPaneUI {
     protected Container createButtonArea() {
         final Container c = super.createButtonArea();
 
-        if (c instanceof JComponent jc) {
+        if (c instanceof final JComponent jc) {
             jc.setOpaque(false);
         }
 

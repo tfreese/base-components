@@ -1,13 +1,14 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.xml.stream.XMLStreamWriter;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import javax.xml.stream.XMLStreamWriter;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese

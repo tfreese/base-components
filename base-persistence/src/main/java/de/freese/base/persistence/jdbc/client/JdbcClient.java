@@ -1,15 +1,6 @@
 // Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
-import de.freese.base.persistence.exception.PersistenceException;
-import de.freese.base.persistence.formatter.SqlFormatter;
-import de.freese.base.persistence.jdbc.function.ConnectionCallback;
-import de.freese.base.persistence.jdbc.transaction.SimpleTransaction;
-import de.freese.base.persistence.jdbc.transaction.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -19,6 +10,17 @@ import java.sql.Statement;
 import java.sql.Wrapper;
 import java.util.Objects;
 import java.util.function.Function;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.freese.base.persistence.exception.PersistenceException;
+import de.freese.base.persistence.formatter.SqlFormatter;
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.transaction.SimpleTransaction;
+import de.freese.base.persistence.jdbc.transaction.Transaction;
 
 /**
  * @author Thomas Freese
@@ -96,7 +98,8 @@ public class JdbcClient implements Wrapper {
             }
 
             resultSet.close();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             getLogger().error("Could not close JDBC ResultSet", ex);
         }
     }
@@ -110,7 +113,8 @@ public class JdbcClient implements Wrapper {
             }
 
             statement.close();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             getLogger().error("Could not close JDBC Statement", ex);
         }
     }
@@ -135,7 +139,8 @@ public class JdbcClient implements Wrapper {
             }
 
             connection.close();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             //            throw new UncheckedSqlException(ex);
             getLogger().error("Could not close JDBC Connection", ex);
         }
@@ -167,9 +172,11 @@ public class JdbcClient implements Wrapper {
             // connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             return connectionCallback.doInConnection(connection);
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw convertException(ex);
-        } finally {
+        }
+        finally {
             if (closeResources) {
                 close(connection);
             }
@@ -189,7 +196,8 @@ public class JdbcClient implements Wrapper {
 
         try {
             return getDataSource().getConnection();
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw convertException(ex);
         }
     }

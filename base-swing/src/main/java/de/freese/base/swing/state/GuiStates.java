@@ -50,17 +50,17 @@ public final class GuiStates {
     }
 
     public GuiState getState(final Class<? extends Component> componentClass) {
-        for (Class<? extends GuiState> stateClass : states) {
+        for (final Class<? extends GuiState> stateClass : states) {
             GuiState state = instanceMap.get(stateClass);
 
             if (state == null) {
                 try {
                     state = stateClass.getDeclaredConstructor().newInstance();
                 }
-                catch (RuntimeException ex) {
+                catch (final RuntimeException ex) {
                     throw ex;
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     throw new RuntimeException(ex);
                 }
 

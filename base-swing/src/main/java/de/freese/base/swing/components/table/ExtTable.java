@@ -97,7 +97,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         if (p instanceof JViewport) {
             final Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane scrollPane) {
+            if (gp instanceof final JScrollPane scrollPane) {
                 final JViewport viewport = scrollPane.getViewport();
 
                 if (viewport == null || viewport.getView() != this) {
@@ -226,7 +226,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
 
         final Component component = super.prepareEditor(editor, row, column);
 
-        if (component instanceof JTextComponent c) {
+        if (component instanceof final JTextComponent c) {
             c.selectAll();
         }
 
@@ -258,7 +258,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         if (p instanceof JViewport) {
             final Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane scrollPane) {
+            if (gp instanceof final JScrollPane scrollPane) {
                 final Border border = scrollPane.getBorder();
 
                 if (border == null || border instanceof UIResource) {

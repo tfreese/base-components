@@ -62,7 +62,7 @@ public class ExtComboBox<T> extends JComboBox<T> {
             for (int i = 0; i < itemCount; i++) {
                 final Component c = renderer.getListCellRendererComponent(getList(), comboBox.getItemAt(i), i, false, false);
 
-                if (c instanceof JLabel label) {
+                if (c instanceof final JLabel label) {
                     final int labelWidth = c.getFontMetrics(c.getFont()).stringWidth(label.getText());
 
                     width = Math.max(width, labelWidth);

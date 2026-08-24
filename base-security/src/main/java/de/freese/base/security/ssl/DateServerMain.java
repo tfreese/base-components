@@ -74,6 +74,7 @@ public final class DateServerMain extends Thread {
         final DateServerMain server = new DateServerMain();
         server.start();
     }
+
     private final ServerSocket serverSocket;
 
     private DateServerMain() throws Exception {

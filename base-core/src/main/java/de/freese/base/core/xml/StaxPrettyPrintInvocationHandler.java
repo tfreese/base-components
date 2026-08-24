@@ -1,11 +1,12 @@
 // Created: 15.06.2012
 package de.freese.base.core.xml;
 
-import javax.xml.stream.XMLStreamWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.stream.XMLStreamWriter;
 
 /**
  * @author Thomas Freese

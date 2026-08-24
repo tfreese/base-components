@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -33,11 +34,13 @@ public final class JxDatePickerMain {
             datePicker.setShowWeekNumbers(true);
             datePicker.setPromptText("yyyy-mm-dd");
             datePicker.setEditable(true);
+            // datePicker.setStyle("-fx-font-size: 18px;");
             datePicker.setOnAction(event -> {
                 final LocalDate localDate = datePicker.getValue();
 
                 jLabel.setText("localDate = " + localDate);
             });
+            datePicker.styleProperty().bind(Bindings.concat("-fx-font-size: ", scene.widthProperty().divide(25).asString()));
 
             root.getChildren().add(datePicker);
 
@@ -49,7 +52,7 @@ public final class JxDatePickerMain {
         frame.getContentPane().add(BorderLayout.CENTER, fxPanel);
         frame.getContentPane().add(BorderLayout.SOUTH, jLabel);
 
-        frame.setSize(300, 300);
+        frame.setSize(600, 600);
         // frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

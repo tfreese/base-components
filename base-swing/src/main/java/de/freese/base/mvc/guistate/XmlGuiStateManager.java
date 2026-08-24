@@ -61,10 +61,10 @@ public final class XmlGuiStateManager extends AbstractGuiStateManager {
 
             unMarshaller = jaxbContext.createUnmarshaller();
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             final RuntimeException re = new RuntimeException(ex);
             re.setStackTrace(ex.getStackTrace());
 

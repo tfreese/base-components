@@ -67,7 +67,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean hasFocus) {
         generalSetup(list, isSelected, hasFocus, index);
 
-        if (value instanceof Icon i) {
+        if (value instanceof final Icon i) {
             setIcon(i);
             setText("");
         }

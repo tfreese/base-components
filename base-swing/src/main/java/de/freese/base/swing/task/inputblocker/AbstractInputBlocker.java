@@ -44,7 +44,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
     protected JRootPane detectRootPane() {
         JRootPane rp = null;
 
-        for (T target : getTargets()) {
+        for (final T target : getTargets()) {
             if (rp != null) {
                 break;
             }
@@ -53,7 +53,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
                 RootPaneContainer rpc = null;
 
                 while (root != null) {
-                    if (root instanceof RootPaneContainer c) {
+                    if (root instanceof final RootPaneContainer c) {
                         rpc = c;
                         break;
                     }
@@ -69,7 +69,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
         if (rp == null) {
             final Frame activeFrame = GuiUtils.getActiveFrame();
 
-            if (activeFrame instanceof RootPaneContainer c) {
+            if (activeFrame instanceof final RootPaneContainer c) {
                 rp = c.getRootPane();
             }
         }

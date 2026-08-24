@@ -1,17 +1,21 @@
 package de.freese.base.utils;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Enumeration;
+
+import org.apache.commons.net.ntp.NTPUDPClient;
+import org.apache.commons.net.ntp.TimeInfo;
 
 /**
  * @author Thomas Freese
@@ -34,7 +38,8 @@ public final class NetUtils {
 
             return InetAddress.getByName(hostname).getHostAddress();
 
-        } catch (final UnknownHostException ex) {
+        }
+        catch (final UnknownHostException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -67,7 +72,8 @@ public final class NetUtils {
 
         try {
             hostName = InetAddress.getLocalHost().getHostName();
-        } catch (Exception _) {
+        }
+        catch (Exception _) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht!
         }
 
@@ -76,7 +82,8 @@ public final class NetUtils {
             try (Process process = Runtime.getRuntime().exec(new String[]{"hostname"});
                  BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
-            } catch (Exception _) {
+            }
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -106,7 +113,8 @@ public final class NetUtils {
 
                     }
                 }
-            } catch (Exception _) {
+            }
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -136,7 +144,8 @@ public final class NetUtils {
 
             try {
                 return getNtpTime(host, NTP_PORT);
-            } catch (Exception _) {
+            }
+            catch (Exception _) {
                 // Ignore
             }
         }
@@ -154,7 +163,8 @@ public final class NetUtils {
             InetAddress.getByName("www." + host);
 
             isValid = true;
-        } catch (UnknownHostException _) {
+        }
+        catch (UnknownHostException _) {
             // Ignore
         }
 
@@ -163,7 +173,8 @@ public final class NetUtils {
                 InetAddress.getByName(host);
 
                 isValid = true;
-            } catch (UnknownHostException _) {
+            }
+            catch (UnknownHostException _) {
                 // Ignore
             }
         }

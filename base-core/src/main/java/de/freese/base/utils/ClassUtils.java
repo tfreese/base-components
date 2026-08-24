@@ -80,7 +80,8 @@ public final class ClassUtils {
                 final URI jarFileURI = URI.create(fileName.substring(0, fileName.indexOf(".jar!") + 4));
 
                 classes.addAll(findClassesInJar(Paths.get(jarFileURI), packagePath, classLoader));
-            } else {
+            }
+            else {
                 classes.addAll(findClassesInFolder(new File(fileName), packageName));
             }
         }
@@ -108,7 +109,8 @@ public final class ClassUtils {
         for (final File file : files) {
             if (file.isDirectory()) {
                 classes.addAll(findClassesInFolder(file, packageName + "." + file.getName()));
-            } else if (file.getName().endsWith(".class")) {
+            }
+            else if (file.getName().endsWith(".class")) {
                 classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
             }
         }

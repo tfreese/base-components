@@ -112,12 +112,11 @@ public final class Node {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("path=").append(getPath());
-        sb.append(']');
+        final String sb = getClass().getSimpleName() + " [" +
+                "path=" + getPath() +
+                ']';
 
-        return sb.toString();
+        return sb;
     }
 
     private void decideEnabled() {

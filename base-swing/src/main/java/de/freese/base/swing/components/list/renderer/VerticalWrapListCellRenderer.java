@@ -41,7 +41,7 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
             component.setBackground(UIManager.getColor("Table.alternateRowColor"));
         }
 
-        if (index >= visibleRowCount && component instanceof JComponent jComponent) {
+        if (index >= visibleRowCount && component instanceof final JComponent jComponent) {
             final Border compoundBorder = BorderFactory.createCompoundBorder(matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }

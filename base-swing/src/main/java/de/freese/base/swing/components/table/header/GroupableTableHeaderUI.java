@@ -66,7 +66,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
             int groupHeight = 0;
 
-            for (Object col : columnGroups) {
+            for (final Object col : columnGroups) {
                 final GroupableColumn cGroup = (GroupableColumn) col;
 
                 final Rectangle groupRect = map.computeIfAbsent(cGroup, key -> {
@@ -137,7 +137,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
             final List<Object> columnGroups = ((GroupableTableHeader) header).getColumnGroups(aColumn);
 
-            for (Object col : columnGroups) {
+            for (final Object col : columnGroups) {
                 final GroupableColumn cGroup = (GroupableColumn) col;
                 cHeight += cGroup.getSize(header.getTable()).height;
             }

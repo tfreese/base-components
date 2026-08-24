@@ -31,7 +31,7 @@ public class ComboBoxGroup implements ItemListener {
             final JComboBox<?> srcComboBox = (JComboBox<?>) event.getSource();
 
             // Remove selection from all other ComboBoxes.
-            for (JComboBox<?> comboBox : boxes) {
+            for (final JComboBox<?> comboBox : boxes) {
                 if (comboBox != srcComboBox) {
                     comboBox.removeItemListener(this);
                     comboBox.setSelectedIndex(-1);

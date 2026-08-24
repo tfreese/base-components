@@ -1,18 +1,18 @@
 // Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
@@ -55,7 +55,8 @@ class TestSingleDatasource {
             if (rs.next()) {
                 assertTrue(rs.getLong("ID") > 0);
                 assertEquals("Test", rs.getString("LAST_NAME"));
-            } else {
+            }
+            else {
                 fail();
             }
         }

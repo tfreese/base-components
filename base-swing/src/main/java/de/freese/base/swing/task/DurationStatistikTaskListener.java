@@ -1,14 +1,15 @@
 package de.freese.base.swing.task;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.Timer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TaskListener, der dessen Ausführungsdauer protokolliert und daraus über einen {@link Timer} den Progress-Wert zyklisch setzt.<br>
@@ -28,9 +29,11 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
 
         if (SwingTask.PROPERTY_CANCELLED.equals(propertyName)) {
             stopTimer();
-        } else if (SwingTask.PROPERTY_FAILED.equals(propertyName)) {
+        }
+        else if (SwingTask.PROPERTY_FAILED.equals(propertyName)) {
             stopTimer();
-        } else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
+        }
+        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
@@ -42,7 +45,8 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             final TaskStatistic taskStatistic = getTaskStatistik(taskName);
             taskStatistic.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
             updateTaskStatistik(taskStatistic);
-        } else if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
+        }
+        else if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 

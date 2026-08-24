@@ -217,7 +217,7 @@ public class ConfigureableDocument extends PlainDocument {
 
             super.insertString(offs, context.newText, a);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             handleException(ex);
         }
     }

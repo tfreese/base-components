@@ -41,7 +41,7 @@ public class GroupableTableHeader extends JTableHeader {
             return Collections.emptyList();
         }
 
-        for (GroupableColumn groupableColumn : columnGroups) {
+        for (final GroupableColumn groupableColumn : columnGroups) {
             if (groupableColumn != null) {
                 final List<Object> groups = groupableColumn.getColumnGroups(tableColumn, new ArrayList<>());
 
@@ -61,7 +61,7 @@ public class GroupableTableHeader extends JTableHeader {
 
         final int columnMargin = getColumnModel().getColumnMargin();
 
-        for (GroupableColumn groupableColumn : columnGroups) {
+        for (final GroupableColumn groupableColumn : columnGroups) {
             groupableColumn.setColumnMargin(columnMargin);
         }
     }

@@ -86,7 +86,7 @@ public final class MdiDesktopPane extends JDesktopPane {
 
     public int getTitleHeight() {
         try {
-            for (JInternalFrame frame : getAllFrames()) {
+            for (final JInternalFrame frame : getAllFrames()) {
                 final Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
 
                 if (dimension == null) {
@@ -188,7 +188,7 @@ public final class MdiDesktopPane extends JDesktopPane {
         // count frames that aren't iconized
         int frameCount = 0;
 
-        for (JInternalFrame frame : allFrames) {
+        for (final JInternalFrame frame : allFrames) {
             if (!frame.isIcon()) {
                 frameCount++;
             }
@@ -206,7 +206,7 @@ public final class MdiDesktopPane extends JDesktopPane {
         int r = 0;
         int c = 0;
 
-        for (JInternalFrame frame : allFrames) {
+        for (final JInternalFrame frame : allFrames) {
             if (!frame.isIcon()) {
                 try {
                     frame.setMaximum(false);
@@ -244,7 +244,7 @@ public final class MdiDesktopPane extends JDesktopPane {
         int frameHeight = getHeight() / allFrames.length;
         frameHeight = Math.max(frameHeight, minHeight);
 
-        for (JInternalFrame allFrame : allFrames) {
+        for (final JInternalFrame allFrame : allFrames) {
             allFrame.setSize(getWidth(), frameHeight);
             allFrame.setLocation(0, y);
             y = y + frameHeight;

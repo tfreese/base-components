@@ -1,13 +1,13 @@
 // Created: 27.05.2016
 package de.freese.base.persistence.jdbc.reactive;
 
-import de.freese.base.persistence.jdbc.function.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * {@link Iterator} for a {@link ResultSet}.<br/>
@@ -30,7 +30,8 @@ public class ResultSetIterator<T> implements Iterator<T> {
         try {
             return resultSet.next();
             // return !resultSet.isClosed() && !resultSet.isAfterLast() && resultSet.next();
-        } catch (final SQLException sex) {
+        }
+        catch (final SQLException sex) {
             throw new NoSuchElementException(sex.getMessage());
         }
     }
@@ -39,7 +40,8 @@ public class ResultSetIterator<T> implements Iterator<T> {
     public T next() {
         try {
             return rowMapper.mapRow(resultSet);
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new NoSuchElementException(ex);
         }
     }

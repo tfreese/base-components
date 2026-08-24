@@ -1,10 +1,6 @@
 // Created: 30.11.2016
 package de.freese.base.persistence.jdbc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +17,11 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.<br>
@@ -94,7 +95,8 @@ public class DatabasePopulator {
 
             try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();
-            } catch (Exception _) {
+            }
+            catch (Exception _) {
                 // Ignore
             }
         }

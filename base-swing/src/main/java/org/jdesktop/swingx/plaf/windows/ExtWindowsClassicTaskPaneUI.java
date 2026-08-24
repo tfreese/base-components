@@ -82,7 +82,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
 
         private void paintTitleActions(final Graphics g, final int x, final int y, final int width, final int height) {
             // Weitere Buttons malen
-            for (JButton button : ExtWindowsClassicTaskPaneUI.this.titleButtons) {
+            for (final JButton button : ExtWindowsClassicTaskPaneUI.this.titleButtons) {
                 final Rectangle rectangle = getRectangleFor(button);
 
                 if (rectangle == null) {
@@ -340,7 +340,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     }
 
     private JButton getButtonFor(final int x, final int y) {
-        for (JButton button : titleButtons) {
+        for (final JButton button : titleButtons) {
             final Rectangle rect = getRectangleFor(button);
 
             if (rect == null) {
@@ -368,7 +368,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
         for (int i = 0; i < index; i++) {
             final Object titelObject = titleObjects.get(i);
 
-            if (titelObject instanceof Dimension d) {
+            if (titelObject instanceof final Dimension d) {
                 x -= d.width;
             }
             else {

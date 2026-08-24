@@ -173,7 +173,7 @@ public class ExtTableColumn extends TableColumn {
             if (pcl != null && pcl.length != 0) {
                 final PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 
-                for (PropertyChangeListener element : pcl) {
+                for (final PropertyChangeListener element : pcl) {
                     element.propertyChange(pce);
                 }
             }

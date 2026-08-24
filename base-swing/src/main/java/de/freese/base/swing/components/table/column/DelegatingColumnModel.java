@@ -137,7 +137,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
 
     @Override
     public void valueChanged(final ListSelectionEvent event) {
-        if (getDelegateColumnModel() instanceof ListSelectionListener l) {
+        if (getDelegateColumnModel() instanceof final ListSelectionListener l) {
             l.valueChanged(event);
         }
     }

@@ -67,7 +67,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
         final TreePath path = event.getPath();
         final Object lastPathComponent = path.getLastPathComponent();
 
-        if (lastPathComponent instanceof LazyLoadingTreeNode lazyNode) {
+        if (lastPathComponent instanceof final LazyLoadingTreeNode lazyNode) {
             loadChildren(treeModel, lazyNode);
         }
     }
@@ -116,13 +116,13 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
 
                     node.setChildrenLoaded(true);
                 }
-                catch (InterruptedException ex) {
+                catch (final InterruptedException ex) {
                     getLogger().error(ex.getMessage(), ex);
 
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     getLogger().error(ex.getMessage(), ex);
                 }
                 finally {

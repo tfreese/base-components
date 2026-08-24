@@ -227,7 +227,8 @@ public final class CalendarUtils {
     static LocalDate toLocalDate(final TemporalAccessor accessor) {
         if (accessor instanceof final LocalDate ld) {
             return ld;
-        } else if (accessor instanceof final LocalDateTime ldt) {
+        }
+        else if (accessor instanceof final LocalDateTime ldt) {
             return ldt.toLocalDate();
         }
 

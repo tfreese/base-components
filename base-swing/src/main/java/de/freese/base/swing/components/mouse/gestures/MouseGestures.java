@@ -121,7 +121,7 @@ public class MouseGestures {
     public void start() {
         if (mouseGesturesEventListener == null) {
             mouseGesturesEventListener = event -> {
-                if (event instanceof MouseEvent mouseEvent) {
+                if (event instanceof final MouseEvent mouseEvent) {
                     if ((mouseEvent.getModifiersEx() & mouseButton) == mouseButton) {
                         mouseGesturesRecognizer.processMouseEvent(mouseEvent);
                     }

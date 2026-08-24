@@ -1,6 +1,14 @@
 // Created: 02.07.2009
 package de.freese.base.utils;
 
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
@@ -9,14 +17,6 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
-
-import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 /**
  * @author Thomas Freese
@@ -49,7 +49,8 @@ public final class HibernateUtils {
 
             logger.info("evict QueryRegions");
             cache.evictQueryRegions();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             logger.warn(ex.getMessage());
         }
     }
@@ -69,7 +70,7 @@ public final class HibernateUtils {
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
      * @param maybeProxy möglicher {@link HibernateProxy}
-     * @param baseClass  Klasse für den cast
+     * @param baseClass Klasse für den cast
      */
     public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException {
         if (maybeProxy instanceof final HibernateProxy hibernateProxy) {
@@ -279,7 +280,8 @@ public final class HibernateUtils {
             final LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return initializer.getPersistentClass();
-        } else {
+        }
+        else {
             return object.getClass();
         }
     }

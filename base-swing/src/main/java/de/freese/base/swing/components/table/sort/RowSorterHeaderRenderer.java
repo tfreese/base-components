@@ -46,7 +46,7 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
         final TableColumn tc = table.getColumnModel().getColumn(column);
 
-        if (!(tc instanceof ExtTableColumn tableColumnExt)) {
+        if (!(tc instanceof final ExtTableColumn tableColumnExt)) {
             return component;
         }
 

@@ -67,8 +67,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
     }
 
     public JMenuBar getJMenuBar() {
-        for (Component component : dispatchComponents) {
-            if (component instanceof JMenuBar b) {
+        for (final Component component : dispatchComponents) {
+            if (component instanceof final JMenuBar b) {
                 return b;
             }
         }
@@ -173,7 +173,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         super.setVisible(flag);
 
         // Über setVisible den Timer der Children beenden, falls implementiert
-        for (Component child : getComponents()) {
+        for (final Component child : getComponents()) {
             child.setVisible(flag);
         }
     }

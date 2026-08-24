@@ -70,8 +70,8 @@ public abstract class AbstractMenuAndToolbarContext {
         iterateAll(getRoot(), node -> {
             node.setActionListener(null);
 
-            for (Component component : node.getComponents()) {
-                if (component instanceof AbstractButton ab && ab.getAction() instanceof DelegateAction da) {
+            for (final Component component : node.getComponents()) {
+                if (component instanceof final AbstractButton ab && ab.getAction() instanceof final DelegateAction da) {
                     da.setActionListener(null);
                 }
 
@@ -89,8 +89,8 @@ public abstract class AbstractMenuAndToolbarContext {
             throw new IllegalStateException("Node not found: " + name);
         }
 
-        for (Component component : node.getComponents()) {
-            if (component instanceof AbstractButton ab && ab.getAction() instanceof DelegateAction da) {
+        for (final Component component : node.getComponents()) {
+            if (component instanceof final AbstractButton ab && ab.getAction() instanceof final DelegateAction da) {
                 da.setActionListener(actionListener);
             }
         }
@@ -150,7 +150,7 @@ public abstract class AbstractMenuAndToolbarContext {
         Node child = parent.getChild(name);
 
         if (child == null) {
-            for (Node parentChild : parent.getChildren()) {
+            for (final Node parentChild : parent.getChildren()) {
                 child = findNode(parentChild, name);
 
                 if (child != null) {
@@ -181,7 +181,7 @@ public abstract class AbstractMenuAndToolbarContext {
     }
 
     protected void iterateAll(final Node parent, final Consumer<Node> nodeConsumer) {
-        for (Node child : parent.getChildren()) {
+        for (final Node child : parent.getChildren()) {
             nodeConsumer.accept(child);
 
             iterateAll(child, nodeConsumer);
@@ -213,7 +213,7 @@ public abstract class AbstractMenuAndToolbarContext {
     }
 
     private void generateMenuBar(final JMenuBar menuBar, final Node parent) {
-        for (Node child : parent.getChildren()) {
+        for (final Node child : parent.getChildren()) {
             if (NodeType.MENU.equals(child.getNodeType())) {
                 final JMenu menu = new JMenu();
                 menu.setAction(new DelegateAction());
@@ -254,7 +254,7 @@ public abstract class AbstractMenuAndToolbarContext {
     }
 
     private void generateToolBar(final JToolBar toolBar, final Node parent) {
-        for (Node child : parent.getChildren()) {
+        for (final Node child : parent.getChildren()) {
             if (NodeType.TOOLBAR_ITEM.equals(child.getNodeType()) || NodeType.MENU_AND_TOOLBAR_ITEM.equals(child.getNodeType())) {
                 final JButton button = new JButton();
                 button.setAction(new DelegateAction());

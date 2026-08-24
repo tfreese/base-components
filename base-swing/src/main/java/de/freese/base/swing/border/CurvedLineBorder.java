@@ -41,13 +41,13 @@ public class CurvedLineBorder extends LineBorder {
     public Insets getBorderInsets(final Component c, final Insets insets) {
         Insets margin = null;
 
-        if (c instanceof AbstractButton b) {
+        if (c instanceof final AbstractButton b) {
             margin = b.getMargin();
         }
-        else if (c instanceof JToolBar t) {
+        else if (c instanceof final JToolBar t) {
             margin = t.getMargin();
         }
-        else if (c instanceof JTextComponent t) {
+        else if (c instanceof final JTextComponent t) {
             margin = t.getMargin();
         }
 

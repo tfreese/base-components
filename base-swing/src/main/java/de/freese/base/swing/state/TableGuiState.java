@@ -55,7 +55,7 @@ public class TableGuiState extends AbstractGuiState {
             resizeable = tableColumn.getResizable();
             modelIndex = tableColumn.getModelIndex();
 
-            if (tableColumn instanceof TableColumnExt tableColumnExt) {
+            if (tableColumn instanceof final TableColumnExt tableColumnExt) {
                 visible = tableColumnExt.isVisible();
                 editable = tableColumnExt.isEditable();
                 sortable = tableColumnExt.isSortable();
@@ -81,7 +81,7 @@ public class TableGuiState extends AbstractGuiState {
 
             tableColumn.setResizable(resizeable);
 
-            if (tableColumn instanceof TableColumnExt tableColumnExt) {
+            if (tableColumn instanceof final TableColumnExt tableColumnExt) {
                 tableColumnExt.setVisible(visible);
                 tableColumnExt.setEditable(editable);
                 tableColumnExt.setSortable(sortable);
@@ -106,7 +106,7 @@ public class TableGuiState extends AbstractGuiState {
         if (selectedRows != null && selectedRows.length > 0) {
             // With SINGLE_SELECTION must setColumnSelectionAllowed(false) be called to do this working.
             try {
-                for (int row : selectedRows) {
+                for (final int row : selectedRows) {
                     table.addRowSelectionInterval(row, row);
                 }
 
@@ -128,12 +128,7 @@ public class TableGuiState extends AbstractGuiState {
                     continue;
                 }
 
-                TableColumn tableColumn = null;
-
-                if (index >= 0) {
-                    tableColumn = columns.get(index);
-                }
-
+                final TableColumn tableColumn = columns.get(index);
                 final ColumnState columnState = columnStates[index];
 
                 columnState.update(tableColumn);
@@ -171,7 +166,7 @@ public class TableGuiState extends AbstractGuiState {
     private List<TableColumn> getColumns(final JTable table) {
         final List<TableColumn> columns = new ArrayList<>();
 
-        if (table instanceof JXTable jxTable) {
+        if (table instanceof final JXTable jxTable) {
             columns.addAll(jxTable.getColumns(true));
         }
         else {

@@ -1,12 +1,12 @@
 // Created: 16.01.2018
 package de.freese.base.core.reactive;
 
+import java.util.concurrent.Flow;
+
 import org.reactivestreams.Processor;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-
-import java.util.concurrent.Flow;
 
 /***
  * Bridge between Reactive Streams API and the Java 9{@link java.util.concurrent.Flow} API.<br>
@@ -219,9 +219,10 @@ public final class ReactiveStreamsFlowBridge {
     /**
      * Converts a Reactive Streams Processor into a Flow Processor.
      *
-     * @param <T>                      the input value type
-     * @param <U>                      the output value type
+     * @param <T> the input value type
+     * @param <U> the output value type
      * @param reactiveStreamsProcessor the source Reactive Streams Processor to convert
+     *
      * @return the equivalent Flow Processor
      */
     @SuppressWarnings("unchecked")
@@ -245,6 +246,7 @@ public final class ReactiveStreamsFlowBridge {
      * Converts a Reactive Streams Publisher into a Flow Publisher.
      *
      * @param reactiveStreamsPublisher the source Reactive Streams Publisher to convert
+     *
      * @return the equivalent Flow Publisher
      */
     @SuppressWarnings("unchecked")
@@ -267,9 +269,10 @@ public final class ReactiveStreamsFlowBridge {
     /**
      * Converts a Flow Processor into a Reactive Streams Processor.
      *
-     * @param <T>           the input value type
-     * @param <U>           the output value type
+     * @param <T> the input value type
+     * @param <U> the output value type
      * @param flowProcessor the source Flow Processor to convert
+     *
      * @return the equivalent Reactive Streams Processor
      */
     @SuppressWarnings("unchecked")
@@ -293,6 +296,7 @@ public final class ReactiveStreamsFlowBridge {
      * Converts a Flow Publisher into a Reactive Streams Publisher.
      *
      * @param flowPublisher the source Flow Publisher to convert
+     *
      * @return the equivalent Reactive Streams Publisher
      */
     @SuppressWarnings("unchecked")

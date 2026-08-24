@@ -33,11 +33,13 @@ public final class LoggerFactory {
             if (loggerProvider != null) {
                 if ("jul".equalsIgnoreCase(loggerProvider)) {
                     return tryJuL("system property");
-                } else if ("slf4j".equalsIgnoreCase(loggerProvider)) {
+                }
+                else if ("slf4j".equalsIgnoreCase(loggerProvider)) {
                     return trySlf4j("system property");
                 }
             }
-        } catch (Throwable _) {
+        }
+        catch (Throwable _) {
             // Ignore
         }
 
@@ -54,13 +56,15 @@ public final class LoggerFactory {
 
                 return loggerProvider;
             }
-        } catch (ServiceConfigurationError _) {
+        }
+        catch (ServiceConfigurationError _) {
             // Ignore
         }
 
         try {
             return trySlf4j(null);
-        } catch (Exception _) {
+        }
+        catch (Exception _) {
             // Ignore
         }
 
@@ -72,7 +76,8 @@ public final class LoggerFactory {
 
         if (via == null) {
             logger.info("Using Logging Provider: %s", provider);
-        } else {
+        }
+        else {
             logger.info("Using Logging Provider: %s found via %s", provider, via);
         }
     }

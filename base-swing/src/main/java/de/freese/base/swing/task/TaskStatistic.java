@@ -27,7 +27,7 @@ public class TaskStatistic implements Serializable {
         int anzahl = 0;
         long summe = 0;
 
-        for (long zeit : durations) {
+        for (final long zeit : durations) {
             summe += zeit;
             anzahl++;
         }
@@ -39,14 +39,10 @@ public class TaskStatistic implements Serializable {
         return lastAccess;
     }
 
-    public void setLastAccess(final LocalDateTime lastAccess) {
-        this.lastAccess = lastAccess;
-    }
-
     public long getMax() {
         long max = Long.MIN_VALUE;
 
-        for (long zeit : durations) {
+        for (final long zeit : durations) {
             max = Math.max(max, zeit);
         }
 
@@ -56,7 +52,7 @@ public class TaskStatistic implements Serializable {
     public long getMin() {
         long min = Long.MAX_VALUE;
 
-        for (long zeit : durations) {
+        for (final long zeit : durations) {
             min = Math.min(min, zeit);
         }
 
@@ -65,10 +61,6 @@ public class TaskStatistic implements Serializable {
 
     public String getTaskName() {
         return taskName;
-    }
-
-    public void setTaskName(final String taskName) {
-        this.taskName = taskName;
     }
 
     public void measureDuration(final long duration) {
@@ -83,9 +75,17 @@ public class TaskStatistic implements Serializable {
     }
 
     public void setDurations(final long[] durations) {
-        for (long zeit : durations) {
+        for (final long zeit : durations) {
             appendDuration(zeit);
         }
+    }
+
+    public void setLastAccess(final LocalDateTime lastAccess) {
+        this.lastAccess = lastAccess;
+    }
+
+    public void setTaskName(final String taskName) {
+        this.taskName = taskName;
     }
 
     @Override

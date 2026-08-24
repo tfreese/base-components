@@ -164,7 +164,7 @@ public final class ErrorPane extends JPanel {
             buttonClose.addActionListener(event -> {
                 final Component c = getOwner();
 
-                if (c instanceof Window w) {
+                if (c instanceof final Window w) {
                     w.dispose();
                 }
             });
@@ -286,7 +286,7 @@ public final class ErrorPane extends JPanel {
 
                     LoggerFactory.getLogger(getClass()).info("Mail send...");
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     LoggerFactory.getLogger(getClass()).error(ex.getMessage(), ex);
                 }
 

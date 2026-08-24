@@ -1,5 +1,13 @@
 package de.freese.base.persistence.jdbc.benchmark;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Level;
@@ -11,14 +19,6 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Thomas Freese
@@ -71,7 +71,8 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
                 h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
                 hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -108,10 +109,12 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 if (dbName.toLowerCase().contains("derby")) {
                     try {
                         statement.execute("DROP TABLE simple_test");
-                    } catch (SQLException _) {
+                    }
+                    catch (SQLException _) {
                         // Empty
                     }
-                } else {
+                }
+                else {
                     statement.execute("DROP TABLE IF EXISTS simple_test");
                 }
 
@@ -119,7 +122,8 @@ public class StatementBenchmarks extends BenchmarkSettings {
                 statement.execute("INSERT INTO simple_test VALUES('foo')");
                 statement.execute("INSERT INTO simple_test VALUES('bar')");
                 statement.execute("INSERT INTO simple_test VALUES('baz')");
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }

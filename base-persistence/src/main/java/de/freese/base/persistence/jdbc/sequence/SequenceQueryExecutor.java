@@ -1,12 +1,13 @@
 // Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
+
+import javax.sql.DataSource;
 
 /**
  * Liefert den nächsten Wert einer Sequence.

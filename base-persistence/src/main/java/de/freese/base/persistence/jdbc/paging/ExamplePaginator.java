@@ -1,15 +1,6 @@
 // Created: 21 Okt. 2025
 package de.freese.base.persistence.jdbc.paging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.table.AbstractTableModel;
 import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,6 +8,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.stream.IntStream;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import javax.swing.table.AbstractTableModel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -130,7 +131,8 @@ public final class ExamplePaginator implements Paginator<LocalDateTime> {
                 list.addAll(newRows);
 
                 SwingUtilities.invokeLater(() -> fireTableRowsInserted(firstRowIndex, getRowCount()));
-            } finally {
+            }
+            finally {
                 semaphore.release();
             }
         }

@@ -34,9 +34,9 @@ public class MenuBarFontChangeHandler extends ComponentFontChangeHandler {
                 super.fontChanged(newFont, menuItem);
 
                 // SubMenus
-                for (MenuElement menuElement : menuItem.getSubElements()) {
-                    if (menuElement instanceof JPopupMenu popupMenu) {
-                        for (MenuElement subMenuElement : popupMenu.getSubElements()) {
+                for (final MenuElement menuElement : menuItem.getSubElements()) {
+                    if (menuElement instanceof final JPopupMenu popupMenu) {
+                        for (final MenuElement subMenuElement : popupMenu.getSubElements()) {
                             super.fontChanged(newFont, subMenuElement);
                         }
                     }

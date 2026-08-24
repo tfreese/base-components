@@ -49,7 +49,7 @@ public class ExtTaskPane extends JXTaskPane {
         for (int i = 0; i < container.getComponentCount(); i++) {
             final Component component = container.getComponent(i);
 
-            if (component instanceof JXTaskPane p) {
+            if (component instanceof final JXTaskPane p) {
                 childTaskPanes.add(p);
             }
         }

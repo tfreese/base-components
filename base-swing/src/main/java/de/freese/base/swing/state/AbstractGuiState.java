@@ -50,7 +50,7 @@ public abstract class AbstractGuiState implements GuiState {
 
     @Override
     public boolean supportsType(final Class<?> type) {
-        for (Class<?> supportedType : supportedTypes) {
+        for (final Class<?> supportedType : supportedTypes) {
             if (supportedType.equals(type)) {
                 return true;
             }

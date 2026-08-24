@@ -1,19 +1,9 @@
 // Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DynamicNode;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,9 +15,20 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
+import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 
 /**
  * @author Thomas Freese
@@ -43,7 +44,8 @@ class TestLoggingJdbcDriver {
         for (final ConnectionPool pool : POOLS) {
             try {
                 pool.close();
-            } catch (Exception _) {
+            }
+            catch (Exception _) {
                 // Ignore
             }
         }

@@ -56,7 +56,7 @@ public class DefaultSwingExceptionHandler implements SwingExceptionHandler {
         else if (throwable instanceof UnsupportedOperationException) {
             message = String.format("%s: %s", throwable.getClass().getSimpleName(), throwable.getStackTrace()[0].getMethodName());
         }
-        else if (throwable instanceof AbstractValidationException ve) {
+        else if (throwable instanceof final AbstractValidationException ve) {
             Translator ta = translator;
 
             if (ta == null) {

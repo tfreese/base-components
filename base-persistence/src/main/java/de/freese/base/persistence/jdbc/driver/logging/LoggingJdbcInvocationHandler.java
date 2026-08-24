@@ -1,9 +1,6 @@
 // Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
-import org.slf4j.Logger;
-import org.springframework.util.ClassUtils;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,6 +8,9 @@ import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Thomas Freese
@@ -57,7 +57,8 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
             }
 
             return result;
-        } catch (final InvocationTargetException ex) {
+        }
+        catch (final InvocationTargetException ex) {
             throw ex.getCause();
         }
     }

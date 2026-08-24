@@ -46,12 +46,12 @@ public class TreeGuiState extends AbstractGuiState {
         }
 
         // Restore expanded TreePaths.
-        for (int[] indices : expansionIndices) {
+        for (final int[] indices : expansionIndices) {
             Object parent = model.getRoot();
             TreePath treePath = new TreePath(parent);
 
             try {
-                for (int index : indices) {
+                for (final int index : indices) {
                     parent = model.getChild(parent, index);
 
                     if (parent == null) {

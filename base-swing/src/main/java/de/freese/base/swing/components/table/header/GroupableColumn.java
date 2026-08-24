@@ -93,8 +93,8 @@ public class GroupableColumn {
         final int height = comp.getPreferredSize().height;
         int width = 0;
 
-        for (Object column : columns) {
-            if (column instanceof TableColumn aColumn) {
+        for (final Object column : columns) {
+            if (column instanceof final TableColumn aColumn) {
                 width += aColumn.getWidth();
                 width += margin;
             }
@@ -109,8 +109,8 @@ public class GroupableColumn {
     public void setColumnMargin(final int margin) {
         this.margin = margin;
 
-        for (Object column : columns) {
-            if (column instanceof GroupableColumn c) {
+        for (final Object column : columns) {
+            if (column instanceof final GroupableColumn c) {
                 c.setColumnMargin(margin);
             }
         }
@@ -133,8 +133,8 @@ public class GroupableColumn {
             return columns;
         }
 
-        for (Object column : columns) {
-            if (column instanceof GroupableColumn c) {
+        for (final Object column : columns) {
+            if (column instanceof final GroupableColumn c) {
                 final List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
 
                 if (!groups.isEmpty()) {

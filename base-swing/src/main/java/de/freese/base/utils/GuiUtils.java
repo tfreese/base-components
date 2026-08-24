@@ -77,7 +77,7 @@ public final class GuiUtils {
 
         final DataSource dataSource = GuiUtils.createScreenShot(0, 0, width, height);
 
-        if (dataSource instanceof ByteArrayDataSource b) {
+        if (dataSource instanceof final ByteArrayDataSource b) {
             final String fileName = "screenshot_" + System.currentTimeMillis() + ".png";
 
             b.setName(fileName);
@@ -99,7 +99,7 @@ public final class GuiUtils {
 
         final DataSource dataSource = GuiUtils.createScreenShot(x, y, width, height);
 
-        if (dataSource instanceof ByteArrayDataSource b) {
+        if (dataSource instanceof final ByteArrayDataSource b) {
             String fileName = "screenshot";
             fileName += c.getName() != null ? ("_" + c.getName()) : "";
             fileName += "_" + System.currentTimeMillis();
@@ -140,7 +140,7 @@ public final class GuiUtils {
         if (clazz.isInstance(comp)) {
             found = comp;
         }
-        else if (comp instanceof Container c) {
+        else if (comp instanceof final Container c) {
             for (int i = 0; i < c.getComponentCount(); i++) {
                 found = GuiUtils.find(c.getComponent(i), clazz);
 
@@ -165,7 +165,7 @@ public final class GuiUtils {
         if (compName != null && compName.equals(name)) {
             found = comp;
         }
-        else if (comp instanceof Container c) {
+        else if (comp instanceof final Container c) {
             for (int i = 0; i < c.getComponentCount(); i++) {
                 found = GuiUtils.find(c.getComponent(i), name);
 
@@ -197,7 +197,7 @@ public final class GuiUtils {
         final Frame[] frames = Frame.getFrames();
         Frame activeFrame = null;
 
-        for (Frame frame : frames) {
+        for (final Frame frame : frames) {
             if (frame.hasFocus()) {
                 activeFrame = frame;
             }

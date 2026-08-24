@@ -32,7 +32,7 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
 
         final String filename = f.getName();
 
-        for (String type : types) {
+        for (final String type : types) {
             if (filename.toLowerCase().endsWith(type)) {
                 return true;
             }

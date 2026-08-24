@@ -1,16 +1,5 @@
 package de.freese.base.utils;
 
-import de.freese.base.core.image.BlackWhiteOp;
-import de.freese.base.core.image.ImageFormat;
-
-import javax.imageio.ImageIO;
-import javax.swing.GrayFilter;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -37,6 +26,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serial;
+
+import javax.imageio.ImageIO;
+import javax.swing.GrayFilter;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+
+import de.freese.base.core.image.BlackWhiteOp;
+import de.freese.base.core.image.ImageFormat;
 
 /**
  * @author Thomas Freese
@@ -137,7 +138,8 @@ public final class ImageUtils {
 
         try {
             pg.grabPixels();
-        } catch (InterruptedException _) {
+        }
+        catch (InterruptedException _) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
@@ -583,7 +585,7 @@ public final class ImageUtils {
         private final int iconHeight;
         private final int iconWidth;
         private transient BufferedImage bufferedImage;
-        
+
         /**
          * Defaults: Width = 16, Height = 16, ForeGround = Black
          *

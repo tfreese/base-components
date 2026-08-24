@@ -1,14 +1,16 @@
 // Created: 30.08.23
 package de.freese.base.persistence.jdbc.transaction;
 
-import de.freese.base.persistence.exception.PersistenceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.freese.base.persistence.exception.PersistenceException;
 
 /**
  * @author Thomas Freese
@@ -24,7 +26,8 @@ public final class SimpleTransaction implements Transaction {
 
         try {
             this.connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection();
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new PersistenceException(ex);
         }
     }
@@ -34,7 +37,8 @@ public final class SimpleTransaction implements Transaction {
         try {
             validateConnection();
             getConnection().setAutoCommit(false);
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new PersistenceException(ex);
         }
     }
@@ -45,7 +49,8 @@ public final class SimpleTransaction implements Transaction {
             validateConnection();
             getConnection().commit();
             close();
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new PersistenceException(ex);
         }
     }
@@ -61,7 +66,8 @@ public final class SimpleTransaction implements Transaction {
             validateConnection();
             getConnection().rollback();
             close();
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new PersistenceException(ex);
         }
     }
@@ -76,7 +82,8 @@ public final class SimpleTransaction implements Transaction {
 
             connection.close();
             connection = null;
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             throw new PersistenceException(ex);
         }
     }

@@ -15,7 +15,7 @@ public final class FileChooserFactory {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fileChooser.setAcceptAllFileFilterUsed(false);
 
-        for (FileFilter ff : fileFilter) {
+        for (final FileFilter ff : fileFilter) {
             fileChooser.addChoosableFileFilter(ff);
         }
 

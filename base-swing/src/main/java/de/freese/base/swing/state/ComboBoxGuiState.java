@@ -45,7 +45,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
                     final Object value = comboBox.getModel().getElementAt(i);
                     final Component c = renderer.getListCellRendererComponent(dummy, value, i, true, true);
 
-                    if (c instanceof JLabel l) {
+                    if (c instanceof final JLabel l) {
                         final String text = l.getText();
 
                         if (selectedName.equals(text)) {
@@ -84,7 +84,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
             final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
             final Component c = renderer.getListCellRendererComponent(dummy, value, selectedIndex, true, true);
 
-            if (c instanceof JLabel l) {
+            if (c instanceof final JLabel l) {
                 selectedName = l.getText();
             }
         }

@@ -70,7 +70,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         boolean oldVisible = true;
 
         // Add the visibility listener if appropriate.
-        if (aColumn instanceof ExtTableColumn xColumn) {
+        if (aColumn instanceof final ExtTableColumn xColumn) {
             oldVisible = xColumn.isVisible();
             xColumn.setVisible(true);
             xColumn.addPropertyChangeListener(visibilityListener);
@@ -83,7 +83,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         // Let super Method handle the event notification.
         super.addColumn(aColumn);
 
-        if (aColumn instanceof ExtTableColumn c) {
+        if (aColumn instanceof final ExtTableColumn c) {
             // reset original visibility
             c.setVisible(oldVisible);
         }
@@ -93,7 +93,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     public void addColumnModelListener(final TableColumnModelListener listener) {
         super.addColumnModelListener(listener);
 
-        if (listener instanceof ExtTableColumnModelListener l) {
+        if (listener instanceof final ExtTableColumnModelListener l) {
             listenerList.add(ExtTableColumnModelListener.class, l);
         }
     }
@@ -111,7 +111,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     public ExtTableColumn getColumnExt(final int columnIndex) {
         final TableColumn column = getColumn(columnIndex);
 
-        if (column instanceof ExtTableColumn c) {
+        if (column instanceof final ExtTableColumn c) {
             return c;
         }
 
@@ -120,8 +120,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
 
     @Override
     public ExtTableColumn getColumnExt(final Object identifier) {
-        for (TableColumn column : initialColumns) {
-            if (column instanceof ExtTableColumn c && identifier.equals(column.getIdentifier())) {
+        for (final TableColumn column : initialColumns) {
+            if (column instanceof final ExtTableColumn c && identifier.equals(column.getIdentifier())) {
                 return c;
             }
         }
@@ -192,7 +192,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
 
     @Override
     public void removeColumn(final TableColumn column) {
-        if (column instanceof ExtTableColumn c) {
+        if (column instanceof final ExtTableColumn c) {
             c.removePropertyChangeListener(visibilityListener);
         }
 
@@ -206,7 +206,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     public void removeColumnModelListener(final TableColumnModelListener listener) {
         super.removeColumnModelListener(listener);
 
-        if (listener instanceof ExtTableColumnModelListener l) {
+        if (listener instanceof final ExtTableColumnModelListener l) {
             listenerList.remove(ExtTableColumnModelListener.class, l);
         }
     }

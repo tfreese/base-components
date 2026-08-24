@@ -1,9 +1,6 @@
 // Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -13,6 +10,10 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
+
+import javax.sql.DataSource;
+
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementierung analog der org.springframework.jdbc.datasource.SingleConnectionDataSource<br>
@@ -39,7 +40,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     public void close() {
         try {
             destroy();
-        } catch (final Exception th) {
+        }
+        catch (final Exception th) {
             LOGGER.error(th.getMessage(), th);
         }
     }
@@ -49,7 +51,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
         try {
             closeConnection();
-        } finally {
+        }
+        finally {
             reentrantLock.unlock();
         }
     }
@@ -67,7 +70,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
                 throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections,"
                         + " or set 'suppressClose' to 'true'");
             }
-        } finally {
+        }
+        finally {
             reentrantLock.unlock();
         }
 
@@ -167,7 +171,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
         try {
             Class.forName(driverClassNameToUse, true, Thread.currentThread().getContextClassLoader());
-        } catch (final ClassNotFoundException ex) {
+        }
+        catch (final ClassNotFoundException ex) {
             throw new IllegalStateException("Could not load JDBC driver class [" + driverClassNameToUse + "]", ex);
         }
 
@@ -195,7 +200,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
             try {
                 connection.close();
-            } catch (final Exception th) {
+            }
+            catch (final Exception th) {
                 LOGGER.warn("Could not close shared JDBC Connection", th);
             }
         }

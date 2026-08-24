@@ -14,7 +14,7 @@ public final class ErrorPaneMain {
             final Exception cause = new Exception("I'm the cause");
             throw new Exception("I'm a secondary exception", cause);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             final ErrorInfo errorInfo = new ErrorInfo("ErrorTitle", "basic error message", null, "category", ex, Level.ALL, null);
 
             ErrorPane.showDialog(null, errorInfo, false);

@@ -52,10 +52,10 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
         ListSelectionModel selectionModel = null;
 
-        if (source instanceof JList<?> l) {
+        if (source instanceof final JList<?> l) {
             selectionModel = l.getSelectionModel();
         }
-        else if (source instanceof ListSelectionModel m) {
+        else if (source instanceof final ListSelectionModel m) {
             selectionModel = m;
         }
 
@@ -68,10 +68,10 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
         TreeSelectionModel selectionModel = null;
 
-        if (source instanceof JTree t) {
+        if (source instanceof final JTree t) {
             selectionModel = t.getSelectionModel();
         }
-        else if (source instanceof TreeSelectionModel m) {
+        else if (source instanceof final TreeSelectionModel m) {
             selectionModel = m;
         }
 

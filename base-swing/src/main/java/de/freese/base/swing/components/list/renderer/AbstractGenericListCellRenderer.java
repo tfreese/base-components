@@ -44,13 +44,13 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
             try {
                 label.setText(getString(value, attribute));
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().warn(null, ex);
 
                 try {
                     label.setText("" + invokeMethod(value, "toString"));
                 }
-                catch (Exception ex2) {
+                catch (final Exception ex2) {
                     getLogger().error(ex2.getMessage(), ex2);
 
                     label.setText("Unknown Attribute: " + attribute);

@@ -26,7 +26,7 @@ public final class TableUtils {
                 table.getCellEditor().cancelCellEditing();
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LoggerFactory.getLogger(TableUtils.class).warn(null, ex);
         }
     }
@@ -121,10 +121,10 @@ public final class TableUtils {
         if (tcr != null) {
             final Component c = table.prepareRenderer(tcr, row, column);
 
-            if (c instanceof JLabel label) {
+            if (c instanceof final JLabel label) {
                 value = label.getText().strip();
             }
-            else if (c instanceof JCheckBox checkBox) {
+            else if (c instanceof final JCheckBox checkBox) {
                 if (checkBox.isSelected()) {
                     value = Boolean.TRUE.toString();
                 }
@@ -150,7 +150,7 @@ public final class TableUtils {
         final int[] rows = table.getSelectedRows();
         final Object[] result = new Object[rows.length];
 
-        if (table.getModel() instanceof AbstractListTableModel<?> model) {
+        if (table.getModel() instanceof final AbstractListTableModel<?> model) {
             for (int i = 0; i < rows.length; i++) {
                 final int modelRowIndex = table.convertRowIndexToModel(rows[i]);
 
@@ -258,7 +258,7 @@ public final class TableUtils {
                 table.getCellEditor().stopCellEditing();
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LoggerFactory.getLogger(TableUtils.class).warn(null, ex);
         }
     }

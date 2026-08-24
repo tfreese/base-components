@@ -1,9 +1,9 @@
 // Created: 04 Feb. 2026
 package de.freese.base.core.pool;
 
-import org.apache.commons.lang3.function.FailableSupplier;
-
 import java.time.Duration;
+
+import org.apache.commons.lang3.function.FailableSupplier;
 
 /**
  * @author Thomas Freese

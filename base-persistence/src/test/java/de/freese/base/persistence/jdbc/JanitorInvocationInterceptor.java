@@ -1,17 +1,18 @@
 // Created: 05.04.2021
 package de.freese.base.persistence.jdbc;
 
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.Wrapper;
+
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.Wrapper;
 
 /**
  * Creates and deletes the Database-Tables before and after each Test-Method.
@@ -52,7 +53,8 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
 
         try {
             invocation.proceed();
-        } finally {
+        }
+        finally {
             dropTable(dataSource);
         }
     }
@@ -78,7 +80,8 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -87,7 +90,8 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE person");
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage());
         }
     }

@@ -1,9 +1,9 @@
 package de.freese.base.core.throttle;
 
-import dev.failsafe.RateLimiter;
-
 import java.time.Duration;
 import java.util.Objects;
+
+import dev.failsafe.RateLimiter;
 
 /**
  * @author Thomas Freese

@@ -23,7 +23,7 @@ public class ExtUndoManager extends UndoManager {
         final List<UndoableEdit> undoableEdits = new ArrayList<>();
         final UndoableEdit nextRedoableEdit = editToBeRedone();
 
-        for (UndoableEdit undoableEdit : edits) {
+        for (final UndoableEdit undoableEdit : edits) {
             if (undoableEdit == nextRedoableEdit) {
                 break;
             }

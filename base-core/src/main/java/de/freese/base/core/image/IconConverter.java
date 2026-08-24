@@ -33,7 +33,7 @@ public final class IconConverter {
         }
 
         i = iconInputStream.read();
-        
+
         while (i != -1) {
             javaWriter.write(",");
             javaWriter.write(i);

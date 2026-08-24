@@ -32,8 +32,9 @@ public final class ReflectionUtils {
      * Determine whether the given method explicitly declares the given exception or one of its superclasses, which means that an Exception of that type can be
      * propagated as-is within a reflective invocation.
      *
-     * @param method        the declaring method
+     * @param method the declaring method
      * @param exceptionType the exception to throw
+     *
      * @return {@code true} if the exception can be thrown as-is; {@code false} if it needs to be wrapped
      */
     public static boolean declaresException(final Method method, final Class<?> exceptionType) {
@@ -53,8 +54,9 @@ public final class ReflectionUtils {
     /**
      * Invoke the given callback on all fields in the target class, going up the class hierarchy to get all declared fields.
      *
-     * @param clazz         the target class to analyze
+     * @param clazz the target class to analyze
      * @param fieldCallback the callback to invoke for each field
+     *
      * @throws IllegalStateException if introspection fails
      */
     public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback) {
@@ -64,9 +66,10 @@ public final class ReflectionUtils {
     /**
      * Invoke the given callback on all fields in the target class, going up the class hierarchy to get all declared fields.
      *
-     * @param clazz         the target class to analyze
+     * @param clazz the target class to analyze
      * @param fieldCallback the callback to invoke for each field
-     * @param fieldFilter   the filter that determines the fields to apply the callback to
+     * @param fieldFilter the filter that determines the fields to apply the callback to
+     *
      * @throws IllegalStateException if introspection fails
      */
     public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback, final Predicate<Field> fieldFilter) {
@@ -83,7 +86,8 @@ public final class ReflectionUtils {
 
                 try {
                     fieldCallback.doWith(field);
-                } catch (final IllegalAccessException ex) {
+                }
+                catch (final IllegalAccessException ex) {
                     throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + ex);
                 }
             }
@@ -96,15 +100,17 @@ public final class ReflectionUtils {
     /**
      * Invoke the given callback on all locally declared fields in the given class.
      *
-     * @param clazz         the target class to analyze
+     * @param clazz the target class to analyze
      * @param fieldCallback the callback to invoke for each field
+     *
      * @throws IllegalStateException if introspection fails
      */
     public static void doWithLocalFields(final Class<?> clazz, final FieldCallback fieldCallback) {
         for (final Field field : getDeclaredFields(clazz)) {
             try {
                 fieldCallback.doWith(field);
-            } catch (final IllegalAccessException ex) {
+            }
+            catch (final IllegalAccessException ex) {
                 throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + ex);
             }
         }
@@ -115,7 +121,8 @@ public final class ReflectionUtils {
      * The same named method occurring on subclass and superclass will appear twice, unless excluded by a {@link Predicate}.
      *
      * @param clazz the class to introspect
-     * @param mc    the callback to invoke for each method
+     * @param mc the callback to invoke for each method
+     *
      * @throws IllegalStateException if introspection fails
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc) {
@@ -126,9 +133,10 @@ public final class ReflectionUtils {
      * Perform the given callback operation on all matching methods of the given class and superclasses (or given interface and super-interfaces).<br>
      * The same named method occurring on subclass and superclass will appear twice, unless excluded by the specified {@link Predicate}.
      *
-     * @param clazz        the class to introspect
-     * @param mc           the callback to invoke for each method
+     * @param clazz the class to introspect
+     * @param mc the callback to invoke for each method
      * @param methodFilter the filter that determines the methods to apply the callback to
+     *
      * @throws IllegalStateException if introspection fails
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final Predicate<Method> methodFilter) {
@@ -142,14 +150,16 @@ public final class ReflectionUtils {
 
             try {
                 mc.doWith(method);
-            } catch (final IllegalAccessException ex) {
+            }
+            catch (final IllegalAccessException ex) {
                 throw new IllegalStateException("Not allowed to access method '" + method.getName() + "': " + ex);
             }
         }
 
         if (clazz.getSuperclass() != null && (methodFilter != USER_DECLARED_METHODS || clazz.getSuperclass() != Object.class)) {
             doWithMethods(clazz.getSuperclass(), mc, methodFilter);
-        } else if (clazz.isInterface()) {
+        }
+        else if (clazz.isInterface()) {
             for (final Class<?> superIfc : clazz.getInterfaces()) {
                 doWithMethods(superIfc, mc, methodFilter);
             }
@@ -213,13 +223,14 @@ public final class ReflectionUtils {
      *
      * @param method the method to invoke
      * @param target the target object to invoke the method on
-     * @param args   the invocation arguments (maybe {@code null})
+     * @param args the invocation arguments (maybe {@code null})
      */
     @SuppressWarnings("varargs")
     public static Object invokeMethod(final Method method, final Object target, final Object... args) {
         try {
             return method.invoke(target, args);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             handleReflectionException(ex);
         }
 
@@ -298,7 +309,8 @@ public final class ReflectionUtils {
             try {
                 fields = clazz.getDeclaredFields();
                 // declaredFieldsCache.put(clazz, (fields.length == 0 ? EMPTY_FIELD_ARRAY : fields));
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }
         }
@@ -325,12 +337,14 @@ public final class ReflectionUtils {
                         methods[index] = defaultMethod;
                         index++;
                     }
-                } else {
+                }
+                else {
                     methods = declaredMethods;
                 }
 
                 // declaredMethodsCache.put(clazz, (methods.length == 0 ? EMPTY_METHOD_ARRAY : methods));
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }
         }

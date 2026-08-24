@@ -42,13 +42,15 @@ public interface Throttler {
                         TimeUnit.NANOSECONDS.sleep(remainingNanos);
 
                         return;
-                    } catch (InterruptedException _) {
+                    }
+                    catch (InterruptedException _) {
                         // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
                         interrupted = true;
                         remainingNanos = end - System.nanoTime();
                     }
                 }
-            } finally {
+            }
+            finally {
                 if (interrupted) {
                     // Preserve interrupt status
                     Thread.currentThread().interrupt();
@@ -86,6 +88,7 @@ public interface Throttler {
      * Tries to acquire the requested {@code permits} to perform executions against the rate limiter, returning immediately without waiting.
      *
      * @return whether the requested {@code permits} are successfully acquired or not
+     *
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
     default boolean tryAcquirePermits(final int permits) {

@@ -54,7 +54,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager {
         try (InputStream inputStream = getLocalStorage().getInputStream(relativePath)) {
             guiState = load(guiState, inputStream);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().warn("Can not load GuiState for {}: ", relativePath, ex);
         }
 
@@ -78,7 +78,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager {
         try (OutputStream outputStream = getLocalStorage().getOutputStream(relativePath)) {
             save(guiState, outputStream);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().warn("Can not save GuiState for {}: ", relativePath, ex);
         }
     }

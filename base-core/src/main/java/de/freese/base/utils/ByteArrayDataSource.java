@@ -1,7 +1,5 @@
 package de.freese.base.utils;
 
-import jakarta.activation.DataSource;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,6 +9,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+
+import jakarta.activation.DataSource;
 
 /**
  * Einfache {@link DataSource} für ein ByteArray.
@@ -46,6 +46,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         this.data = Objects.requireNonNull(data, "data required");
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
     }
+
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException {
         super();
 
@@ -61,7 +62,8 @@ public class ByteArrayDataSource implements DataSource, Serializable {
 
             if (bytesRead > -1) {
                 baos.write(bytes, 0, bytesRead);
-            } else {
+            }
+            else {
                 // no more data...
                 break;
             }
@@ -82,7 +84,8 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             // Otherwise, just pass a charset into this
             // constructor and use it in getBytes()
             data = value.getBytes(StandardCharsets.ISO_8859_1);
-        } else {
+        }
+        else {
             data = null;
         }
 
@@ -99,19 +102,26 @@ public class ByteArrayDataSource implements DataSource, Serializable {
 
         if (name.startsWith("http")) {
             mimeType = MIMETYPE_APPLICATION_HTTP;
-        } else if (name.endsWith(".pdf")) {
+        }
+        else if (name.endsWith(".pdf")) {
             mimeType = MIMETYPE_APPLICATION_PDF;
-        } else if (name.endsWith(".xls")) {
+        }
+        else if (name.endsWith(".xls")) {
             mimeType = MIMETYPE_APPLICATION_EXCEL;
-        } else if (name.endsWith(".ppt")) {
+        }
+        else if (name.endsWith(".ppt")) {
             mimeType = MIMETYPE_APPLICATION_POWERPOINT;
-        } else if (name.endsWith(".png")) {
+        }
+        else if (name.endsWith(".png")) {
             mimeType = MIMETYPE_IMAGE_PNG;
-        } else if (name.endsWith(".gif")) {
+        }
+        else if (name.endsWith(".gif")) {
             mimeType = MIMETYPE_IMAGE_GIF;
-        } else if (name.endsWith(".bmp")) {
+        }
+        else if (name.endsWith(".bmp")) {
             mimeType = MIMETYPE_IMAGE_BMP;
-        } else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe") || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp")) {
+        }
+        else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe") || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp")) {
             mimeType = MIMETYPE_IMAGE_JPEG;
         }
 

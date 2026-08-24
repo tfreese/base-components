@@ -74,12 +74,12 @@ public class ColumnControlWindow implements AWTEventListener {
         // panel.add(new JLabel("Column control"));
 
         // Spalten der Tabellen
-        for (ExtTable table : controlButton.getTables()) {
+        for (final ExtTable table : controlButton.getTables()) {
             final ExtTableColumnModel tableColumnModelExt = (ExtTableColumnModel) table.getColumnModel();
             final List<TableColumn> columns = tableColumnModelExt.getColumns(true);
 
-            for (TableColumn tableColumn : columns) {
-                if (!(tableColumn instanceof ExtTableColumn extTableColumn) || !extTableColumn.isVisibleChange()) {
+            for (final TableColumn tableColumn : columns) {
+                if (!(tableColumn instanceof final ExtTableColumn extTableColumn) || !extTableColumn.isVisibleChange()) {
                     continue;
                 }
 
@@ -105,7 +105,7 @@ public class ColumnControlWindow implements AWTEventListener {
 
             @Override
             public void actionPerformed(final ActionEvent event) {
-                for (ExtTable table : ColumnControlWindow.this.controlButton.getTables()) {
+                for (final ExtTable table : ColumnControlWindow.this.controlButton.getTables()) {
                     final Action action = table.getActionMap().get("pack_all");
 
                     if (action != null) {
@@ -147,7 +147,7 @@ public class ColumnControlWindow implements AWTEventListener {
 
         final Component parent = c.getParent();
 
-        if (parent instanceof Frame f) {
+        if (parent instanceof final Frame f) {
             return f;
         }
 

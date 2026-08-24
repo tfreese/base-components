@@ -1,12 +1,6 @@
 // Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
-import de.freese.base.persistence.jdbc.function.ConnectionCallback;
-import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.function.StatementCallback;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
-import de.freese.base.persistence.jdbc.function.StatementSetter;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +11,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.LongConsumer;
 import java.util.stream.IntStream;
+
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
+import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
@@ -164,7 +164,8 @@ class DefaultStatementSpec implements StatementSpec {
                             jdbcClient.handleWarnings(preparedStatement);
                             preparedStatement.clearBatch();
                         }
-                    } else {
+                    }
+                    else {
                         // Batch not possible -> direct execution.
                         final int affectedRow = preparedStatement.executeUpdate();
                         jdbcClient.handleWarnings(preparedStatement);

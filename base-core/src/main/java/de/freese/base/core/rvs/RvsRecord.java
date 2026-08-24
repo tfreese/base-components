@@ -15,7 +15,6 @@ public record RvsRecord(Map<String, Object> values, Map<String, String> raw) {
         return get(rvsField.getName(), type);
     }
 
-
     @SuppressWarnings("unchecked")
     public <T> T get(final String name, final Class<T> type) {
         final Object value = values.get(name);

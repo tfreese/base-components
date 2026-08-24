@@ -29,7 +29,8 @@ public final class FixedWidthParser {
             try {
                 final Object valueConverted = rvsField.getConverter().apply(rawValue);
                 values.put(rvsField.getName(), valueConverted);
-            } catch (final RuntimeException ex) {
+            }
+            catch (final RuntimeException ex) {
                 throw new IllegalArgumentException("Feld '%s' konnte nicht konvertiert werden. Raw='%s'".formatted(rvsField.getName(), rawValue), ex);
             }
         }

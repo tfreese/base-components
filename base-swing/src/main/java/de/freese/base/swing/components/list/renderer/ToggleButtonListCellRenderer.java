@@ -39,7 +39,7 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
 
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
-        if (value instanceof Boolean b) {
+        if (value instanceof final Boolean b) {
             if (isSelected) {
                 toggleButton.setBackground(list.getSelectionBackground());
                 toggleButton.setForeground(list.getSelectionForeground());

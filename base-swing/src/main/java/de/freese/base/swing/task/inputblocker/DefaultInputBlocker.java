@@ -24,7 +24,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     public DefaultInputBlocker add(final Action action, final Action... actions) {
         addTarget(action);
 
-        for (Action a : actions) {
+        for (final Action a : actions) {
             addTarget(a);
         }
 
@@ -34,7 +34,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     public DefaultInputBlocker add(final Component component, final Component... components) {
         addTarget(component);
 
-        for (Component c : components) {
+        for (final Component c : components) {
             addTarget(c);
         }
 
@@ -45,7 +45,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>... consumers) {
         addTarget(consumer);
 
-        for (Consumer<Boolean> c : consumers) {
+        for (final Consumer<Boolean> c : consumers) {
             addTarget(c);
         }
 
@@ -59,14 +59,14 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
 
         final boolean enabled = false;
 
-        for (Object target : getTargets()) {
-            if (target instanceof Component c) {
+        for (final Object target : getTargets()) {
+            if (target instanceof final Component c) {
                 c.setEnabled(enabled);
             }
-            else if (target instanceof Action a) {
+            else if (target instanceof final Action a) {
                 a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer c) {
+            else if (target instanceof final Consumer c) {
                 c.accept(enabled);
             }
         }
@@ -77,14 +77,14 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     public void unblock() {
         final boolean enabled = true;
 
-        for (Object target : getTargets()) {
-            if (target instanceof Component c) {
+        for (final Object target : getTargets()) {
+            if (target instanceof final Component c) {
                 c.setEnabled(enabled);
             }
-            else if (target instanceof Action a) {
+            else if (target instanceof final Action a) {
                 a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer c) {
+            else if (target instanceof final Consumer c) {
                 c.accept(enabled);
             }
         }

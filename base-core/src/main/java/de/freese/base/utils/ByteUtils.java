@@ -121,9 +121,11 @@ public final class ByteUtils {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
              ObjectInputStream out = new ObjectInputStream(bais)) {
             object = out.readObject();
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
-        } catch (final ClassNotFoundException ex) {
+        }
+        catch (final ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -174,7 +176,8 @@ public final class ByteUtils {
 
         try (ObjectOutputStream out = new ObjectOutputStream(baos)) {
             out.writeObject(object);
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
 

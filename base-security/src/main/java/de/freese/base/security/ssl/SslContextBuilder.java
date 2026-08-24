@@ -1,15 +1,6 @@
 // Created: 16 Sept. 2024
 package de.freese.base.security.ssl;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509KeyManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -19,6 +10,16 @@ import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.function.Supplier;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509KeyManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * @author Thomas Freese
@@ -62,7 +63,8 @@ public final class SslContextBuilder {
 
         if (keyStorePath.endsWith(".p12")) {
             keyStore = KeyStore.getInstance("PKCS12");
-        } else {
+        }
+        else {
             keyStore = KeyStore.getInstance("JKS");
         }
 
@@ -88,7 +90,8 @@ public final class SslContextBuilder {
 
         if (trustStorePath.endsWith(".p12")) {
             trustStore = KeyStore.getInstance("PKCS12");
-        } else {
+        }
+        else {
             trustStore = KeyStore.getInstance("JKS");
         }
 

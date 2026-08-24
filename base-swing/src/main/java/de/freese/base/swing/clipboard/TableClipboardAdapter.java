@@ -47,7 +47,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         // 1. max. Anzahl an Spalten ermitteln
         int maxCols = Integer.MIN_VALUE;
 
-        for (String row2 : rows) {
+        for (final String row2 : rows) {
             final String[] cols = row2.split("\t");
 
             maxCols = Math.max(maxCols, cols.length);
@@ -132,7 +132,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
 
         final StringBuilder sb = new StringBuilder();
 
-        for (int element : rowsSelected) {
+        for (final int element : rowsSelected) {
             for (int col = 0; col < colsSelected.length; col++) {
                 final Class<?> clazz = getTable().getColumnClass(colsSelected[col]);
                 final ClipboardConverter converter = getConverter(clazz);
@@ -184,7 +184,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         try {
             clipboardString = (String) (getClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor));
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
@@ -226,7 +226,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         }
 
         // Selektiere alle eingefügten Werte.
-        for (Point point : points) {
+        for (final Point point : points) {
             final int rowIndex = startRow + (int) point.getX();
             final int columnIndex = startCol + (int) point.getY();
 

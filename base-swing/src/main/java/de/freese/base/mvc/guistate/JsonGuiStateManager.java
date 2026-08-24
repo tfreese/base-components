@@ -1,16 +1,17 @@
 // Created: 26.01.2018
 package de.freese.base.mvc.guistate;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import de.freese.base.mvc.storage.LocalStorage;
-import de.freese.base.swing.state.GuiState;
-import de.freese.base.swing.state.GuiStates;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import de.freese.base.mvc.storage.LocalStorage;
+import de.freese.base.swing.state.GuiState;
+import de.freese.base.swing.state.GuiStates;
 
 /**
  * @author Thomas Freese

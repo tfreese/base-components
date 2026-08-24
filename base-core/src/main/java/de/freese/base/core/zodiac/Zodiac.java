@@ -102,7 +102,6 @@ public enum Zodiac {
      */
     private final int start;
 
-
     Zodiac(final int start, final int end) {
         this.start = start;
         this.end = end;
@@ -115,7 +114,6 @@ public enum Zodiac {
     public static Zodiac getZodiac(final LocalDate date) {
         return getZodiac(date.getMonth(), date.getDayOfMonth());
     }
-
 
     public static Zodiac getZodiac(final Month month, final int dayOfMonth) {
         final Integer monatTag = Integer.valueOf(month.getValue() + "" + dayOfMonth);

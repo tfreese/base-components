@@ -70,7 +70,7 @@ public final class ExtDialog {
     private static void configureMessage(final JDialog dialog, final ExtDialogConfig config) {
         Component messageComponent = null;
 
-        if (config.getMessage() instanceof String message) {
+        if (config.getMessage() instanceof final String message) {
             final JEditorPane editorPane = new JEditorPane();
             editorPane.setEditable(false);
             editorPane.setOpaque(false);
@@ -191,8 +191,8 @@ public final class ExtDialog {
         final Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
 
         dialog = switch (window) {
-            case Frame f -> new JDialog(f, config.isModal());
-            case Dialog d -> new JDialog(d, config.isModal());
+            case final Frame f -> new JDialog(f, config.isModal());
+            case final Dialog d -> new JDialog(d, config.isModal());
             default -> new JDialog((Frame) null, config.isModal());
         };
 
@@ -278,7 +278,7 @@ public final class ExtDialog {
             buttons[1].putClientProperty("option", JOptionPane.CANCEL_OPTION);
         }
 
-        for (JButton button : buttons) {
+        for (final JButton button : buttons) {
             buttonPanel.add(button);
         }
 
@@ -345,7 +345,7 @@ public final class ExtDialog {
             final ActionListener actionListener = config.getButtonActionListener(i);
 
             if (actionListener != null) {
-                if (actionListener instanceof Action a) {
+                if (actionListener instanceof final Action a) {
                     buttons[i].setAction(a);
                 }
                 else {

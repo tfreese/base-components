@@ -30,7 +30,7 @@ public class SerializableTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(final JComponent comp, final DataFlavor[] transferFlavors) {
-        for (DataFlavor transferFlavor : transferFlavors) {
+        for (final DataFlavor transferFlavor : transferFlavors) {
             if (SerializableTransferable.FLAVOR.equals(transferFlavor)) {
                 return true;
             }
@@ -48,24 +48,24 @@ public class SerializableTransferHandler extends TransferHandler {
     protected Transferable createTransferable(final JComponent c) {
         final List<Serializable> objects = new ArrayList<>();
 
-        if (c instanceof JList<?> list) {
+        if (c instanceof final JList<?> list) {
             final List<?> selectedValues = list.getSelectedValuesList();
 
-            for (Object value : selectedValues) {
+            for (final Object value : selectedValues) {
                 objects.add((Serializable) value);
             }
         }
-        else if (c instanceof JTree tree) {
+        else if (c instanceof final JTree tree) {
             final TreePath[] selectedPaths = tree.getSelectionPaths();
 
-            for (TreePath treePath : selectedPaths) {
+            for (final TreePath treePath : selectedPaths) {
                 objects.add((Serializable) treePath.getLastPathComponent());
             }
         }
-        else if (c instanceof JTable table) {
+        else if (c instanceof final JTable table) {
             final Object[] selectedObjects = TableUtils.getSelectedObjects(table);
 
-            for (Object object : selectedObjects) {
+            for (final Object object : selectedObjects) {
                 objects.add((Serializable) object);
             }
         }

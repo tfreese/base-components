@@ -1,10 +1,10 @@
 package de.freese.base.core.xml.jaxb;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * @author Thomas Freese

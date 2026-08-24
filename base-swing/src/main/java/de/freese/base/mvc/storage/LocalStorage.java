@@ -23,9 +23,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public final class LocalStorage {
-    private final Path storageDirectory;
-
+public record LocalStorage(Path storageDirectory) {
     /**
      * Default: Paths.get(System.getProperty("java.io.tmpdir"), ".java-apps"))
      */
@@ -34,7 +32,6 @@ public final class LocalStorage {
     }
 
     public LocalStorage(final Path storageDirectory) {
-        super();
 
         this.storageDirectory = Objects.requireNonNull(storageDirectory, "storageDirectory required");
         createDirectories(storageDirectory);
@@ -45,7 +42,7 @@ public final class LocalStorage {
     }
 
     public Path createTemporaryFile(final String prefix, final String suffix) throws IOException {
-        final Path path = Files.createTempFile(getStorageDirectory(), prefix, suffix);
+        final Path path = Files.createTempFile(storageDirectory(), prefix, suffix);
 
         final File file = path.toFile();
         file.deleteOnExit();
@@ -78,7 +75,7 @@ public final class LocalStorage {
     }
 
     public Path getAbsolutPath(final Path relativePath) {
-        return getStorageDirectory().resolve(relativePath);
+        return storageDirectory().resolve(relativePath);
     }
 
     public InputStream getInputStream(final Path relativePath, final OpenOption... options) throws IOException {
@@ -97,12 +94,8 @@ public final class LocalStorage {
         return new BufferedOutputStream(Files.newOutputStream(path, options));
     }
 
-    public Path getStorageDirectory() {
-        return storageDirectory;
-    }
-
     public void openPath(final Path relativePath) throws IOException {
-        Desktop.getDesktop().open(getStorageDirectory().resolve(relativePath).toFile());
+        Desktop.getDesktop().open(storageDirectory().resolve(relativePath).toFile());
     }
 
     public String removeIllegalFileCharacters(final String fileName) {
@@ -132,7 +125,7 @@ public final class LocalStorage {
             try {
                 Files.createDirectories(path);
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

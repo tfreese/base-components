@@ -1,10 +1,6 @@
 // Created: 02.07.2009
 package de.freese.base.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +21,11 @@ import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -78,7 +79,8 @@ public final class JdbcUtils {
     public static void closeSilent(final Connection connection) {
         try {
             close(connection);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error("Could not close JDBC Connection", ex);
         }
     }
@@ -86,7 +88,8 @@ public final class JdbcUtils {
     public static void closeSilent(final ResultSet resultSet) {
         try {
             close(resultSet);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error("Could not close JDBC ResultSet", ex);
         }
     }
@@ -94,7 +97,8 @@ public final class JdbcUtils {
     public static void closeSilent(final Statement statement) {
         try {
             close(statement);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error("Could not close JDBC Statement", ex);
         }
     }
@@ -165,7 +169,8 @@ public final class JdbcUtils {
         return extractDatabaseMetaData(dataSource, dbMd -> {
             try {
                 return dbMd.getDatabaseProductName();
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -175,7 +180,8 @@ public final class JdbcUtils {
         return extractDatabaseMetaData(dataSource, dbMd -> {
             try {
                 return dbMd.getDatabaseProductVersion();
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -306,9 +312,11 @@ public final class JdbcUtils {
 
                 if (obj == null) {
                     value = "";
-                } else if (obj instanceof final byte[] bytes) {
+                }
+                else if (obj instanceof final byte[] bytes) {
                     value = new String(bytes, StandardCharsets.UTF_8);
-                } else {
+                }
+                else {
                     value = obj;
                 }
 
@@ -388,7 +396,8 @@ public final class JdbcUtils {
         final IntFunction<String> headerFunction = column -> {
             try {
                 return metaData.getColumnLabel(column + 1).toUpperCase();
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
         };
@@ -400,12 +409,14 @@ public final class JdbcUtils {
 
                 if (obj instanceof final byte[] bytes) {
                     value = new String(bytes, StandardCharsets.UTF_8);
-                } else {
+                }
+                else {
                     value = Objects.toString(obj, null);
                 }
 
                 return value;
-            } catch (final SQLException e) {
+            }
+            catch (final SQLException e) {
                 throw new RuntimeException(e);
             }
         };
@@ -413,7 +424,8 @@ public final class JdbcUtils {
         final IntPredicate finishPredicate = row -> {
             try {
                 return resultSet.next();
-            } catch (final SQLException ex) {
+            }
+            catch (final SQLException ex) {
                 throw new RuntimeException(ex);
             }
         };
@@ -453,7 +465,8 @@ public final class JdbcUtils {
             if ((i % 1000) == 0 && iterator.hasNext()) {
                 // Neuen Block anfangen,
                 sql.append(") or ").append(column).append(" ").append(inOrNotIn).append(" (");
-            } else if (iterator.hasNext()) {
+            }
+            else if (iterator.hasNext()) {
                 sql.append(",");
             }
         }

@@ -16,8 +16,8 @@ public final class FontUtils {
                 // Font für die Symbole laden
                 symbolFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             }
-            catch (Exception ex) {
-                if (ex instanceof RuntimeException re) {
+            catch (final Exception ex) {
+                if (ex instanceof final RuntimeException re) {
                     throw re;
                 }
 

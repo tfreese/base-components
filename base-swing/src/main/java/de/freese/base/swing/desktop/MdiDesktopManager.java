@@ -52,7 +52,7 @@ final class MdiDesktopManager extends DefaultDesktopManager {
         if (scrollPane != null) {
             final JInternalFrame[] allFrames = desktop.getAllFrames();
 
-            for (JInternalFrame allFrame : allFrames) {
+            for (final JInternalFrame allFrame : allFrames) {
                 if ((allFrame.getX() + allFrame.getWidth()) > x) {
                     x = allFrame.getX() + allFrame.getWidth();
                 }
@@ -106,8 +106,8 @@ final class MdiDesktopManager extends DefaultDesktopManager {
     }
 
     private JScrollPane getScrollPane() {
-        if (desktop.getParent() instanceof JViewport viewPort
-                && viewPort.getParent() instanceof JScrollPane p) {
+        if (desktop.getParent() instanceof final JViewport viewPort
+                && viewPort.getParent() instanceof final JScrollPane p) {
             return p;
         }
 

@@ -1,9 +1,5 @@
 package de.freese.base.core.i18n;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,6 +20,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -100,7 +101,8 @@ public final class HybridResourceBundleControl extends ResourceBundle.Control {
                     }
                 }
             }
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Im Zweifel nicht neu laden -> alten (funktionierenden) Stand behalten.
@@ -132,7 +134,8 @@ public final class HybridResourceBundleControl extends ResourceBundle.Control {
 
             // DB gewinnt.
             merged.putAll(fromDb);
-        } else {
+        }
+        else {
             merged.putAll(fromDb);
 
             // Properties gewinnen.
@@ -173,7 +176,8 @@ public final class HybridResourceBundleControl extends ResourceBundle.Control {
                     }
                 }
             }
-        } catch (final SQLException ex) {
+        }
+        catch (final SQLException ex) {
             // Bewusst hart: fehlerhafte I18n soll nicht stumm zu falschen Texten führen.
             throw new IllegalStateException("I18n-DB-Zugriff fehlgeschlagen: " + baseName + " / '" + localeTag + "'", ex);
         }

@@ -57,7 +57,8 @@ public final class TraceIdGenerator {
 
         do {
             RANDOM.nextBytes(bytes);
-        } while (isAllZero(bytes));
+        }
+        while (isAllZero(bytes));
 
         return HEX_FORMAT.formatHex(bytes);
     }

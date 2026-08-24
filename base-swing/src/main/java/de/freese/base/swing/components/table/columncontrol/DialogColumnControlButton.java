@@ -253,7 +253,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         int gbcCol = 0;
         int col = 0;
 
-        for (TableColumn tableColumn : columns) {
+        for (final TableColumn tableColumn : columns) {
             final TableColumnExt columnExt = (TableColumnExt) tableColumn;
             final JComponent component = createColumnComponent(columnExt);
 
@@ -290,7 +290,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     protected void toggleColumnVisibility(final Map<TableColumnExt, JComponent> columnComponentMap) {
         boolean doToggle = false;
 
-        for (Entry<TableColumnExt, JComponent> entry : columnComponentMap.entrySet()) {
+        for (final Entry<TableColumnExt, JComponent> entry : columnComponentMap.entrySet()) {
             final TableColumnExt column = entry.getKey();
             final JComponent component = entry.getValue();
 
@@ -314,7 +314,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     protected boolean toggleColumnVisibility(final TableColumnExt column, final JComponent component) {
         boolean toggled = false;
 
-        if (component instanceof JCheckBox checkBox) {
+        if (component instanceof final JCheckBox checkBox) {
             if (column.isVisible() != checkBox.isSelected()) {
                 toggled = true;
                 column.setVisible(checkBox.isSelected());

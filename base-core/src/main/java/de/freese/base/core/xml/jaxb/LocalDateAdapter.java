@@ -1,16 +1,15 @@
 package de.freese.base.core.xml.jaxb;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * @author Thomas Freese
  */
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
 
     @Override
     public String marshal(final LocalDate date) {

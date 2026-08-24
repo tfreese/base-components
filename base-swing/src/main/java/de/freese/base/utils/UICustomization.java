@@ -45,7 +45,7 @@ public final class UICustomization {
     }
 
     public static void setDefaultFont(final Font font) {
-        for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
+        for (final Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
             final Object key = entry.getKey();
             // Object value = entry.getValue();
 

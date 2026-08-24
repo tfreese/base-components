@@ -185,7 +185,8 @@ public class StopWatch {
         protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
             if (!sw.isKeepTaskList()) {
                 printStream.println("No task info kept");
-            } else {
+            }
+            else {
                 printStream.printf("%15s | %9s | %3s | Task Name%n", TimeUnit.NANOSECONDS.toChronoUnit(), timeUnit.toChronoUnit(), "%");
 
                 for (final TaskInfo task : sw.getTaskList()) {
