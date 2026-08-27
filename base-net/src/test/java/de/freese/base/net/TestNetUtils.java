@@ -1,4 +1,3 @@
-// Created: 17.07.2012
 package de.freese.base.net;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,6 +22,7 @@ import de.freese.base.utils.NetUtils;
 
 /**
  * @author Thomas Freese
+ * @since 17.07.2012
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestNetUtils {
@@ -80,14 +80,14 @@ class TestNetUtils {
 
     @Test
     void testLocalHost() {
-        String hostName = null;
+        String hostName;
 
         try {
             hostName = InetAddress.getLocalHost().getHostName();
             assertNotNull(hostName);
             LOGGER.info("InetAddress.getLocalHost: {}", hostName);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             LOGGER.info("InetAddress.getLocalHost: {}", ex.getMessage());
         }
@@ -98,7 +98,7 @@ class TestNetUtils {
             assertNotNull(hostName);
             LOGGER.info("CMD 'hostname': {}", hostName);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error("CMD 'hostname': {}", ex.getMessage());
         }
 
@@ -145,7 +145,7 @@ class TestNetUtils {
         final LocalDateTime ptbTime = NetUtils.getPtbTime();
         assertNotNull(ptbTime);
 
-        //        System.out.printf("%1$tY-%1$tm-%1$td %1$tT%n", ptbTime);
+        // System.out.printf("%1$tY-%1$tm-%1$td %1$tT%n", ptbTime);
     }
 
     @Test

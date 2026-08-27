@@ -43,8 +43,281 @@ import de.freese.base.core.image.ImageFormat;
  * @author Thomas Freese
  */
 public final class ImageUtils {
-    private ImageUtils() {
-        super();
+    /**
+     * Leeres Icon Rechteck ohne Pixel, - Größe 16 x 16 Pixel ist Standard.
+     *
+     * @author Thomas Freese
+     */
+    private static final class EmptyIcon extends ImageIcon {
+        @Serial
+        private static final long serialVersionUID = 102999713634663152L;
+
+        static void main() {
+            final JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
+
+            final JFrame frame = new JFrame();
+            frame.add(label);
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.setSize(200, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
+
+        private final int iconHeight;
+        private final int iconWidth;
+        private transient BufferedImage bufferedImage;
+
+        /**
+         * Default: 16 x 16
+         */
+        private EmptyIcon() {
+            this(16, 16);
+        }
+
+        private EmptyIcon(final int width, final int height) {
+            super();
+
+            iconWidth = width;
+            iconHeight = height;
+
+            setImage(null);
+            // setImage(new ImageIcon(new byte[]{0, 0}).getImage());
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public Image getImage() {
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
+                paintIcon(null, graphics, 0, 0);
+                graphics.dispose();
+            }
+
+            return bufferedImage;
+        }
+
+        @Override
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+            // Empty
+        }
+
+        @Override
+        protected void loadImage(final Image image) {
+            // Empty
+        }
+    }
+
+    /**
+     * Icon, wenn kein Icon da ist Rechteck mit Kreuz drin (Rot) - Größe 16 x 16 Pixel.
+     *
+     * @author Thomas Freese
+     */
+    private static final class MissingIcon extends ImageIcon {
+        @Serial
+        private static final long serialVersionUID = -3986977626709987448L;
+
+        static void main() {
+            final JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
+
+            final JFrame frame = new JFrame();
+            frame.add(label);
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.setSize(200, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
+
+        private final int iconHeight;
+        private final int iconWidth;
+        private transient BufferedImage bufferedImage;
+
+        /**
+         * Default: 16 x 16
+         */
+        private MissingIcon() {
+            this(16, 16);
+        }
+
+        private MissingIcon(final int width, final int height) {
+            super();
+
+            iconWidth = width;
+            iconHeight = height;
+
+            setImage(null);
+            // setImage(new ImageIcon(new byte[]{0, 0}).getImage());
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public Image getImage() {
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
+                paintIcon(null, graphics, 0, 0);
+                graphics.dispose();
+            }
+
+            return bufferedImage;
+        }
+
+        @Override
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+            final Graphics2D g2d = (Graphics2D) g.create();
+
+            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
+
+            g.setColor(Color.RED);
+            g.translate(x, y);
+            g.drawLine(0, 0, getIconWidth(), getIconHeight());
+            g.drawLine(getIconWidth(), 0, 0, getIconHeight());
+            g.drawRect(0, 0, getIconWidth(), getIconHeight());
+            g.translate(-x, -y);
+        }
+
+        @Override
+        protected void loadImage(final Image image) {
+            // Empty
+        }
+    }
+
+    /**
+     * Icon für einen Pfeil.
+     *
+     * @author Thomas Freese
+     */
+    private static final class TriangleIcon extends ImageIcon {
+        @Serial
+        private static final long serialVersionUID = 6491045895051309036L;
+
+        static void main() {
+            final JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
+
+            final JFrame frame = new JFrame();
+            frame.add(label);
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.setSize(200, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
+
+        private final int direction;
+        private final Color foreground;
+        private final int iconHeight;
+        private final int iconWidth;
+        private transient BufferedImage bufferedImage;
+
+        /**
+         * Defaults: Width = 16, Height = 16, ForeGround = Black
+         *
+         * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
+         */
+        private TriangleIcon(final int direction) {
+            this(16, 16, direction, Color.BLACK);
+        }
+
+        /**
+         * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
+         */
+        private TriangleIcon(final int width, final int height, final int direction, final Color foreground) {
+            if (direction != SwingConstants.NORTH
+                    && direction != SwingConstants.SOUTH
+                    && direction != SwingConstants.EAST
+                    && direction != SwingConstants.WEST) {
+                throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
+            }
+
+            super();
+
+            iconWidth = width;
+            iconHeight = height;
+            this.direction = direction;
+            this.foreground = foreground;
+
+            setImage(null);
+            // setImage(new ImageIcon(new byte[]{0, 0}).getImage());
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public Image getImage() {
+            if (bufferedImage == null) {
+                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
+                final Graphics graphics = bufferedImage.getGraphics();
+                paintIcon(null, graphics, 0, 0);
+                graphics.dispose();
+            }
+
+            return bufferedImage;
+        }
+
+        @Override
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+            final Graphics2D g2d = (Graphics2D) g.create();
+
+            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
+            g2d.setColor(foreground);
+
+            final int centerX = getIconWidth() / 2;
+            final int centerY = getIconHeight() / 2;
+            final int[] xPoints;
+            final int[] yPoints;
+
+            switch (direction) {
+                case SwingConstants.NORTH -> {
+                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                    yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
+                }
+                case SwingConstants.SOUTH -> {
+                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                    yPoints = new int[]{y, y + (centerY * 2), y};
+                }
+                case SwingConstants.WEST -> {
+                    xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
+                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+                }
+                case SwingConstants.EAST -> {
+                    xPoints = new int[]{x, x + (centerX * 2), x, x};
+                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
+                }
+                default -> throw new IllegalStateException();
+            }
+
+            g2d.fillPolygon(xPoints, yPoints, 3);
+        }
+
+        @Override
+        protected void loadImage(final Image image) {
+            // Empty
+        }
     }
 
     /**
@@ -414,280 +687,7 @@ public final class ImageUtils {
         writeImage(bufferedImage, format, outputStream);
     }
 
-    /**
-     * Leeres Icon Rechteck ohne Pixel, - Größe 16 x 16 Pixel ist Standard.
-     *
-     * @author Thomas Freese
-     */
-    private static final class EmptyIcon extends ImageIcon {
-        @Serial
-        private static final long serialVersionUID = 102999713634663152L;
-
-        private final int iconHeight;
-        private final int iconWidth;
-        private transient BufferedImage bufferedImage;
-
-        /**
-         * Default: 16 x 16
-         */
-        private EmptyIcon() {
-            this(16, 16);
-        }
-
-        private EmptyIcon(final int width, final int height) {
-            super();
-
-            iconWidth = width;
-            iconHeight = height;
-
-            setImage(null);
-            //            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
-        }
-
-        static void main() {
-            final JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
-
-            final JFrame frame = new JFrame();
-            frame.add(label);
-            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            frame.setSize(200, 200);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        }
-
-        @Override
-        public int getIconHeight() {
-            return iconHeight;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return iconWidth;
-        }
-
-        @Override
-        public Image getImage() {
-            if (bufferedImage == null) {
-                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = bufferedImage.getGraphics();
-                paintIcon(null, graphics, 0, 0);
-                graphics.dispose();
-            }
-
-            return bufferedImage;
-        }
-
-        @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            // Empty
-        }
-
-        @Override
-        protected void loadImage(final Image image) {
-            // Empty
-        }
-    }
-
-    /**
-     * Icon, wenn kein Icon da ist Rechteck mit Kreuz drin (Rot) - Größe 16 x 16 Pixel.
-     *
-     * @author Thomas Freese
-     */
-    private static final class MissingIcon extends ImageIcon {
-        @Serial
-        private static final long serialVersionUID = -3986977626709987448L;
-
-        private final int iconHeight;
-        private final int iconWidth;
-        private transient BufferedImage bufferedImage;
-
-        /**
-         * Default: 16 x 16
-         */
-        private MissingIcon() {
-            this(16, 16);
-        }
-
-        private MissingIcon(final int width, final int height) {
-            super();
-
-            iconWidth = width;
-            iconHeight = height;
-
-            setImage(null);
-            // setImage(new ImageIcon(new byte[]{0, 0}).getImage());
-        }
-
-        static void main() {
-            final JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
-
-            final JFrame frame = new JFrame();
-            frame.add(label);
-            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            frame.setSize(200, 200);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        }
-
-        @Override
-        public int getIconHeight() {
-            return iconHeight;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return iconWidth;
-        }
-
-        @Override
-        public Image getImage() {
-            if (bufferedImage == null) {
-                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = bufferedImage.getGraphics();
-                paintIcon(null, graphics, 0, 0);
-                graphics.dispose();
-            }
-
-            return bufferedImage;
-        }
-
-        @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            final Graphics2D g2d = (Graphics2D) g.create();
-
-            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
-
-            g.setColor(Color.RED);
-            g.translate(x, y);
-            g.drawLine(0, 0, getIconWidth(), getIconHeight());
-            g.drawLine(getIconWidth(), 0, 0, getIconHeight());
-            g.drawRect(0, 0, getIconWidth(), getIconHeight());
-            g.translate(-x, -y);
-        }
-
-        @Override
-        protected void loadImage(final Image image) {
-            // Empty
-        }
-    }
-
-    /**
-     * Icon für einen Pfeil.
-     *
-     * @author Thomas Freese
-     */
-    private static final class TriangleIcon extends ImageIcon {
-        @Serial
-        private static final long serialVersionUID = 6491045895051309036L;
-
-        private final int direction;
-        private final Color foreground;
-        private final int iconHeight;
-        private final int iconWidth;
-        private transient BufferedImage bufferedImage;
-
-        /**
-         * Defaults: Width = 16, Height = 16, ForeGround = Black
-         *
-         * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
-         */
-        private TriangleIcon(final int direction) {
-            this(16, 16, direction, Color.BLACK);
-        }
-
-        /**
-         * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
-         */
-        private TriangleIcon(final int width, final int height, final int direction, final Color foreground) {
-            super();
-
-            iconWidth = width;
-            iconHeight = height;
-            this.direction = direction;
-            this.foreground = foreground;
-
-            if (direction != SwingConstants.NORTH
-                    && direction != SwingConstants.SOUTH
-                    && direction != SwingConstants.EAST
-                    && direction != SwingConstants.WEST) {
-                throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
-            }
-
-            setImage(null);
-            //            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
-        }
-
-        static void main() {
-            final JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
-
-            final JFrame frame = new JFrame();
-            frame.add(label);
-            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            frame.setSize(200, 200);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        }
-
-        @Override
-        public int getIconHeight() {
-            return iconHeight;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return iconWidth;
-        }
-
-        @Override
-        public Image getImage() {
-            if (bufferedImage == null) {
-                bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                final Graphics graphics = bufferedImage.getGraphics();
-                paintIcon(null, graphics, 0, 0);
-                graphics.dispose();
-            }
-
-            return bufferedImage;
-        }
-
-        @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            final Graphics2D g2d = (Graphics2D) g.create();
-
-            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
-            g2d.setColor(foreground);
-
-            final int centerX = getIconWidth() / 2;
-            final int centerY = getIconHeight() / 2;
-            final int[] xPoints;
-            final int[] yPoints;
-
-            switch (direction) {
-                case SwingConstants.NORTH -> {
-                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-                    yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
-                }
-                case SwingConstants.SOUTH -> {
-                    xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
-                    yPoints = new int[]{y, y + (centerY * 2), y};
-                }
-                case SwingConstants.WEST -> {
-                    xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
-                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-                }
-                case SwingConstants.EAST -> {
-                    xPoints = new int[]{x, x + (centerX * 2), x, x};
-                    yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
-                }
-                default -> throw new IllegalStateException();
-            }
-
-            g2d.fillPolygon(xPoints, yPoints, 3);
-        }
-
-        @Override
-        protected void loadImage(final Image image) {
-            // Empty
-        }
+    private ImageUtils() {
+        super();
     }
 }

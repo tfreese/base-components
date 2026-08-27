@@ -1,4 +1,3 @@
-// Created: 08.11.2014
 package de.freese.base.core.cache;
 
 import java.io.InputStream;
@@ -7,6 +6,7 @@ import java.net.URL;
 
 /**
  * @author Thomas Freese
+ * @since 08.11.2014
  */
 public interface ResourceCache {
     void clear();

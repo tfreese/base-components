@@ -1,4 +1,3 @@
-// Created: 10.06.2019
 package de.freese.base.core.reactive;
 
 import java.util.Iterator;
@@ -12,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Thomas Freese
+ * @since 10.06.2019
  */
 class StreamSubscription<T> implements Subscription {
     private final AtomicLong demand = new AtomicLong();
@@ -69,7 +69,7 @@ class StreamSubscription<T> implements Subscription {
             try {
                 getExecutor().execute(() -> subscriber.onNext(iterator.next()));
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 if (!terminate()) {
                     getExecutor().execute(() -> subscriber.onError(ex));
                 }

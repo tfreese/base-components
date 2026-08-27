@@ -1,4 +1,3 @@
-// Created: 08.02.2022
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
@@ -8,11 +7,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * {@link Executor} who is using only n Threads from the Delegates.<br>
  * Uses parallelism + 1 Threads for the Queue-Processing.
  *
  * @author Thomas Freese
+ * @since 08.02.2022
  */
 public class BoundedExecutorQueuedWithScheduler implements Executor {
     private static final Runnable SHUTDOWN_RUNNABLE = () -> {
@@ -54,7 +56,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
                     }
                 });
             }
-            catch (RejectedExecutionException ex) {
+            catch (final RejectedExecutionException ex) {
                 BoundedExecutorQueuedWithScheduler.this.rateLimiter.release();
 
                 throw ex;
@@ -74,13 +76,13 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
      * @param parallelism int; Number of Threads to use from the Delegate
      */
     public BoundedExecutorQueuedWithScheduler(final Executor delegate, final int parallelism) {
-        super();
-
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
-
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
+
+        super();
+
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
         rateLimiter = new Semaphore(parallelism, true);
 
@@ -88,11 +90,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
     }
 
     @Override
-    public void execute(final Runnable runnable) {
-        if (runnable == null) {
-            throw new NullPointerException();
-        }
-
+    public void execute(final @NonNull Runnable runnable) {
         queue.add(runnable);
     }
 

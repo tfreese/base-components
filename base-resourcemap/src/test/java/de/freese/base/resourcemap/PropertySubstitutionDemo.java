@@ -1,4 +1,3 @@
-// Created: 20 Nov. 2024
 package de.freese.base.resourcemap;
 
 import java.util.HashMap;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 20.11.2024
  */
 public final class PropertySubstitutionDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertySubstitutionDemo.class);

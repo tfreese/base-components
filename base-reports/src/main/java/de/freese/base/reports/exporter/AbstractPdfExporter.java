@@ -1,4 +1,3 @@
-// Created: 11.08.2010
 package de.freese.base.reports.exporter;
 
 import java.awt.Color;
@@ -13,6 +12,7 @@ import org.openpdf.text.pdf.PdfWriter;
 
 /**
  * @author Thomas Freese
+ * @since 11.08.2010
  */
 public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
     /**

@@ -1,4 +1,3 @@
-// Created: 03.01.2018
 package de.freese.base.core.function;
 
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.util.function.Supplier;
  * Für Checked- und Unchecked-Exceptions stehen unterschiedliche Methoden zur Verfügung.
  *
  * @author Thomas Freese
+ * @since 03.01.2018
  */
 public final class LambdaExceptions {
     /**
@@ -49,7 +49,7 @@ public final class LambdaExceptions {
             try {
                 exceptionalBiConsumer.accept(t, u);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
         };
@@ -72,7 +72,7 @@ public final class LambdaExceptions {
             try {
                 return exceptionalFunction.apply(t, u);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -97,7 +97,7 @@ public final class LambdaExceptions {
             try {
                 exceptionalConsumer.accept(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
         };
@@ -120,7 +120,7 @@ public final class LambdaExceptions {
             try {
                 return exceptionalFunction.apply(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -145,7 +145,7 @@ public final class LambdaExceptions {
             try {
                 return exceptionalPredicate.test(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -170,7 +170,7 @@ public final class LambdaExceptions {
             try {
                 return exceptionalSupplier.get();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -195,7 +195,7 @@ public final class LambdaExceptions {
             try {
                 consumer.accept(t, u);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
         };
@@ -218,7 +218,7 @@ public final class LambdaExceptions {
             try {
                 return function.apply(t, u);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -243,7 +243,7 @@ public final class LambdaExceptions {
             try {
                 consumer.accept(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
         };
@@ -266,7 +266,7 @@ public final class LambdaExceptions {
             try {
                 return function.apply(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -291,7 +291,7 @@ public final class LambdaExceptions {
             try {
                 return predicate.test(t);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 
@@ -316,7 +316,7 @@ public final class LambdaExceptions {
             try {
                 return supplier.get();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 handler.handle(ex);
             }
 

@@ -1,4 +1,3 @@
-// Created: 14.04.2020
 package de.freese.base.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Thomas Freese
+ * @since 14.04.2020
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestStringUtils {

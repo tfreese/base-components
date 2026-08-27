@@ -1,4 +1,3 @@
-// Created: 16.01.2018
 package de.freese.base.core.reactive;
 
 import java.util.Objects;
@@ -13,6 +12,7 @@ import java.util.stream.Stream;
  * <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  *
  * @author Thomas Freese
+ * @since 16.01.2018
  */
 public class StreamPublisher<T> implements Publisher<T> {
     private final Executor executor;

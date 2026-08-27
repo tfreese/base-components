@@ -46,8 +46,29 @@ public final class XmlUtils {
     private static final Map<String, JAXBContext> JAXB_CONTEXT_CACHE = new HashMap<>();
     private static final Map<Class<?>, Schema> SCHEMA_CACHE = new HashMap<>();
 
-    private XmlUtils() {
-        super();
+    private static final class XmlValidationErrorHandler implements ErrorHandler {
+        private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidationErrorHandler.class);
+
+        private final Set<String> messages = new HashSet<>();
+
+        @Override
+        public void error(final SAXParseException exception) {
+            messages.add(exception.toString());
+        }
+
+        @Override
+        public void fatalError(final SAXParseException exception) {
+            messages.add(exception.toString());
+        }
+
+        public void logMessages() {
+            messages.forEach(LOGGER::error);
+        }
+
+        @Override
+        public void warning(final SAXParseException exception) {
+            messages.add(exception.toString());
+        }
     }
 
     public static Document getDocument(final InputSource inputSource) throws Exception {
@@ -179,28 +200,7 @@ public final class XmlUtils {
         }
     }
 
-    private static final class XmlValidationErrorHandler implements ErrorHandler {
-        private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidationErrorHandler.class);
-
-        private final Set<String> messages = new HashSet<>();
-
-        @Override
-        public void error(final SAXParseException exception) {
-            messages.add(exception.toString());
-        }
-
-        @Override
-        public void fatalError(final SAXParseException exception) {
-            messages.add(exception.toString());
-        }
-
-        public void logMessages() {
-            messages.forEach(LOGGER::error);
-        }
-
-        @Override
-        public void warning(final SAXParseException exception) {
-            messages.add(exception.toString());
-        }
+    private XmlUtils() {
+        super();
     }
 }

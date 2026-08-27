@@ -1,4 +1,3 @@
-// Created: 05.02.2022
 package de.freese.base.resourcemap.provider;
 
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import javax.sql.DataSource;
 
 /**
  * @author Thomas Freese
+ * @since 05.02.2022
  */
 public abstract class AbstractDatabaseResourceProvider implements ResourceProvider {
     @Override
@@ -29,10 +29,7 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
                 }
             }
         }
-        catch (RuntimeException ex) {
-            throw ex;
-        }
-        catch (SQLException ex) {
+        catch (final SQLException ex) {
             throw new RuntimeException(ex);
         }
 

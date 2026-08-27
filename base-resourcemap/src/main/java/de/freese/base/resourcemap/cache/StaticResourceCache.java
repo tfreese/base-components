@@ -1,4 +1,3 @@
-// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import de.freese.base.resourcemap.ResourceMap;
  * Static {@link ResourceCache} for all {@link ResourceMap}s.
  *
  * @author Thomas Freese
+ * @since 08.06.2020
  */
 public final class StaticResourceCache implements ResourceCache {
     /**

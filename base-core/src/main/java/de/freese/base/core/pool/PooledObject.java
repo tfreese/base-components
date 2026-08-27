@@ -1,4 +1,3 @@
-// Created: 04 Feb. 2026
 package de.freese.base.core.pool;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * @author Thomas Freese
+ * @since 04.02.2026
  */
 public final class PooledObject<T> implements AutoCloseable {
     private final Pool<T> pool;

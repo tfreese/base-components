@@ -1,4 +1,3 @@
-// Created: 04.06.2018
 package de.freese.base.core.collection;
 
 import static org.awaitility.Awaitility.await;
@@ -31,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * @author Thomas Freese
+ * @since 04.06.2018
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestTimeoutMap {

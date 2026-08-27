@@ -1,4 +1,3 @@
-// Created: 01.03.23
 package de.freese.base.reports.importer.excel;
 
 import java.io.InputStream;
@@ -8,6 +7,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2023
  */
 public class ExcelImporterPoiXls extends AbstractPoiExcelImporter {
     @Override

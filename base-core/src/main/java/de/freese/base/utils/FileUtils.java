@@ -1,4 +1,3 @@
-// Created: 14.04.2020
 package de.freese.base.utils;
 
 import java.io.File;
@@ -17,15 +16,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 14.04.2020
  */
 public final class FileUtils {
     private static final String[] SIZE_UNITS = {"B", "KB", "MB", "GB", "TB"};
-
-    private FileUtils() {
-        super();
-    }
 
     /**
      * Copies the File to *.last.
@@ -69,14 +67,14 @@ public final class FileUtils {
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+            public @NonNull FileVisitResult postVisitDirectory(final @NonNull Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
 
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+            public @NonNull FileVisitResult visitFile(final @NonNull Path file, final @NonNull BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);
 
                 return FileVisitResult.CONTINUE;
@@ -157,5 +155,9 @@ public final class FileUtils {
                 }
             }
         }
+    }
+
+    private FileUtils() {
+        super();
     }
 }

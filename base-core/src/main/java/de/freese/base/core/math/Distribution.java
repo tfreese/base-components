@@ -49,7 +49,7 @@ public final class Distribution {
 
         double faktorSumme = 0.0D;
 
-        for (double element : faktoren) {
+        for (final double element : faktoren) {
             double faktor = element;
 
             if (Double.isNaN(faktor) || Double.isInfinite(faktor)) {

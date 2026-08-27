@@ -10,9 +10,8 @@ import java.util.regex.Pattern;
  */
 public final class TraceIdParser {
     private static final Pattern VERSION_00_PATTERN = Pattern.compile("^00-([0-9a-f]{32})-([0-9a-f]{16})-([0-9a-f]{2})$");
-
-    private static final String ZERO_TRACE_ID = "00000000000000000000000000000000";
     private static final String ZERO_PARENT_ID = "0000000000000000";
+    private static final String ZERO_TRACE_ID = "00000000000000000000000000000000";
 
     public static Optional<Trace> parse(final String value) {
         if (value == null || value.length() != 55) {

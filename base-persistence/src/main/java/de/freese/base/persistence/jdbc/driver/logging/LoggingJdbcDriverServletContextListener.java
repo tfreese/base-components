@@ -1,4 +1,3 @@
-// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.sql.DriverManager;
@@ -8,6 +7,7 @@ import jakarta.servlet.ServletContextListener;
 
 /**
  * @author Thomas Freese
+ * @since 08.09.2016
  */
 public class LoggingJdbcDriverServletContextListener implements ServletContextListener {
     @Override

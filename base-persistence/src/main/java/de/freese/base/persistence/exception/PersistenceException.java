@@ -1,10 +1,10 @@
-// Created: 09.01.2004
 package de.freese.base.persistence.exception;
 
 import java.io.Serial;
 
 /**
  * @author Thomas Freese
+ * @since 09.01.2004
  */
 public class PersistenceException extends RuntimeException {
     @Serial

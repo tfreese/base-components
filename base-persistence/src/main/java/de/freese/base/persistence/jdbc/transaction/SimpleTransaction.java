@@ -1,4 +1,3 @@
-// Created: 30.08.23
 package de.freese.base.persistence.jdbc.transaction;
 
 import java.sql.Connection;
@@ -14,6 +13,7 @@ import de.freese.base.persistence.exception.PersistenceException;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.2023
  */
 public final class SimpleTransaction implements Transaction {
 

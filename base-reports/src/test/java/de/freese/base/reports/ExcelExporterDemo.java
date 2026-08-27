@@ -1,4 +1,3 @@
-// Created: 22.09.2006
 package de.freese.base.reports;
 
 import java.awt.Desktop;
@@ -28,6 +27,7 @@ import de.freese.base.reports.exporter.Exporter;
 
 /**
  * @author Thomas Freese
+ * @since 22.09.2006
  */
 public final class ExcelExporterDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelExporterDemo.class);
@@ -82,7 +82,7 @@ public final class ExcelExporterDemo {
             try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         };

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
  * <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java">AbstractMapDecorator.java</a>
@@ -34,7 +36,7 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     }
 
     @Override
-    public Set<Entry<K, V>> entrySet() {
+    public @NonNull Set<Entry<K, V>> entrySet() {
         return getDecoratedMap().entrySet();
     }
 
@@ -63,7 +65,7 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     }
 
     @Override
-    public Set<K> keySet() {
+    public @NonNull Set<K> keySet() {
         return getDecoratedMap().keySet();
     }
 
@@ -73,7 +75,7 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     }
 
     @Override
-    public void putAll(final Map<? extends K, ? extends V> mapToCopy) {
+    public void putAll(final @NonNull Map<? extends K, ? extends @NonNull V> mapToCopy) {
         getDecoratedMap().putAll(mapToCopy);
     }
 
@@ -93,7 +95,7 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     }
 
     @Override
-    public Collection<V> values() {
+    public @NonNull Collection<V> values() {
         return getDecoratedMap().values();
     }
 

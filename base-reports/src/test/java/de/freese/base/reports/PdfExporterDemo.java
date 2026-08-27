@@ -1,4 +1,3 @@
-// Created: 22.09.2006
 package de.freese.base.reports;
 
 import java.awt.Color;
@@ -29,6 +28,7 @@ import de.freese.base.reports.exporter.Exporter;
 
 /**
  * @author Thomas Freese
+ * @since 22.09.2006
  */
 public final class PdfExporterDemo {
     private static final Font PDF_FONT_12_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.NORMAL, Color.BLACK);
@@ -117,7 +117,7 @@ public final class PdfExporterDemo {
             try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         };

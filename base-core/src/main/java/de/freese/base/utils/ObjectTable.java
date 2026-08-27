@@ -1,4 +1,3 @@
-// Created: 18.04.2020
 package de.freese.base.utils;
 
 import java.io.OutputStream;
@@ -17,6 +16,7 @@ import java.util.stream.StreamSupport;
 
 /**
  * @author Thomas Freese
+ * @since 18.04.2020
  */
 public final class ObjectTable {
     private final List<Object[]> data;
@@ -27,9 +27,9 @@ public final class ObjectTable {
     }
 
     public ObjectTable(final Iterable<String> header) {
-        super();
-
         Objects.requireNonNull(header, "header required");
+
+        super();
 
         this.header = StreamSupport.stream(header.spliterator(), false).toList();
 

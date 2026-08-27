@@ -1,4 +1,3 @@
-// Created: 02.07.2011
 package de.freese.base.utils;
 
 import java.util.Arrays;
@@ -7,13 +6,10 @@ import java.util.stream.Stream;
 
 /**
  * @author Thomas Freese
+ * @since 02.07.2011
  */
 public final class ArrayUtils {
     public static final String[] EMPTY_STRING_ARRAY = {};
-
-    private ArrayUtils() {
-        super();
-    }
 
     /**
      * Liefert true, wenn in den ArrayElementen immer nur der Wert enthalten ist.
@@ -89,5 +85,9 @@ public final class ArrayUtils {
         }
 
         return Stream.of(array).map(Object::toString).collect(Collectors.joining(separator));
+    }
+
+    private ArrayUtils() {
+        super();
     }
 }

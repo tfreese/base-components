@@ -3,6 +3,8 @@ package de.freese.base.core.io;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Schreibt die Daten in beide PrintStreams.
  *
@@ -32,7 +34,7 @@ public class TPrintStream extends PrintStream {
     }
 
     @Override
-    public void write(final byte[] buf, final int off, final int len) {
+    public void write(final byte @NonNull [] buf, final int off, final int len) {
         super.write(buf, off, len);
 
         out2.write(buf, off, len);

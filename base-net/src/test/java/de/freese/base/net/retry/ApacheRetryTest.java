@@ -1,4 +1,3 @@
-// Created: 29 März 2025
 package de.freese.base.net.retry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +38,7 @@ import de.freese.base.utils.SocketUtils;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2025
  */
 class ApacheRetryTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApacheRetryTest.class);
@@ -75,7 +75,7 @@ class ApacheRetryTest {
 
         @Override
         public TimeValue getRetryInterval(final HttpResponse response, final int execCount, final HttpContext context) {
-            if (context instanceof HttpClientContext hcc) {
+            if (context instanceof final HttpClientContext hcc) {
                 LOGGER.info("{}: {}", hcc.getRequest(), response);
             }
             else {
@@ -140,7 +140,7 @@ class ApacheRetryTest {
                 return null;
             });
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             assertEquals(IOException.class, ex.getClass());

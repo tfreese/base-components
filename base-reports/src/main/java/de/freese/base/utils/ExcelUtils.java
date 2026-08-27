@@ -1,4 +1,3 @@
-// Created: 10 Juli 2024
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -26,6 +25,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 /**
  * @author Thomas Freese
+ * @since 10.07.2024
  */
 public final class ExcelUtils {
     public static void export(final OutputStream outputStream, final String sheetName, final TableModel tableModel) throws IOException {
@@ -65,7 +65,7 @@ public final class ExcelUtils {
             cellStyleHeader.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
             // Spaltenbreiten
-            if (sheet instanceof SXSSFSheet s) {
+            if (sheet instanceof final SXSSFSheet s) {
                 s.trackAllColumnsForAutoSizing();
             }
 
@@ -74,7 +74,7 @@ public final class ExcelUtils {
                 cell.setCellStyle(cellStyleHeader);
                 cell.setCellValue(headerFunction.apply(columnIndex));
 
-                if (sheet instanceof SXSSFSheet s) {
+                if (sheet instanceof final SXSSFSheet s) {
                     s.trackColumnForAutoSizing(columnIndex);
                 }
             }
@@ -117,11 +117,11 @@ public final class ExcelUtils {
     private static void writeMetaData(final Workbook workbook) {
         Workbook wb = workbook;
 
-        if (workbook instanceof SXSSFWorkbook sxssfWorkbook) {
+        if (workbook instanceof final SXSSFWorkbook sxssfWorkbook) {
             wb = sxssfWorkbook.getXSSFWorkbook();
         }
 
-        if (wb instanceof POIXMLDocument poixmlDocument) {
+        if (wb instanceof final POIXMLDocument poixmlDocument) {
             final Date today = new Date();
 
             final POIXMLProperties.CoreProperties properties = poixmlDocument.getProperties().getCoreProperties();

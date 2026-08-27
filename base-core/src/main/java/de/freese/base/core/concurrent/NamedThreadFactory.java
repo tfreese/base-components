@@ -1,4 +1,3 @@
-// Created: 10.09.2020
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
@@ -6,8 +5,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 10.09.2020
  */
 public class NamedThreadFactory implements ThreadFactory {
     private final boolean daemon;
@@ -38,8 +40,8 @@ public class NamedThreadFactory implements ThreadFactory {
     }
 
     @Override
-    public Thread newThread(final Runnable r) {
-        final Thread thread = defaultThreadFactory.newThread(r);
+    public Thread newThread(final @NonNull Runnable runnable) {
+        final Thread thread = defaultThreadFactory.newThread(runnable);
 
         final String threadName = String.format(namePattern, threadNumber.getAndIncrement());
         thread.setName(threadName);

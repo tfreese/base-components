@@ -16,10 +16,6 @@ import java.util.function.Function;
 @SuppressWarnings({"java:S2111", "java:S2143"})
 public final class RvsJdbcUtils {
 
-    private RvsJdbcUtils() {
-        super();
-    }
-
     public static void bindFields(final PreparedStatement ps, final RvsRecord rvsRecord, final RvsLayout rvsLayout) throws SQLException {
         final List<RvsField> fields = rvsLayout.getFields();
 
@@ -28,21 +24,6 @@ public final class RvsJdbcUtils {
             final Object value = rvsRecord.getValue(rvsField.getName());
 
             setTyped(ps, index, value);
-        }
-    }
-
-    private static void setTyped(final PreparedStatement ps, final int index, final Object value) throws SQLException {
-        switch (value) {
-            case null -> ps.setObject(index, null);
-            case final String s -> ps.setString(index, s);
-            case final Integer i -> ps.setInt(index, i);
-            case final Long l -> ps.setLong(index, l);
-            case final BigDecimal bd -> ps.setBigDecimal(index, bd);
-            case final LocalDate ld -> ps.setDate(index, Date.valueOf(ld));
-            case final LocalDateTime ldt -> ps.setTimestamp(index, Timestamp.valueOf(ldt));
-            // NOSONAR
-            case final java.util.Date d -> ps.setTimestamp(index, new Timestamp(d.getTime()));
-            default -> ps.setObject(index, value);
         }
     }
 
@@ -66,5 +47,23 @@ public final class RvsJdbcUtils {
         sql.append(")");
 
         return sql.toString();
+    }
+
+    private static void setTyped(final PreparedStatement ps, final int index, final Object value) throws SQLException {
+        switch (value) {
+            case null -> ps.setObject(index, null);
+            case final String s -> ps.setString(index, s);
+            case final Integer i -> ps.setInt(index, i);
+            case final Long l -> ps.setLong(index, l);
+            case final BigDecimal bd -> ps.setBigDecimal(index, bd);
+            case final LocalDate ld -> ps.setDate(index, Date.valueOf(ld));
+            case final LocalDateTime ldt -> ps.setTimestamp(index, Timestamp.valueOf(ldt));
+            case final java.util.Date d -> ps.setTimestamp(index, new Timestamp(d.getTime()));
+            default -> ps.setObject(index, value);
+        }
+    }
+
+    private RvsJdbcUtils() {
+        super();
     }
 }

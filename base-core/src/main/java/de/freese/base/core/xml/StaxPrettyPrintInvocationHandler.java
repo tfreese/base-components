@@ -1,4 +1,3 @@
-// Created: 15.06.2012
 package de.freese.base.core.xml;
 
 import java.lang.reflect.InvocationHandler;
@@ -10,6 +9,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 /**
  * @author Thomas Freese
+ * @since 15.06.2012
  */
 @SuppressWarnings({"java:S5411"})
 public class StaxPrettyPrintInvocationHandler implements InvocationHandler {

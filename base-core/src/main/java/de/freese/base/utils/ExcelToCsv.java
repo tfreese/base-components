@@ -1,4 +1,3 @@
-// Created: 13.09.2016
 package de.freese.base.utils;
 
 import java.io.BufferedWriter;
@@ -38,6 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * </ul>
  *
  * @author Thomas Freese
+ * @since 13.09.2016
  */
 public class ExcelToCsv {
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);

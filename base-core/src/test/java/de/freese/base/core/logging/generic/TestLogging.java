@@ -1,4 +1,3 @@
-// Created: 25 Juli 2024
 package de.freese.base.core.logging.generic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 public interface TestLogging {
     @BeforeEach

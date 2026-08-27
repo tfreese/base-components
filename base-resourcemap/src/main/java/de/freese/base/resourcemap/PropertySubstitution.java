@@ -1,4 +1,3 @@
-// Created: 20 Nov. 2024
 package de.freese.base.resourcemap;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 20.11.2024
  */
 public final class PropertySubstitution {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertySubstitution.class);
@@ -83,7 +83,7 @@ public final class PropertySubstitution {
 
         String newValue = value;
 
-        for (String placeHolder : placeHolders) {
+        for (final String placeHolder : placeHolders) {
             final String placeHolderValue = placeHolderToValue.apply(placeHolder);
 
             if (placeHolderValue != null) {

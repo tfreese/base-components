@@ -1,4 +1,3 @@
-// Created: 18.09.2014
 package de.freese.base.core.cache;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +9,7 @@ import java.util.TreeMap;
 
 /**
  * @author Thomas Freese
+ * @since 18.09.2014
  */
 public class MemoryResourceCache extends AbstractResourceCache {
     private final Map<URI, byte[]> map;

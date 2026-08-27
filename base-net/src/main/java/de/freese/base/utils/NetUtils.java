@@ -21,29 +21,6 @@ import org.apache.commons.net.ntp.TimeInfo;
  * @author Thomas Freese
  */
 public final class NetUtils {
-    private NetUtils() {
-        super();
-    }
-
-    /**
-     * DNS-Lookup over Operating-System.
-     */
-    public static String getIp(final String hostname) {
-        try {
-            final InetAddress[] allAddresses = InetAddress.getAllByName(hostname);
-
-            if (allAddresses != null && allAddresses.length > 0) {
-                return allAddresses[0].getHostAddress();
-            }
-
-            return InetAddress.getByName(hostname).getHostAddress();
-
-        }
-        catch (final UnknownHostException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
     /**
      * Wandelt die binäre IP-Adresse in ein lesbares Format um.
      */
@@ -122,6 +99,25 @@ public final class NetUtils {
         return hostName;
     }
 
+    /**
+     * DNS-Lookup over Operating-System.
+     */
+    public static String getIp(final String hostname) {
+        try {
+            final InetAddress[] allAddresses = InetAddress.getAllByName(hostname);
+
+            if (allAddresses != null && allAddresses.length > 0) {
+                return allAddresses[0].getHostAddress();
+            }
+
+            return InetAddress.getByName(hostname).getHostAddress();
+
+        }
+        catch (final UnknownHostException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
     public static LocalDateTime getNtpTime(final String host, final int port) throws IOException {
         final InetAddress inetAddress = InetAddress.getByName(host);
 
@@ -180,5 +176,9 @@ public final class NetUtils {
         }
 
         return isValid;
+    }
+
+    private NetUtils() {
+        super();
     }
 }

@@ -47,7 +47,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
 
         final List<Double> doubles = new ArrayList<>(n);
 
-        for (String doubleString : splits) {
+        for (final String doubleString : splits) {
             doubles.add(Double.parseDouble(doubleString));
         }
 

@@ -1,4 +1,3 @@
-// Created: 02.02.23
 package de.freese.base.resourcemap.converter;
 
 import java.awt.Color;
@@ -23,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * @author Thomas Freese
+ * @since 02.02.2023
  */
 public final class ResourceConverters {
     public static ResourceConverters ofDefaults() {

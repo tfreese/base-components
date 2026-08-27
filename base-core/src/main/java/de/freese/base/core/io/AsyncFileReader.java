@@ -1,4 +1,3 @@
-// Created: 07.01.2018
 package de.freese.base.core.io;
 
 import java.io.IOException;
@@ -9,8 +8,8 @@ import java.nio.channels.CompletionHandler;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +27,7 @@ import java.util.function.Supplier;
  *
  * @author Oliver Heger
  * @author Thomas Freese
+ * @since 07.01.2018
  */
 public final class AsyncFileReader<CH> {
     /**
@@ -54,7 +54,7 @@ public final class AsyncFileReader<CH> {
             try {
                 channel.close();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -103,12 +103,12 @@ public final class AsyncFileReader<CH> {
 
         try {
             // final AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, StandardOpenOption.READ);
-            final AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, new HashSet<>(Arrays.asList(StandardOpenOption.READ)), getExecutorService());
+            final AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, new HashSet<>(List.of(StandardOpenOption.READ)), getExecutorService());
             final ReadContext<CH> context = new ReadContext<>(channel, future, handler, getByteBufferSize());
 
             readBlock(context);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             future.completeExceptionally(ex);
         }
 

@@ -1,4 +1,3 @@
-// Created: 30.07.2021
 package de.freese.base.core.concurrent.accumulative;
 
 import java.time.Duration;
@@ -13,6 +12,7 @@ import reactor.core.scheduler.Scheduler;
  * Replica of a {@link sun.swing.AccumulativeRunnable} by a {@link Flux}.
  *
  * @author Thomas Freese
+ * @since 30.07.2021
  */
 abstract class AbstractAccumulativeSink {
     private static final Duration DEFAULT_DURATION = Duration.ofMillis(250);

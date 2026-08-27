@@ -1,4 +1,3 @@
-// Created: 26.01.2018
 package de.freese.base.persistence.jdbc.datasource;
 
 import java.time.Duration;
@@ -12,6 +11,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
  * Konfiguriert die Tomcat {@link PoolProperties} mit vernünftigen Default-Werten.
  *
  * @author Thomas Freese
+ * @since 26.01.2018
  */
 public final class ConnectionPoolConfigurer {
     /**

@@ -1,4 +1,3 @@
-// Created: 12.11.23
 package de.freese.base.persistence.jdbc.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +25,7 @@ import de.freese.base.persistence.jdbc.PersonRowMapper;
 
 /**
  * @author Thomas Freese
+ * @since 12.11.2023
  */
 class TestJdbcRepository {
     @RegisterExtension

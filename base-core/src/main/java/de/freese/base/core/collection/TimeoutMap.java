@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * {@link Map} Implementierung mit einer Timeout-Funktion der Elemente.<br>
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
@@ -53,7 +55,7 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     }
 
     @Override
-    public Set<Map.Entry<K, V>> entrySet() {
+    public @NonNull Set<Map.Entry<K, V>> entrySet() {
         removeIfExpired(now());
 
         return super.entrySet();
@@ -84,7 +86,7 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     }
 
     @Override
-    public Set<K> keySet() {
+    public @NonNull Set<K> keySet() {
         removeIfExpired(now());
 
         return super.keySet();
@@ -100,12 +102,12 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     }
 
     @Override
-    public void putAll(final Map<? extends K, ? extends V> map) {
+    public void putAll(final @NonNull Map<? extends K, ? extends V> map) {
         //        map.forEach(this::put);
 
         final Instant expiration = now().plus(expirationDuration);
 
-        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+        for (final Entry<? extends K, ? extends V> entry : map.entrySet()) {
             expirationMap.put(entry.getKey(), expiration);
             super.put(entry.getKey(), entry.getValue());
         }
@@ -126,7 +128,7 @@ public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     }
 
     @Override
-    public Collection<V> values() {
+    public @NonNull Collection<V> values() {
         removeIfExpired(now());
 
         return super.values();

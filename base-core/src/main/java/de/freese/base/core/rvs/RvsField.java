@@ -17,8 +17,6 @@ public final class RvsField {
     }
 
     public RvsField(final String name, final int startInclusive, final int endExclusive, final Function<String, Object> converter) {
-        super();
-
         if (startInclusive < 0) {
             throw new IllegalArgumentException("startInclusive < 0");
         }
@@ -30,6 +28,8 @@ public final class RvsField {
         if (startInclusive > endExclusive) {
             throw new IllegalArgumentException("startInclusive > endExclusive");
         }
+
+        super();
 
         this.name = Objects.requireNonNull(name, "name required");
         this.startInclusive = startInclusive;

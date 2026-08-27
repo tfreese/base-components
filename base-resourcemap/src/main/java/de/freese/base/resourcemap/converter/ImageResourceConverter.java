@@ -22,7 +22,7 @@ public class ImageResourceConverter extends AbstractResourceConverter<BufferedIm
             try {
                 return ImageIO.read(url);
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throwException(key, value, ex);
             }
         }

@@ -1,4 +1,3 @@
-// Created: 10.04.2019
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
@@ -14,6 +13,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  * {@link Spliterator} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
+ * @since 10.04.2019
  */
 public class ResultSetSpliterator<T> implements Spliterator<T> {
     // extends Spliterators.AbstractSpliterator<T>

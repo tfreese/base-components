@@ -1,5 +1,3 @@
-// Created: 24.10.2011
-
 /*
  * Copyright 2005-2006 Sun Microsystems, Inc. All Rights Reserved. DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER. This code is free software; you
  * can redistribute it and/or modify it under the terms of the GNU General Public License version 2 only, as published by the Free Software Foundation. Sun
@@ -67,6 +65,7 @@ import javax.swing.SwingUtilities;
  * @author Thomas Freese
  * @see "sun.swing.AccumulativeRunnable"
  * @since 1.6
+ * @since 24.10.2011
  */
 public abstract class AbstractAccumulativeRunnable<T> implements Runnable {
     private List<T> arguments;

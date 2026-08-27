@@ -1,10 +1,10 @@
-// Created: 25 Juli 2024
 package de.freese.base.core.logging.generic;
 
 import org.junit.jupiter.api.BeforeAll;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 class TestLoggingSlf4J implements TestLogging {
     @BeforeAll

@@ -1,4 +1,3 @@
-// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.sql.ResultSet;
@@ -11,6 +10,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
+ * @since 10.06.2019
  */
 public class ResultSetPublisher<T> implements Publisher<T> {
     private final Consumer<ResultSet> doOnClose;

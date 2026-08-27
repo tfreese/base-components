@@ -1,4 +1,3 @@
-// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import javax.sql.DataSource;
  * Liefert den nächsten Wert einer Sequence.
  *
  * @author Thomas Freese
+ * @since 04.02.2017
  */
 public class SequenceQueryExecutor {
     private final SequenceQuery sequenceQuery;

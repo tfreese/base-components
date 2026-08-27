@@ -23,8 +23,8 @@ import java.util.Random;
  * @since 05.08.26
  */
 public final class TraceIdGenerator {
-    private static final Random RANDOM = new SecureRandom();
     private static final HexFormat HEX_FORMAT = HexFormat.of().withLowerCase();
+    private static final Random RANDOM = new SecureRandom();
 
     public static String newParentId() {
         return newNonZeroIdentifier(8);

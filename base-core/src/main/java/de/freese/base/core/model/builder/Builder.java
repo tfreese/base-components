@@ -1,4 +1,3 @@
-// Created: 15.04.2020
 package de.freese.base.core.model.builder;
 
 /**
@@ -46,6 +45,9 @@ package de.freese.base.core.model.builder;
  * }
  *
  * @param <T> the type of object that the builder will construct or compute.
+ *
+ * @author Thomas Freese
+ * @since 15.04.2020
  */
 @FunctionalInterface
 public interface Builder<T> {

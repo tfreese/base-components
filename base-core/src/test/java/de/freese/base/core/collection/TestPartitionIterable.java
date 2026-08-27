@@ -1,4 +1,3 @@
-// Created: 16.11.22
 package de.freese.base.core.collection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 16.11.2022
  */
 class TestPartitionIterable {
     @Test

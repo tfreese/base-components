@@ -1,4 +1,3 @@
-// Created: 02.08.2009
 package de.freese.base.core.image.info;
 
 import java.awt.image.BufferedImage;
@@ -8,6 +7,7 @@ import java.awt.image.ColorModel;
  * Klasse für Informationen eines Bild-Farbkanals.
  *
  * @author Thomas Freese
+ * @since 02.08.2009
  */
 public class ImageColorChannelInfo {
     private final BufferedImage bufferedImage;
@@ -99,19 +99,16 @@ public class ImageColorChannelInfo {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("ChannelInfo: ").append(getColorChannel()).append(System.lineSeparator());
-        sb.append("Minimaler Farbwert: ").append(getMinimalerFarbwert()).append(System.lineSeparator());
-        sb.append("Maximaler Farbwert: ").append(getMaximalerFarbwert()).append(System.lineSeparator());
-        sb.append("Mittlerer Farbwert: ").append(getMittlererFarbwert()).append(System.lineSeparator());
-        sb.append("Entropie: ").append(getEntropie()).append(System.lineSeparator());
-        sb.append("Uniformität: ").append(getUniformitaet()).append(System.lineSeparator());
-        sb.append("Unähnlichkeit: ").append(getUnaehnlichkeit()).append(System.lineSeparator());
-        sb.append("Inverse Differenz: ").append(getInverseDifferenz()).append(System.lineSeparator());
-        sb.append("Inverses Differenz Moment: ").append(getInversesDifferenzMoment()).append(System.lineSeparator());
-        sb.append("Kontrast: ").append(getKontrast()).append(System.lineSeparator());
-
-        return sb.toString();
+        return "ChannelInfo: " + getColorChannel() + System.lineSeparator()
+                + "Minimaler Farbwert: " + getMinimalerFarbwert() + System.lineSeparator()
+                + "Maximaler Farbwert: " + getMaximalerFarbwert() + System.lineSeparator()
+                + "Mittlerer Farbwert: " + getMittlererFarbwert() + System.lineSeparator()
+                + "Entropie: " + getEntropie() + System.lineSeparator()
+                + "Uniformität: " + getUniformitaet() + System.lineSeparator()
+                + "Unähnlichkeit: " + getUnaehnlichkeit() + System.lineSeparator()
+                + "Inverse Differenz: " + getInverseDifferenz() + System.lineSeparator()
+                + "Inverses Differenz Moment: " + getInversesDifferenzMoment() + System.lineSeparator()
+                + "Kontrast: " + getKontrast() + System.lineSeparator();
     }
 
     /**

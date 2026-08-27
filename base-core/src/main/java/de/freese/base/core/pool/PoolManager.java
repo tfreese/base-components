@@ -1,4 +1,3 @@
-// Created: 04 Feb. 2026
 package de.freese.base.core.pool;
 
 import java.util.Map;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.02.2026
  */
 @SuppressWarnings("unchecked")
 public final class PoolManager {
@@ -24,7 +24,7 @@ public final class PoolManager {
             try {
                 pool.close();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.warn(ex.getMessage(), ex);
             }
         });

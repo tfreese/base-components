@@ -1,4 +1,3 @@
-// Created: 05.02.2022
 package de.freese.base.resourcemap.provider;
 
 import java.util.HashMap;
@@ -8,6 +7,7 @@ import java.util.function.Consumer;
 
 /**
  * @author Thomas Freese
+ * @since 05.02.2022
  */
 public final class MapResourceProvider implements ResourceProvider {
     private final Map<Locale, Map<String, String>> mapLocale = new HashMap<>();

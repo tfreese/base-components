@@ -1,4 +1,3 @@
-// Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
 import java.io.PrintWriter;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * Die Connection wird in einem Proxy verpackt, der die close-Methode nicht ausführt.
  *
  * @author Thomas Freese
+ * @since 24.05.2016
  */
 public class SingleDataSource implements DataSource, AutoCloseable {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SimpleDataSource");
@@ -91,30 +91,14 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return connectionProperties;
     }
 
-    public void setConnectionProperties(final Properties connectionProperties) {
-        Objects.requireNonNull(connectionProperties);
-
-        this.connectionProperties = new Properties(connectionProperties);
-    }
-
     @Override
     public PrintWriter getLogWriter() {
         throw new UnsupportedOperationException("getLogWriter");
     }
 
     @Override
-    public void setLogWriter(final PrintWriter out) {
-        throw new UnsupportedOperationException("setLogWriter");
-    }
-
-    @Override
     public int getLoginTimeout() {
         return 0;
-    }
-
-    @Override
-    public void setLoginTimeout(final int seconds) {
-        throw new UnsupportedOperationException("setLoginTimeout");
     }
 
     @Override
@@ -129,30 +113,12 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return password;
     }
 
-    public void setPassword(final String password) {
-        Objects.requireNonNull(password);
-
-        this.password = password.strip();
-    }
-
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(final String url) {
-        Objects.requireNonNull(url);
-
-        this.url = url.strip();
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(final String username) {
-        Objects.requireNonNull(username);
-
-        this.username = username.strip();
     }
 
     @Override
@@ -162,6 +128,12 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
     public void setAutoCommit(final boolean autoCommit) {
         this.autoCommit = autoCommit;
+    }
+
+    public void setConnectionProperties(final Properties connectionProperties) {
+        Objects.requireNonNull(connectionProperties);
+
+        this.connectionProperties = new Properties(connectionProperties);
     }
 
     public void setDriverClassName(final String driverClassName) {
@@ -181,8 +153,36 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         }
     }
 
+    @Override
+    public void setLogWriter(final PrintWriter out) {
+        throw new UnsupportedOperationException("setLogWriter");
+    }
+
+    @Override
+    public void setLoginTimeout(final int seconds) {
+        throw new UnsupportedOperationException("setLoginTimeout");
+    }
+
+    public void setPassword(final String password) {
+        Objects.requireNonNull(password);
+
+        this.password = password.strip();
+    }
+
     public void setReadOnly(final boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    public void setUrl(final String url) {
+        Objects.requireNonNull(url);
+
+        this.url = url.strip();
+    }
+
+    public void setUsername(final String username) {
+        Objects.requireNonNull(username);
+
+        this.username = username.strip();
     }
 
     @Override

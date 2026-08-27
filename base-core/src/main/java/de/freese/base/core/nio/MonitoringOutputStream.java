@@ -1,4 +1,3 @@
-// Created: 11.01.2017
 package de.freese.base.core.nio;
 
 import java.io.FilterOutputStream;
@@ -8,8 +7,11 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 11.01.2017
  */
 public class MonitoringOutputStream extends FilterOutputStream {
     private final LongConsumer bytesWrittenConsumer;
@@ -39,7 +41,7 @@ public class MonitoringOutputStream extends FilterOutputStream {
     }
 
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException {
+    public void write(final byte @NonNull [] b, final int off, final int len) throws IOException {
         super.write(b, off, len);
 
         bytesWritten += len;

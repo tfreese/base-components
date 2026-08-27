@@ -1,4 +1,3 @@
-// Created: 15.06.2012
 package de.freese.base.core.xml;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 15.06.2012
  */
 class TestStaxWriter {
     @Test

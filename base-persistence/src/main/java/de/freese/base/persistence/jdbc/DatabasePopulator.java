@@ -1,4 +1,3 @@
-// Created: 30.11.2016
 package de.freese.base.persistence.jdbc;
 
 import java.io.BufferedReader;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * Ein SQL muss immer mit einem ';' abgeschlossen sein.
  *
  * @author Thomas Freese
+ * @since 30.11.2016
  */
 public class DatabasePopulator {
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabasePopulator.class);

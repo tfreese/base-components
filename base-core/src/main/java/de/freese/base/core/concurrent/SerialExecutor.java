@@ -1,4 +1,3 @@
-// Created: 31.12.2021
 package de.freese.base.core.concurrent;
 
 import java.util.ArrayDeque;
@@ -6,8 +5,11 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 31.12.2021
  */
 public class SerialExecutor implements Executor {
     private final Executor delegate;
@@ -22,7 +24,7 @@ public class SerialExecutor implements Executor {
     }
 
     @Override
-    public synchronized void execute(final Runnable runnable) {
+    public synchronized void execute(final @NonNull Runnable runnable) {
         queue.add(() -> {
             try {
                 runnable.run();

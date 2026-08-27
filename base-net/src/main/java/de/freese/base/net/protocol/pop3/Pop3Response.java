@@ -1,4 +1,3 @@
-// Created: 12.03.2021
 package de.freese.base.net.protocol.pop3;
 
 import java.io.InputStream;
@@ -7,6 +6,7 @@ import java.io.InputStream;
  * Enthält das Ergebnis des Requests.
  *
  * @author Thomas Freese
+ * @since 12.03.2021
  */
 final class Pop3Response {
     /**

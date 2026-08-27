@@ -35,7 +35,7 @@ public final class StackTraceLimiter {
 
         final StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
 
-        for (StackTraceElement stackTraceElement : limitedTrace) {
+        for (final StackTraceElement stackTraceElement : limitedTrace) {
             consumer.accept("\tat " + stackTraceElement);
         }
 

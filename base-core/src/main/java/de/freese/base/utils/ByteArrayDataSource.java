@@ -34,63 +34,9 @@ public class ByteArrayDataSource implements DataSource, Serializable {
     public static final String MIMETYPE_TEXT_CSV = "text/csv";
     public static final String MIMETYPE_TEXT_HTML = "text/html";
     public static final String MIMETYPE_TEXT_PLAIN = "text/plain";
+
     @Serial
     private static final long serialVersionUID = -3420529375053580438L;
-    private final byte[] data;
-    private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
-    private String name = "";
-
-    public ByteArrayDataSource(final byte[] data, final String mimeType) {
-        super();
-
-        this.data = Objects.requireNonNull(data, "data required");
-        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
-    }
-
-    public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException {
-        super();
-
-        Objects.requireNonNull(is, "inputStream required");
-
-        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
-
-        final byte[] bytes = new byte[4096];
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        while (true) {
-            final int bytesRead = is.read(bytes);
-
-            if (bytesRead > -1) {
-                baos.write(bytes, 0, bytesRead);
-            }
-            else {
-                // no more data...
-                break;
-            }
-        }
-
-        data = baos.toByteArray();
-    }
-
-    public ByteArrayDataSource(final Serializable object) {
-        this(ByteUtils.serializeObject(object), MIMETYPE_APPLICATION_OCTET_STREAM);
-    }
-
-    public ByteArrayDataSource(final String value, final String mimeType) {
-        super();
-
-        if (value != null) {
-            // Assumption that the string contains only ASCII characters!
-            // Otherwise, just pass a charset into this
-            // constructor and use it in getBytes()
-            data = value.getBytes(StandardCharsets.ISO_8859_1);
-        }
-        else {
-            data = null;
-        }
-
-        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
-    }
 
     public static String getMimeType(final String resourceName) {
         if (resourceName == null) {
@@ -132,6 +78,64 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType) || MIMETYPE_IMAGE_BMP.equals(mimeType);
     }
 
+    private final byte[] data;
+    private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
+    private String name = "";
+
+    public ByteArrayDataSource(final byte[] data, final String mimeType) {
+        super();
+
+        this.data = Objects.requireNonNull(data, "data required");
+        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
+    }
+
+    public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException {
+        Objects.requireNonNull(is, "inputStream required");
+
+        super();
+
+        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
+        data = is.readAllBytes();
+
+        // final byte[] bytes = new byte[4096];
+        //
+        // try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        //     while (true) {
+        //         final int bytesRead = is.read(bytes);
+        //
+        //         if (bytesRead > -1) {
+        //             baos.write(bytes, 0, bytesRead);
+        //         }
+        //         else {
+        //             // no more data...
+        //             break;
+        //         }
+        //     }
+        //
+        //     data = baos.toByteArray();
+        // }
+    }
+
+    public ByteArrayDataSource(final Serializable object) {
+        this(ByteUtils.serializeObject(object), MIMETYPE_APPLICATION_OCTET_STREAM);
+    }
+
+    public ByteArrayDataSource(final String value, final String mimeType) {
+        super();
+
+        if (value != null) {
+            // Assumption that the string contains only ASCII characters!
+            // Otherwise, just pass a charset into this
+            // constructor and use it in getBytes()
+            data = value.getBytes(StandardCharsets.ISO_8859_1);
+        }
+        else {
+            data = null;
+        }
+
+        this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
+    }
+
     @Override
     public String getContentType() {
         return mimeType;
@@ -151,12 +155,6 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         return name;
     }
 
-    public void setName(final String value) {
-        if (value != null) {
-            name = value;
-        }
-    }
-
     @Override
     public OutputStream getOutputStream() throws IOException {
         if (data == null) {
@@ -167,5 +165,11 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         baos.write(data);
 
         return baos;
+    }
+
+    public void setName(final String value) {
+        if (value != null) {
+            name = value;
+        }
     }
 }

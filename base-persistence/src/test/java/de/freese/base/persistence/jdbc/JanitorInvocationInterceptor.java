@@ -1,4 +1,3 @@
-// Created: 05.04.2021
 package de.freese.base.persistence.jdbc;
 
 import java.lang.reflect.Method;
@@ -8,6 +7,7 @@ import java.sql.Wrapper;
 
 import javax.sql.DataSource;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
@@ -18,12 +18,15 @@ import org.slf4j.LoggerFactory;
  * Creates and deletes the Database-Tables before and after each Test-Method.
  *
  * @author Thomas Freese
+ * @since 05.04.2021
  */
 public class JanitorInvocationInterceptor implements InvocationInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(JanitorInvocationInterceptor.class);
 
     @Override
-    public void interceptTestMethod(final Invocation<Void> invocation, final ReflectiveInvocationContext<Method> invocationContext, final ExtensionContext extensionContext)
+    public void interceptTestMethod(final @NonNull Invocation<Void> invocation,
+                                    final ReflectiveInvocationContext<Method> invocationContext,
+                                    final @NonNull ExtensionContext extensionContext)
             throws Throwable {
         final DbServerExtension serverExtension = invocationContext.getArguments().stream()
                 .filter(DbServerExtension.class::isInstance)
@@ -60,7 +63,9 @@ public class JanitorInvocationInterceptor implements InvocationInterceptor {
     }
 
     @Override
-    public void interceptTestTemplateMethod(final Invocation<Void> invocation, final ReflectiveInvocationContext<Method> invocationContext, final ExtensionContext extensionContext)
+    public void interceptTestTemplateMethod(final @NonNull Invocation<Void> invocation,
+                                            final @NonNull ReflectiveInvocationContext<Method> invocationContext,
+                                            final @NonNull ExtensionContext extensionContext)
             throws Throwable {
         interceptTestMethod(invocation, invocationContext, extensionContext);
     }

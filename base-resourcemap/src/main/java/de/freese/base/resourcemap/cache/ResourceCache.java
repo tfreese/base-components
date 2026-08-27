@@ -1,4 +1,3 @@
-// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.Locale;
@@ -10,6 +9,7 @@ import de.freese.base.resourcemap.ResourceMap;
  * {@link ResourceCache} holds the created Objects of a {@link ResourceMap}.<br>
  *
  * @author Thomas Freese
+ * @since 08.06.2020
  */
 public interface ResourceCache {
     void clear(String bundleName, Locale locale);

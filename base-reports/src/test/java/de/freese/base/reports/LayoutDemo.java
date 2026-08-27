@@ -1,4 +1,3 @@
-// Created: 22.09.2006
 package de.freese.base.reports;
 
 import de.freese.base.reports.layout.DefaultLayoutElement;
@@ -8,6 +7,7 @@ import de.freese.base.reports.layout.LineLayoutElement;
 
 /**
  * @author Thomas Freese
+ * @since 22.09.2006
  */
 public final class LayoutDemo {
     static void main() {

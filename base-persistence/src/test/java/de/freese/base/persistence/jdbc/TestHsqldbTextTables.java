@@ -1,4 +1,3 @@
-// Created: 08.09.2016
 package de.freese.base.persistence.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,6 +26,7 @@ import de.freese.base.utils.JdbcUtils;
 
 /**
  * @author Thomas Freese
+ * @since 08.09.2016
  */
 class TestHsqldbTextTables {
     static final Logger LOGGER = LoggerFactory.getLogger(TestHsqldbTextTables.class);
@@ -128,22 +129,22 @@ class TestHsqldbTextTables {
         try (ResultSet resultSet = statement.executeQuery("select DATE, dayofmonth(DATE) as MY_DAY from test_csv")) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
-            assertEquals(LocalDate.of(2016, 9, 8), resultSet.getDate("DATE").toLocalDate());
+            assertEquals(LocalDate.of(2016, Month.SEPTEMBER, 8), resultSet.getDate("DATE").toLocalDate());
             assertEquals(8, resultSet.getInt("MY_DAY"));
 
             resultSet.next();
-            assertEquals(LocalDate.of(2016, 9, 9), resultSet.getDate("DATE").toLocalDate());
+            assertEquals(LocalDate.of(2016, Month.SEPTEMBER, 9), resultSet.getDate("DATE").toLocalDate());
             assertEquals(9, resultSet.getInt("MY_DAY"));
         }
 
         try (ResultSet resultSet = statement.executeQuery("select TIMESTAMP, hour(TIMESTAMP) as MY_HOUR from test_csv")) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
-            assertEquals(LocalDateTime.of(2016, 9, 8, 18, 8, 18), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
+            assertEquals(LocalDateTime.of(2016, Month.SEPTEMBER, 8, 18, 8, 18), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
             assertEquals(18, resultSet.getInt("MY_HOUR"));
 
             resultSet.next();
-            assertEquals(LocalDateTime.of(2016, 9, 9, 19, 9, 19), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
+            assertEquals(LocalDateTime.of(2016, Month.SEPTEMBER, 9, 19, 9, 19), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
             assertEquals(19, resultSet.getInt("MY_HOUR"));
         }
 

@@ -1,4 +1,3 @@
-// Created: 16.06.2016
 package de.freese.base.persistence.jdbc;
 
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
+ * @since 16.06.2016
  */
 public class PersonRowMapper implements RowMapper<Person> {
     @Override

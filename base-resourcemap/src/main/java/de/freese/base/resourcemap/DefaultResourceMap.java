@@ -1,4 +1,3 @@
-// Created: 08.06.2020
 package de.freese.base.resourcemap;
 
 import java.text.MessageFormat;
@@ -40,6 +39,7 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 08.06.2020
  */
 class DefaultResourceMap implements ResourceMap {
     private final String bundleName;
@@ -70,7 +70,7 @@ class DefaultResourceMap implements ResourceMap {
             return this;
         }
 
-        for (ResourceMap child : getChildren()) {
+        for (final ResourceMap child : getChildren()) {
             final ResourceMap rm = child.getChild(bundleName);
 
             if (rm != null) {
@@ -104,7 +104,7 @@ class DefaultResourceMap implements ResourceMap {
             try {
                 value = converter.convert(key, stringValue);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
@@ -142,7 +142,7 @@ class DefaultResourceMap implements ResourceMap {
 
             return value;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().warn(null, ex);
 
             return "#" + key;
@@ -168,14 +168,9 @@ class DefaultResourceMap implements ResourceMap {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("ResourceMap [bundleName=");
-        builder.append(getBundleName());
-        builder.append(", parent=");
-        builder.append(getParent() == null ? "null" : getParent().getBundleName());
-        builder.append("]");
-
-        return builder.toString();
+        return "ResourceMap [bundleName=" + getBundleName()
+                + ", parent=" + (getParent() == null ? "null" : getParent().getBundleName())
+                + "]";
     }
 
     void addChild(final DefaultResourceMap child) {

@@ -61,7 +61,7 @@ public class ExtNumberTickUnit extends NumberTickUnit {
     public String valueToString(final double value) {
         String strValue = super.valueToString(value);
 
-        for (String exclude : excludes) {
+        for (final String exclude : excludes) {
             if (exclude.equals(strValue)) {
                 strValue = "";
                 break;

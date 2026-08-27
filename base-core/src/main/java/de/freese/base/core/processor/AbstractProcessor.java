@@ -1,4 +1,3 @@
-// Created 10.09.2008
 package de.freese.base.core.processor;
 
 import org.slf4j.Logger;
@@ -6,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 10.09.2008
  */
 public abstract class AbstractProcessor<C> implements Processor<C> {
     private final Logger logger = LoggerFactory.getLogger(getClass());

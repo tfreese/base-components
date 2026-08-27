@@ -1,4 +1,3 @@
-// Created: 04 Feb. 2026
 package de.freese.base.core.pool.apache;
 
 import java.time.Duration;
@@ -14,6 +13,7 @@ import de.freese.base.core.pool.PoolFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.02.2026
  */
 public final class ApachePoolFactory<T> implements PoolFactory<T> {
     private Duration expiry = Duration.ofHours(1L);

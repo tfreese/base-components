@@ -1,4 +1,3 @@
-// Created: 28.08.2020
 package de.freese.base.core.io;
 
 import java.io.ByteArrayOutputStream;
@@ -9,6 +8,7 @@ import java.nio.ByteBuffer;
  * ByteArrayOutputStream mit direktem Zugriff auf das ByteArray über einen {@link ByteBuffer} ohne es zu kopieren.
  *
  * @author Thomas Freese
+ * @since 28.08.2020
  */
 public class SharedByteArrayOutputStream extends ByteArrayOutputStream {
     public SharedByteArrayOutputStream() {

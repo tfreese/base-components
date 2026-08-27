@@ -28,10 +28,6 @@ public final class ExtMath {
     private static final char[] CHAR_ARRAY = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-    private ExtMath() {
-        super();
-    }
-
     public static long ackermann(final long n, final long m) {
         if (n == 0) {
             return m + 1;
@@ -327,12 +323,10 @@ public final class ExtMath {
         //
         // char[] chars = roman.toCharArray();
         //
-        // for (int i = 0; i < chars.length; i++)
-        // {
+        // for (int i = 0; i < chars.length; i++) {
         // char c = chars[i];
         // if ((c != 'I') && (c != 'V') && (c != 'X') && (c != 'L') && (c != 'C') && (c != 'D')
-        // && (c != 'M'))
-        // {
+        // && (c != 'M')) {
         // return false;
         // }
         // }
@@ -571,5 +565,9 @@ public final class ExtMath {
         final long bValue = (b == null) ? 0L : b;
 
         return aValue + bValue;
+    }
+
+    private ExtMath() {
+        super();
     }
 }

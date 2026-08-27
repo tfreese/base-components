@@ -1,4 +1,3 @@
-// Created: 29.08.23
 package de.freese.base.core.pool;
 
 import java.util.Queue;
@@ -6,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author Thomas Freese
+ * @since 29.08.23
  */
 public abstract class AbstractObjectPool<T> {
 

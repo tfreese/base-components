@@ -1,4 +1,3 @@
-// Created: 12.09.2021
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
@@ -6,10 +5,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * {@link Executor} who is using only n Threads from the Delegate.<br>
  *
  * @author Thomas Freese
+ * @since 12.09.2021
  */
 public class BoundedExecutor implements Executor {
     private final Executor delegate;
@@ -19,23 +21,19 @@ public class BoundedExecutor implements Executor {
      * @param parallelism int; Number of Threads to use from the Delegate
      */
     public BoundedExecutor(final Executor delegate, final int parallelism) {
-        super();
-
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
-
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
+
+        super();
+
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
         rateLimiter = new Semaphore(parallelism, true);
     }
 
     @Override
-    public void execute(final Runnable runnable) {
-        if (runnable == null) {
-            throw new NullPointerException();
-        }
-
+    public void execute(final @NonNull Runnable runnable) {
         try {
             rateLimiter.acquire();
 
@@ -48,7 +46,7 @@ public class BoundedExecutor implements Executor {
                 }
             });
         }
-        catch (RejectedExecutionException ex) {
+        catch (final RejectedExecutionException ex) {
             rateLimiter.release();
 
             throw ex;

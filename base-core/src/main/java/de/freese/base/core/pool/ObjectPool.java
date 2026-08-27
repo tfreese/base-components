@@ -1,4 +1,3 @@
-// Created: 30.08.23
 package de.freese.base.core.pool;
 
 import java.time.Duration;
@@ -11,6 +10,7 @@ import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.23
  */
 public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCloseable {
 

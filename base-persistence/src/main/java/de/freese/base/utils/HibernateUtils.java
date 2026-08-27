@@ -1,10 +1,10 @@
-// Created: 02.07.2009
 package de.freese.base.utils;
 
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -20,12 +20,9 @@ import org.slf4j.Logger;
 
 /**
  * @author Thomas Freese
+ * @since 02.07.2009
  */
 public final class HibernateUtils {
-    private HibernateUtils() {
-        super();
-    }
-
     public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger) {
         logger.info("Clear Cache: {}", name);
 
@@ -104,7 +101,7 @@ public final class HibernateUtils {
         pw.println();
 
         pw.println("Start Date..............: " + stats.getStart());
-        pw.println("Current Date............: " + LocalDateTime.now());
+        pw.println("Current Date............: " + LocalDateTime.now(ZoneId.systemDefault()));
         pw.println();
         pw.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
         pw.println("Session open Count......: " + stats.getSessionOpenCount());
@@ -162,7 +159,7 @@ public final class HibernateUtils {
 
         pw.println();
         pw.println("CollectionStatistics");
-        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(Objects::nonNull).forEach(collectionStatistics -> {
+        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).forEach(collectionStatistics -> {
             final long hCount = collectionStatistics.getCacheHitCount();
             final long mCount = collectionStatistics.getCacheMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);
@@ -206,7 +203,7 @@ public final class HibernateUtils {
 
         pw.println();
         pw.println("EntityStatistics");
-        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(entityStatistics -> {
+        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).forEach(entityStatistics -> {
             final long hCount = entityStatistics.getCacheHitCount();
             final long mCount = entityStatistics.getCacheMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);
@@ -284,5 +281,9 @@ public final class HibernateUtils {
         else {
             return object.getClass();
         }
+    }
+
+    private HibernateUtils() {
+        super();
     }
 }

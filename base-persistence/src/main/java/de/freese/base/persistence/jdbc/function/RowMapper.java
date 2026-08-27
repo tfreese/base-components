@@ -1,4 +1,3 @@
-// Created: 12.01.2017
 package de.freese.base.persistence.jdbc.function;
 
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.SQLException;
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
+ * @since 12.01.2017
  */
 @FunctionalInterface
 public interface RowMapper<R> {

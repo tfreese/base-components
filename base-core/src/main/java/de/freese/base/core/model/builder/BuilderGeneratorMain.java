@@ -1,10 +1,10 @@
-// Created: 13.11.22
 package de.freese.base.core.model.builder;
 
 import de.freese.base.core.model.tupel.Tupel3;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.22
  */
 public final class BuilderGeneratorMain {
     static void main() {

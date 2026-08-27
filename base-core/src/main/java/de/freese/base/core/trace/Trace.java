@@ -1,5 +1,7 @@
 package de.freese.base.core.trace;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
  * @since 05.08.26
@@ -18,7 +20,7 @@ public record Trace(
     }
 
     @Override
-    public String toString() {
+    public @NonNull String toString() {
         return "00-" + traceId + '-' + parentId + '-' + traceFlags;
     }
 }

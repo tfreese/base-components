@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.base.utils;
 
 import java.io.File;
@@ -26,13 +25,9 @@ import java.util.stream.Stream;
  * See org.springframework.util.ClassUtils.
  *
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public final class ClassUtils {
-
-    private ClassUtils() {
-        super();
-    }
-
     /**
      * Returns all Resources find by the ClassLoader in this Path, non-recursive.
      */
@@ -138,5 +133,9 @@ public final class ClassUtils {
         }
 
         return classes;
+    }
+
+    private ClassUtils() {
+        super();
     }
 }

@@ -1,4 +1,3 @@
-// Created: 30.08.23
 package de.freese.base.core.pool;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import org.apache.commons.lang3.function.FailableSupplier;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.23
  */
 public final class RoundRobinPool<T> implements AutoCloseable {
 
@@ -26,14 +26,14 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     }
 
     public RoundRobinPool(final int size, final FailableSupplier<T, Exception> creator, final Consumer<T> doOnClose) throws Exception {
-        super();
-
         if (size < 1) {
             throw new IllegalArgumentException("size must > 0: " + size);
         }
 
         Objects.requireNonNull(creator, "creator required");
         Objects.requireNonNull(doOnClose, "doOnClose required");
+
+        super();
 
         queue = new ArrayList<>(size);
         this.doOnClose = doOnClose;

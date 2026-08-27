@@ -1,4 +1,3 @@
-// Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
 import java.io.Serial;
@@ -6,6 +5,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntSupplier;
+
+import org.jspecify.annotations.NonNull;
 
 /**
  * Das Default-Verhalten eines {@link ThreadPoolExecutor} mit einer Bounded-Queue ist, dass erst neue Threads erzeugt werden, wenn die corePoolSize erreicht und
@@ -36,6 +37,7 @@ import java.util.function.IntSupplier;
  *  }</pre>
  *
  * @author Thomas Freese
+ * @since 12.02.2017
  */
 public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
     @Serial
@@ -49,7 +51,7 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
     }
 
     @Override
-    public boolean offer(final T e) {
+    public boolean offer(@NonNull final T e) {
         if (poolCurrentSize.getAsInt() < poolMaxSize.getAsInt()) {
             // FALSE triggert den ThreadPoolExecutor neue Threads zu erzeugen.
             return false;

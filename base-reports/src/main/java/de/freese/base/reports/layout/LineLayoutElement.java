@@ -1,4 +1,3 @@
-// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import javax.swing.SwingConstants;
@@ -7,9 +6,11 @@ import javax.swing.SwingConstants;
  * Implementierung eines LayoutElementes für Linien.
  *
  * @author Thomas Freese
+ * @since 15.04.2008
  */
 public class LineLayoutElement extends AbstractLayoutElement {
-    private int orientation = -1;
+    private final int orientation;
+    
     private int thickness = 1;
 
     public LineLayoutElement() {

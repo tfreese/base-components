@@ -1,4 +1,3 @@
-// Created: 12.11.23
 package de.freese.base.persistence.jdbc.function;
 
 import java.sql.Blob;
@@ -13,6 +12,7 @@ import java.util.Map;
 
 /**
  * @author Thomas Freese
+ * @since 12.11.23
  */
 public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<String, Object>>> {
     private String[] columnNames;
@@ -93,10 +93,8 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
                 obj = rs.getDate(index);
             }
         }
-        else if (obj instanceof java.sql.Date) {
-            if ("java.sql.Timestamp".equals(rs.getMetaData().getColumnClassName(index))) {
-                obj = rs.getTimestamp(index);
-            }
+        else if (obj instanceof java.sql.Date && "java.sql.Timestamp".equals(rs.getMetaData().getColumnClassName(index))) {
+            obj = rs.getTimestamp(index);
         }
 
         return obj;

@@ -1,4 +1,3 @@
-// Created: 25 Juli 2024
 package de.freese.base.core.reactive;
 
 import java.util.Spliterator;
@@ -16,6 +15,7 @@ import reactor.core.publisher.SynchronousSink;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 public final class ToFlowDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToFlowDemo.class);

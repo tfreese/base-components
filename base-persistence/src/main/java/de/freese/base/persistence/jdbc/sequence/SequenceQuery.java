@@ -1,4 +1,3 @@
-// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
 import java.sql.Connection;
@@ -17,6 +16,7 @@ import java.util.function.Function;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 04.02.2017
  */
 @FunctionalInterface
 public interface SequenceQuery extends Function<String, String> {

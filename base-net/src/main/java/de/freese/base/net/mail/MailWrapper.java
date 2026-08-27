@@ -102,7 +102,7 @@ public class MailWrapper {
         mail.setSubject((subject == null) ? "" : subject);
         mail.setSentDate(new Date());
 
-        for (Entry<Object, Object> header : additionalHeaderProperties.entrySet()) {
+        for (final Entry<Object, Object> header : additionalHeaderProperties.entrySet()) {
             mail.addHeader(header.getKey().toString(), header.getValue().toString());
         }
 
@@ -139,7 +139,7 @@ public class MailWrapper {
             relatedMultipart.addBodyPart(inlineBodyPart);
         }
 
-        for (DataSource dataSource : attachments) {
+        for (final DataSource dataSource : attachments) {
             final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
             attachmentBodyPart.setDisposition(Part.ATTACHMENT);
             attachmentBodyPart.setFileName(dataSource.getName());

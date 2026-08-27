@@ -1,4 +1,3 @@
-// Created: 24.01.2018
 package de.freese.base.core.model.builder;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import java.util.function.Supplier;
  * @param <T> Typ des zu erzeugenden Objekts.
  *
  * @author Thomas Freese
+ * @since 24.01.2018
  */
 public class GenericBuilder<T> implements Builder<T> {
     /**

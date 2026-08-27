@@ -1,4 +1,3 @@
-// Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
 import java.io.InputStream;
@@ -10,11 +9,14 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Adapter for the {@link Buffer} with AutoExpand-Function.
  *
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
+ * @since 03.11.2016
  */
 public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuffer> {
     /**
@@ -69,7 +71,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             }
 
             @Override
-            public int read(final byte[] b, final int off, final int len) {
+            public int read(final byte @NonNull [] b, final int off, final int len) {
                 final int remaining = AutoExpandByteBuffer.this.remaining();
 
                 if (remaining > 0) {
@@ -108,7 +110,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     public OutputStream asOutputStream() {
         return new OutputStream() {
             @Override
-            public void write(final byte[] b, final int off, final int len) {
+            public void write(final byte @NonNull [] b, final int off, final int len) {
                 AutoExpandByteBuffer.this.put(b, off, len);
             }
 

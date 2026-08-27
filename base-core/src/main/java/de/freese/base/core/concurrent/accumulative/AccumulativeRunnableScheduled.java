@@ -27,7 +27,7 @@ public class AccumulativeRunnableScheduled<T> extends AbstractAccumulativeRunnab
      * Default delay = 250 ms
      */
     public AccumulativeRunnableScheduled() {
-        this(null, Duration.ofMillis(250));
+        this(null, Duration.ofMillis(250L));
     }
 
     /**

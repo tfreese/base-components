@@ -1,4 +1,3 @@
-// Created: 27.07.2016
 package de.freese.base.core.cache;
 
 import java.io.IOException;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 27.07.2016
  */
 public abstract class AbstractResourceCache implements ResourceCache {
     private final HexFormat hexFormat;

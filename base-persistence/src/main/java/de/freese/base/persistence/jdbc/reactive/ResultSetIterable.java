@@ -1,9 +1,10 @@
-// Created: 12.12.2017
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Objects;
+
+import org.jspecify.annotations.NonNull;
 
 import de.freese.base.persistence.jdbc.function.RowMapper;
 
@@ -11,6 +12,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  * {@link Iterable} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
+ * @since 12.12.2017
  */
 public class ResultSetIterable<T> implements Iterable<T> {
     private final ResultSet resultSet;
@@ -24,7 +26,7 @@ public class ResultSetIterable<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public @NonNull Iterator<T> iterator() {
         return new ResultSetIterator<>(resultSet, rowMapper);
     }
 }

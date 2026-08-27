@@ -1,4 +1,3 @@
-// Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
 import java.nio.Buffer;
@@ -9,6 +8,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
+ * @since 03.11.2016
  */
 public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     /**

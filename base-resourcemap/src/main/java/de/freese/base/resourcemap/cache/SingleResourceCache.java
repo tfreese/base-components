@@ -1,4 +1,3 @@
-// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import de.freese.base.resourcemap.ResourceMap;
  * The bundleName-Parameter is ignored.
  *
  * @author Thomas Freese
+ * @since 08.06.2020
  */
 public class SingleResourceCache implements ResourceCache {
     private final Map<Locale, Map<Class<?>, Map<String, ?>>> cache = new HashMap<>();

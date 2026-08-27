@@ -1,4 +1,3 @@
-// Created: 17.05.2020
 package de.freese.base.persistence.jdbc.function;
 
 import java.sql.ResultSet;
@@ -13,6 +12,7 @@ import javax.sql.rowset.RowSetProvider;
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
+ * @since 17.05.2020
  */
 public class ResultSetCallbackCachedRowSet implements ResultSetCallback<CachedRowSet> {
 

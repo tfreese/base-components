@@ -1,4 +1,3 @@
-// Created: 01.04.2020
 package de.freese.base.core.throttle;
 
 import java.time.Duration;
@@ -6,26 +5,9 @@ import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 01.04.2020
  */
 public final class SimpleThrottler implements Throttler {
-    private final long permitIntervalNanos;
-    private long nextFreeSlotNanos;
-
-    private SimpleThrottler(final int permits, final Duration duration) {
-        super();
-
-        if (permits <= 0) {
-            throw new IllegalArgumentException(String.format("Permits (%s) must be positive", permits));
-        }
-
-        Objects.requireNonNull(duration, "duration required");
-
-        // duration.dividedBy(permits).toNanos()
-        permitIntervalNanos = duration.toNanos() / permits;
-
-        nextFreeSlotNanos = System.nanoTime();
-    }
-
     static Throttler create(final int permitsPerSecond, final Duration duration) {
         return new SimpleThrottler(permitsPerSecond, duration);
     }
@@ -46,6 +28,24 @@ public final class SimpleThrottler implements Throttler {
         }
 
         return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1L)) ^ 1L);
+    }
+
+    private final long permitIntervalNanos;
+    private long nextFreeSlotNanos;
+
+    private SimpleThrottler(final int permits, final Duration duration) {
+        if (permits <= 0) {
+            throw new IllegalArgumentException(String.format("Permits (%s) must be positive", permits));
+        }
+
+        Objects.requireNonNull(duration, "duration required");
+
+        super();
+
+        // duration.dividedBy(permits).toNanos()
+        permitIntervalNanos = duration.toNanos() / permits;
+
+        nextFreeSlotNanos = System.nanoTime();
     }
 
     @Override

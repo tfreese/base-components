@@ -48,8 +48,8 @@ public final class BogusSSLContextFactory {
             algorithm = "SunX509";
         }
 
-        SSLContext serverContext = null;
-        SSLContext clientContext = null;
+        final SSLContext serverContext;
+        final SSLContext clientContext;
 
         try {
             final KeyStore ks = KeyStore.getInstance("JKS");
@@ -66,7 +66,7 @@ public final class BogusSSLContextFactory {
             serverContext = SSLContext.getInstance(PROTOCOL);
             serverContext.init(kmf.getKeyManagers(), null, null);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new Error("Failed to initialize the server-side SSLContext", ex);
         }
 
@@ -76,7 +76,7 @@ public final class BogusSSLContextFactory {
             clientContext = SSLContext.getInstance(PROTOCOL);
             clientContext.init(null, BogusSSLTrustManagerFactory.getTrustManagers(), null);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new Error("Failed to initialize the client-side SSLContext", ex);
         }
 

@@ -1,4 +1,3 @@
-// Created: 16.02.2017
 package de.freese.base.core.function;
 
 import java.util.Objects;
@@ -6,6 +5,7 @@ import java.util.function.Function;
 
 /**
  * @author Thomas Freese
+ * @since 16.02.2017
  */
 @FunctionalInterface
 public interface ThrowingFunction<T, R, E extends Exception> {

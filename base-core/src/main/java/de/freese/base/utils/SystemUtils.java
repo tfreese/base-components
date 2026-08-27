@@ -1,8 +1,8 @@
-// Created: 09.04.2020
 package de.freese.base.utils;
 
 /**
  * @author Thomas Freese
+ * @since 09.04.2020
  */
 public final class SystemUtils {
     // private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);

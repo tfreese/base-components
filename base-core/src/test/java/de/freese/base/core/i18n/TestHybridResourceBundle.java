@@ -24,11 +24,11 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
- * @since 04.08.26
+ * @since 04.08.2026
  */
 class TestHybridResourceBundle {
-    private final DataSource dataSource = mock();
     private final Connection connection = mock();
+    private final DataSource dataSource = mock();
 
     @AfterEach
     void afterEach() throws Exception {

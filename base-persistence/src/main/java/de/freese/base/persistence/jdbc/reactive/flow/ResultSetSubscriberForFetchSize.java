@@ -1,4 +1,3 @@
-// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.util.Objects;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
  * {@link Subscriber} fetching the Element by Blocks.
  *
  * @author Thomas Freese
+ * @since 10.06.2019
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);

@@ -1,4 +1,3 @@
-// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.Image;
@@ -7,6 +6,7 @@ import java.awt.Image;
  * Implementierung eines LayoutElementes für Bilder.
  *
  * @author Thomas Freese
+ * @since 15.04.2008
  */
 public class ImageLayoutElement extends AbstractLayoutElement {
     private Image image;

@@ -91,22 +91,6 @@ public enum Zodiac {
         ZODIAC_MAP.put(Zodiac.CAPRICORN.getStart(), Zodiac.CAPRICORN);
     }
 
-    /**
-     * Enthält das Ende des Sternzeichens.<br>
-     * Format: (M)MDD, inklusiv dieses Tages
-     */
-    private final int end;
-    /**
-     * Enthält den Begin des Sternzeichens.<br>
-     * Format: (M)MDD
-     */
-    private final int start;
-
-    Zodiac(final int start, final int end) {
-        this.start = start;
-        this.end = end;
-    }
-
     public static Zodiac getZodiac(final LocalDateTime localDateTime) {
         return getZodiac(localDateTime.toLocalDate());
     }
@@ -126,6 +110,22 @@ public enum Zodiac {
         }
 
         return entry.getValue();
+    }
+    
+    /**
+     * Enthält das Ende des Sternzeichens.<br>
+     * Format: (M)MDD, inklusiv dieses Tages
+     */
+    private final int end;
+    /**
+     * Enthält den Begin des Sternzeichens.<br>
+     * Format: (M)MDD
+     */
+    private final int start;
+
+    Zodiac(final int start, final int end) {
+        this.start = start;
+        this.end = end;
     }
 
     /**

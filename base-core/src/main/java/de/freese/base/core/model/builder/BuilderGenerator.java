@@ -1,4 +1,3 @@
-// Created: 20.04.2020
 package de.freese.base.core.model.builder;
 
 import java.io.PrintStream;
@@ -12,6 +11,7 @@ import de.freese.base.utils.ReflectionUtils;
 
 /**
  * @author Thomas Freese
+ * @since 20.04.2020
  */
 public class BuilderGenerator {
     protected static final String INDENT = "    ";

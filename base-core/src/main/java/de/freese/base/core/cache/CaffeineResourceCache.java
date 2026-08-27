@@ -54,7 +54,7 @@ public class CaffeineResourceCache extends FileResourceCache {
         final Weigher<URI, byte[]> weigher = (key, value) -> value.length;
 
         final CacheLoader<URI, byte[]> cacheLoader = key -> {
-            byte[] content = {};
+            final byte[] content;
 
             final int size = 1024;
 

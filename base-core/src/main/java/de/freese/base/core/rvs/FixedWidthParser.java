@@ -8,10 +8,6 @@ import java.util.Map;
  */
 public final class FixedWidthParser {
 
-    private FixedWidthParser() {
-        super();
-    }
-
     public static RvsRecord parse(final String line, final RvsLayout layout) {
         if (line.length() < layout.getMinLineLength()) {
             throw new IllegalArgumentException("Zeilenlänge %d, erwartet %d".formatted(line.length(), layout.getMinLineLength()));
@@ -36,5 +32,9 @@ public final class FixedWidthParser {
         }
 
         return new RvsRecord(values, raw);
+    }
+
+    private FixedWidthParser() {
+        super();
     }
 }

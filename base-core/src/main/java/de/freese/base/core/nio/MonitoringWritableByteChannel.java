@@ -1,4 +1,3 @@
-// Created: 26.10.2016
 package de.freese.base.core.nio;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.util.function.LongConsumer;
 
 /**
  * @author Thomas Freese
+ * @since 26.10.2016
  */
 public class MonitoringWritableByteChannel implements WritableByteChannel {
     private final LongConsumer bytesWrittenConsumer;

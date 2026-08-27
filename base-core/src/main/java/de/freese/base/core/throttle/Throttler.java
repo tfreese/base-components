@@ -1,4 +1,3 @@
-// Created: 01.04.2020
 package de.freese.base.core.throttle;
 
 import java.util.concurrent.TimeUnit;
@@ -7,6 +6,7 @@ import java.util.concurrent.TimeUnit;
  * Inspired by dev.failsafe.RateLimiter.
  *
  * @author Thomas Freese
+ * @since 01.04.2020
  */
 @FunctionalInterface
 public interface Throttler {

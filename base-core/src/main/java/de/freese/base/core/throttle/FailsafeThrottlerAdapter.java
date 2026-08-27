@@ -9,14 +9,6 @@ import dev.failsafe.RateLimiter;
  * @author Thomas Freese
  */
 public final class FailsafeThrottlerAdapter implements Throttler {
-    private final RateLimiter<Object> rateLimiter;
-
-    private FailsafeThrottlerAdapter(final RateLimiter<Object> rateLimiter) {
-        super();
-
-        this.rateLimiter = Objects.requireNonNull(rateLimiter, "rateLimiter required");
-    }
-
     public static Throttler create(final int permitsPerSecond, final Duration duration) {
         // builder.withMaxWaitTime(Duration.ofSeconds(1L))
         // return new FailsafeThrottlerAdapter(RateLimiter.burstyBuilder(permitsPerSecond, duration).build());
@@ -25,6 +17,14 @@ public final class FailsafeThrottlerAdapter implements Throttler {
 
     public static Throttler create(final int permitsPerSecond) {
         return create(permitsPerSecond, Duration.ofSeconds(1L));
+    }
+    
+    private final RateLimiter<Object> rateLimiter;
+
+    private FailsafeThrottlerAdapter(final RateLimiter<Object> rateLimiter) {
+        super();
+
+        this.rateLimiter = Objects.requireNonNull(rateLimiter, "rateLimiter required");
     }
 
     @Override

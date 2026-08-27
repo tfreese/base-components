@@ -64,7 +64,7 @@ public class SplitPdf {
         newDoc.open();
 
         // Durch das RangeArray gehen.
-        for (String range : ranges) {
+        for (final String range : ranges) {
             // Range in konkrete Zahlen wandeln.
             final String[] splits = range.split("-");
 

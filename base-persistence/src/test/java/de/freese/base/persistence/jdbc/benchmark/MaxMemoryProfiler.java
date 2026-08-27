@@ -1,4 +1,3 @@
-// Created: 30.04.2020
 package de.freese.base.persistence.jdbc.benchmark;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import org.openjdk.jmh.results.ScalarResult;
 
 /**
  * @author Thomas Freese
+ * @since 30.04.2020
  */
 public class MaxMemoryProfiler implements InternalProfiler {
     @Override

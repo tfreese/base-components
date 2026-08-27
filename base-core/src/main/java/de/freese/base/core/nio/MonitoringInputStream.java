@@ -1,4 +1,3 @@
-// Created: 11.01.2017
 package de.freese.base.core.nio;
 
 import java.io.FilterInputStream;
@@ -10,10 +9,13 @@ import java.util.function.LongConsumer;
 
 import javax.swing.ProgressMonitorInputStream;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * {@link ProgressMonitorInputStream}
  *
  * @author Thomas Freese
+ * @since 11.01.2017
  */
 public class MonitoringInputStream extends FilterInputStream {
     private final LongConsumer bytesReadConsumer;
@@ -54,7 +56,7 @@ public class MonitoringInputStream extends FilterInputStream {
     }
 
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException {
+    public int read(final byte @NonNull [] b, final int off, final int len) throws IOException {
         final int readCount = super.read(b, off, len);
 
         if (readCount > 0) {

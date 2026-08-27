@@ -1,4 +1,3 @@
-// Created: 17 Mai 2025
 package de.freese.base.persistence.formatter;
 
 import java.util.regex.Pattern;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 
 /**
  * @author Thomas Freese
+ * @since 17.05.2025
  */
 public final class SqlFormatter {
     private static final Pattern PATTERN_LINE_BREAKS = Pattern.compile("(\\r\\n|\\r|\\n)");

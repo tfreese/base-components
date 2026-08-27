@@ -1,8 +1,8 @@
-// Created: 16.06.2016
 package de.freese.base.persistence.jdbc;
 
 /**
  * @author Thomas Freese
+ * @since 16.06.2016
  */
 public record Person(long id, String name) {
     @Override

@@ -1,10 +1,10 @@
-// Created: 26.01.2018
 package de.freese.base.core.function;
 
 import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 26.01.2018
  */
 @FunctionalInterface
 public interface ThrowingPredicate<T, E extends Exception> {

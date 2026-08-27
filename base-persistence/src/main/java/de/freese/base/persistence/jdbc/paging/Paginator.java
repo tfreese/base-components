@@ -1,10 +1,10 @@
-// Created: 21 Okt. 2025
 package de.freese.base.persistence.jdbc.paging;
 
 import java.util.List;
 
 /**
  * @author Thomas Freese
+ * @since 21.10.2025
  */
 public interface Paginator<T> {
     /**

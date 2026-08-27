@@ -1,4 +1,3 @@
-// Created: 02.07.2009
 package de.freese.base.utils;
 
 import java.io.OutputStream;
@@ -29,13 +28,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 02.07.2009
  */
 public final class JdbcUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUtils.class);
-
-    private JdbcUtils() {
-        super();
-    }
 
     public static void close(final Connection connection) throws SQLException {
         // Spring-Variante
@@ -472,5 +468,9 @@ public final class JdbcUtils {
         }
 
         sql.append(")");
+    }
+
+    private JdbcUtils() {
+        super();
     }
 }

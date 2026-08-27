@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.utils;
 
 import java.io.FileOutputStream;
@@ -6,6 +5,7 @@ import java.io.OutputStream;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class SplitPdfMain {
     static void main() throws Exception {

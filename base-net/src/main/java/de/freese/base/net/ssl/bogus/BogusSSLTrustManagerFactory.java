@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
  * @author Norman Maurer norman@apache.org
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S4830"})
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager() {
         @Override
@@ -46,6 +47,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
             return new X509Certificate[0];
         }
     };
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BogusSSLTrustManagerFactory.class);
 
     public static TrustManager[] getTrustManagers() {

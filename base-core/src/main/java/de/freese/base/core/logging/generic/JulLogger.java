@@ -1,10 +1,10 @@
-// Created: 29.04.2022
 package de.freese.base.core.logging.generic;
 
 import java.util.logging.Level;
 
 /**
  * @author Thomas Freese
+ * @since 29.04.2022
  */
 class JulLogger implements Logger {
     private final java.util.logging.Logger logger;

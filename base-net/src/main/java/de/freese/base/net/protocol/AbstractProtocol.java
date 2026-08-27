@@ -35,7 +35,7 @@ public abstract class AbstractProtocol {
 
             return hexFormat.formatHex(digest);
         }
-        catch (NoSuchAlgorithmException ex) {
+        catch (final NoSuchAlgorithmException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

@@ -1,4 +1,3 @@
-// Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
 import java.sql.CallableStatement;
@@ -20,6 +19,7 @@ import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
+ * @since 23.07.2024
  */
 class DefaultStatementSpec implements StatementSpec {
     private final JdbcClient jdbcClient;

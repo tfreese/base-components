@@ -1,4 +1,3 @@
-// Created: 17 Mai 2025
 package de.freese.base.persistence.jdbc.repository;
 
 import java.sql.CallableStatement;
@@ -28,6 +27,7 @@ import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
+ * @since 17.05.2025
  */
 public abstract class AbstractJdbcRepository {
     // implements Wrapper
@@ -166,8 +166,6 @@ public abstract class AbstractJdbcRepository {
 
         logSql(sql);
 
-        T result = null;
-
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
 
@@ -176,14 +174,12 @@ public abstract class AbstractJdbcRepository {
             }
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                result = resultSetCallback.doInResultSet(resultSet);
+                return resultSetCallback.doInResultSet(resultSet);
             }
         }
         catch (final SQLException ex) {
             throw convertException(ex);
         }
-
-        return result;
     }
 
     protected int update(final CharSequence sql) {

@@ -1,4 +1,3 @@
-// Created: 29 März 2025
 package de.freese.base.net.retry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +29,7 @@ import de.freese.base.utils.SocketUtils;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2025
  */
 class FailsafeRetryTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeRetryTest.class);
@@ -98,12 +98,12 @@ class FailsafeRetryTest {
             assertEquals(HttpURLConnection.HTTP_UNAVAILABLE, httpResponse.statusCode());
             assertEquals("ERROR", httpResponse.body());
         }
-        catch (FailsafeException ex) {
+        catch (final FailsafeException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             assertEquals(IOException.class, ex.getCause().getClass());
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             assertEquals(IOException.class, ex.getClass());

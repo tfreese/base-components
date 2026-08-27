@@ -50,7 +50,7 @@ public final class RegExToWildcard implements RegExTransformer {
             return "";
         }
 
-        for (RegExTransformer transformer : transformers) {
+        for (final RegExTransformer transformer : transformers) {
             expression = transformer.regExToWildcard(expression);
         }
 
@@ -78,7 +78,7 @@ public final class RegExToWildcard implements RegExTransformer {
             return expression.substring(1);
         }
 
-        for (RegExTransformer transformer : transformers) {
+        for (final RegExTransformer transformer : transformers) {
             expression = transformer.wildcardToRegEx(expression);
         }
 

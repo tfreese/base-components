@@ -18,26 +18,25 @@ public final class ResourceBundleProvider implements ResourceProvider {
         try {
             final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
 
-            for (String key : resourceBundle.keySet()) {
+            for (final String key : resourceBundle.keySet()) {
                 final String value = resourceBundle.getString(key);
 
                 bundles.put(key, value);
             }
 
-            //            final Enumeration<String> keys = resourceBundle.getKeys();
+            // final Enumeration<String> keys = resourceBundle.getKeys();
             //
-            //            while (keys.hasMoreElements())
-            //            {
-            //                final String key = keys.nextElement();
-            //                final String value = resourceBundle.getString(key);
+            // while (keys.hasMoreElements()) {
+            //     final String key = keys.nextElement();
+            //     final String value = resourceBundle.getString(key);
             //
-            //                bundles.put(key, value);
-            //            }
+            //     bundles.put(key, value);
+            // }
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
 

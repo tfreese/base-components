@@ -1,4 +1,3 @@
-// Created: 30.07.2021
 package de.freese.base.core.concurrent.accumulative;
 
 import java.util.function.Consumer;
@@ -14,6 +13,8 @@ import reactor.core.scheduler.Schedulers;
  * The {@link Consumer} is executed in the EDT-Thread by {@link SwingUtilities#invokeLater(Runnable)}.
  *
  * @author Thomas Freese
+ * @since 30.07.2021
+ *
  */
 public class AccumulativeSinkSwing extends AbstractAccumulativeSink {
     private static final Scheduler EDT_SCHEDULER = Schedulers.fromExecutor(SwingUtilities::invokeLater);

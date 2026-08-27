@@ -1,4 +1,3 @@
-// Created: 23.03.23
 package de.freese.base.utils;
 
 import java.io.BufferedInputStream;
@@ -23,13 +22,9 @@ import java.util.function.UnaryOperator;
 
 /**
  * @author Thomas Freese
+ * @since 23.03.2023
  */
 public final class CsvUtils {
-
-    private CsvUtils() {
-        super();
-    }
-
     /**
      * The {@link InputStream} is not closed.
      */
@@ -156,5 +151,9 @@ public final class CsvUtils {
                 .map(t -> t.replace("\\\"\"", "\"")) // Unescape quotes.
                 .map(t -> t.replace("\\,", ",")) // Unescape comma.
                 .map(String::strip).toArray(String[]::new);
+    }
+
+    private CsvUtils() {
+        super();
     }
 }

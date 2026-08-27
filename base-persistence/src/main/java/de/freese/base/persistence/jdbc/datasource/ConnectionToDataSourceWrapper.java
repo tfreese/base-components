@@ -1,4 +1,3 @@
-// Created: 07.06.2016
 package de.freese.base.persistence.jdbc.datasource;
 
 import java.io.PrintWriter;
@@ -14,6 +13,7 @@ import javax.sql.DataSource;
  * Die Connection wird in einem Proxy verpackt, der die close-Methode nicht ausführt.
  *
  * @author Thomas Freese
+ * @since 07.06.2016
  */
 public class ConnectionToDataSourceWrapper implements DataSource {
     private final Connection connection;

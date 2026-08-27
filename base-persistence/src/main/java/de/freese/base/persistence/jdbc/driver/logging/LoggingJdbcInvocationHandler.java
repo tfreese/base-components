@@ -1,4 +1,3 @@
-// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.lang.reflect.InvocationHandler;
@@ -14,6 +13,7 @@ import org.springframework.util.ClassUtils;
 
 /**
  * @author Thomas Freese
+ * @since 08.09.2016
  */
 class LoggingJdbcInvocationHandler implements InvocationHandler {
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
@@ -33,7 +33,6 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
         try {
             final boolean logMethod = logMethods.contains(method.getName());
 
-            // if (LOGGER.isDebugEnabled())
             if (logMethod) {
                 LOGGER.debug("Invoke {}#{}: {}", target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
             }
@@ -42,8 +41,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
             final Object result = method.invoke(target, args);
             // long end = System.currentTimeMillis();
             //
-            // if (LOGGER.isDebugEnabled())
-            // {
+            // if (LOGGER.isDebugEnabled()) {
             // LOGGER.debug(String.format("Result [%dms] %s#%s: %s", end - start, target.getClass().getSimpleName(), method.getName(), result));
             // }
 

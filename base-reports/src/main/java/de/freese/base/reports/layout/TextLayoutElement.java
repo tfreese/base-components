@@ -1,10 +1,10 @@
-// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 /**
  * Implementierung eines LayoutElementes für Text.
  *
  * @author Thomas Freese
+ * @since 15.04.2008
  */
 public class TextLayoutElement extends AbstractLayoutElement {
     public TextLayoutElement() {

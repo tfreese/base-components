@@ -1,4 +1,3 @@
-// Created: 24.01.2018
 package de.freese.base.core.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +14,7 @@ import de.freese.base.core.model.builder.GenericBuilder;
 
 /**
  * @author Thomas Freese
+ * @since 24.01.2018
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestGenericBuilder {

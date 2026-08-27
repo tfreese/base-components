@@ -1,4 +1,3 @@
-// Created: 07.06.2020
 package de.freese.base.resourcemap;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 07.06.2020
  */
 public final class ResourceMapBuilder {
     public static ResourceMapBuilder create() {
@@ -80,7 +80,7 @@ public final class ResourceMapBuilder {
         resourceMap.setResourceCache(resourceCache != null ? resourceCache : new SingleResourceCache());
         resourceMap.setResourceConverters(resourceConverters);
 
-        for (ResourceMapBuilder childBuilder : childBuilders) {
+        for (final ResourceMapBuilder childBuilder : childBuilders) {
             final ResourceMap child = childBuilder.build();
 
             resourceMap.addChild((DefaultResourceMap) child);

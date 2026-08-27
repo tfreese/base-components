@@ -20,7 +20,7 @@ public class BooleanResourceConverter extends AbstractResourceConverter<Boolean>
     public Boolean convert(final String key, final String value) {
         final String v = value.strip();
 
-        for (String trueString : trueStrings) {
+        for (final String trueString : trueStrings) {
             if (v.equalsIgnoreCase(trueString)) {
                 return Boolean.TRUE;
             }

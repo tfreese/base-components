@@ -52,11 +52,8 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
-        sb.append("; ");
-        sb.append("E=").append(toString(getValueE()));
-
-        return sb.toString();
+        return super.toString()
+                + "; "
+                + "E=" + toString(getValueE());
     }
 }

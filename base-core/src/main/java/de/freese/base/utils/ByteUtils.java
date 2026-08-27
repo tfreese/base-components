@@ -23,10 +23,6 @@ public final class ByteUtils {
     //
     //    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
-    private ByteUtils() {
-        super();
-    }
-
     public static String bytesToHex(final byte[] bytes) {
         return HexFormat.of().withUpperCase().formatHex(bytes);
         //
@@ -86,29 +82,11 @@ public final class ByteUtils {
             return new byte[0];
         }
 
-        final byte[] decompressed;
-
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
-             ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              GZIPInputStream zis = new GZIPInputStream(bis)) {
-            final byte[] buffer = new byte[4096];
 
-            while (true) {
-                final int length = zis.read(buffer);
-
-                if (length == -1) {
-                    break;
-                }
-
-                bos.write(buffer, 0, length);
-            }
-
-            bos.flush();
-
-            decompressed = bos.toByteArray();
+            return zis.readAllBytes();
         }
-
-        return decompressed;
     }
 
     public static <T> T deserializeObject(final Class<T> type, final byte[] bytes) {
@@ -172,16 +150,17 @@ public final class ByteUtils {
             return new byte[0];
         }
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
-
-        try (ObjectOutputStream out = new ObjectOutputStream(baos)) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream out = new ObjectOutputStream(baos)) {
             out.writeObject(object);
+
+            out.flush();
+
+            return baos.toByteArray();
         }
         catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
-
-        return baos.toByteArray();
     }
 
     public static boolean toBoolean(final byte value) {
@@ -323,5 +302,9 @@ public final class ByteUtils {
 
     public static short toShort(final byte[] value) {
         return (short) (((value[0] & 0xFF) << 8) + (value[1] & 0xFF));
+    }
+
+    private ByteUtils() {
+        super();
     }
 }

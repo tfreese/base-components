@@ -1,4 +1,3 @@
-// Created: 18.06.23
 package de.freese.base.persistence.jdbc.transaction;
 
 import java.sql.Connection;
@@ -18,6 +17,7 @@ import org.springframework.transaction.TransactionStatus;
  * @see TransactionManager
  * @see TransactionDefinition
  * @see TransactionStatus
+ * @since 18.06.2023
  */
 public class SpringTransaction implements Transaction {
     private final DataSource dataSource;

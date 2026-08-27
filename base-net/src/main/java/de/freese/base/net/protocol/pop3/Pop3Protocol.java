@@ -67,7 +67,7 @@ public class Pop3Protocol extends AbstractProtocol {
             try {
                 serverSocket.close();
             }
-            catch (Exception th) {
+            catch (final Exception th) {
                 throw new IOException("Connect failed: ", th);
             }
         }
@@ -101,7 +101,7 @@ public class Pop3Protocol extends AbstractProtocol {
                 quit();
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -128,7 +128,7 @@ public class Pop3Protocol extends AbstractProtocol {
                 st.nextToken(); // skip message number
                 size = Integer.parseInt(st.nextToken());
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
@@ -190,11 +190,10 @@ public class Pop3Protocol extends AbstractProtocol {
      * Close down the connection, sending the QUIT command if expunge is true.
      */
     public synchronized boolean quit() throws IOException {
-        boolean ok = false;
-
         try {
-            final Pop3Response r = simpleCommand(Pop3Command.QUIT);
-            ok = r.isOk();
+            final Pop3Response response = simpleCommand(Pop3Command.QUIT);
+
+            return response.isOk();
         }
         finally {
             try {
@@ -206,8 +205,6 @@ public class Pop3Protocol extends AbstractProtocol {
                 outputWriter = null;
             }
         }
-
-        return ok;
     }
 
     /**
@@ -292,7 +289,7 @@ public class Pop3Protocol extends AbstractProtocol {
         }
 
         try (LineInputStream lis = new LineInputStream(r.getBytes())) {
-            String line = null;
+            String line;
 
             while ((line = lis.readLine()) != null) {
                 final int i = line.indexOf(' ');

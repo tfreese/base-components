@@ -1,4 +1,3 @@
-// Created: 29 März 2025
 package de.freese.base.net.retry;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import de.freese.base.core.concurrent.NamedThreadFactory;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2025
  */
 public final class RetryTestUtil {
     // https://httpstat.us/500"

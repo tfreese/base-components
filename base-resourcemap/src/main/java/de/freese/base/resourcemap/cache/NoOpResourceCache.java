@@ -1,4 +1,3 @@
-// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.Collections;
@@ -9,6 +8,7 @@ import java.util.Map;
  * Static and empty {@link ResourceCache}s
  *
  * @author Thomas Freese
+ * @since 08.06.2020
  */
 public final class NoOpResourceCache implements ResourceCache {
     /**

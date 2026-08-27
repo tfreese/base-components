@@ -1,4 +1,3 @@
-// Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
 import java.sql.Connection;
@@ -24,6 +23,7 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 
 /**
  * @author Thomas Freese
+ * @since 23.07.2024
  */
 public class JdbcClient implements Wrapper {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
@@ -141,7 +141,7 @@ public class JdbcClient implements Wrapper {
             connection.close();
         }
         catch (final Exception ex) {
-            //            throw new UncheckedSqlException(ex);
+            // throw new UncheckedSqlException(ex);
             getLogger().error("Could not close JDBC Connection", ex);
         }
     }

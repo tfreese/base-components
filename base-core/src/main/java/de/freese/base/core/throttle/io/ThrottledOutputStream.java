@@ -1,4 +1,3 @@
-// Created: 29.03.2020
 package de.freese.base.core.throttle.io;
 
 import java.io.FilterOutputStream;
@@ -10,6 +9,7 @@ import de.freese.base.core.throttle.Throttler;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2020
  */
 public class ThrottledOutputStream extends FilterOutputStream {
 
@@ -29,13 +29,10 @@ public class ThrottledOutputStream extends FilterOutputStream {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("throttle=").append(throttler);
-        sb.append(", bytesWritten=").append(getBytesWritten());
-        sb.append("]");
-
-        return sb.toString();
+        return getClass().getSimpleName() + " ["
+                + "throttle=" + throttler
+                + ", bytesWritten=" + getBytesWritten()
+                + "]";
     }
 
     @Override

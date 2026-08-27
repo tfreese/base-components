@@ -1,4 +1,3 @@
-// Created: 01.07.2020
 package de.freese.base.core.logging;
 
 import java.io.ByteArrayOutputStream;
@@ -7,11 +6,13 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 /**
  * @author Thomas Freese
+ * @since 01.07.2020
  */
 public final class LoggingOutputStream extends OutputStream {
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
@@ -38,7 +39,7 @@ public final class LoggingOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(final byte[] b) throws IOException {
+    public void write(final byte @NonNull [] b) throws IOException {
         write(b, 0, b.length);
     }
 

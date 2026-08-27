@@ -1,4 +1,3 @@
-// Created: 26.01.2018
 package de.freese.base.persistence.jdbc.datasource;
 
 import java.lang.reflect.InvocationHandler;
@@ -11,6 +10,7 @@ import java.util.Objects;
  * {@link InvocationHandler} der die {@link Connection#close()}-Methode nicht ausführt.
  *
  * @author Thomas Freese
+ * @since 26.01.2018
  */
 public class ConnectionNotClosingInvocationHandler implements InvocationHandler {
     private final Connection target;

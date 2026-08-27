@@ -58,7 +58,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         // Für ResourceBundle normalisieren
         final Set<String> bundleNames = new HashSet<>();
 
-        for (String resource : resources) {
+        for (final String resource : resources) {
             // Den reinen Dateinamen raus fummeln, Unterstrich berücksichtigen
             String[] splits = resource.split(folderRegex);
             splits = splits[splits.length - 1].split("(_+[a-zA-Z]{2}|\\.properties$)");
@@ -81,7 +81,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         final String[] classPathElements = classPath.split(pathSeparator);
         final Set<String> resources = new HashSet<>();
 
-        for (String element : classPathElements) {
+        for (final String element : classPathElements) {
             final File file = new File(element);
 
             if (file.isDirectory()) {
@@ -102,7 +102,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         final Set<String> resources = new HashSet<>();
         final File[] fileList = directory.listFiles();
 
-        for (File file : fileList) {
+        for (final File file : fileList) {
             if (file.isDirectory()) {
                 resources.addAll(getResourcesFromDirectory(file, pattern));
             }
@@ -115,7 +115,7 @@ public class DefaultResourceScanner implements ResourceScanner {
                         resources.add(fileName);
                     }
                 }
-                catch (IOException ex) {
+                catch (final IOException ex) {
                     DefaultResourceScanner.LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -134,7 +134,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         try {
             zf = new ZipFile(file);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -147,7 +147,6 @@ public class DefaultResourceScanner implements ResourceScanner {
         while (e.hasMoreElements()) {
             final ZipEntry ze = e.nextElement();
             final String fileName = ze.getName();
-            // LOGGER.info(fileName);
 
             final boolean accept = pattern.matcher(fileName).matches();
 
@@ -159,7 +158,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         try {
             zf.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             DefaultResourceScanner.LOGGER.error(ex.getMessage(), ex);
         }
 

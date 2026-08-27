@@ -22,44 +22,44 @@ public class AuditInfo implements Serializable {
         return changed;
     }
 
-    public void setChanged(final LocalDateTime changed) {
-        this.changed = changed;
-    }
-
     public String getChangedBy() {
         return changedBy;
-    }
-
-    public void setChangedBy(final String changedBy) {
-        this.changedBy = changedBy;
     }
 
     public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(final LocalDateTime created) {
-        this.created = created;
-    }
-
     public String getCreatedBy() {
         return createdBy;
-    }
-
-    public void setCreatedBy(final String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(final LocalDateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public LocalDateTime getValidUntil() {
         return validUntil;
+    }
+
+    public void setChanged(final LocalDateTime changed) {
+        this.changed = changed;
+    }
+
+    public void setChangedBy(final String changedBy) {
+        this.changedBy = changedBy;
+    }
+
+    public void setCreated(final LocalDateTime created) {
+        this.created = created;
+    }
+
+    public void setCreatedBy(final String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setValidFrom(final LocalDateTime validFrom) {
+        this.validFrom = validFrom;
     }
 
     public void setValidUntil(final LocalDateTime validUntil) {

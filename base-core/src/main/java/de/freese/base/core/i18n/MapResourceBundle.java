@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Bundle über einer bereits fertig gemergten Map (Properties + DB).
  *
@@ -26,7 +28,7 @@ final class MapResourceBundle extends ResourceBundle {
     }
 
     @Override
-    public Enumeration<String> getKeys() {
+    public @NonNull Enumeration<String> getKeys() {
         final Set<String> keys = new HashSet<>(lookup.keySet());
 
         // parent ist protected in ResourceBundle.
@@ -38,7 +40,7 @@ final class MapResourceBundle extends ResourceBundle {
     }
 
     @Override
-    protected Object handleGetObject(final String key) {
+    protected Object handleGetObject(final @NonNull String key) {
         return lookup.get(Objects.requireNonNull(key));
     }
 
@@ -46,7 +48,7 @@ final class MapResourceBundle extends ResourceBundle {
      * Nur die Keys DIESER Ebene – Parent-Merge macht getKeys().
      */
     @Override
-    protected Set<String> handleKeySet() {
+    protected @NonNull Set<String> handleKeySet() {
         return lookup.keySet();
     }
 }

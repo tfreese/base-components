@@ -21,7 +21,7 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
- * Einfaches, serialisierungsfreundliches Datenmodell fuer JSON und XML.
+ * Einfaches, serialisierungsfreundliches Datenmodell für JSON und XML.
  * <p/>
  * Prompt:
  * Es soll für Java 25 ein generisches Datenmodell entwickelt werden.
@@ -106,6 +106,10 @@ public final class AiGeneratedDataModel {
             }
         }
 
+        public static Builder builder() {
+            return new Builder();
+        }
+
         @JsonProperty("metadata")
         private Metadata metadata;
 
@@ -116,20 +120,16 @@ public final class AiGeneratedDataModel {
             super();
         }
 
-        public static Builder builder() {
-            return new Builder();
-        }
-
         public Object getValue() {
             return value;
         }
 
-        public void setValue(final Object value) {
-            this.value = value;
-        }
-
         public Metadata metadata() {
             return metadata;
+        }
+
+        public void setValue(final Object value) {
+            this.value = value;
         }
     }
 
@@ -176,6 +176,10 @@ public final class AiGeneratedDataModel {
             }
         }
 
+        public static Builder builder() {
+            return new Builder();
+        }
+
         @JsonProperty("index")
         private int index;
 
@@ -193,10 +197,6 @@ public final class AiGeneratedDataModel {
 
         private Column() {
             super();
-        }
-
-        public static Builder builder() {
-            return new Builder();
         }
 
         public Metadata cellMetadata(final int rowIndex) {
@@ -270,19 +270,19 @@ public final class AiGeneratedDataModel {
             }
         }
 
-        @JsonProperty("values")
-        private Map<String, Object> values = new LinkedHashMap<>();
-
-        private Metadata() {
-            super();
-        }
-
         public static Builder builder() {
             return new Builder();
         }
 
         private static String requiredKey(final String key) {
             return Objects.requireNonNull(key, "key required");
+        }
+
+        @JsonProperty("values")
+        private Map<String, Object> values = new LinkedHashMap<>();
+
+        private Metadata() {
+            super();
         }
 
         public void clear() {
@@ -369,6 +369,10 @@ public final class AiGeneratedDataModel {
             }
         }
 
+        public static Builder builder() {
+            return new Builder();
+        }
+
         @JsonProperty("cells")
         @JacksonXmlElementWrapper(localName = "cells")
         @JacksonXmlProperty(localName = "cell")
@@ -382,10 +386,6 @@ public final class AiGeneratedDataModel {
 
         private Row() {
             super();
-        }
-
-        public static Builder builder() {
-            return new Builder();
         }
 
         public Metadata cellMetadata(final String columnName) {
@@ -442,17 +442,6 @@ public final class AiGeneratedDataModel {
         }
     }
 
-    @JsonIgnore
-    private final Map<String, Integer> columnIndexByName = new LinkedHashMap<>();
-    @JsonProperty("columns")
-    @JacksonXmlElementWrapper(localName = "columns")
-    @JacksonXmlProperty(localName = "column")
-    private final List<Column> columns = new ArrayList<>();
-    @JsonProperty("rows")
-    @JacksonXmlElementWrapper(localName = "rows")
-    @JacksonXmlProperty(localName = "row")
-    private final List<Row> rows = new ArrayList<>();
-
     static void main() {
         final AiGeneratedDataModel model = new AiGeneratedDataModel();
         final AiGeneratedDataModel.Column columnId = model.addColumn("id", Long.class);
@@ -471,6 +460,19 @@ public final class AiGeneratedDataModel {
 
         model.print(System.out);
     }
+
+    @JsonIgnore
+    private final Map<String, Integer> columnIndexByName = new LinkedHashMap<>();
+
+    @JsonProperty("columns")
+    @JacksonXmlElementWrapper(localName = "columns")
+    @JacksonXmlProperty(localName = "column")
+    private final List<Column> columns = new ArrayList<>();
+
+    @JsonProperty("rows")
+    @JacksonXmlElementWrapper(localName = "rows")
+    @JacksonXmlProperty(localName = "row")
+    private final List<Row> rows = new ArrayList<>();
 
     public Column addColumn(final String name, final Class<?> type) {
         return addColumn(name, type == null ? null : type.getName());

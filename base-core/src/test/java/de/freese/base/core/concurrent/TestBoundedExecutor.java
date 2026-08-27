@@ -1,4 +1,3 @@
-// Created: 03.04.2021
 package de.freese.base.core.concurrent;
 
 import static org.awaitility.Awaitility.await;
@@ -31,6 +30,7 @@ import de.freese.base.utils.ExecutorUtils;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2021
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestBoundedExecutor {
@@ -65,7 +65,7 @@ class TestBoundedExecutor {
         //     Thread.currentThread().interrupt();
         // }
 
-        await().pollDelay(Duration.ofMillis(300)).until(() -> true);
+        await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -125,7 +125,7 @@ class TestBoundedExecutor {
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
-            catch (ExecutionException ex) {
+            catch (final ExecutionException ex) {
                 fail(ex);
             }
         });

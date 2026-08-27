@@ -1,4 +1,3 @@
-// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.lang.reflect.Proxy;
@@ -31,6 +30,7 @@ import org.springframework.util.ClassUtils;
  * Register the Driver by ServletListener: {@link LoggingJdbcDriverServletContextListener}<br>
  *
  * @author Thomas Freese
+ * @since 08.09.2016
  */
 public class LoggingJdbcDriver implements Driver {
     public static final String PREFIX = "jdbc:logger:";
@@ -97,7 +97,6 @@ public class LoggingJdbcDriver implements Driver {
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         throw new SQLFeatureNotSupportedException();
-        // return null;
     }
 
     @Override

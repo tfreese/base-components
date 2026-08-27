@@ -1,4 +1,3 @@
-// Created: 27.05.2016
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
@@ -13,6 +12,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  * {@link Iterator} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
+ * @since 27.05.2016
  */
 public class ResultSetIterator<T> implements Iterator<T> {
     private final ResultSet resultSet;

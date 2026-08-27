@@ -1,4 +1,3 @@
-// Created: 03.07.2011
 package de.freese.base.core.zodiac;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * Testklasse für die Sternzeichen.
  *
  * @author Thomas Freese
+ * @since 03.07.2011
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestZodiac {

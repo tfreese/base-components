@@ -1,4 +1,3 @@
-// Created: 14.06.2019
 package de.freese.base.persistence.jdbc;
 
 import static org.awaitility.Awaitility.await;
@@ -13,6 +12,7 @@ import javax.sql.DataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -26,6 +26,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
  * @author Thomas Freese
+ * @since 14.06.2019
  */
 public final class DbServerExtension implements BeforeAllCallback, BeforeTestExecutionCallback, AfterAllCallback, AfterTestExecutionCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbServerExtension.class);
@@ -69,7 +70,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void afterAll(final ExtensionContext context) {
+    public void afterAll(final @NonNull ExtensionContext context) {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{} - afterAll", databaseType);
 
@@ -127,7 +128,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void afterTestExecution(final ExtensionContext context) {
+    public void afterTestExecution(final @NonNull ExtensionContext context) {
         // final Method testMethod = context.getRequiredTestMethod();
         // final long startTime = getStoreForMethod(context).get("start-time", long.class);
         // final long duration = System.currentTimeMillis() - startTime;
@@ -137,7 +138,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void beforeAll(final ExtensionContext context) {
+    public void beforeAll(final @NonNull ExtensionContext context) {
         LOGGER.debug("{} - beforeAll", databaseType);
 
         getStoreForGlobal(context).put("start-time", System.currentTimeMillis());
@@ -202,7 +203,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void beforeTestExecution(final ExtensionContext context) {
+    public void beforeTestExecution(final @NonNull ExtensionContext context) {
         getStoreForMethod(context).put("start-time", System.currentTimeMillis());
     }
 

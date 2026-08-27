@@ -1,4 +1,3 @@
-// Created: 16.11.22
 package de.freese.base.core.collection;
 
 import java.util.ArrayList;
@@ -13,8 +12,11 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.StreamSupport;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 16.11.22
  */
 public final class PartitionIterable<T> implements Iterable<List<T>> {
     /**
@@ -26,7 +28,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
     public static <T> PartitionIterable<T> ofPartitionCount(final Collection<T> origin, final int partitionCount) {
         final List<T> originList;
 
-        if (origin instanceof List<T> list) {
+        if (origin instanceof final List<T> list) {
             originList = list;
         }
         else {
@@ -45,7 +47,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
     public static <T> PartitionIterable<T> ofPartitionCountModulo(final Collection<T> origin, final int partitionCount) {
         final List<T> originList;
 
-        if (origin instanceof List<T> list) {
+        if (origin instanceof final List<T> list) {
             originList = list;
         }
         else {
@@ -63,7 +65,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
     public static <T> PartitionIterable<T> ofPartitionLength(final Collection<T> origin, final int partitionLength) {
         final List<T> originList;
 
-        if (origin instanceof List<T> list) {
+        if (origin instanceof final List<T> list) {
             originList = list;
         }
         else {
@@ -121,7 +123,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
         final List<List<T>> partitions = new ArrayList<>(effectiveCount);
         int fromIndex = 0;
 
-        for (int partitionSize : partitionSizes) {
+        for (final int partitionSize : partitionSizes) {
             partitions.add(origin.subList(fromIndex, fromIndex + partitionSize));
 
             fromIndex += partitionSize;
@@ -187,12 +189,11 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
     }
 
     public List<List<T>> getPartitions() {
-        //        return partitions;
         return StreamSupport.stream(spliterator(), false).toList();
     }
 
     @Override
-    public Iterator<List<T>> iterator() {
+    public @NonNull Iterator<List<T>> iterator() {
         return new Iterator<>() {
             private int index;
 

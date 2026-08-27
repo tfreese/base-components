@@ -1,4 +1,3 @@
-// Created: 15.09.2020
 package de.freese.base.core.nio;
 
 import java.io.IOException;
@@ -6,8 +5,11 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * @author Thomas Freese
+ * @since 15.09.2020
  */
 public class ByteBufferInputStream extends InputStream {
     private final ByteBuffer buffer;
@@ -43,7 +45,7 @@ public class ByteBufferInputStream extends InputStream {
     }
 
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException {
+    public int read(final byte @NonNull [] b, final int off, final int len) throws IOException {
         final int remaining = buffer.remaining();
 
         if (remaining > 0) {

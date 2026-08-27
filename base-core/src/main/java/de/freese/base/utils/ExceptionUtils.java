@@ -11,10 +11,6 @@ import java.util.List;
  * @author Thomas Freese
  */
 public final class ExceptionUtils {
-    private ExceptionUtils() {
-        super();
-    }
-
     /**
      * Liefert den Cause des Typs, falls vorhanden.<br>
      */
@@ -107,5 +103,9 @@ public final class ExceptionUtils {
         }
 
         return list;
+    }
+
+    private ExceptionUtils() {
+        super();
     }
 }

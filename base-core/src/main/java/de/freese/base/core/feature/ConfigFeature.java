@@ -1,4 +1,3 @@
-// Created: 05 Nov. 2025
 package de.freese.base.core.feature;
 
 /**
@@ -6,6 +5,7 @@ package de.freese.base.core.feature;
  * A ConfigFeature enum may contain a maximum of 31 Entries to avoid an Integer-Range overflow.
  *
  * @author Thomas Freese
+ * @since 05.11.2025
  */
 public interface ConfigFeature {
     /**
@@ -22,7 +22,7 @@ public interface ConfigFeature {
 
         int flags = 0;
 
-        for (F value : allFeatures) {
+        for (final F value : allFeatures) {
             if (value.isEnabledByDefault()) {
                 flags = value.enable(flags);
             }

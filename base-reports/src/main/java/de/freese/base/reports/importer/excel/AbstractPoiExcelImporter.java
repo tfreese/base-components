@@ -1,4 +1,3 @@
-// Created: 01.03.23
 package de.freese.base.reports.importer.excel;
 
 import java.io.InputStream;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2023
  */
 public abstract class AbstractPoiExcelImporter implements ExcelImporter {
     private final Map<Short, Format> cacheFormat = new HashMap<>();

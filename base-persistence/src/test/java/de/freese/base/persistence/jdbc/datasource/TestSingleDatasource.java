@@ -1,4 +1,3 @@
-// Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 24.05.2016
  */
 class TestSingleDatasource {
     private static SingleDataSource dataSource;

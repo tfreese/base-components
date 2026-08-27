@@ -1,4 +1,3 @@
-// Created: 12.10.2016
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 12.10.2016
  */
 public class ScheduledFutureAwareRunnable implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledFutureAwareRunnable.class);
@@ -51,7 +51,7 @@ public class ScheduledFutureAwareRunnable implements Runnable {
     @Override
     public void run() {
         if (exitCondition.getAsBoolean()) {
-            LOGGER.info("{}: exit", Objects.toString(name, toString()));
+            LOGGER.atInfo().log("{}: exit", Objects.toString(name, toString()));
 
             task.run();
 
@@ -59,7 +59,7 @@ public class ScheduledFutureAwareRunnable implements Runnable {
                 scheduledFuture.cancel(false);
             }
             else {
-                LOGGER.warn("{}: no ScheduledFuture reference", Objects.toString(name, toString()));
+                LOGGER.atWarn().log("{}: no ScheduledFuture reference", Objects.toString(name, toString()));
             }
         }
     }

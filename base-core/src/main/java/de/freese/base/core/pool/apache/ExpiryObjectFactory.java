@@ -1,4 +1,3 @@
-// Created: 05 Feb. 2026
 package de.freese.base.core.pool.apache;
 
 import java.time.Clock;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 05.02.2026
  */
 final class ExpiryObjectFactory<T> extends BasePooledObjectFactory<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExpiryObjectFactory.class);

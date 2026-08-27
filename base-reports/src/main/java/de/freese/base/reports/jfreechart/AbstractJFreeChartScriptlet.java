@@ -42,20 +42,13 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      *
      * @author Thomas Freese
      */
-    private static class PlotAdapter {
-        private final Plot plot;
-
-        PlotAdapter(final Plot plot) {
-            super();
-
-            this.plot = plot;
-        }
+    private record PlotAdapter(Plot plot) {
 
         public LegendItemSource getRenderer(final int index) {
-            if (plot instanceof XYPlot xyPlot) {
+            if (plot instanceof final XYPlot xyPlot) {
                 return xyPlot.getRenderer(index);
             }
-            else if (plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof final CategoryPlot categoryPlot) {
                 return categoryPlot.getRenderer(index);
             }
 
@@ -63,10 +56,10 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         }
 
         public int getRendererCount() {
-            if (plot instanceof XYPlot xyPlot) {
+            if (plot instanceof final XYPlot xyPlot) {
                 return xyPlot.getRendererCount();
             }
-            else if (plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof final CategoryPlot categoryPlot) {
                 return categoryPlot.getRendererCount();
             }
 
@@ -74,10 +67,10 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         }
 
         public Axis getXAxis() {
-            if (plot instanceof XYPlot xyPlot) {
+            if (plot instanceof final XYPlot xyPlot) {
                 return xyPlot.getRangeAxis();
             }
-            else if (plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof final CategoryPlot categoryPlot) {
                 return categoryPlot.getDomainAxis();
             }
 
@@ -85,10 +78,10 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         }
 
         public Axis getYAxis() {
-            if (plot instanceof XYPlot xyPlot) {
+            if (plot instanceof final XYPlot xyPlot) {
                 return xyPlot.getDomainAxis();
             }
-            else if (plot instanceof CategoryPlot categoryPlot) {
+            else if (plot instanceof final CategoryPlot categoryPlot) {
                 return categoryPlot.getRangeAxis();
             }
 
@@ -109,7 +102,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      * Berechnet den Schrittwert für eine Skalierung mit Angabe der Anzahl der Schritte und einen möglichen oberen Rand in %.
      *
      * @param upperTickMargin double, % eines Ticks als oberer Rand.
-     * @param fractionDigits boolean, Ticks mit Kommastellen ?
+     * @param fractionDigits boolean, Ticks mit Kommastellen?
      */
     @SuppressWarnings("checkstyle:IllegalCatch")
     protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits) {
@@ -117,7 +110,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
             throw new IllegalArgumentException("upperTickMargin must be between 0 and 1 !");
         }
 
-        // Rein numerisch, sieht aber doof aus...
+        // Rein numerisch, sieht aber doof aus.
         // double tick = ExtMath.round(yMaxValue / maxTickUnits, 0);
 
         // Aktuelle Schrittweite (tick) ermitteln
@@ -125,7 +118,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         double defaultTick = DEFAULT_TICKS[DEFAULT_TICKS.length - 1];
         int tickIndex = 0;
 
-        // DefaultTick finden, der grösser als tick ist
+        // DefaultTick finden, der grösser als tick ist.
         for (; tickIndex < DEFAULT_TICKS.length; tickIndex++) {
             if (DEFAULT_TICKS[tickIndex] >= tick) {
                 defaultTick = DEFAULT_TICKS[tickIndex];
@@ -137,7 +130,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         tick = defaultTick;
 
         // Wenn yMaxValue zu nah am oberen Tick liegt (< tick * upperTickMargin),
-        // den nächst grösseren Tick nehmen
+        // den nächst grösseren Tick nehmen.
         if (((tick * maxTickUnits) - yMaxValue) < (tick * upperTickMargin)) {
             try {
                 tickIndex++;
@@ -247,20 +240,20 @@ public abstract class AbstractJFreeChartScriptlet<T> {
 
         int count = 0;
 
-        if (series instanceof XYSeries xySeries) {
+        if (series instanceof final XYSeries xySeries) {
             count = xySeries.getItemCount();
         }
-        else if (series instanceof TimeSeries timeSeries) {
+        else if (series instanceof final TimeSeries timeSeries) {
             count = timeSeries.getItemCount();
         }
 
         for (int i = 0; i < count; i++) {
             Number value = null;
 
-            if (series instanceof XYSeries xySeries) {
+            if (series instanceof final XYSeries xySeries) {
                 value = xySeries.getY(i);
             }
-            else if (series instanceof TimeSeries timeSeries) {
+            else if (series instanceof final TimeSeries timeSeries) {
                 value = timeSeries.getValue(i);
             }
 
@@ -298,7 +291,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
     /**
      * Formatiert die y-Achse eines Diagramms.
      *
-     * @param fractionDigits boolean, Ticks mit Kommastellen ?
+     * @param fractionDigits boolean, Ticks mit Kommastellen?
      */
     protected void normalizeYTickUnits(final ValueAxis axis, final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits) {
         if (axis == null) {

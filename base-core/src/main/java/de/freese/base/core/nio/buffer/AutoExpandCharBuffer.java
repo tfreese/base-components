@@ -1,4 +1,3 @@
-// Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
 import java.nio.Buffer;
@@ -11,6 +10,7 @@ import java.nio.charset.CharsetEncoder;
  * Adapter for the {@link Buffer} with AutoExpand-Function.
  *
  * @author Thomas Freese
+ * @since 03.11.2016
  */
 public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
     public static AutoExpandCharBuffer of(final int capacity) {

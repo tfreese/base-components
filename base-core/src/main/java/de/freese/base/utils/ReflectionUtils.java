@@ -1,4 +1,3 @@
-// Created: 20.04.2020
 package de.freese.base.utils;
 
 import java.lang.reflect.Field;
@@ -15,6 +14,7 @@ import java.util.function.Predicate;
  * Geklaut von org.springframework.util.ReflectionUtils.
  *
  * @author Thomas Freese
+ * @since 20.04.2020
  */
 @SuppressWarnings({"java:S2583", "java:S2589", "java:S3011"})
 public final class ReflectionUtils {
@@ -24,8 +24,26 @@ public final class ReflectionUtils {
     public static final Predicate<Method> USER_DECLARED_METHODS = method -> !method.isBridge() && !method.isSynthetic();
     private static final Object[] EMPTY_OBJECT_ARRAY = {};
 
-    private ReflectionUtils() {
-        super();
+    /**
+     * Callback interface invoked on each field in the hierarchy.
+     */
+    @FunctionalInterface
+    public interface FieldCallback {
+        /**
+         * Perform an operation using the given field.
+         */
+        void doWith(Field field) throws IllegalAccessException;
+    }
+
+    /**
+     * Action to take on each method.
+     */
+    @FunctionalInterface
+    public interface MethodCallback {
+        /**
+         * Perform an operation using the given method.
+         */
+        void doWith(Method method) throws IllegalAccessException;
     }
 
     /**
@@ -352,25 +370,7 @@ public final class ReflectionUtils {
         return methods;
     }
 
-    /**
-     * Callback interface invoked on each field in the hierarchy.
-     */
-    @FunctionalInterface
-    public interface FieldCallback {
-        /**
-         * Perform an operation using the given field.
-         */
-        void doWith(Field field) throws IllegalAccessException;
-    }
-
-    /**
-     * Action to take on each method.
-     */
-    @FunctionalInterface
-    public interface MethodCallback {
-        /**
-         * Perform an operation using the given method.
-         */
-        void doWith(Method method) throws IllegalAccessException;
+    private ReflectionUtils() {
+        super();
     }
 }

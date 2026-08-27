@@ -1,4 +1,3 @@
-// Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
 import java.io.Serial;
@@ -10,6 +9,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 /**
@@ -32,17 +32,22 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  * <br>
  *
  * @author Thomas Freese
+ * @since 12.02.2017
  */
 public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactoryBean {
     @Serial
     private static final long serialVersionUID = 4992566896817015389L;
 
     @Override
-    protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue,
-                                                final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
+    protected @NonNull ThreadPoolExecutor createExecutor(final int corePoolSize,
+                                                         final int maxPoolSize,
+                                                         final int keepAliveSeconds,
+                                                         @NonNull final BlockingQueue<Runnable> queue,
+                                                         @NonNull final ThreadFactory threadFactory,
+                                                         @NonNull final RejectedExecutionHandler rejectedExecutionHandler) {
         final ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
-        if (queue instanceof TunedLinkedBlockingQueue<?> q) {
+        if (queue instanceof final TunedLinkedBlockingQueue<?> q) {
             q.setPoolCurrentSize(tpe::getPoolSize);
             q.setPoolMaxSize(tpe::getMaximumPoolSize);
         }
@@ -51,7 +56,7 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
     }
 
     @Override
-    protected BlockingQueue<Runnable> createQueue(final int queueCapacity) {
+    protected @NonNull BlockingQueue<Runnable> createQueue(final int queueCapacity) {
         if (queueCapacity > 0) {
             return new TunedLinkedBlockingQueue<>(queueCapacity);
         }

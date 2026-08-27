@@ -1,8 +1,8 @@
-// Created: 21 Okt. 2025
 package de.freese.base.persistence.jdbc.paging;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,57 +21,17 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 21.10.2025
  */
 public final class ExamplePaginator implements Paginator<LocalDateTime> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePaginator.class);
     private static final int MAX_ROWS = 100;
-    private int generatedRows;
-
-    static void main() {
-        final JFrame jFrame = new JFrame("Paginator");
-        jFrame.setSize(500, 200);
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        final JScrollPane jScrollPane = new JScrollPane();
-        jFrame.setContentPane(jScrollPane);
-
-        final JTable jTable = new JTable();
-        jScrollPane.setViewportView(jTable);
-
-        final Paginator<LocalDateTime> paginator = new ExamplePaginator();
-
-        final PaginatorTableModel<LocalDateTime> tableModel = new PaginatorTableModel<>(paginator);
-
-        jTable.setModel(tableModel);
-        jFrame.setVisible(true);
-
-        SwingUtilities.invokeLater(tableModel::nextPage);
-    }
-
-    @Override
-    public List<LocalDateTime> getPage(final int offset, final int limit) {
-        if (generatedRows == MAX_ROWS) {
-            return List.of();
-        }
-
-        int rowsToGenerate = limit;
-
-        if (generatedRows + rowsToGenerate > MAX_ROWS) {
-            rowsToGenerate = MAX_ROWS - generatedRows;
-        }
-
-        LOGGER.info("Generating {} elements", rowsToGenerate);
-
-        generatedRows += rowsToGenerate;
-
-        return IntStream.range(0, rowsToGenerate).mapToObj(i -> LocalDateTime.now()).toList();
-    }
 
     private static final class PaginatorTableModel<T> extends AbstractTableModel {
         private static final int LIMIT = 10;
         @Serial
         private static final long serialVersionUID = 1146960307197901805L;
+
         private final transient List<T> list = new ArrayList<>();
         private final transient Paginator<T> paginator;
         private final Semaphore semaphore = new Semaphore(0, true);
@@ -136,5 +96,48 @@ public final class ExamplePaginator implements Paginator<LocalDateTime> {
                 semaphore.release();
             }
         }
+    }
+
+    static void main() {
+        final JFrame jFrame = new JFrame("Paginator");
+        jFrame.setSize(500, 200);
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        final JScrollPane jScrollPane = new JScrollPane();
+        jFrame.setContentPane(jScrollPane);
+
+        final JTable jTable = new JTable();
+        jScrollPane.setViewportView(jTable);
+
+        final Paginator<LocalDateTime> paginator = new ExamplePaginator();
+
+        final PaginatorTableModel<LocalDateTime> tableModel = new PaginatorTableModel<>(paginator);
+
+        jTable.setModel(tableModel);
+        jFrame.setVisible(true);
+
+        SwingUtilities.invokeLater(tableModel::nextPage);
+    }
+
+    private int generatedRows;
+
+    @Override
+    public List<LocalDateTime> getPage(final int offset, final int limit) {
+        if (generatedRows == MAX_ROWS) {
+            return List.of();
+        }
+
+        int rowsToGenerate = limit;
+
+        if (generatedRows + rowsToGenerate > MAX_ROWS) {
+            rowsToGenerate = MAX_ROWS - generatedRows;
+        }
+
+        LOGGER.info("Generating {} elements", rowsToGenerate);
+
+        generatedRows += rowsToGenerate;
+
+        return IntStream.range(0, rowsToGenerate).mapToObj(i -> LocalDateTime.now(ZoneId.systemDefault())).toList();
     }
 }

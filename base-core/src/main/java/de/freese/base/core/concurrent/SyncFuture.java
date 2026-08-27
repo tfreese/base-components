@@ -1,4 +1,3 @@
-// Created: 04.10.2020
 package de.freese.base.core.concurrent;
 
 import java.util.concurrent.CountDownLatch;
@@ -7,10 +6,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * The {@link #get()}-Method is blocking until {@link #setResult(Object)} is called.
  *
  * @author Thomas Freese
+ * @since 04.10.2020
  */
 public class SyncFuture<T> implements Future<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
@@ -31,7 +33,7 @@ public class SyncFuture<T> implements Future<T> {
     }
 
     @Override
-    public T get(final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    public T get(final long timeout, @NonNull final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         if (latch.await(timeout, unit)) {
             return result;
         }

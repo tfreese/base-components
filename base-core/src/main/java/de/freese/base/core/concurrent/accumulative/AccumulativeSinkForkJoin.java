@@ -1,4 +1,3 @@
-// Created: 30.07.2021
 package de.freese.base.core.concurrent.accumulative;
 
 import java.util.concurrent.ForkJoinPool;
@@ -13,6 +12,7 @@ import reactor.core.scheduler.Schedulers;
  * The {@link Consumer} is executed in {@link ForkJoinPool#commonPool()}.
  *
  * @author Thomas Freese
+ * @since 30.07.2021
  */
 public class AccumulativeSinkForkJoin extends AbstractAccumulativeSink {
     private static final Scheduler FORK_JOIN_SCHEDULER = Schedulers.fromExecutor(ForkJoinPool.commonPool());

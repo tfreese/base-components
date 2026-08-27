@@ -166,7 +166,7 @@ class TestResourceMap {
             final String[] splits = expression.split("\\$\\{");
             // System.out.println(Arrays.toString(splits));
 
-            for (String split : splits) {
+            for (final String split : splits) {
                 final int lastIndex = split.lastIndexOf("}");
 
                 if (lastIndex <= 0) {
@@ -177,7 +177,6 @@ class TestResourceMap {
                 keys.add(key);
             }
 
-            // System.out.println(keys);
             assertLinesMatch(List.of("hello", "world"), keys);
         }
 
@@ -198,7 +197,6 @@ class TestResourceMap {
                 }
             }
 
-            // System.out.println(keys);
             assertLinesMatch(List.of("hello", "world"), keys);
         }
     }

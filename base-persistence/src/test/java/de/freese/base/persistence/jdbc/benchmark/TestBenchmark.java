@@ -17,9 +17,9 @@ class TestBenchmark {
     private static final Options DEFAULT_OPTIONS = new OptionsBuilder()
             .shouldFailOnError(true)
             .warmupIterations(0)
-            .warmupTime(TimeValue.milliseconds(100))
+            .warmupTime(TimeValue.milliseconds(100L))
             .measurementIterations(1)
-            .measurementTime(TimeValue.milliseconds(200))
+            .measurementTime(TimeValue.milliseconds(200L))
             .forks(1)
             .build();
 

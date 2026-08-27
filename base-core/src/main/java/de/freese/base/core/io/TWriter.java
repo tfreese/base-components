@@ -3,6 +3,8 @@ package de.freese.base.core.io;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Schreibt die Daten in beide Writer.
  *
@@ -26,14 +28,14 @@ public class TWriter extends Writer {
         try {
             out1.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             exception = ex;
         }
 
         try {
             out2.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             if (exception != null) {
                 throw exception;
             }
@@ -49,7 +51,7 @@ public class TWriter extends Writer {
     }
 
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    public void write(final char @NonNull [] cbuf, final int off, final int len) throws IOException {
         out1.write(cbuf, off, len);
         out2.write(cbuf, off, len);
     }

@@ -7,7 +7,6 @@ import java.util.Objects;
  */
 public class Tupel2<A, B> {
     private A valueA;
-
     private B valueB;
 
     public Tupel2() {
@@ -62,12 +61,9 @@ public class Tupel2<A, B> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("A=").append(toString(getValueA()));
-        sb.append("; ");
-        sb.append("B=").append(toString(getValueB()));
-
-        return sb.toString();
+        return "A=" + toString(getValueA())
+                + "; "
+                + "B=" + toString(getValueB());
     }
 
     protected String toString(final Object object) {

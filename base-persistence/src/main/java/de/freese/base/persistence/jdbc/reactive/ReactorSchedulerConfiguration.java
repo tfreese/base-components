@@ -30,11 +30,11 @@ public class ReactorSchedulerConfiguration {
     private final Scheduler scheduler;
 
     public ReactorSchedulerConfiguration(@Value("${spring.datasource.maximum-pool-size}") final int connectionPoolSize) {
-        super();
-
         if (connectionPoolSize <= 0) {
             throw new IllegalArgumentException("connectionPoolSize <= 0: " + connectionPoolSize);
         }
+
+        super();
 
         scheduler = Schedulers.fromExecutor(Executors.newFixedThreadPool(connectionPoolSize));
     }

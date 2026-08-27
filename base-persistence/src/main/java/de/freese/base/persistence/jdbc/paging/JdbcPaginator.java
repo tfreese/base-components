@@ -1,4 +1,3 @@
-// Created: 21 Okt. 2025
 package de.freese.base.persistence.jdbc.paging;
 
 import java.sql.Connection;
@@ -15,6 +14,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
+ * @since 21.10.2025
  */
 public class JdbcPaginator<T> implements Paginator<T> {
     private final DataSource dataSource;

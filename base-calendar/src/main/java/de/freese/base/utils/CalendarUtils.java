@@ -1,4 +1,3 @@
-// Created: 12.02.2020
 package de.freese.base.utils;
 
 import java.sql.Timestamp;
@@ -16,12 +15,9 @@ import java.util.Locale;
 
 /**
  * @author Thomas Freese
+ * @since 12.02.2020
  */
 public final class CalendarUtils {
-    private CalendarUtils() {
-        super();
-    }
-
     /**
      * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
      */
@@ -245,5 +241,9 @@ public final class CalendarUtils {
         final Instant instant = toInstant(accessor);
 
         return toLocalDateTime(instant);
+    }
+
+    private CalendarUtils() {
+        super();
     }
 }

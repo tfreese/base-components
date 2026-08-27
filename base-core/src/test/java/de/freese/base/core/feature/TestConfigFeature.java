@@ -1,4 +1,3 @@
-// Created: 05 Nov. 2025
 package de.freese.base.core.feature;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 05.11.2025
  */
 class TestConfigFeature {
     private enum TestFeature implements ConfigFeature {

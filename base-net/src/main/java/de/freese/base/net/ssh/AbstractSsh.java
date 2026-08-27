@@ -1,4 +1,3 @@
-// Created: 12 Sept. 2025
 package de.freese.base.net.ssh;
 
 import java.io.IOException;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 12.09.2025
  */
 public abstract class AbstractSsh implements AutoCloseable {
     private final ClientSession clientSession;
@@ -38,7 +38,7 @@ public abstract class AbstractSsh implements AutoCloseable {
                 sshClient.stop();
             }
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

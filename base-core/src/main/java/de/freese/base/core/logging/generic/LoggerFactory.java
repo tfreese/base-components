@@ -1,4 +1,3 @@
-// Created: 29.04.2022
 package de.freese.base.core.logging.generic;
 
 import java.util.ServiceConfigurationError;
@@ -7,13 +6,10 @@ import java.util.ServiceLoader;
 /**
  * @author Thomas Freese
  * @see org.jboss.logging.LoggerProviders
+ * @since 29.04.2022
  */
 public final class LoggerFactory {
     private static final LoggerProvider LOGGER_PROVIDER = find();
-
-    private LoggerFactory() {
-        super();
-    }
 
     public static Logger createLogger(final Class<?> clazz) {
         return LOGGER_PROVIDER.createLogger(clazz);
@@ -96,5 +92,9 @@ public final class LoggerFactory {
         logProvider(provider, via);
 
         return provider;
+    }
+
+    private LoggerFactory() {
+        super();
     }
 }

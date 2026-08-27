@@ -1,4 +1,3 @@
-// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.Color;
@@ -14,9 +13,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- * Basisimplementierung eines LayoutElementes.
+ * Basis-Implementierung eines LayoutElementes.
  *
  * @author Thomas Freese
+ * @version 15.04.2008
  */
 public abstract class AbstractLayoutElement implements LayoutElement {
     private final List<LayoutElement> elements = new ArrayList<>(20);

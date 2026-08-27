@@ -1,4 +1,3 @@
-// Created: 25.03.2015
 package de.freese.base.persistence.jdbc.sqlite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,6 +30,7 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 /**
  * @author Thomas Freese
+ * @since 25.03.2015
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSqLite {

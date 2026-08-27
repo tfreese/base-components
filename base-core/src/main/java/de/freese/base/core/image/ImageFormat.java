@@ -9,7 +9,7 @@ public enum ImageFormat {
      */
     BMP,
     /**
-     * Graphics Interchange Format - lossless, but 256 colour restriction
+     * Graphics Interchange Format - lossless, but 256 color restriction
      */
     GIF,
     /**

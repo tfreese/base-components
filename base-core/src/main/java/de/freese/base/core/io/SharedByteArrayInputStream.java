@@ -1,4 +1,3 @@
-// Created: 28.08.2020
 package de.freese.base.core.io;
 
 import java.io.ByteArrayInputStream;
@@ -7,6 +6,7 @@ import java.nio.ByteBuffer;
 
 /**
  * @author Thomas Freese
+ * @since 28.08.2020
  */
 public class SharedByteArrayInputStream extends ByteArrayInputStream {
     private int startIndex;

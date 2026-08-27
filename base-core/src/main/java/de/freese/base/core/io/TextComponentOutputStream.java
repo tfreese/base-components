@@ -11,6 +11,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * OutputStream der seinen Inhalt in eine {@link JTextComponent} schreibt, optional auch in einen weiteren Stream.
  *
@@ -36,7 +38,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
     }
 
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException {
+    public void write(final byte @NonNull [] b, final int off, final int len) throws IOException {
         super.write(b, off, len);
 
         updateComponent(new String(b, off, len, StandardCharsets.UTF_8));
@@ -66,7 +68,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
                 final int excess = document.getLength() - idealSize;
 
                 if (excess >= maxExcess) {
-                    if (document instanceof AbstractDocument ad) {
+                    if (document instanceof final AbstractDocument ad) {
                         ad.replace(0, excess, text, null);
                     }
                     else {
@@ -75,7 +77,7 @@ public class TextComponentOutputStream extends FilterOutputStream {
                     }
                 }
             }
-            catch (BadLocationException ex) {
+            catch (final BadLocationException ex) {
                 throw new IllegalArgumentException(ex.getMessage());
             }
         };

@@ -1,4 +1,3 @@
-// Created: 16.07.2011
 package de.freese.base.utils;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +18,7 @@ import java.util.stream.IntStream;
 
 /**
  * @author Thomas Freese
+ * @since 16.07.2011
  */
 public final class StringUtils {
     /**
@@ -383,7 +383,7 @@ public final class StringUtils {
 
         final StringBuilder sb = new StringBuilder();
 
-        for (char c : input.toCharArray()) {
+        for (final char c : input.toCharArray()) {
             if (keep.test(c)) {
                 sb.append(c);
             }

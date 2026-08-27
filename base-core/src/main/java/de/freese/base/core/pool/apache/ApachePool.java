@@ -1,4 +1,3 @@
-// Created: 04 Feb. 2026
 package de.freese.base.core.pool.apache;
 
 import java.util.Objects;
@@ -13,6 +12,7 @@ import de.freese.base.core.pool.Pool;
 
 /**
  * @author Thomas Freese
+ * @since 04.02. 2026
  */
 final class ApachePool<T> implements Pool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApachePool.class);

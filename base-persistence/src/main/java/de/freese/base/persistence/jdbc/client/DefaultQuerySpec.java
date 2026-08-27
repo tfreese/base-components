@@ -1,4 +1,3 @@
-// Created: 23 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
 import java.sql.PreparedStatement;
@@ -31,6 +30,7 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 
 /**
  * @author Thomas Freese
+ * @since 23.07.2024
  */
 class DefaultQuerySpec implements QuerySpec {
     private final JdbcClient jdbcClient;

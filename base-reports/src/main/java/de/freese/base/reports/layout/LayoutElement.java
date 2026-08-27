@@ -1,4 +1,3 @@
-// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.Color;
@@ -10,6 +9,7 @@ import java.awt.Insets;
  * Interface eines LayoutElementes des Berichtswesens.
  *
  * @author Thomas Freese
+ * @since 15.04.2008
  */
 public interface LayoutElement {
     Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);

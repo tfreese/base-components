@@ -1,4 +1,3 @@
-// Created: 29.03.2020
 package de.freese.base.core.throttle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2020
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestThrottler // extends AbstractIoTest

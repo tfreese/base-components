@@ -1,4 +1,3 @@
-// Created: 22.05.2016
 package de.freese.base.core.cache;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -24,6 +23,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * @author Thomas Freese
+ * @since 22.05.2016
  */
 class TestResourceCache {
     private static final ResourceCache CACHE_CAFFEINE = new CaffeineResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache2"), 6000);

@@ -1,4 +1,3 @@
-// Created: 07.01.23
 package de.freese.base.reports.exporter;
 
 import java.io.OutputStream;
@@ -8,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * @author Thomas Freese
+ * @since 07.01.2023
  */
 public abstract class AbstractExcelExporter<T> extends AbstractExporter<T> {
     @Override

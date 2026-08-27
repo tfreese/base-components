@@ -1,4 +1,3 @@
-// Created: 09.04.2020
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -21,12 +20,9 @@ import de.freese.base.core.concurrent.NamedThreadFactory;
 
 /**
  * @author Thomas Freese
+ * @since 09.04.2020
  */
 public final class ExecutorUtils {
-    private ExecutorUtils() {
-        super();
-    }
-
     /**
      * <pre>
      * Defaults:
@@ -62,7 +58,11 @@ public final class ExecutorUtils {
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      * other value will lead to a SynchronousQueue instance.
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds) {
+    public static ExecutorService createThreadPool(final String threadNamePattern,
+                                                   final int coreSize,
+                                                   final int maxSize,
+                                                   final int queueSize,
+                                                   final int keepAliveSeconds) {
         return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, new ThreadPoolExecutor.AbortPolicy(), false, true);
     }
 
@@ -74,8 +74,13 @@ public final class ExecutorUtils {
      * waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds,
-                                                   final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut,
+    public static ExecutorService createThreadPool(final String threadNamePattern,
+                                                   final int coreSize,
+                                                   final int maxSize,
+                                                   final int queueSize,
+                                                   final int keepAliveSeconds,
+                                                   final RejectedExecutionHandler rejectedExecutionHandler,
+                                                   final boolean allowCoreThreadTimeOut,
                                                    final boolean exposeUnconfigurableExecutor) {
         final BlockingQueue<Runnable> queue;
 
@@ -106,7 +111,7 @@ public final class ExecutorUtils {
 
         try {
             // Wait a while for existing tasks to terminate.
-            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS)) {
+            if (!channelGroup.awaitTermination(10L, TimeUnit.SECONDS)) {
                 if (logger.isWarnEnabled()) {
                     logger.warn("Timed out while waiting for channelGroup");
                 }
@@ -114,7 +119,7 @@ public final class ExecutorUtils {
                 channelGroup.shutdownNow(); // Cancel currently executing tasks
 
                 // Wait a while for tasks to respond to being canceled.
-                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
+                if (!channelGroup.awaitTermination(5L, TimeUnit.SECONDS)) {
                     logger.error("ChannelGroup did not terminate");
                 }
             }
@@ -154,7 +159,7 @@ public final class ExecutorUtils {
 
         try {
             // Wait a while for existing tasks to terminate.
-            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+            if (!executorService.awaitTermination(10L, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
@@ -165,7 +170,7 @@ public final class ExecutorUtils {
                 ;
 
                 // Wait a while for tasks to respond to being canceled.
-                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                if (!executorService.awaitTermination(5L, TimeUnit.SECONDS)) {
                     logger.error("ExecutorService did not terminate");
                 }
                 else {
@@ -185,5 +190,9 @@ public final class ExecutorUtils {
             // Preserve interrupt status.
             Thread.currentThread().interrupt();
         }
+    }
+
+    private ExecutorUtils() {
+        super();
     }
 }

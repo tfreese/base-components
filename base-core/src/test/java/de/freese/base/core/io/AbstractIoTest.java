@@ -1,4 +1,3 @@
-// Created: 29.03.2020
 package de.freese.base.core.io;
 
 import java.io.IOException;
@@ -10,11 +9,13 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 /**
  * @author Thomas Freese
+ * @since 29.03.2020
  */
 public abstract class AbstractIoTest {
     // private static final AtomicInteger COUNTER = new AtomicInteger(0);
@@ -40,13 +41,13 @@ public abstract class AbstractIoTest {
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+            public @NonNull FileVisitResult postVisitDirectory(final @NonNull Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+            public @NonNull FileVisitResult visitFile(final @NonNull Path file, final @NonNull BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);
                 return FileVisitResult.CONTINUE;
             }

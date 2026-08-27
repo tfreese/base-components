@@ -1,4 +1,3 @@
-// Created: 25 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
 import java.sql.Connection;
@@ -24,6 +23,7 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 public interface QuerySpec {
     /**

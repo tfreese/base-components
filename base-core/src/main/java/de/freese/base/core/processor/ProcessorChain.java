@@ -1,4 +1,3 @@
-// Created 10.07.2008
 package de.freese.base.core.processor;
 
 import java.util.LinkedList;
@@ -7,6 +6,7 @@ import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 10.07.2008
  */
 public final class ProcessorChain<C> implements Processor<C> {
     private final List<Processor<C>> processors = new LinkedList<>();
@@ -25,7 +25,7 @@ public final class ProcessorChain<C> implements Processor<C> {
             return;
         }
 
-        for (Processor<C> processor : processors) {
+        for (final Processor<C> processor : processors) {
             if (!processor.isEnabled()) {
                 continue;
             }

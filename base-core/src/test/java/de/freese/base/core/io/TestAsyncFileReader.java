@@ -65,7 +65,7 @@ class TestAsyncFileReader {
         future2.thenAccept(cs -> printer.accept(startTime2, cs));
 
         // Dient nur dazu, damit das Programm nicht vorzeitig beendet wird
-        await().pollDelay(Duration.ofMillis(100)).until(() -> true);
+        await().pollDelay(Duration.ofMillis(100L)).until(() -> true);
 
         assertTrue(true);
     }

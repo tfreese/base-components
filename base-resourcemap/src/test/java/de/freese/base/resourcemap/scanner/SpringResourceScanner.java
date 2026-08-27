@@ -40,13 +40,13 @@ public class SpringResourceScanner implements ResourceScanner {
             // Für ResourceBundle normalisieren
             final Set<String> bundleNames = new HashSet<>();
 
-            for (Resource resource : resources) {
+            for (final Resource resource : resources) {
                 bundleNames.add(path + "/" + resource.getFilename());
             }
 
             return bundleNames;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

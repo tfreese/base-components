@@ -15,10 +15,6 @@ import java.util.List;
 public final class RvsLayouts {
     private static final DateTimeFormatter DATE_TIME_FORMATTER_DEFAULT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private RvsLayouts() {
-        super();
-    }
-
     public static RvsLayout defaultLayout() {
         return new RvsLayout(List.of(
                 new RvsField("a", 0, 1),
@@ -26,5 +22,9 @@ public final class RvsLayouts {
                 new RvsField("c", 5, 10, BigDecimal::new)
         )
         );
+    }
+
+    private RvsLayouts() {
+        super();
     }
 }
