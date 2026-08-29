@@ -11,6 +11,7 @@ import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 import org.bouncycastle.cms.CMSAlgorithm;
 import org.bouncycastle.cms.CMSEnvelopedData;
@@ -123,9 +124,7 @@ public class EncryptFileBc {
             throw new IOException(msg);
         }
 
-        final String[] files = folder.list();
-
-        for (String name : files) {
+        for (final String name : Objects.requireNonNull(folder.list())) {
             final String inputFile = inputFolder + File.separator + name;
             final String encryptedFile = outputFolder + File.separator + "Encrypted_" + name;
 

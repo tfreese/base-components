@@ -1,4 +1,3 @@
-// Created: 27.11.2020
 package de.freese.base.swing.components.graph.javafx.painter;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -7,6 +6,7 @@ import de.freese.base.swing.components.graph.model.Values;
 
 /**
  * @author Thomas Freese
+ * @since 27.11.2020
  */
 public abstract class AbstractFxGraphPainter {
     private final Values<Float> values = new Values<>();
@@ -24,7 +24,7 @@ public abstract class AbstractFxGraphPainter {
 
         paintGraph(gc, width, height);
 
-        // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
+        // g.dispose(); // Dispose, nur wenn man es selbst erzeugt hat.
     }
 
     public abstract void paintGraph(GraphicsContext gc, double width, double height);

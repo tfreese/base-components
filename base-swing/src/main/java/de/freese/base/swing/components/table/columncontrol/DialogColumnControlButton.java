@@ -50,11 +50,11 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     private int groupedColumnCount = 15;
 
     public DialogColumnControlButton(final JXTable table) {
-        super();
-
         if (table == null) {
             throw new NullPointerException("table");
         }
+
+        super();
 
         this.table = table;
 
@@ -109,8 +109,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         // getAction().getValue(Action.SHORT_DESCRIPTION).toString(),
         // JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
         //
-        // if ((choice == JOptionPane.OK_OPTION) || (choice == JOptionPane.YES_OPTION))
-        // {
+        // if ((choice == JOptionPane.OK_OPTION) || (choice == JOptionPane.YES_OPTION)) {
         // toggleColumnVisibility(columnComponentMap);
         // }
         final ExtDialog dialog = DialogFactory.createOkAbbrechen(this, getAction().getValue(Action.SHORT_DESCRIPTION).toString(), scrollPane, false);
@@ -185,8 +184,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
                 // final JTableExcelExporter excelExporter = new JTableExcelExporter("");
                 // final ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 //
-                // try
-                // {
+                // try {
                 // excelExporter.export(baos, null, getTable());
                 // baos.close();
                 //
@@ -197,9 +195,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
                 // Long.valueOf(System.currentTimeMillis())));
                 // final String fileName = FileContext.getInstance().saveTemp(dataSource);
                 // FileContext.getInstance().openFile(fileName);
-                // }
-                // catch (Exception ex)
-                // {
+                // } catch (Exception ex) {
                 // LoggerFactory.getLogger(getClass()).error(ex.getMessage(), ex);
                 // }
             }

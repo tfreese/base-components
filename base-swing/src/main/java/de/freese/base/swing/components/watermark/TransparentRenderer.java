@@ -151,7 +151,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 
     @Override
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-        // Strings get interned...
+        // Strings get interned.
         if ("text".equals(propertyName)) {
             super.firePropertyChange(propertyName, oldValue, newValue);
         }

@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.swing.components.segment;
 
 import javax.swing.JFrame;
@@ -6,6 +5,7 @@ import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class Segment7Main {
     static void main() {

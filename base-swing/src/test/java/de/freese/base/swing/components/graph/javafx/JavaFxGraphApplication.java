@@ -1,4 +1,3 @@
-// Created: 27.11.2020
 package de.freese.base.swing.components.graph.javafx;
 
 import java.util.concurrent.Executors;
@@ -35,6 +34,7 @@ import de.freese.base.swing.components.graph.model.SinusValueSupplier;
  * </ol>
  *
  * @author Thomas Freese
+ * @since 27.11.2020
  */
 public final class JavaFxGraphApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxGraphApplication.class);

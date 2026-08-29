@@ -1,4 +1,3 @@
-// Created: 11.11.2020
 package de.freese.base.swing.components.frame;
 
 import java.awt.GraphicsDevice;
@@ -25,6 +24,7 @@ import org.slf4j.LoggerFactory;
  * PERPIXEL_TRANSPARENT – The underlying platform supports shaped windows.<br>
  *
  * @author Thomas Freese
+ * @since 11.11.2020
  */
 public final class ShapedWindowDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShapedWindowDemo.class);

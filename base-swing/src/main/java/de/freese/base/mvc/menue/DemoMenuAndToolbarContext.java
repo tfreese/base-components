@@ -1,4 +1,3 @@
-// Created: 08.02.24
 package de.freese.base.mvc.menue;
 
 import java.awt.BorderLayout;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 08.02.2024
  */
 public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoMenuAndToolbarContext.class);

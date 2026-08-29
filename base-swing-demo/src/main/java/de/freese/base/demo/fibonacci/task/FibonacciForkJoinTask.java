@@ -1,4 +1,3 @@
-// Created: 12.05.2012
 package de.freese.base.demo.fibonacci.task;
 
 import java.io.Serial;
@@ -10,6 +9,7 @@ import de.freese.base.demo.fibonacci.FibonacciController;
  * {@link RecursiveTask} für Fibonacci Algorithmus.
  *
  * @author Thomas Freese
+ * @since 12.05.2012
  */
 public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     private static final int THRESHOLD = 10;

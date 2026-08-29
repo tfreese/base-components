@@ -1,4 +1,3 @@
-// Created: 10.03.24
 package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,6 +25,7 @@ import de.freese.base.utils.Encoding;
  * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
  *
  * @author Thomas Freese
+ * @since 10.03.2024
  */
 class TestSigner {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
@@ -54,7 +54,7 @@ class TestSigner {
 
     @Test
     void testSigner() throws GeneralSecurityException {
-        for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
+        for (final Signer.Algorithm algorithm : Signer.Algorithm.values()) {
             LOGGER.info("{}", algorithm);
 
             KeyPair keyPair = keyPairRsa;
@@ -63,7 +63,7 @@ class TestSigner {
                 keyPair = keyPairEcc;
             }
 
-            for (Encoding encoding : Encoding.values()) {
+            for (final Encoding encoding : Encoding.values()) {
                 final byte[] signedMessage = Signer.sign(SOURCE_BYTES, keyPair.getPrivate(), algorithm);
                 LOGGER.info("{}", "%6s: %s%n".formatted(encoding, encoding.encode(signedMessage)));
 
@@ -74,7 +74,7 @@ class TestSigner {
 
     @Test
     void testSignerStream() throws GeneralSecurityException, IOException {
-        for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
+        for (final Signer.Algorithm algorithm : Signer.Algorithm.values()) {
             LOGGER.info("{}", algorithm);
 
             KeyPair keyPair = keyPairRsa;
@@ -93,7 +93,7 @@ class TestSigner {
 
                 bais.reset();
 
-                for (Encoding encoding : Encoding.values()) {
+                for (final Encoding encoding : Encoding.values()) {
                     LOGGER.info("{}", "%6s: %s%n".formatted(encoding, encoding.encode(sig)));
                 }
 

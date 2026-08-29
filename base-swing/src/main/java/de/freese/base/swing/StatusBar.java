@@ -22,6 +22,8 @@ import de.freese.base.swing.task.TaskManager;
 
 /**
  * The StatusBar is a Listener for {@link TaskManager} und react for events of the current ForegroundTask.<br>
+ *
+ * @author Thomas Freese
  */
 public class StatusBar extends JPanel implements PropertyChangeListener {
     @Serial
@@ -104,7 +106,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
             progressBar.setValue(value);
         }
         else if (SwingTask.PROPERTY_CANCELLED.equals(propertyName) || SwingTask.PROPERTY_FAILED.equals(propertyName) || SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
-            // Kein Task in Ausführung
+            // Kein Task in Ausführung.
             stopBusyAnimation();
             progressBar.setIndeterminate(false);
             progressBar.setEnabled(false);

@@ -1,4 +1,3 @@
-// Created: 04.05.2020
 package de.freese.base.swing.layout;
 
 import java.awt.GridBagConstraints;
@@ -9,6 +8,7 @@ import java.io.Serial;
  * Expand the {@link GridBagConstraints} by a Builder-Pattern.
  *
  * @author Thomas Freese
+ * @since 04.05.2020
  */
 public final class GbcBuilder extends GridBagConstraints {
     @Serial

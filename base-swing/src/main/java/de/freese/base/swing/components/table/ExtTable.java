@@ -71,11 +71,10 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
 
     @Override
     public void columnPropertyChange(final PropertyChangeEvent event) {
-        //        if ("sort".equals(event.getPropertyName()))
-        //        {
-        //            // System.out.println(event.getSource());
-        //        }
-        //        else
+        // if ("sort".equals(event.getPropertyName())) {
+        //     // System.out.println(event.getSource());
+        // }
+        // else
         if ("visible".equals(event.getPropertyName())) {
             // If RowSorter exist set the Column to UNSORTED.
             if (getClientProperty("ROWSORTER") != null) {
@@ -118,14 +117,14 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         final TableModel model = getModel();
 
         if (model != null) {
-            // Remove any current columns
+            // Remove any current columns.
             final TableColumnModel cm = getColumnModel();
 
             while (cm.getColumnCount() > 0) {
                 cm.removeColumn(cm.getColumn(0));
             }
 
-            // Create new columns from the data model info
+            // Create new columns from the data model info.
             for (int i = 0; i < model.getColumnCount(); i++) {
                 final TableColumn newColumn = new ExtTableColumn(i);
                 addColumn(newColumn);
@@ -251,7 +250,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             return;
         }
 
-        // well, this is a copy of JTable source code, where the TableHeader installation
+        // Well, this is a copy of JTable source code, where the TableHeader installation
         // has been removed as it created problems with installHeader method.
         final Container p = getParent();
 

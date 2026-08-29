@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.security.auth.x500.X500Principal;
 
@@ -117,9 +118,8 @@ public class DecryptFileBc {
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception {
         final File folder = new File(inputFolder);
-        final String[] files = folder.list();
 
-        for (String fileName : files) {
+        for (final String fileName : Objects.requireNonNull(folder.list())) {
             final String encryptedFile = inputFolder + File.separator + fileName;
             final String decryptedFile = outputFolder + File.separator + "Decrypted_" + fileName;
 
@@ -196,7 +196,7 @@ public class DecryptFileBc {
                 final Certificate[] certs = ks.getCertificateChain(alias);
                 LOGGER.info("Cert Chain: length = {}", certs.length);
 
-                for (Certificate cert2 : certs) {
+                for (final Certificate cert2 : certs) {
                     final X509Certificate cert = (X509Certificate) cert2;
                     final X500Principal subject = cert.getSubjectX500Principal();
                     LOGGER.info("Subject: {}", subject);
@@ -228,6 +228,7 @@ public class DecryptFileBc {
         while (aliases.hasMoreElements()) {
             final String name = aliases.nextElement();
             privateKey = ks.getKey(name, password);
+            
             final X509Certificate c = (X509Certificate) ks.getCertificate(name);
             final List<String> keyExtensions = c.getExtendedKeyUsage();
             LOGGER.debug("Key Extension= {}", keyExtensions);

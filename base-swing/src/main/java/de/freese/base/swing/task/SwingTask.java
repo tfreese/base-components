@@ -1,10 +1,10 @@
-// Created: 18.05.2020
 package de.freese.base.swing.task;
 
 /**
  * API für asynchrone Ausführungen unter Swing, analog zur JavaFX Task-Implementierung.
  *
  * @author Thomas Freese
+ * @since 18.05.2020
  */
 @SuppressWarnings("checkstyle:InterfaceIsType")
 public interface SwingTask {

@@ -1,4 +1,3 @@
-// Created: 07.03.24
 package de.freese.base.utils;
 
 import java.nio.charset.StandardCharsets;
@@ -7,6 +6,7 @@ import java.util.HexFormat;
 
 /**
  * @author Thomas Freese
+ * @since 07.03.2024
  */
 public enum Encoding {
     BASE64,

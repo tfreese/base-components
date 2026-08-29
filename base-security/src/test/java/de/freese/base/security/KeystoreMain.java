@@ -1,4 +1,3 @@
-// Created: 03.04.2012
 package de.freese.base.security;
 
 import java.io.FileInputStream;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * Beispiele für JCE-API.
  *
  * @author Thomas Freese see base-security/keystore.txt
+ * @since 03.04.2012
  */
 public final class KeystoreMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(KeystoreMain.class);

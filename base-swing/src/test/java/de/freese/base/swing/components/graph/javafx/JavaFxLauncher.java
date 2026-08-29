@@ -1,10 +1,10 @@
-// Created: 13.11.22
 package de.freese.base.swing.components.graph.javafx;
 
 import javafx.application.Application;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class JavaFxLauncher {
     static void main(final String[] args) {

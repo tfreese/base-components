@@ -1,4 +1,3 @@
-// Created: 18.10.2005
 package de.freese.base.security.ssl;
 
 import java.io.InputStream;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 18.10.2005
  */
 public final class DateClientMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateClientMain.class);
@@ -51,7 +51,7 @@ public final class DateClientMain {
             }
 
             try (Socket socket = socketFactory.createSocket("localhost", 3333)) {
-                if (socket instanceof SSLSocket sslSocket) {
+                if (socket instanceof final SSLSocket sslSocket) {
                     sslSocket.startHandshake();
 
                     final SSLSession session = sslSocket.getSession();
@@ -66,7 +66,7 @@ public final class DateClientMain {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }

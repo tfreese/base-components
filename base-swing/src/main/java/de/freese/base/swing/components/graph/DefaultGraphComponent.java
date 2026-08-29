@@ -1,4 +1,3 @@
-// Created: 21.11.2020
 package de.freese.base.swing.components.graph;
 
 import java.awt.Component;
@@ -8,6 +7,7 @@ import javax.swing.Painter;
 
 /**
  * @author Thomas Freese
+ * @since 21.11.2020
  */
 public class DefaultGraphComponent extends AbstractGraphComponent {
     @Serial

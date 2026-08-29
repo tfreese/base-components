@@ -11,7 +11,8 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * @author Nobuo Tamemasa
- * @version 1.0 10/20/98
+ * @author Thomas Freese
+ * @version 20.10.1998
  */
 public class GroupableTableHeader extends JTableHeader {
     @SuppressWarnings("unused")

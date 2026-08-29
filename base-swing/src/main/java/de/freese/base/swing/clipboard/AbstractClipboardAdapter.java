@@ -1,4 +1,3 @@
-// Created: 06.10.2008
 package de.freese.base.swing.clipboard;
 
 import java.awt.Toolkit;
@@ -30,6 +29,7 @@ import de.freese.base.swing.clipboard.converter.StringClipboardConverter;
  * BasisAdapter einer Komponente für die Zwischenablage.
  *
  * @author Thomas Freese
+ * @since 06.10.2008
  */
 public abstract class AbstractClipboardAdapter {
     /**

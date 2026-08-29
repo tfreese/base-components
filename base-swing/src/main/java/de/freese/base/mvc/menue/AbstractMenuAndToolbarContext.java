@@ -1,4 +1,3 @@
-// Created: 24.01.23
 package de.freese.base.mvc.menue;
 
 import java.awt.Component;
@@ -20,6 +19,7 @@ import javax.swing.JToolBar;
 
 /**
  * @author Thomas Freese
+ * @since 24.01.2023
  */
 public abstract class AbstractMenuAndToolbarContext {
     protected static final String ROOT_NAME = "ROOT";

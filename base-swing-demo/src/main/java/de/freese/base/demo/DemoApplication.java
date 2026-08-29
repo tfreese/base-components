@@ -1,4 +1,3 @@
-// Created: 24.07.2011
 package de.freese.base.demo;
 
 import java.awt.BorderLayout;
@@ -53,6 +52,7 @@ import de.freese.base.utils.UICustomization;
  * Demo Anwendung.
  *
  * @author Thomas Freese
+ * @since 24.07.2011
  */
 public class DemoApplication {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -113,7 +113,7 @@ public class DemoApplication {
                 try {
                     release(applicationContext);
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     getLogger().error(ex.getMessage(), ex);
                 }
             }
@@ -128,7 +128,7 @@ public class DemoApplication {
         try {
             applicationContext.getService(GuiStateManager.class).restore(frame, "ApplicationFrame");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
@@ -153,7 +153,7 @@ public class DemoApplication {
 
         applicationContext.registerService(SwingExceptionHandler.class, new DialogSwingExceptionHandler());
 
-        Clipboard clipboard = null;
+        Clipboard clipboard;
 
         try {
             clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -181,7 +181,7 @@ public class DemoApplication {
 
             // UICustomization.install("javax.swing.plaf.metal.MetalLookAndFeel");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
@@ -246,7 +246,7 @@ public class DemoApplication {
             try {
                 release(applicationContext);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         };
@@ -272,7 +272,7 @@ public class DemoApplication {
 
             releasables.forEach(Releasable::release);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

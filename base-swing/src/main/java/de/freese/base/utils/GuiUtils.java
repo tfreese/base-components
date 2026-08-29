@@ -117,7 +117,7 @@ public final class GuiUtils {
     public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception {
         final BufferedImage shot = new Robot().createScreenCapture(new Rectangle(x, y, width, height));
 
-        ByteArrayDataSource dataSource = null;
+        final ByteArrayDataSource dataSource;
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             ImageUtils.writeImage(shot, ImageFormat.PNG, baos);
@@ -203,7 +203,7 @@ public final class GuiUtils {
             }
         }
 
-        // Fallback: Erstes Frame nehmen
+        // Fallback: Erstes Frame nehmen.
         if (activeFrame == null && frames.length > 0) {
             activeFrame = frames[0];
         }

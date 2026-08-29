@@ -24,8 +24,7 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler {
             super.fontChanged(newFont, table.getTableHeader());
         }
 
-        // if (table.getDefaultRenderer(Object.class) instanceof Component)
-        // {
+        // if (table.getDefaultRenderer(Object.class) instanceof Component) {
         // super.fontChanged(newFont, table.getDefaultRenderer(Object.class));
         // }
 

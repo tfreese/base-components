@@ -1,4 +1,3 @@
-// Created: 29.07.2021
 package de.freese.base.swing.components.combobox;
 
 import java.io.Serial;
@@ -9,6 +8,7 @@ import de.freese.base.swing.components.list.model.DefaultListListModel;
 
 /**
  * @author Thomas Freese
+ * @since 29.07.2021
  */
 public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> implements ComboBoxModel<T> {
     @Serial

@@ -1,4 +1,3 @@
-// Created: 21.11.2020
 package de.freese.base.swing.components.graph.memory;
 
 import java.awt.Color;
@@ -15,6 +14,7 @@ import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 
 /**
  * @author Thomas Freese
+ * @since 21.11.2020
  */
 public class MemoryGraphPainter extends AbstractGraphPainter {
     private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
@@ -172,6 +172,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
             g.draw(line2d);
         }
 
-        columnOffset--;
+        columnOffset -= 1.0F;
     }
 }

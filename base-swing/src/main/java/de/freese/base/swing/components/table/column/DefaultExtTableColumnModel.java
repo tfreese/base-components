@@ -14,7 +14,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * Defaultimplementierung des erweiterten {@link TableColumnModel}.
+ * Default-Implementierung des erweiterten {@link TableColumnModel}.
  *
  * @author Thomas Freese
  */

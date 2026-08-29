@@ -175,7 +175,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                 //     final JButton button = getButtonFor(e.getX(), e.getY());
                 //
                 //     if (button != null) {
-                //         // Für den Tooltip
+                //         // Für den Tooltip.
                 //         // Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie hängt, sondern nur gerendert wird!
                 //         // final MouseEvent evt =
                 //         // new MouseEvent(
@@ -287,9 +287,9 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     protected boolean isInBorder(final MouseEvent me) {
         boolean result = super.isInBorder(me);
 
-        // Über eigene TitleButtons nicht den Courser ändern
+        // Über eigene TitleButtons nicht den Courser ändern.
         if (result) {
-            // Prüfen, ob auf einem TitleButton geklickt wurde
+            // Prüfen, ob auf einem TitleButton geklickt wurde.
             final JButton button = getButtonFor(me.getX(), me.getY());
 
             if (button != null) {
@@ -315,24 +315,24 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                 g2.setFont(UIManager.getFont("ToolTip.font"));
 
                 final FontMetrics fm = g2.getFontMetrics();
-                final int RAND = 5; // Abstand vom Rahmen zum Text
+                final int RAND = 5; // Abstand vom Rahmen zum Text.
                 final double textWidth = fm.getStringBounds(text, g2).getWidth() + (2 * RAND); // 2* :
-                // Links & Rechts des TaskPanes
+                // Links & Rechts des TaskPanes.
                 final double maxWidth = ExtWindowsClassicTaskPaneUI.this.group.getBounds().width; // Breite
                 final double diff = (textWidth + rectangle.getX()) - maxWidth; // Überstand
                 final int useX = (int) ((diff > 0) ? (rectangle.getX() - diff) : rectangle.getX());
                 final int useY = (int) rectangle.getMaxY() + 16; // 16 : Höhe des MouseIcons
 
-                // Tooltip Background
+                // Tooltip Background.
                 final Rectangle rect = new Rectangle(useX, useY, (int) textWidth, fm.getHeight() + 2);
                 g2.setColor(UIManager.getColor("ToolTip.background"));
                 g2.fill(rect);
 
-                // Tooltip border
+                // Tooltip border.
                 g2.setColor(UIManager.getColor("ToolTip.foregroundInactive"));
                 g2.draw(rect);
 
-                // Text
+                // Text.
                 g2.setColor(UIManager.getColor("ToolTip.foreground"));
                 g2.drawString(text, useX + RAND, (useY + fm.getHeight()) - 2);
             }

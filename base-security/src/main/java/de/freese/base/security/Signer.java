@@ -1,4 +1,3 @@
-// Created: 10.03.24
 package de.freese.base.security;
 
 import java.io.ByteArrayOutputStream;
@@ -14,6 +13,7 @@ import de.freese.base.utils.Encoding;
 
 /**
  * @author Thomas Freese
+ * @since 10.03.2024
  */
 public final class Signer {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;

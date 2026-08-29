@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.swing.exception;
 
 import java.util.logging.Level;
@@ -7,6 +6,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class ErrorPaneMain {
     static void main() {

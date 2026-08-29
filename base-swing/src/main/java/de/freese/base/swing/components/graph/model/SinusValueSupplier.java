@@ -1,10 +1,10 @@
-// Created: 24.11.2020
 package de.freese.base.swing.components.graph.model;
 
 import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
+ * @since 24.11.2020
  */
 public class SinusValueSupplier implements Supplier<Float> {
     private static final double GRAD_TO_RADIAN_FACTOR = Math.PI / 180D;

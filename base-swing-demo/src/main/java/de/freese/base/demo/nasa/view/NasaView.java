@@ -1,4 +1,3 @@
-// Created: 07.02.23
 package de.freese.base.demo.nasa.view;
 
 import java.awt.image.BufferedImage;
@@ -8,6 +7,7 @@ import de.freese.base.mvc.view.View;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2023
  */
 public interface NasaView extends View {
     void setImage(URI uri, BufferedImage image);

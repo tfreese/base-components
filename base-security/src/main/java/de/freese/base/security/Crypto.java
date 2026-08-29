@@ -1,4 +1,3 @@
-// Created: 25 Mai 2024
 package de.freese.base.security;
 
 import java.io.IOException;
@@ -12,6 +11,7 @@ import javax.crypto.CipherOutputStream;
 
 /**
  * @author Thomas Freese
+ * @since 25.05.2024
  */
 public interface Crypto {
     String decrypt(String encrypted) throws GeneralSecurityException;

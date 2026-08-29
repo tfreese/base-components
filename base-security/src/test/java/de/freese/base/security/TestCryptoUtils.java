@@ -1,5 +1,3 @@
-// Created: 01.04.2012
-
 package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,6 +19,7 @@ import de.freese.base.utils.CryptoUtils;
 
 /**
  * @author Thomas Freese
+ * @since 01.04.2012
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestCryptoUtils {
@@ -37,11 +36,11 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             try {
                 LOGGER.info("{}: MaxAllowedKeyLength={}", value, Cipher.getMaxAllowedKeyLength(value));
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.error("{}: {}", value, ex.getMessage());
             }
         }
@@ -81,7 +80,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -96,7 +95,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -111,7 +110,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -126,7 +125,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -141,7 +140,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -156,7 +155,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -171,7 +170,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }
@@ -186,7 +185,7 @@ class TestCryptoUtils {
             return;
         }
 
-        for (String value : values) {
+        for (final String value : values) {
             LOGGER.info(value);
         }
     }

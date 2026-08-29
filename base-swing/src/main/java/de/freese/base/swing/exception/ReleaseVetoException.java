@@ -1,4 +1,3 @@
-// Created: 23.07.2011
 package de.freese.base.swing.exception;
 
 import java.io.Serial;
@@ -6,6 +5,7 @@ import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 23.07.2011
  */
 public class ReleaseVetoException extends Exception {
     @Serial

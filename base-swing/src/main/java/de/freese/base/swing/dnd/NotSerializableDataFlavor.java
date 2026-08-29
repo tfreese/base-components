@@ -22,7 +22,7 @@ public class NotSerializableDataFlavor extends DataFlavor {
 
     @Override
     public boolean isFlavorSerializedObjectType() {
-        // Do not clone !
+        // Do not clone!
         return false;
     }
 }

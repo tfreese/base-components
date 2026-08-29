@@ -1,4 +1,3 @@
-// Created: 05.02.23
 package de.freese.base.mvc.view;
 
 import java.awt.Component;
@@ -13,6 +12,7 @@ import de.freese.base.swing.exception.SwingExceptionHandler;
 
 /**
  * @author Thomas Freese
+ * @since 05.02.2023
  */
 public abstract class AbstractView implements View {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,11 +44,9 @@ public abstract class AbstractView implements View {
         // getLogger().error(throwable.getMessage(), throwable);
         //
         // // Dialoge sollten nicht die Tasks blockieren bei Fehlermeldungen
-        // SwingUtilities.invokeLater(new Runnable()
-        // {
+        // SwingUtilities.invokeLater(new Runnable() {
         // @Override
-        // public void run()
-        // {
+        // public void run() {
         // JOptionPane.showMessageDialog(getViewComponent(), throwable, throwable.getClass()
         // .getSimpleName(), JOptionPane.ERROR_MESSAGE);
         // }

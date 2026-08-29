@@ -1,4 +1,3 @@
-// Created: 08.02.24
 package de.freese.base.mvc.menue;
 
 import java.awt.Component;
@@ -15,6 +14,7 @@ import javax.swing.Icon;
 
 /**
  * @author Thomas Freese
+ * @since 08.02.2024
  */
 public final class Node {
     private final Map<String, Node> children = new LinkedHashMap<>();
@@ -112,11 +112,9 @@ public final class Node {
      */
     @Override
     public String toString() {
-        final String sb = getClass().getSimpleName() + " [" +
-                "path=" + getPath() +
-                ']';
-
-        return sb;
+        return getClass().getSimpleName() + " ["
+                + "path=" + getPath()
+                + ']';
     }
 
     private void decideEnabled() {

@@ -1,10 +1,10 @@
-// Created: 27.06.2009
 package de.freese.base.swing.components.table.sort;
 
 /**
  * Enum für die Sortierungsmöglichkeiten.
  *
  * @author Thomas Freese
+ * @since 27.06.2009
  */
 public enum Sort {
     /**

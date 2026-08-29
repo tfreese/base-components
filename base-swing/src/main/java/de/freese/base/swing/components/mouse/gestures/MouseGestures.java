@@ -38,7 +38,7 @@ import java.util.List;
  * </code>
  *
  * @author Smardec
- * @author Thomas freese
+ * @author Thomas Freese
  * @version 1.2
  */
 public class MouseGestures {

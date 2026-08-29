@@ -1,4 +1,3 @@
-// Created: 17.07.2012
 package de.freese.base.swing.exception;
 
 import java.awt.Component;
@@ -10,6 +9,7 @@ import de.freese.base.core.i18n.Translator;
 
 /**
  * @author Thomas Freese
+ * @since 17.07.2012
  */
 public class DialogSwingExceptionHandler extends DefaultSwingExceptionHandler {
     private final boolean enableSendMail;

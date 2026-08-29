@@ -1,4 +1,3 @@
-// Created: 16.11.2020
 package de.freese.base.swing.components.graph.painter;
 
 import java.awt.AlphaComposite;
@@ -13,6 +12,7 @@ import de.freese.base.swing.components.graph.model.AbstractPainterModel;
 
 /**
  * @author Thomas Freese
+ * @since 16.11.2020
  */
 public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component> {
     protected AbstractGraphPainter() {
@@ -26,7 +26,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
 
         paintGraph(g, parent, width, height);
 
-        // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
+        // g.dispose(); // Dispose, nur wenn man es selbst erzeugt hat.
     }
 
     public abstract void paintGraph(Graphics2D g, Component parent, float width, float height);

@@ -1,4 +1,3 @@
-// Created: 29.01.23
 package de.freese.base.mvc.registry;
 
 import java.util.HashMap;
@@ -6,6 +5,7 @@ import java.util.Map;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2023
  */
 public abstract class AbstractServiceRegistry implements ServiceRegistry {
     private final Map<Class<?>, Object> registry = new HashMap<>();

@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.security.bouncycastle;
 
 import java.io.FileInputStream;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class PgpCryptoBcMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(PgpCryptoBcMain.class);

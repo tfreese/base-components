@@ -28,11 +28,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     }
 
     protected AbstractListTableModel(final int columnCount, final List<T> list) {
-        super();
-
         if (columnCount <= 0) {
             throw new IllegalArgumentException("column count <= 0: " + columnCount);
         }
+
+        super();
 
         columnNames = IntStream.rangeClosed(0, columnCount).mapToObj(super::getColumnName).toList();
         this.list = Objects.requireNonNull(list, "list required");
@@ -43,13 +43,13 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     }
 
     protected AbstractListTableModel(final List<String> columnNames, final List<T> list) {
-        super();
-
         Objects.requireNonNull(columnNames, "columnNames required");
 
         if (columnNames.isEmpty()) {
             throw new IllegalArgumentException("columnNames are empty");
         }
+
+        super();
 
         this.columnNames = List.copyOf(columnNames);
         this.list = Objects.requireNonNull(list, "list required");

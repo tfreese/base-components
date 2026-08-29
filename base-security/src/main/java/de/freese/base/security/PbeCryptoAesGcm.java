@@ -1,4 +1,3 @@
-// Created: 23 Mai 2024
 package de.freese.base.security;
 
 import java.io.IOException;
@@ -26,6 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author Thomas Freese
+ * @since 23.05.2024
  */
 public final class PbeCryptoAesGcm implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;

@@ -1,4 +1,3 @@
-// Created: 24 Juli 2025
 package de.freese.base.swing.components.label;
 
 import java.awt.Component;
@@ -10,6 +9,7 @@ import javax.swing.ImageIcon;
 
 /**
  * @author Thomas Freese
+ * @since 24.07.2025
  */
 public final class AnimatedIconHourGlass implements AnimatedIcon {
     private final ImageIcon[] icons;
@@ -21,9 +21,9 @@ public final class AnimatedIconHourGlass implements AnimatedIcon {
     }
 
     public AnimatedIconHourGlass(final ImageIcon[] icons) {
-        super();
-
         Objects.requireNonNull(icons, "icons required");
+
+        super();
 
         if (icons.length == 0) {
             throw new IllegalArgumentException("array is empty");

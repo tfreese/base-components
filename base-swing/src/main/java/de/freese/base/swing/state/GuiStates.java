@@ -1,4 +1,3 @@
-// Created: 07.02.23
 package de.freese.base.swing.state;
 
 import java.awt.Component;
@@ -11,6 +10,7 @@ import java.util.function.Consumer;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2023
  */
 public final class GuiStates {
     public static GuiStates ofDefaults() {

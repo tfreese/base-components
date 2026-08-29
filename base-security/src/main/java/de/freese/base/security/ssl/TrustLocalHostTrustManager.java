@@ -1,4 +1,3 @@
-// Created: 17 Apr. 2025
 package de.freese.base.security.ssl;
 
 import java.net.Socket;
@@ -12,6 +11,7 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * @author Thomas Freese
+ * @since 17.04.2025
  */
 public final class TrustLocalHostTrustManager extends X509ExtendedTrustManager {
     private final X509TrustManager delegate;
@@ -39,7 +39,7 @@ public final class TrustLocalHostTrustManager extends X509ExtendedTrustManager {
             return;
         }
 
-        if (delegate instanceof X509ExtendedTrustManager ext) {
+        if (delegate instanceof final X509ExtendedTrustManager ext) {
             ext.checkClientTrusted(chain, authType, engine);
         }
         else {
@@ -53,7 +53,7 @@ public final class TrustLocalHostTrustManager extends X509ExtendedTrustManager {
             return;
         }
 
-        if (delegate instanceof X509ExtendedTrustManager ext) {
+        if (delegate instanceof final X509ExtendedTrustManager ext) {
             ext.checkClientTrusted(chain, authType, socket);
         }
         else {
@@ -76,7 +76,7 @@ public final class TrustLocalHostTrustManager extends X509ExtendedTrustManager {
             return;
         }
 
-        if (delegate instanceof X509ExtendedTrustManager ext) {
+        if (delegate instanceof final X509ExtendedTrustManager ext) {
             ext.checkServerTrusted(chain, authType, socket);
         }
         else {
@@ -90,7 +90,7 @@ public final class TrustLocalHostTrustManager extends X509ExtendedTrustManager {
             return;
         }
 
-        if (delegate instanceof X509ExtendedTrustManager ext) {
+        if (delegate instanceof final X509ExtendedTrustManager ext) {
             ext.checkServerTrusted(chain, authType, engine);
         }
         else {

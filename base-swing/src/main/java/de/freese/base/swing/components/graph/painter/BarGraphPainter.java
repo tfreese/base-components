@@ -1,4 +1,3 @@
-// Created: 16.11.2020
 package de.freese.base.swing.components.graph.painter;
 
 import java.awt.Color;
@@ -10,6 +9,7 @@ import java.util.List;
 
 /**
  * @author Thomas Freese
+ * @since 16.11.2020
  */
 public class BarGraphPainter extends AbstractGraphPainter {
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();

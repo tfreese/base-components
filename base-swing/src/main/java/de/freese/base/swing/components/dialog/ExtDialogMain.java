@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.swing.components.dialog;
 
 import java.awt.Toolkit;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class ExtDialogMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExtDialogMain.class);

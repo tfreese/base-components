@@ -1,8 +1,8 @@
-// Created: 08.02.24
 package de.freese.base.mvc.menue;
 
 /**
  * @author Thomas Freese
+ * @since 08.02.2024
  */
 public enum ComponentState {
     VISIBLE_ENABLED,

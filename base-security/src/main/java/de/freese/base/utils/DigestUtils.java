@@ -1,4 +1,3 @@
-// Created: 17.11.2018
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -18,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
  * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
  *
  * @author Thomas Freese
+ * @since 17.11.2018
  */
 public final class DigestUtils {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
@@ -69,7 +69,7 @@ public final class DigestUtils {
     }
 
     /**
-     * Der {@link InputStream} wird NICHT geschlossen !
+     * Der {@link InputStream} wird NICHT geschlossen!
      */
     public static byte[] digest(final MessageDigest digest, final InputStream inputStream) throws IOException {
         final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

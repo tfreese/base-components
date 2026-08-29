@@ -1,10 +1,10 @@
-// Created: 24 Juli 2025
 package de.freese.base.swing.components.label;
 
 import javax.swing.Icon;
 
 /**
  * @author Thomas Freese
+ * @since 24.07.2025
  */
 public interface AnimatedIcon extends Icon {
     /**

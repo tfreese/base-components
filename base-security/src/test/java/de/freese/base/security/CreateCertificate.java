@@ -18,8 +18,7 @@ public class CreateCertificate {
     // /**
     // * Geklaut von io.netty.handler.ssl.util.SelfSignedCertificate.
     // */
-    // static void cryptoSelfSignedCert() throws Exception
-    // {
+    // static void cryptoSelfSignedCert() throws Exception {
     // SecureRandom secureRandom = new SecureRandom();
     // String fqdn = "Localhost";
     // Date notBefore = Date.from(LocalDate.of(2021, 01, 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -37,21 +36,17 @@ public class CreateCertificate {
     // certInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3));
     // certInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(new BigInteger(64, secureRandom)));
     //
-    // try
-    // {
+    // try {
     // certInfo.set(X509CertInfo.SUBJECT, new CertificateSubjectName(owner));
     // }
-    // catch (CertificateException ignore)
-    // {
+    // catch (CertificateException ignore) {
     // certInfo.set(X509CertInfo.SUBJECT, owner);
     // }
     //
-    // try
-    // {
+    // try  {
     // certInfo.set(X509CertInfo.ISSUER, new CertificateIssuerName(owner));
     // }
-    // catch (CertificateException ignore)
-    // {
+    // catch (CertificateException ignore) {
     // certInfo.set(X509CertInfo.ISSUER, owner);
     // }
     //

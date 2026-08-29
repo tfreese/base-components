@@ -1,6 +1,3 @@
-/*
- * Created on 23.08.2004 To change the template for this generated file go to Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package de.freese.base.swing.components.watermark;
 
 import java.awt.BorderLayout;
@@ -24,6 +21,7 @@ import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
+ * @since 23.08.2004
  */
 public final class WatermarkExampleMain extends JPanel implements ActionListener {
     @Serial

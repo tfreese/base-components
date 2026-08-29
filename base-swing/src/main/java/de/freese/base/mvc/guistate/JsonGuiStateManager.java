@@ -1,4 +1,3 @@
-// Created: 26.01.2018
 package de.freese.base.mvc.guistate;
 
 import java.io.InputStream;
@@ -15,6 +14,7 @@ import de.freese.base.swing.state.GuiStates;
 
 /**
  * @author Thomas Freese
+ * @since 26.01.2018
  */
 public class JsonGuiStateManager extends AbstractGuiStateManager {
     private final JsonMapper jsonMapper;

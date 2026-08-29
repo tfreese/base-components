@@ -1,4 +1,3 @@
-// Created: 24.01.23
 package de.freese.base.mvc.view;
 
 import java.awt.Component;
@@ -11,6 +10,7 @@ import de.freese.base.mvc.registry.ServiceRegistry;
 
 /**
  * @author Thomas Freese
+ * @since 24.01.2023
  */
 public interface View extends ServiceRegistry {
     ApplicationContext getApplicationContext();

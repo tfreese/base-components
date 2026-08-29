@@ -1,4 +1,3 @@
-// Created: 23 Mai 2024
 package de.freese.base.security;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import de.freese.base.utils.Encoding;
 
 /**
  * @author Thomas Freese
+ * @since 23.05.2024
  */
 public final class PbeCryptoBlowFish implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;

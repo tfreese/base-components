@@ -56,18 +56,15 @@ public class ConfigureableDocument extends PlainDocument {
                 throw new IllegalStateException("Text is not number");
             }
 
-            // for (int i = 0; i < newText.length(); i++)
-            // {
+            // for (int i = 0; i < newText.length(); i++) {
             // char c = newText.charAt(i);
             //
-            // if (!Character.isDigit(c) && (c != '-'))
-            // {
+            // if (!Character.isDigit(c) && (c != '-')) {
             // throw new IllegalStateException("Char " + newText.charAt(i)
             // + " ist not a digit !");
             // }
             //
-            // if (!areFloatsAllowed() && ((c == '.') || (c == ',')))
-            // {
+            // if (!areFloatsAllowed() && ((c == '.') || (c == ','))) {
             // throw new IllegalStateException("Char " + newText.charAt(i)
             // + " ist not a digit !");
             // }
@@ -176,8 +173,7 @@ public class ConfigureableDocument extends PlainDocument {
     public ConfigureableDocument() {
         super();
 
-        // Sorgt dafür das \n als Zeilenumbruch verarbeitet wird und nicht als
-        // normaler Text.
+        // Sorgt dafür das \n als Zeilenumbruch verarbeitet wird und nicht als normaler Text.
         putProperty("filterNewlines", Boolean.TRUE);
 
         // Längenüberprüfung
@@ -205,7 +201,7 @@ public class ConfigureableDocument extends PlainDocument {
         context.fullText = context.currentText + context.newText;
 
         if (offs < getLength()) {
-            // Wenn neuer Text nicht am Ende eingegeben wurde
+            // Wenn neuer Text nicht am Ende eingegeben wurde.
             final StringBuilder sb = new StringBuilder(context.currentText);
             sb.insert(offs, context.newText);
 

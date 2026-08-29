@@ -1,4 +1,3 @@
-// Created: 25 Mai 2024
 package de.freese.base.security;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +25,7 @@ import javax.crypto.CipherOutputStream;
 
 /**
  * @author Thomas Freese
+ * @since 25.05.2024
  */
 public final class KeyPairCryptoRsa implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
@@ -104,7 +104,7 @@ public final class KeyPairCryptoRsa implements Crypto {
 
             return new String(decryptedDecoded, CHARSET);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new GeneralSecurityException(ex);
         }
     }
@@ -146,7 +146,7 @@ public final class KeyPairCryptoRsa implements Crypto {
 
             return encoder.encodeToString(baos.toByteArray());
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new GeneralSecurityException(ex);
         }
     }

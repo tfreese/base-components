@@ -123,7 +123,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
      * @param alpha must be a value between 0 and 1 inclusive.
      */
     public void setAlpha(final double alpha) {
-        if (Double.compare(alpha, alpha) != 0) {
+        if (Double.compare(this.alpha, alpha) != 0) {
             final double oldAlpha = alpha;
             this.alpha = alpha;
 
@@ -172,7 +172,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
 
         super.setVisible(flag);
 
-        // Über setVisible den Timer der Children beenden, falls implementiert
+        // Über setVisible den Timer der Children beenden, falls implementiert.
         for (final Component child : getComponents()) {
             child.setVisible(flag);
         }
@@ -214,7 +214,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         final Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
 
         // if (containerPoint.y < 0) {
-        //     // we're not in the content pane
+        //     // We're not in the content pane.
         //     final JMenuBar menuBar = getJMenuBar();
         //
         //     if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0)) {

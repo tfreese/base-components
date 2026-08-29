@@ -95,7 +95,7 @@ class NasaPanel extends JPanel {
         buttons.add(getButtonNext());
         buttons.add(getButtonCancel());
 
-        for (JButton button : buttons) {
+        for (final JButton button : buttons) {
             button.setBorder(border);
             button.setVerticalTextPosition(SwingConstants.BOTTOM);
             button.setHorizontalTextPosition(SwingConstants.CENTER);

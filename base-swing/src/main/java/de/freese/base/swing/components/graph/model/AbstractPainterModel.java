@@ -1,8 +1,8 @@
-// Created: 15.11.2020
 package de.freese.base.swing.components.graph.model;
 
 /**
  * @author Thomas Freese
+ * @since 15.11.2020
  */
 public abstract class AbstractPainterModel {
     private final Values<Float> values = new Values<>();

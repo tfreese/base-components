@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
  * Responsible for processing mouse events and recognition of mouse movements.
  *
  * @author Smardec
- * @author Thomas freese
+ * @author Thomas Freese
  * @version 1.2
  */
 class MouseGesturesRecognizer {

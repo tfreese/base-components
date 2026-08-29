@@ -110,7 +110,7 @@ public class AutoCompleteableTextField extends JTextField {
                     transferFocus();
                 }
                 else if (Character.isJavaIdentifierPart(event.getKeyChar())) {
-                    // Popup einblenden
+                    // Popup einblenden.
                     popupMenu(0, (int) getSize().getHeight());
                 }
             }
@@ -154,7 +154,6 @@ public class AutoCompleteableTextField extends JTextField {
                 // Cursor wieder zurück ins Textfeld.
                 // if (!hasFocus()) {
                 requestFocus();
-
                 // }
             }
         }

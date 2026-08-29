@@ -58,8 +58,7 @@ public class ExtTaskPane extends JXTaskPane {
     }
 
     // @Override
-    // public void setAnimated(final boolean animated)
-    // {
+    // public void setAnimated(final boolean animated) {
     // // Permanent deaktiviert
     // super.setAnimated(false);
     // }

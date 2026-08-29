@@ -1,4 +1,3 @@
-// Created: 15.11.2020
 package de.freese.base.swing.components.graph.memory;
 
 import java.awt.Color;
@@ -12,6 +11,7 @@ import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
+ * @since 15.11.2020
  */
 public final class MemoryGraphDemo {
     static void main() {

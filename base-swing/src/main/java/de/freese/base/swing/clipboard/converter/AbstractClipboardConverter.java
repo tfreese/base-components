@@ -1,4 +1,3 @@
-// Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import de.freese.base.swing.clipboard.ClipboardConverter;
  * Basis ClipboardConverter.
  *
  * @author Thomas Freese
+ * @since 06.10.2008
  */
 public abstract class AbstractClipboardConverter implements ClipboardConverter {
     private final Logger logger = LoggerFactory.getLogger(getClass());

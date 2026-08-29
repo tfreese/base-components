@@ -108,16 +108,13 @@ public final class ErrorPane extends JPanel {
                 clipboard.setContents(selection, selection);
 
                 // final TransferHandler transferHandler =
-                // new TransferHandler()
-                // {
+                // new TransferHandler() {
                 // private static final long serialVersionUID = 0L;
                 //
-                // protected Transferable createTransferable(JComponent c)
-                // {
+                // protected Transferable createTransferable(JComponent c) {
                 // String text = getEditorPaneDetails().getSelectedText();
                 //
-                // if ((text == null) || text.equals(""))
-                // {
+                // if ((text == null) || text.equals("")) {
                 // getEditorPaneDetails().selectAll();
                 // text = getEditorPaneDetails().getSelectedText();
                 // getEditorPaneDetails().select(-1, -1);
@@ -126,8 +123,7 @@ public final class ErrorPane extends JPanel {
                 // return new StringSelection(text);
                 // }
                 //
-                // public int getSourceActions(JComponent c)
-                // {
+                // public int getSourceActions(JComponent c) {
                 // return TransferHandler.COPY;
                 // }
                 // };

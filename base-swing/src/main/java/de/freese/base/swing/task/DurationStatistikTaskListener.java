@@ -58,22 +58,22 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             final TaskStatistic taskStatistic = getTaskStatistik(taskName);
             final long mittelwert = taskStatistic.getAvg();
 
-            if (mittelwert > 0) {
+            if (mittelwert > 0L) {
                 timer = new Timer(250, evt -> {
-                    if (mittelwert <= 0) {
+                    if (mittelwert <= 0L) {
                         return;
                     }
 
                     final long execution = task.getCurrentDuration(TimeUnit.MILLISECONDS);
                     float prozent = execution / (float) mittelwert;
 
-                    if (prozent > 0.99) {
+                    if (prozent > 0.99F) {
                         prozent = 0.99F;
                     }
 
                     task.setProgress(prozent);
 
-                    if (prozent > 0.99) {
+                    if (prozent > 0.99F) {
                         stopTimer();
                     }
                 });

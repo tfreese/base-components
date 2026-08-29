@@ -65,7 +65,7 @@ public final class LazyLoadingTreeFrameDemo extends JFrame {
                 children.add(new LazyLoadingTreeNode("Node " + (i + 1)));
             }
 
-            await().pollDelay(Duration.ofMillis(250)).until(() -> true);
+            await().pollDelay(Duration.ofMillis(250L)).until(() -> true);
 
             return children;
         };
@@ -93,7 +93,7 @@ public final class LazyLoadingTreeFrameDemo extends JFrame {
                     Object parent = tree.getModel().getRoot();
                     TreePath treePath = new TreePath(parent);
 
-                    for (int index : expansionIndices) {
+                    for (final int index : expansionIndices) {
                         controller.awaitChildNodes();
 
                         parent = tree.getModel().getChild(parent, index);
@@ -104,7 +104,7 @@ public final class LazyLoadingTreeFrameDemo extends JFrame {
 
                         treePath = treePath.pathByAddingChild(parent);
 
-                        await().pollDelay(Duration.ofMillis(350)).until(() -> true);
+                        await().pollDelay(Duration.ofMillis(350L)).until(() -> true);
 
                         LOGGER.debug("publish");
                         publish(treePath);
@@ -117,7 +117,7 @@ public final class LazyLoadingTreeFrameDemo extends JFrame {
 
                 @Override
                 protected void process(final List<TreePath> chunks) {
-                    for (TreePath treePath : chunks) {
+                    for (final TreePath treePath : chunks) {
                         LOGGER.debug("process: {}", treePath);
                         tree.expandPath(treePath);
                     }

@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -78,18 +79,16 @@ public class TableColumnSorter {
      * Der {@link TableColumnSorter} wird unter den Key {@code ROWSORTER} als ClientProperty der {@link JTable} registriert.
      */
     public TableColumnSorter(final ExtTable table) {
-        super();
+        Objects.requireNonNull(table, "table required");
 
-        if (table == null) {
-            throw new NullPointerException();
+        if (table.getClientProperty("ROWSORTER") != null) {
+            throw new IllegalStateException("Tabelle has already a RowSorter!");
         }
+
+        super();
 
         // propertyChangeSupport = new PropertyChangeSupport(this);
         this.table = table;
-
-        if (table.getClientProperty("ROWSORTER") != null) {
-            throw new IllegalStateException("Tabelle hat bereits einen RowSorter !");
-        }
 
         table.putClientProperty("ROWSORTER", this);
 

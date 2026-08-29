@@ -1,4 +1,3 @@
-// Created: 28.05.2020
 package de.freese.base.demo.fibonacci.view;
 
 import java.beans.PropertyChangeEvent;
@@ -9,6 +8,8 @@ import de.freese.base.swing.task.SwingTask;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.2020
+ *
  */
 public class FibonacciTaskListener implements PropertyChangeListener {
     private final FibonacciView view;

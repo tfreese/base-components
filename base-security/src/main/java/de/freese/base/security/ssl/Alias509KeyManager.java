@@ -1,4 +1,3 @@
-// Created: 17 Apr. 2025
 package de.freese.base.security.ssl;
 
 import java.net.Socket;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * If {@link KeyStore} has multiple Certificates, choose this for the right Certificate to communicate.
  *
  * @author Thomas Freese
+ * @since 17.04.2025
  */
 public final class Alias509KeyManager implements X509KeyManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(Alias509KeyManager.class);
@@ -42,7 +42,7 @@ public final class Alias509KeyManager implements X509KeyManager {
                 continue;
             }
 
-            for (String validAlias : validAliases) {
+            for (final String validAlias : validAliases) {
                 if (validAlias.equals(clientAlias)) {
                     aliasFound = true;
                     break;

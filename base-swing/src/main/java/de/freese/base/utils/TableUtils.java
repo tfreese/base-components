@@ -39,15 +39,13 @@ public final class TableUtils {
         final JViewport viewport = (JViewport) table.getParent();
         table.changeSelection(row, column, false, false);
 
-        // This rectangle is relative to the table where the northwest corner of cell (0,0) is
-        // always (0,0).
+        // This rectangle is relative to the table where the northwest corner of cell (0,0) is always (0,0).
         final Rectangle rect = table.getCellRect(row, column, true);
 
         // The location of the view relative to the table
         final Rectangle viewRect = viewport.getViewRect();
 
-        // Translate the cell location so that it is relative to the view, assuming the northwest
-        // corner of the view is (0,0).
+        // Translate the cell location so that it is relative to the view, assuming the northwest corner of the view is (0,0).
         rect.setLocation(rect.x - viewRect.x, rect.y - viewRect.y);
 
         // Calculate location of rect if it were at the center of view
@@ -182,7 +180,7 @@ public final class TableUtils {
     }
 
     /**
-     * Setzt die optimale Breite der {@link TableColumn}, falls diese Resizeable ist.
+     * Setzt die optimale Breite der {@link TableColumn}, falls diese resizeable ist.
      *
      * @param margin int; -1 = default
      * @param min int; -1 = default

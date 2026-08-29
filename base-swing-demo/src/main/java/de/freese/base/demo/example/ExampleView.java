@@ -1,4 +1,3 @@
-// Created: 03.02.23
 package de.freese.base.demo.example;
 
 import de.freese.base.mvc.ApplicationContext;
@@ -11,6 +10,7 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
  * @author Thomas Freese
+ * @since 03.02.2023
  */
 public class ExampleView extends AbstractView {
     @Override

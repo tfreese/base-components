@@ -76,7 +76,7 @@ public final class AnimatedLabel extends JLabel {
 
         repaint();
 
-        // Synchronising the painting on systems that buffer graphics events.
+        // Synchronizing the painting on systems that buffer graphics events.
         // Without this line, the animation might not be smooth on Linux.
         Toolkit.getDefaultToolkit().sync();
     }

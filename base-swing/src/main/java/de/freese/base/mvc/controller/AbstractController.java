@@ -1,4 +1,3 @@
-// Created: 05.02.23
 package de.freese.base.mvc.controller;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import de.freese.base.mvc.view.View;
 
 /**
  * @author Thomas Freese
+ * @since 05.02.2023
  */
 public abstract class AbstractController {
     private final Logger logger = LoggerFactory.getLogger(getClass());

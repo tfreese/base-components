@@ -1,4 +1,3 @@
-// Created: 17 Apr. 2025
 package de.freese.base.security.ssl;
 
 import java.net.Socket;
@@ -9,6 +8,7 @@ import javax.net.ssl.X509ExtendedTrustManager;
 
 /**
  * @author Thomas Freese
+ * @since 17.04.2025
  */
 @SuppressWarnings("java:S4830")
 public final class TrustAllTrustManager extends X509ExtendedTrustManager {

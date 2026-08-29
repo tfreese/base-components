@@ -1,5 +1,3 @@
-// Created: 27.08.2014
-
 package de.freese.base.security.util;
 
 import java.io.Serial;
@@ -7,9 +5,8 @@ import java.io.Serial;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Defaultimplementierung.
- *
  * @author Thomas Freese
+ * @since 27.08.2014
  */
 public class DefaultSecretKey extends SecretKeySpec {
     private static final byte[] DEFAULT_KEY = {0, 1, 0, 1, 0, 1, 0, 1};

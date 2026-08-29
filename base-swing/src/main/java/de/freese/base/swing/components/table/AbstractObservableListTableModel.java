@@ -1,4 +1,3 @@
-// Created: 12.01.2018
 package de.freese.base.swing.components.table;
 
 import java.io.Serial;
@@ -9,6 +8,7 @@ import javafx.collections.ObservableList;
 
 /**
  * @author Thomas Freese
+ * @since 12.01.2018
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T> {
     @Serial

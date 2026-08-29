@@ -22,7 +22,7 @@ public final class TreeUtils {
             return;
         }
 
-        // Traverse tree from root
+        // Traverse tree from root.
         collapse(tree, new TreePath(root));
     }
 
@@ -108,7 +108,6 @@ public final class TreeUtils {
                 copy[copy.length - 1] = child;
 
                 // Add the latest path element.
-
                 expand(tree, new TreePath(copy), level);
             }
         }
@@ -271,7 +270,7 @@ public final class TreeUtils {
 
         final TreePath path = new TreePath(node.getPath());
 
-        // Node NOT expand
+        // Node NOT expand.
         // tree.expandPath(path);
 
         tree.scrollPathToVisible(path);

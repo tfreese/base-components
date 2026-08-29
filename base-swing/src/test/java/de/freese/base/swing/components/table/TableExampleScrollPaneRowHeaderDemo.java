@@ -1,4 +1,3 @@
-// Created: 04.11.2021
 package de.freese.base.swing.components.table;
 
 import java.awt.Dimension;
@@ -21,6 +20,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * @author Thomas Freese
+ * @since 04.11.2021
  */
 public final class TableExampleScrollPaneRowHeaderDemo {
     /**

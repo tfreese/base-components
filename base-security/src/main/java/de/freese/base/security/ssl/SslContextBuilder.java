@@ -1,4 +1,3 @@
-// Created: 16 Sept. 2024
 package de.freese.base.security.ssl;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * @author Thomas Freese
+ * @since 16.09.2024
  */
 public final class SslContextBuilder {
 

@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.swing.components.datepicker;
 
 import java.awt.BorderLayout;
@@ -19,6 +18,7 @@ import com.github.lgooddatepicker.zinternaltools.YearMonthChangeEvent;
  * Alternative: <a href="https://github.com/LGoodDatePicker/LGoodDatePicker">LGoodDatePicker</a>
  *
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class LGoodDatePickerMain {
     static void main() {

@@ -1,4 +1,3 @@
-// Created: 01.04.2012
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -35,6 +34,7 @@ import javax.net.ssl.SSLSocketFactory;
  * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
  *
  * @author Thomas Freese
+ * @since 01.04.2012
  */
 public final class CryptoUtils {
     public static KeyPair createDefaultKeyPair() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -84,11 +84,11 @@ public final class CryptoUtils {
         // All  providers
         final Provider[] providers = Security.getProviders();
 
-        for (Provider provider : providers) {
+        for (final Provider provider : providers) {
             // Get services provided by each provider
             final Set<Object> keys = provider.keySet();
 
-            for (Object key : keys) {
+            for (final Object key : keys) {
                 String k = (String) key;
                 k = k.split(" ")[0];
                 String impl = null;
@@ -119,11 +119,11 @@ public final class CryptoUtils {
         // All  providers
         final Provider[] providers = Security.getProviders();
 
-        for (Provider provider : providers) {
+        for (final Provider provider : providers) {
             // Get services provided by each provider
             final Set<Object> keys = provider.keySet();
 
-            for (Object key : keys) {
+            for (final Object key : keys) {
                 String k = (String) key;
                 k = k.split(" ")[0];
 

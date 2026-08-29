@@ -1,4 +1,3 @@
-// Created: 07.02.23
 package de.freese.base.demo.nasa;
 
 import java.awt.image.BufferedImage;
@@ -26,6 +25,7 @@ import de.freese.base.mvc.storage.LocalStorage;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2023
  */
 public class NasaController extends AbstractController {
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
@@ -59,7 +59,7 @@ public class NasaController extends AbstractController {
         uriHistoryCurrentIndex++;
         URI uri = null;
 
-        // Bin ich am Ende der History ?
+        // Bin ich am Ende der History?
         if (uriHistoryCurrentIndex < uriHistory.size()) {
             uri = uriHistory.get(uriHistoryCurrentIndex);
         }
@@ -110,7 +110,7 @@ public class NasaController extends AbstractController {
 
         final boolean cacheFileExist = Files.exists(cachePath);
 
-        InputStream inputStream = null;
+        final InputStream inputStream;
 
         if (cacheFileExist) {
             getLogger().info("Load from: {}", cachePath);
@@ -124,7 +124,7 @@ public class NasaController extends AbstractController {
         // String hex = Hex.encodeHexString(digest, false);
 
         ImageReader reader = null;
-        BufferedImage image = null;
+        BufferedImage image;
 
         try (ImageInputStream iis = ImageIO.createImageInputStream(inputStream)) {
             final Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);

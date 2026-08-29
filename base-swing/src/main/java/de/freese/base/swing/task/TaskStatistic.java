@@ -25,7 +25,7 @@ public class TaskStatistic implements Serializable {
 
     public long getAvg() {
         int anzahl = 0;
-        long summe = 0;
+        long summe = 0L;
 
         for (final long zeit : durations) {
             summe += zeit;
@@ -46,7 +46,7 @@ public class TaskStatistic implements Serializable {
             max = Math.max(max, zeit);
         }
 
-        return max == Long.MIN_VALUE ? 0 : max;
+        return max == Long.MIN_VALUE ? 0L : max;
     }
 
     public long getMin() {
@@ -56,7 +56,7 @@ public class TaskStatistic implements Serializable {
             min = Math.min(min, zeit);
         }
 
-        return min == Long.MAX_VALUE ? 0 : min;
+        return min == Long.MAX_VALUE ? 0L : min;
     }
 
     public String getTaskName() {
@@ -90,12 +90,12 @@ public class TaskStatistic implements Serializable {
 
     @Override
     public String toString() {
-        return getTaskName() +
-                "; Min=" + getMin() +
-                "; Max=" + getMax() +
-                "; Avg=" + getAvg() +
-                "; Size=" + durations.size() +
-                "; Datum=" + getLastAccess();
+        return getTaskName()
+                + "; Min=" + getMin()
+                + "; Max=" + getMax()
+                + "; Avg=" + getAvg()
+                + "; Size=" + durations.size()
+                + "; Datum=" + getLastAccess();
     }
 
     protected void appendDuration(final long zeit) {

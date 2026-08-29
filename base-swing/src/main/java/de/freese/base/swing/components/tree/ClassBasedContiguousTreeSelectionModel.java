@@ -3,6 +3,7 @@ package de.freese.base.swing.components.tree;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
@@ -30,11 +31,11 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
     private final Class<?>[] clazzes;
 
     public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>... clazzes) {
-        super();
-
         if (clazz == null) {
             throw new NullPointerException("clazz");
         }
+
+        super();
 
         this.clazzes = new Class<?>[1 + clazzes.length];
         this.clazzes[0] = clazz;
@@ -89,9 +90,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
     }
 
     private boolean containsClazzes(final Class<?> clazz) {
-        if (clazz == null) {
-            throw new NullPointerException("clazz");
-        }
+        Objects.requireNonNull(clazz, "clazz required");
 
         for (final Class<?> class1 : clazzes) {
             if (class1.equals(clazz)) {

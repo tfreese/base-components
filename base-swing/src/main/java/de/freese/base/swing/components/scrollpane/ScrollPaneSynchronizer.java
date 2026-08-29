@@ -1,5 +1,3 @@
-// Created: 14.07.2020
-
 package de.freese.base.swing.components.scrollpane;
 
 import java.awt.event.AdjustmentEvent;
@@ -23,6 +21,7 @@ import javax.swing.JScrollPane;
  * </code>
  *
  * @author Thomas Freese
+ * @since 14.07.2020
  */
 public class ScrollPaneSynchronizer implements AdjustmentListener {
     private final JScrollBar h1;

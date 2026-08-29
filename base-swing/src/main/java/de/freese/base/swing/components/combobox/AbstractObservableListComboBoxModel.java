@@ -1,4 +1,3 @@
-// Created: 12.01.2018
 package de.freese.base.swing.components.combobox;
 
 import javax.swing.ComboBoxModel;
@@ -9,6 +8,7 @@ import de.freese.base.swing.components.list.model.AbstractObservableListListMode
 
 /**
  * @author Thomas Freese
+ * @since 12.01.2018
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T> {
     private Object selectedObject;

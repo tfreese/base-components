@@ -1,4 +1,3 @@
-// Created: 12.01.2018
 package de.freese.base.swing.components.list.model;
 
 import java.util.Objects;
@@ -13,6 +12,7 @@ import javafx.collections.ObservableList;
 
 /**
  * @author Thomas Freese
+ * @since 12.01.2018
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T> {
     private final EventListenerList eventListenerList = new EventListenerList();

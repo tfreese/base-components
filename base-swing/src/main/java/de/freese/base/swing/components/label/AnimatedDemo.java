@@ -1,4 +1,3 @@
-// Created: 24 Juli 2025
 package de.freese.base.swing.components.label;
 
 import java.awt.Color;
@@ -14,6 +13,7 @@ import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
+ * @since 24.07.2025
  */
 public final class AnimatedDemo {
     static void main() {

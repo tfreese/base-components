@@ -1,4 +1,3 @@
-// Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
 import java.lang.reflect.Constructor;
@@ -9,6 +8,7 @@ import java.util.Objects;
  * ClipboardConverter für Objekterzeugung über Konstruktorparameter mit Reflection.
  *
  * @author Thomas Freese
+ * @since 06.10.2008
  */
 public class ReflectionClipboardConverter extends AbstractClipboardConverter {
     private final Class<?> clazz;

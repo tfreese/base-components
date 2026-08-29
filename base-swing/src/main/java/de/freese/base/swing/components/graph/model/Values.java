@@ -1,4 +1,3 @@
-// Created: 30.11.2020
 package de.freese.base.swing.components.graph.model;
 
 import java.util.LinkedList;
@@ -6,9 +5,8 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * @param <T> Entity Type
- *
  * @author Thomas Freese
+ * @since 30.11.2020
  */
 public final class Values<T extends Comparable<?>> {
     private final TreeSet<T> treeSet = new TreeSet<>();

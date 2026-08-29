@@ -1,4 +1,3 @@
-// Created: 27.11.2020
 package de.freese.base.swing.components.graph.javafx.painter;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import javafx.scene.paint.Stop;
 
 /**
  * @author Thomas Freese
+ * @since 27.11.2020
  */
 public class LineFxGraphPainter extends AbstractFxGraphPainter {
     @Override

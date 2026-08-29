@@ -1,4 +1,3 @@
-// Created: 13.11.22
 package de.freese.base.swing.components.text;
 
 import java.awt.BorderLayout;
@@ -9,6 +8,7 @@ import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.2022
  */
 public final class AutoCompleteableTextFieldMain {
     static void main() {

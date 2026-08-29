@@ -17,12 +17,13 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * @author Nobuo Tamemasa
- * @version 1.0 pre 2004
+ * @author Thomas Freese
+ * @version 20.10.1998
  */
 public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     @Override
     public Dimension getPreferredSize(final JComponent c) {
-        long width = 0;
+        long width = 0L;
         final Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
 
         while (enumeration.hasMoreElements()) {

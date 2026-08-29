@@ -1,4 +1,3 @@
-// Created: 16.11.2020
 package de.freese.base.swing.components.graph.painter;
 
 import java.awt.Color;
@@ -10,6 +9,7 @@ import java.util.List;
 
 /**
  * @author Thomas Freese
+ * @since 16.11.2020
  */
 public class LineGraphPainter extends AbstractGraphPainter {
     private final Line2D line2d = new Line2D.Float();

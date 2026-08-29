@@ -1,4 +1,3 @@
-// Created: 11.11.2020
 package de.freese.base.swing.components.frame;
 
 import java.awt.Color;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * PERPIXEL_TRANSPARENT – The underlying platform supports shaped windows.<br>
  *
  * @author Thomas Freese
+ * @since 11.11.2020
  */
 public final class GradientTranslucentWindowDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradientTranslucentWindowDemo.class);
@@ -64,7 +64,7 @@ public final class GradientTranslucentWindowDemo {
 
                 @Override
                 protected void paintComponent(final Graphics g) {
-                    if (g instanceof Graphics2D g2d) {
+                    if (g instanceof final Graphics2D g2d) {
                         final int R = 240;
                         final int G = 240;
                         final int B = 240;

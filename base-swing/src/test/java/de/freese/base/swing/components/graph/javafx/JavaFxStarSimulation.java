@@ -1,4 +1,3 @@
-// Created: 19 Nov. 2024
 package de.freese.base.swing.components.graph.javafx;
 
 import java.util.Random;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Thomas Freese
+ * @since 19.11.2024
  */
 public final class JavaFxStarSimulation extends Application {
 

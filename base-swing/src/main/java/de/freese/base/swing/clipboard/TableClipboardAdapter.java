@@ -182,7 +182,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         String clipboardString = "";
 
         try {
-            clipboardString = (String) (getClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor));
+            clipboardString = (String) getClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor);
         }
         catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);

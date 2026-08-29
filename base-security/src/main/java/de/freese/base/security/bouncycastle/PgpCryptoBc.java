@@ -1,4 +1,3 @@
-// Created: 21.11.2013
 package de.freese.base.security.bouncycastle;
 
 import java.io.ByteArrayOutputStream;
@@ -71,6 +70,7 @@ import org.slf4j.LoggerFactory;
  * <br>
  *
  * @author Thomas Freese
+ * @since 21.11.2013
  */
 class PgpCryptoBc {
     private static final int DEFAULT_BUFFER_SIZE = 4096;
@@ -105,7 +105,7 @@ class PgpCryptoBc {
                 try {
                     pgpPub.getPublicKey();
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                     continue;
                 }
@@ -117,20 +117,20 @@ class PgpCryptoBc {
                     final PGPPublicKey pgpKey = it.next();
 
                     if (first) {
-                        LOGGER.info("Key ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
+                        LOGGER.atInfo().log("Key ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
                         first = false;
                     }
                     else {
-                        LOGGER.info("Subkey ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
+                        LOGGER.atInfo().log("Subkey ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
                     }
 
-                    LOGGER.info("\tAlgorithm: {}", getAlgorithm(pgpKey.getAlgorithm()));
-                    LOGGER.info("\tFingerprint: {}", new String(Hex.encode(pgpKey.getFingerprint()), StandardCharsets.UTF_8).toUpperCase());
+                    LOGGER.atInfo().log("\tAlgorithm: {}", getAlgorithm(pgpKey.getAlgorithm()));
+                    LOGGER.atInfo().log("\tFingerprint: {}", new String(Hex.encode(pgpKey.getFingerprint()), StandardCharsets.UTF_8).toUpperCase());
 
                     final Iterator<String> userIDs = pgpKey.getUserIDs();
 
                     while (userIDs.hasNext()) {
-                        LOGGER.info("\tUserID: {}", userIDs.next());
+                        LOGGER.atInfo().log("\tUserID: {}", userIDs.next());
                     }
                 }
             }
@@ -174,10 +174,10 @@ class PgpCryptoBc {
     public void decryptFile(final InputStream in, final OutputStream out, final InputStream keyIn, final char[] password) throws Exception {
         PGPObjectFactory objectFactory = new PGPObjectFactory(PGPUtil.getDecoderStream(in), new BcKeyFingerprintCalculator());
         final Object object = objectFactory.nextObject();
-        PGPEncryptedDataList encryptedDataList = null;
+        final PGPEncryptedDataList encryptedDataList;
 
         // the first object might be a PGP marker packet.
-        if (object instanceof PGPEncryptedDataList obj) {
+        if (object instanceof final PGPEncryptedDataList obj) {
             encryptedDataList = obj;
         }
         else {
@@ -206,16 +206,16 @@ class PgpCryptoBc {
         objectFactory = new PGPObjectFactory(decryptedInputStream, new BcKeyFingerprintCalculator());
         Object message = objectFactory.nextObject();
 
-        if (message instanceof PGPCompressedData compressedData) {
+        if (message instanceof final PGPCompressedData compressedData) {
             objectFactory = new PGPObjectFactory(compressedData.getDataStream(), new BcKeyFingerprintCalculator());
             message = objectFactory.nextObject();
         }
 
-        if (message instanceof PGPLiteralData literalData) {
+        if (message instanceof final PGPLiteralData literalData) {
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
             try (InputStream inputStream = literalData.getInputStream()) {
-                int numRead = 0;
+                int numRead;
 
                 while ((numRead = inputStream.read(buffer)) >= 0) {
                     out.write(buffer, 0, numRead);
@@ -513,7 +513,7 @@ class PgpCryptoBc {
      */
     private boolean hasKeyFlags(final PGPPublicKey encKey, final int keyUsage) {
         if (encKey.isMasterKey()) {
-            for (int certType : MASTER_KEY_CERTIFICATION_TYPES) {
+            for (final int certType : MASTER_KEY_CERTIFICATION_TYPES) {
                 for (final Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(certType); iterator.hasNext(); ) {
                     final PGPSignature sig = iterator.next();
 

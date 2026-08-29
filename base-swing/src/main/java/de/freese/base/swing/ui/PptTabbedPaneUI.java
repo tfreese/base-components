@@ -24,7 +24,7 @@ public class PptTabbedPaneUI extends BasicTabbedPaneUI {
             final Font boldFont = tabPane.getFont().deriveFont(Font.BOLD);
             final FontMetrics boldFontMetrics = tabPane.getFontMetrics(boldFont);
 
-            final int vDifference = (int) (boldFontMetrics.getStringBounds(title, g).getWidth()) - textRect.width;
+            final int vDifference = (int) boldFontMetrics.getStringBounds(title, g).getWidth() - textRect.width;
             textRect.x -= vDifference / 2;
 
             super.paintText(g, tabPlacement, boldFont, boldFontMetrics, tabIndex, title, textRect, isSelected);

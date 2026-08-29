@@ -1,4 +1,3 @@
-// Created: 15.11.2020
 package de.freese.base.swing.components.graph;
 
 import java.awt.Color;
@@ -24,6 +23,7 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
 
 /**
  * @author Thomas Freese
+ * @since 15.11.2020
  */
 public final class RandomGraphDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomGraphDemo.class);
@@ -33,7 +33,7 @@ public final class RandomGraphDemo {
 
         final GraphicsDevice[] gds = ge.getScreenDevices();
 
-        for (GraphicsDevice gd : gds) {
+        for (final GraphicsDevice gd : gds) {
             final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
             if (!isPerPixelTranslucencySupported) {

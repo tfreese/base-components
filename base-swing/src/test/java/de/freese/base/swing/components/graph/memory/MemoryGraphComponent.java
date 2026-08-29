@@ -1,4 +1,3 @@
-// Created: 21.11.2020
 package de.freese.base.swing.components.graph.memory;
 
 import java.awt.event.InputEvent;
@@ -13,6 +12,7 @@ import de.freese.base.swing.components.graph.AbstractGraphComponent;
 
 /**
  * @author Thomas Freese
+ * @since 21.11.2020
  */
 public class MemoryGraphComponent extends AbstractGraphComponent {
     @Serial
@@ -44,7 +44,7 @@ public class MemoryGraphComponent extends AbstractGraphComponent {
 
     @Override
     protected void onMouseClicked(final MouseEvent event) {
-        if (((event.getModifiersEx()) & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
+        if ((event.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
             System.gc();
         }
         else if (scheduledFuture == null) {

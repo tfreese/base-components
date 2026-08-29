@@ -1,4 +1,3 @@
-// Created: 21.05.2020
 package de.freese.base.swing.task;
 
 import java.beans.PropertyChangeEvent;
@@ -11,6 +10,7 @@ import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2020
  */
 public class TaskManager {
     /**

@@ -140,7 +140,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * For example, to learn how many seconds a Task has run so far:
      *
      * <pre>
-     * long nSeconds = myTask.getExecutionDuration(TimeUnit.SECONDS);
+     * long seconds = myTask.getExecutionDuration(TimeUnit.SECONDS);
      * </pre>
      *
      * @param unit the time unit of the return value
@@ -188,7 +188,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * Returns true if the {@link #setProgress progress} property has been set.<br/>
      * Some Tasks don't update the progress property because it's difficult or impossible to determine how what percentage of the task has been completed.<br/>
      * GUI elements that display Task progress, like an application status bar, can use this property to set
-     * the @{link JProgressBar#indeterminate indeterminate} @{code JProgressBar} property.<br/>
+     * the @{link JProgressBar#indeterminate} @{code JProgressBar} property.<br/>
      * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
      *
      * @return true if the {@link #setProgress progress} property has been set.
@@ -213,7 +213,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when this Task has been cancelled by {@link #cancel(boolean)}.<br/>
+     * Called when this Task has been canceled by {@link #cancel(boolean)}.<br/>
      * This method runs on the EDT. It does nothing by default.
      */
     protected void cancelled() {
@@ -221,21 +221,19 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     // /**
-    // * Called if the Task's Thread is interrupted but not explicitly cancelled.<br/>
+    // * Called if the Task's Thread is interrupted but not explicitly canceled.<br/>
     // * This method runs on the EDT. It does nothing by default.
     // *
     // * @param ex the {@code InterruptedException} thrown by {@code get}
     // */
-    // protected void interrupted(final InterruptedException ex)
-    // {
+    // protected void interrupted(final InterruptedException ex) {
     // getLogger().error(ex.getMessage(), ex);
     // }
 
     @Override
     protected final void done() {
         final Runnable runnable = () -> {
-            // try
-            // {
+            // try {
             if (isCancelled()) {
                 firePropertyChange(PROPERTY_CANCELLED, null, true);
                 cancelled();
@@ -392,7 +390,8 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when this Task has successfully completed, i.e., when its {@code get} method returns a value. Tasks that compute a value should override this method.<br/>
+     * Called when this Task has successfully completed, i.e., when its {@code get} method returns a value.
+     * Tasks that compute a value should override this method.<br/>
      * This method runs on the EDT. It does nothing by default.
      *
      * @param result the value returned by the {@code get} method

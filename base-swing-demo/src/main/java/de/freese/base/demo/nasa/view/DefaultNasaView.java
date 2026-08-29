@@ -1,4 +1,3 @@
-// Created: 07.02.23
 package de.freese.base.demo.nasa.view;
 
 import java.awt.Point;
@@ -23,6 +22,7 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2023
  */
 public class DefaultNasaView extends AbstractView implements NasaView {
     @Override

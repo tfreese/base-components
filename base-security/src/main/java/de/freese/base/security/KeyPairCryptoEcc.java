@@ -1,4 +1,3 @@
-// Created: 25 Mai 2024
 package de.freese.base.security;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import de.freese.base.utils.Encoding;
  * }</pre>
  *
  * @author Thomas Freese
+ * @since 25.05.2024
  */
 public final class KeyPairCryptoEcc implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;

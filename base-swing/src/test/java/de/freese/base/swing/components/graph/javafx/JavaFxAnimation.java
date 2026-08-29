@@ -1,4 +1,3 @@
-// Created: 22.09.2015
 package de.freese.base.swing.components.graph.javafx;
 
 import javafx.animation.Animation;
@@ -23,6 +22,7 @@ import javafx.util.Duration;
  * </ol>
  *
  * @author Thomas Freese
+ * @since 22.09.2015
  */
 public final class JavaFxAnimation extends Application {
     @Override

@@ -24,11 +24,11 @@ public class ColumnControlButton extends JButton {
     private transient ColumnControlWindow columnControlWindow;
 
     public ColumnControlButton(final ExtTable table) {
-        super();
-
         if (!(table.getColumnModel() instanceof ExtTableColumnModel)) {
             throw new IllegalArgumentException("TableColumnModel muss vom Typ IExtTableColumnModel sein !");
         }
+
+        super();
 
         tables.add(table);
         setIcon(new ColumnControlIcon());

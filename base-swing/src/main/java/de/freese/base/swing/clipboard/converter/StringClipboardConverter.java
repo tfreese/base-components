@@ -1,8 +1,8 @@
-// Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
 /**
  * @author Thomas Freese
+ * @since 06.10.2008
  */
 public class StringClipboardConverter extends AbstractClipboardConverter {
     @Override
