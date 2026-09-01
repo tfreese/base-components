@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
@@ -36,20 +35,6 @@ public final class LoggingOutputStream extends OutputStream {
     @Override
     public void flush() throws IOException {
         logLine();
-    }
-
-    @Override
-    public void write(final byte @NonNull [] b) throws IOException {
-        write(b, 0, b.length);
-    }
-
-    @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException {
-        Objects.checkFromIndexSize(off, len, b.length);
-
-        for (int i = 0; i < len; i++) {
-            write(b[off + i]);
-        }
     }
 
     @Override
