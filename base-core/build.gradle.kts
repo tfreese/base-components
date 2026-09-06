@@ -31,6 +31,7 @@ dependencies {
     testImplementation("com.zaxxer:HikariCP")
     testImplementation("org.apache.derby:derby")
     testImplementation("org.hsqldb:hsqldb")
+
     testImplementation("org.slf4j:jul-to-slf4j")
     testRuntimeOnly("org.apache.logging.log4j:log4j-to-slf4j")
 }
