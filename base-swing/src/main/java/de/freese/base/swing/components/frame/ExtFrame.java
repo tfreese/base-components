@@ -35,40 +35,40 @@ public class ExtFrame extends JFrame {
     public void deiconify() {
         int state = getExtendedState();
 
-        // Clear the iconified bit
+        // Clear the iconified bit.
         state &= ~Frame.ICONIFIED;
 
-        // Deiconify the frame
+        // Deiconify the frame.
         setExtendedState(state);
     }
 
     public void iconify() {
         int state = getExtendedState();
 
-        // Set the iconified bit
+        // Set the iconified bit.
         state |= Frame.ICONIFIED;
 
-        // Iconify the frame
+        // Iconify the frame.
         setExtendedState(state);
     }
 
     public void maximize() {
         int state = getExtendedState();
 
-        // Set the maximized bits
+        // Set the maximized bits.
         state |= Frame.MAXIMIZED_BOTH;
 
-        // Maximize the frame
+        // Maximize the frame.
         setExtendedState(state);
     }
 
     public void minimize() {
         int state = getExtendedState();
 
-        // Clear the maximized bits
+        // Clear the maximized bits.
         state &= ~Frame.MAXIMIZED_BOTH;
 
-        // Maximize the frame
+        // Maximize the frame.
         setExtendedState(state);
     }
 }
