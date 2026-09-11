@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
@@ -44,6 +45,8 @@ class AiGeneratedDataModelTest {
     void shouldRoundTripAsJsonAndKeepColumnRowAccess() throws Exception {
         final AiGeneratedDataModel model = createModel();
         final JsonMapper jsonMapper = JsonMapper.builder()
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .build();
 

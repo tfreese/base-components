@@ -51,9 +51,8 @@ public final class JacksonMapperConfig {
 
         // return JsonMapper.builder()
         return JsonMapper.builder(jsonFactory)
+                // Don't serialize empty values.
                 .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
-                // .defaultPropertyInclusion(JsonInclude.Value.construct(JsonInclude.Include.NON_EMPTY, JsonInclude.Include.NON_EMPTY))
-                // .serializationInclusion(JsonInclude.Include.NON_EMPTY)
                 // .addModule(new JavaTimeModule()) //  Already included in Jackson 3.x.
                 .addModule(new JSONPModule()) // Direct Conversion from Jakarta in Jackson JSON Objects.
                 .defaultTimeZone(TimeZone.getDefault())
@@ -86,6 +85,7 @@ public final class JacksonMapperConfig {
 
         // return XmlMapper.builder()
         return XmlMapper.builder(xmlFactory)
+                // Don't serialize empty values.
                 .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 // .addModule(new JavaTimeModule()) //  Already included in Jackson 3.x.
                 .defaultTimeZone(TimeZone.getDefault())
