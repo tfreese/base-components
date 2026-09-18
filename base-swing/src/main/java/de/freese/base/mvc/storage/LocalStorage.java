@@ -114,7 +114,7 @@ public record LocalStorage(Path storageDirectory) {
         return internalName;
     }
 
-    public void save(final Path relativePath, final byte[] data, final OpenOption... options) throws Exception {
+    public void save(final Path relativePath, final byte[] data, final OpenOption... options) throws IOException {
         final Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());

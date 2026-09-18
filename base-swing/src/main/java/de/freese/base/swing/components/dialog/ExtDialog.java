@@ -68,7 +68,7 @@ public final class ExtDialog {
     }
 
     private static void configureMessage(final JDialog dialog, final ExtDialogConfig config) {
-        Component messageComponent = null;
+        final Component messageComponent;
 
         if (config.getMessage() instanceof final String message) {
             final JEditorPane editorPane = new JEditorPane();

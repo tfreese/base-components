@@ -14,7 +14,7 @@ import de.freese.base.swing.layout.GbcBuilder;
 /**
  * @author Thomas Freese
  */
-class FibonacciPanel extends JPanel {
+public class FibonacciPanel extends JPanel {
     @Serial
     private static final long serialVersionUID = -2648632168520329957L;
 

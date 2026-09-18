@@ -22,7 +22,7 @@ public class DurationStatistikTask extends AbstractSwingTask<Void, Void> {
         getLogger().info("Started");
 
         for (int i = 0; i < 50; i++) {
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100L);
         }
 
         getLogger().info("Finished");

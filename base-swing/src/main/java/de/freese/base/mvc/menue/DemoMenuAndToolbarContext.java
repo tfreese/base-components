@@ -1,13 +1,18 @@
 package de.freese.base.mvc.menue;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.slf4j.Logger;
@@ -21,6 +26,8 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoMenuAndToolbarContext.class);
 
     static void main() {
+        configureSwingFonts(22);
+
         final DemoMenuAndToolbarContext menuAndToolbarContext = new DemoMenuAndToolbarContext();
         menuAndToolbarContext.configure();
 
@@ -73,6 +80,42 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
         menuAndToolbarContext.setState("FILE", "SAVE", ComponentState.VISIBLE_DISABLED);
 
         menuAndToolbarContext.setActionListener("APPLICATION", "EXIT", event -> actionApplicationExit(label));
+    }
+
+    /**
+     * Recursively enlarges the font of all JComponent children in the given container.
+     */
+    private static void applyFontRecursively(final Component component, final float fontSize) {
+        if (component instanceof final JComponent c) {
+            c.setFont(c.getFont().deriveFont(fontSize));
+        }
+
+        if (component instanceof final Container container) {
+            for (final Component child : container.getComponents()) {
+                applyFontRecursively(child, fontSize);
+            }
+        }
+    }
+    
+    private static void configureSwingFonts(final int size) {
+        final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, size);
+
+        UIManager.put("defaultFont", font);
+
+        UIManager.put("Button.font", font);
+        UIManager.put("Label.font", font);
+        UIManager.put("TextField.font", font);
+        UIManager.put("PasswordField.font", font);
+        UIManager.put("FormattedTextField.font", font);
+        UIManager.put("TextArea.font", font);
+        UIManager.put("TextPane.font", font);
+        UIManager.put("EditorPane.font", font);
+        UIManager.put("ComboBox.font", font);
+        UIManager.put("Menu.font", font);
+        UIManager.put("MenuItem.font", font);
+        UIManager.put("CheckBox.font", font);
+        UIManager.put("RadioButton.font", font);
+        UIManager.put("ToolTip.font", font);
     }
 
     @Override
