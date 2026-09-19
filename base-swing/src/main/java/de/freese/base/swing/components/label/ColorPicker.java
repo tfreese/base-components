@@ -21,28 +21,28 @@ import de.freese.base.utils.GuiUtils;
  *
  * @author Thomas Freese
  */
-public class FarbCodeLabel extends JLabel {
+public class ColorPicker extends JLabel {
     public static final String BACKGROUND_CHANGED = "BACKGROUND_CHANGED";
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     static void main() {
-        final JFrame frame = new JFrame(FarbCodeLabel.class.getSimpleName());
+        final JFrame frame = new JFrame(ColorPicker.class.getSimpleName());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new GridLayout(2, 1));
         frame.setSize(new Dimension(300, 200));
 
-        final FarbCodeLabel farbCodeLabel = new FarbCodeLabel();
+        final ColorPicker colorPicker = new ColorPicker();
 
         frame.getContentPane().add(new JLabel("Click on Colour to choose new"));
-        frame.getContentPane().add(farbCodeLabel);
+        frame.getContentPane().add(colorPicker);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    public FarbCodeLabel() {
+    public ColorPicker() {
         super();
 
         initialize();
