@@ -6,7 +6,7 @@ plugins {
     id("com.github.jk1.dependency-license-report")
 
     // id("io.spring.dependency-management").version("$version_springDependencyManagementPlugin").apply(false)
-    id("org.openjfx.javafxplugin").apply(false)
+    // id("org.openjfx.javafxplugin").apply(false)
 
     // owasp dependency-check/dependencyCheckAggregate
     id("org.owasp.dependencycheck")

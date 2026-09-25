@@ -69,11 +69,11 @@ final class MdiDesktopManager extends DefaultDesktopManager {
             }
 
             if (x <= d.getWidth()) {
-                x = ((int) d.getWidth()) - 20;
+                x = (int) d.getWidth() - 20;
             }
 
             if (y <= d.getHeight()) {
-                y = ((int) d.getHeight()) - 20;
+                y = (int) d.getHeight() - 20;
             }
 
             desktop.setAllSize(x, y);

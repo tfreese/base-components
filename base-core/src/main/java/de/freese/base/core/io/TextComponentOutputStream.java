@@ -128,7 +128,7 @@ public class TextComponentOutputStream extends OutputStream {
             try {
                 doc.remove(0, excess);
             }
-            catch (final BadLocationException _) {
+            catch (BadLocationException _) {
                 // Empty
             }
         }

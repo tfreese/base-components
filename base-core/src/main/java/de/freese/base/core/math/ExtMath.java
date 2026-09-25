@@ -88,7 +88,7 @@ public final class ExtMath {
         long number = value;
 
         while (number != 0L) {
-            tmp = ((double) number) / ((double) base);
+            tmp = (double) number / (double) base;
             number = (long) tmp;
             tmp -= number;
             tmp = Math.round(tmp * base);

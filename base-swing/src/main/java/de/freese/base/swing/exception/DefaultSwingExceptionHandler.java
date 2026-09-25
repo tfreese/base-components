@@ -51,9 +51,8 @@ public class DefaultSwingExceptionHandler implements SwingExceptionHandler {
         }
 
         switch (throwable) {
-            case final NullPointerException nullPointerException -> message = String.format("%s: Object not exist", throwable.getClass().getSimpleName());
-            case final UnsupportedOperationException unsupportedOperationException ->
-                    message = String.format("%s: %s", throwable.getClass().getSimpleName(), throwable.getStackTrace()[0].getMethodName());
+            case final NullPointerException npe -> message = String.format("%s: Object not exist", npe.getClass().getSimpleName());
+            case final UnsupportedOperationException uoe -> message = String.format("%s: %s", uoe.getClass().getSimpleName(), uoe.getStackTrace()[0].getMethodName());
             case final AbstractValidationException ve -> {
                 Translator ta = translator;
 

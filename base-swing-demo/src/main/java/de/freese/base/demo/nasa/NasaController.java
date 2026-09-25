@@ -124,7 +124,7 @@ public class NasaController extends AbstractController {
         // String hex = Hex.encodeHexString(digest, false);
 
         ImageReader reader = null;
-        BufferedImage image;
+        final BufferedImage image;
 
         try (ImageInputStream iis = ImageIO.createImageInputStream(inputStream)) {
             final Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);

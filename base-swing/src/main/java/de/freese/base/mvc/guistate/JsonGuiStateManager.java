@@ -33,10 +33,10 @@ public class JsonGuiStateManager extends AbstractGuiStateManager {
                 .enable(SerializationFeature.WRAP_ROOT_VALUE)
                 // .setVisibility(jsonMapper.getVisibilityChecker().with(Visibility.NONE));
                 .changeDefaultVisibility(handler -> handler
-                                .withFieldVisibility(Visibility.ANY)
-                        // .withGetterVisibility(Visibility.PUBLIC_ONLY)
-                        // .withSetterVisibility(Visibility.PUBLIC_ONLY)
+                        .withFieldVisibility(Visibility.ANY)
                 )
+                // .withGetterVisibility(Visibility.PUBLIC_ONLY)
+                // .withSetterVisibility(Visibility.PUBLIC_ONLY)
                 .build()
         ;
 
