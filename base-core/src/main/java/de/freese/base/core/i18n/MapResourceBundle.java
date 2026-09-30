@@ -11,20 +11,19 @@ import java.util.Set;
 import org.jspecify.annotations.NonNull;
 
 /**
- * Bundle über einer bereits fertig gemergten Map (Properties + DB).
+ * Bundle über einer bereits fertig gemergten Map (Properties + Provider).
  *
  * @author Thomas Freese
  * @since 04.08.26
  */
 final class MapResourceBundle extends ResourceBundle {
 
-    private final Map<String, Object> lookup;
+    private final Map<String, String> lookup;
 
-    MapResourceBundle(final Map<String, Object> lookup) {
+    MapResourceBundle(final Map<String, String> lookup) {
         super();
 
-        // Wird nach Konstruktion nicht mehr verändert -> effektiv immutable.
-        this.lookup = Objects.requireNonNull(lookup, "lookup required");
+        this.lookup = Map.copyOf(Objects.requireNonNull(lookup, "lookup required"));
     }
 
     @Override

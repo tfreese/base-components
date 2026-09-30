@@ -1,103 +1,110 @@
 package de.freese.base.core.i18n;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Duration;
+import java.sql.Statement;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  * @since 04.08.2026
  */
 class TestHybridResourceBundle {
-    private final Connection connection = mock();
-    private final DataSource dataSource = mock();
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestHybridResourceBundle.class);
 
-    @AfterEach
-    void afterEach() throws Exception {
-        verify(connection, atLeast(3)).close();
+    private static HikariDataSource dataSource;
+
+    @AfterAll
+    static void afterAll() {
+        final HikariPoolMXBean poolMXBean = dataSource.getHikariPoolMXBean();
+
+        LOGGER.info("Connections: idle={}, active={}, total={}",
+                poolMXBean.getIdleConnections(),
+                poolMXBean.getActiveConnections(),
+                poolMXBean.getTotalConnections());
+
+        dataSource.close();
     }
 
-    @BeforeEach
-    void beforeEach() throws Exception {
-        when(dataSource.getConnection()).thenReturn(connection);
+    @BeforeAll
+    static void beforeAll() throws Exception {
+        final HikariConfig config = new HikariConfig();
+        // ;DB_CLOSE_DELAY=-1 doesn't close the DB after the end of the last connection.
+        // ;DB_CLOSE_ON_EXIT=FALSE doesn't close the DB after the end of the Runtime.
+        config.setDriverClassName("org.h2.Driver");
+        config.setJdbcUrl("jdbc:h2:mem:" + UUID.randomUUID() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true");
+        config.setUsername("sa");
+        config.setPassword("");
+        config.setPoolName("my-db");
+        config.setMinimumIdle(1);
+        config.setMaximumPoolSize(3);
+        config.setAutoCommit(true);
+        config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
+        // config.addDataSourceProperty("cachePrepStmts", "true");
+        // config.addDataSourceProperty("prepStmtCacheSize", "250");
+        // config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+        dataSource = new HikariDataSource(config);
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            final String sql = """
+                    CREATE TABLE RESOURCE_BUNDLE
+                    (
+                        BASE_NAME  VARCHAR2(100) NOT NULL,
+                        LOCALE     VARCHAR2(20) NOT NULL,
+                        MSG_KEY    VARCHAR2(200) NOT NULL,
+                        MSG_VALUE  VARCHAR2(4000),
+                        UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                        CONSTRAINT PK_RESOURCE_BUNDLE PRIMARY KEY (BASE_NAME, LOCALE, MSG_KEY)
+                    );
+                    """;
+            statement.execute(sql);
+
+            statement.execute("INSERT INTO RESOURCE_BUNDLE (BASE_NAME, LOCALE, MSG_KEY, MSG_VALUE) VALUES ('greeting', 'en', 'greeting.hello', 'Hello')");
+            statement.execute("INSERT INTO RESOURCE_BUNDLE (BASE_NAME, LOCALE, MSG_KEY, MSG_VALUE) VALUES ('greeting', 'de', 'greeting.hello', 'Hallo')");
+        }
+    }
+
+    // @BeforeEach
+    // void beforeEach() {
+    //     ResourceBundle.clearCache(HybridResourceBundleControl.class.getClassLoader());
+    // }
+
+    @Test
+    void testPropertyOverrides() {
+        final HybridResourceBundleControl bundleControl = new HybridResourceBundleControl(new DatasourceResourceProvider(dataSource),
+                HybridResourceBundleControl.Priority.PROPERTY_OVERRIDES, ResourceBundle.Control.TTL_DONT_CACHE);
+
+        ResourceBundle rb = ResourceBundle.getBundle("greeting", Locale.ENGLISH, bundleControl);
+        assertEquals("Hello World", rb.getString("greeting.hello"));
+
+        rb = ResourceBundle.getBundle("greeting", Locale.GERMAN, bundleControl);
+        assertEquals("Hallo Welt", rb.getString("greeting.hello"));
     }
 
     @Test
-    void testHybridResourceBundle() throws SQLException {
-        final PreparedStatement preparedStatementLoad = mock();
-        final ResultSet resultSetLoad = mock();
+    void testProviderOverrides() {
+        final HybridResourceBundleControl bundleControl = new HybridResourceBundleControl(new DatasourceResourceProvider(dataSource),
+                HybridResourceBundleControl.Priority.PROVIDER_OVERRIDES, ResourceBundle.Control.TTL_DONT_CACHE);
 
-        when(connection.prepareStatement("""
-                SELECT
-                    MSG_KEY,
-                    MSG_VALUE
-                FROM
-                    RESOURCE_BUNDLE
-                WHERE
-                    BASE_NAME = ?
-                    AND LOCALE = ?
-                """)).thenReturn(preparedStatementLoad);
-        when(preparedStatementLoad.executeQuery()).thenReturn(resultSetLoad);
+        ResourceBundle rb = ResourceBundle.getBundle("greeting", Locale.ENGLISH, bundleControl);
+        assertEquals("Hello", rb.getString("greeting.hello"));
 
-        when(resultSetLoad.next()).thenReturn(true, false);
-        when(resultSetLoad.getString("MSG_KEY")).thenReturn("greeting.hello");
-        when(resultSetLoad.getString("MSG_VALUE")).thenReturn("Hello, World!");
-
-        final PreparedStatement preparedStatementReLoad = mock();
-        final ResultSet resultSetReLoad = mock();
-
-        when(connection.prepareStatement("""
-                SELECT
-                    MAX(UPDATED_AT)
-                FROM
-                    RESOURCE_BUNDLE
-                WHERE
-                    BASE_NAME = ?
-                    AND LOCALE = ?
-                """)).thenReturn(preparedStatementReLoad);
-        when(preparedStatementReLoad.executeQuery()).thenReturn(resultSetReLoad);
-
-        when(resultSetReLoad.next()).thenReturn(true, false);
-        when(resultSetReLoad.getTimestamp(1)).thenReturn(Timestamp.from(java.time.Instant.now()));
-
-        final ResourceBundle.Control control = new HybridResourceBundleControl(dataSource, HybridResourceBundleControl.Priority.DB_OVERRIDES_PROPERTIES, Duration.ofMinutes(5L));
-        final ResourceBundle rb = ResourceBundle.getBundle("demo", Locale.GERMANY, control);
-
-        final String value = rb.getString("greeting.hello");
-
-        assertEquals("Hello, World!", value);
-
-        // 3x Query: '' (ROOT), de, de_DE
-        verify(connection, times(3)).close();
-
-        verify(preparedStatementLoad, times(3)).executeQuery();
-        verify(preparedStatementLoad, times(3)).close();
-        verify(resultSetLoad, times(1)).getString("MSG_KEY");
-        verify(resultSetLoad, times(1)).getString("MSG_VALUE");
-        verify(resultSetLoad, times(3)).close();
-
-        // HybridResourceBundleControl#needsReload is never Called in this Test.
-        verify(preparedStatementReLoad, times(0)).executeQuery();
-        verify(preparedStatementReLoad, times(0)).close();
-        verify(resultSetReLoad, times(0)).getTimestamp(1);
-        verify(resultSetReLoad, times(0)).close();
+        rb = ResourceBundle.getBundle("greeting", Locale.GERMAN, bundleControl);
+        assertEquals("Hallo", rb.getString("greeting.hello"));
     }
 }
