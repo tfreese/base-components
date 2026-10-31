@@ -7,10 +7,12 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.jspecify.annotations.NonNull;
 import tools.jackson.core.StreamReadConstraints;
 import tools.jackson.core.StreamWriteConstraints;
 import tools.jackson.core.json.JsonFactory;
 import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.MapperBuilder;
@@ -97,9 +99,8 @@ public final class JacksonMapperConfig {
         return XML_MAPPER;
     }
 
-    @SuppressWarnings("unchecked")
-    private static <B extends MapperBuilder<?, ?>> B configureBuilder(final B builder) {
-        return (B) builder
+    private static <M extends ObjectMapper, B extends MapperBuilder<M, B>> B configureBuilder(final @NonNull B builder) {
+        return builder
                 // Don't serialize empty values.
                 .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 // .changeDefaultPropertyInclusion(include -> include
@@ -122,7 +123,8 @@ public final class JacksonMapperConfig {
                 // .findAndAddModules()
                 .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+                ;
     }
 
     private static StreamReadConstraints createStreamReadConstraints() {
